@@ -8,6 +8,7 @@
 !/README.md
 !/.env.example
 !/SECURITY_AUDIT.md
+!/GITHUB_ANALYTICS.md
 !/security-check.sh
 
 # And not these directories and their contents

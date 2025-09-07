@@ -14,6 +14,8 @@ This repository contains a sophisticated, multi-agent workspace for the Claude C
 - [Usage](#usage)
 - [Development](#development)
 - [Security](#security)
+- [Repository Analytics](#repository-analytics)
+- [Contributing](#contributing)
 
 ## Overview
 
@@ -180,8 +182,11 @@ cat SECURITY_AUDIT.md
 ```
 
 For security concerns, see [SECURITY_AUDIT.md](SECURITY_AUDIT.md) for detailed findings and recommendations.
-=======
 
-### Contributing
+## Repository Analytics
+
+This repository tracks various GitHub analytics metrics to understand community engagement and adoption. For detailed explanations of metrics like "unique cloners" and their significance, see [GITHUB_ANALYTICS.md](GITHUB_ANALYTICS.md).
+
+## Contributing
 
 Please follow the existing coding standards and best practices when contributing to this workspace. All new code should be accompanied by appropriate tests and documentation.
