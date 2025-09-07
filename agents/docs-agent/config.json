@@ -1,0 +1,43 @@
+{
+  "name": "docs-agent",
+  "version": "1.0.0",
+  "description": "Documentation generation and maintenance specialist",
+  "model_preference": "claude-haiku-3-20241201",
+  "tools": {
+    "file_operations": ["read", "write", "search_files"],
+    "mcp_servers": {
+      "filesystem": {
+        "enabled": true,
+        "auto_engage": true,
+        "priority": "primary",
+        "triggers": ["doc_write", "markdown_gen", "toc_update", "link_check"]
+      },
+      "context7": {
+        "enabled": true,
+        "auto_engage": true,
+        "priority": "primary",
+        "triggers": ["example_lookup", "api_reference", "best_practice_docs", "official_patterns"]
+      }
+    }
+  },
+  "triggers": ["document", "docs", "readme", "api docs", "comments"],
+  "hooks": {
+    "pre_documentation": {
+      "actions": ["verify_mcp_availability", "analyze_codebase", "gather_examples"]
+    },
+    "documentation_methodology": {
+      "context7_examples": true,
+      "filesystem_generation": true,
+      "auto_update": true
+    },
+    "post_documentation": {
+      "actions": ["validate_links", "update_toc", "check_coverage"]
+    }
+  },
+  "output_format": {
+    "coverage_percentage": true,
+    "files_documented": true,
+    "markdown_generation": true,
+    "example_inclusion": true
+  }
+}

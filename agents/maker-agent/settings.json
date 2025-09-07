@@ -1,0 +1,197 @@
+{
+  "name": "maker-agent",
+  "version": "1.0.0",
+  "model": "sonnet",
+  "description": "Code creation and development specialist",
+  
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 10000,
+      "retry_attempts": 3,
+      "config": {
+        "atomic_writes": true,
+        "backup_before_write": true,
+        "max_file_size_mb": 100,
+        "concurrent_operations": 10
+      }
+    },
+    "serena": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 15000,
+      "retry_attempts": 2,
+      "config": {
+        "symbol_cache": true,
+        "cache_ttl": 1800,
+        "include_references": true,
+        "max_depth": 5
+      }
+    },
+    "context7": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 15000,
+      "retry_attempts": 2,
+      "config": {
+        "cache_results": true,
+        "cache_ttl": 3600,
+        "include_examples": true,
+        "version_specific": true
+      }
+    },
+    "sequentialthinking": {
+      "enabled": true,
+      "priority": 2,
+      "timeout": 20000,
+      "retry_attempts": 2,
+      "config": {
+        "max_depth": 7,
+        "reasoning_mode": "detailed",
+        "algorithm_focus": true
+      }
+    }
+  },
+  
+  "resource_limits": {
+    "max_execution_time": 120000,
+    "max_memory_mb": 2048,
+    "max_file_size_mb": 100,
+    "max_concurrent_operations": 10
+  },
+  
+  "output_preferences": {
+    "documentation_format": "markdown",
+    "diagram_format": "mermaid",
+    "code_style": "detailed",
+    "include_examples": true,
+    "verbosity": "comprehensive"
+  },
+  
+  "development_settings": {
+    "code_style": {
+      "formatter": "prettier",
+      "linter": "eslint",
+      "auto_format": true,
+      "check_before_commit": true
+    },
+    "testing": {
+      "run_tests_after_change": true,
+      "minimum_coverage": 0.8,
+      "test_frameworks": ["jest", "pytest", "go test"],
+      "parallel_execution": true
+    },
+    "error_handling": {
+      "comprehensive_try_catch": true,
+      "error_logging": true,
+      "stack_traces": true,
+      "user_friendly_messages": true
+    },
+    "performance": {
+      "profile_complex_operations": true,
+      "optimize_algorithms": true,
+      "monitor_memory": true,
+      "benchmark_critical_paths": true
+    }
+  },
+  
+  "workflow_preferences": {
+    "incremental_development": true,
+    "atomic_commits": true,
+    "feature_branches": true,
+    "pr_ready_code": true,
+    "documentation_inline": true
+  },
+  
+  "quality_gates": {
+    "pre_implementation": {
+      "context_gathered": true,
+      "patterns_analyzed": true,
+      "impact_assessed": true
+    },
+    "during_implementation": {
+      "compile_check": true,
+      "lint_check": true,
+      "test_check": true
+    },
+    "post_implementation": {
+      "all_tests_pass": true,
+      "no_broken_references": true,
+      "documentation_updated": true,
+      "performance_validated": true
+    }
+  },
+  
+  "hooks": {
+    "development-standards": {
+      "enabled": true,
+      "config": {
+        "enforce_style": true,
+        "require_comments": true,
+        "naming_convention": "camelCase"
+      }
+    },
+    "mcp-integration": {
+      "enabled": true,
+      "config": {
+        "mandatory_filesystem": true,
+        "mandatory_serena_refactor": true,
+        "mandatory_context7_library": true
+      }
+    },
+    "error-handling": {
+      "enabled": true,
+      "config": {
+        "require_try_catch": true,
+        "log_errors": true,
+        "graceful_degradation": true
+      }
+    },
+    "code-review": {
+      "enabled": true,
+      "config": {
+        "self_review": true,
+        "checklist": true,
+        "performance_check": true
+      }
+    },
+    "git-workflow": {
+      "enabled": true,
+      "config": {
+        "atomic_commits": true,
+        "conventional_commits": true,
+        "sign_commits": false
+      }
+    }
+  },
+  
+  "language_specific": {
+    "javascript": {
+      "framework_preferences": ["react", "node", "express"],
+      "package_manager": "npm",
+      "test_runner": "jest"
+    },
+    "python": {
+      "framework_preferences": ["django", "fastapi", "flask"],
+      "package_manager": "pip",
+      "test_runner": "pytest"
+    },
+    "go": {
+      "framework_preferences": ["gin", "echo", "fiber"],
+      "package_manager": "go mod",
+      "test_runner": "go test"
+    },
+    "typescript": {
+      "strict_mode": true,
+      "framework_preferences": ["next", "nest", "angular"],
+      "package_manager": "npm"
+    }
+  },
+  
+  "environment": {
+    "MAKER_AGENT_LOG_LEVEL": "info",
+    "MAKER_AGENT_CACHE_DIR": "/tmp/maker-agent-cache",
+    "MAKER_AGENT_TEMPLATES_DIR": "~/.claude/templates/maker"
+  }
+}

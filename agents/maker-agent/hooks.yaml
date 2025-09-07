@@ -1,0 +1,205 @@
+# Maker Agent Hook Mappings
+# Defines integration points for the code creation and development agent
+
+version: "1.0"
+agent: maker-agent
+
+hooks:
+  development-standards:
+    description: "Enforces coding standards and best practices"
+    trigger: "on_code_write"
+    priority: 1
+    actions:
+      - name: check_style
+        description: "Verify code style compliance"
+        required: true
+      - name: enforce_naming
+        description: "Check naming conventions"
+        required: true
+      - name: validate_structure
+        description: "Ensure proper file organization"
+        required: true
+      - name: add_comments
+        description: "Ensure adequate documentation"
+        required: false
+    config:
+      style_guide: "project-specific"
+      naming_convention: "camelCase"
+      max_line_length: 120
+      indent_size: 2
+      
+  mcp-integration:
+    description: "Ensures proper MCP server usage"
+    trigger: "on_operation"
+    priority: 1
+    actions:
+      - name: use_filesystem
+        description: "Route file ops through filesystem MCP"
+        required: true
+        mcp_server: "filesystem"
+      - name: use_serena
+        description: "Use serena for symbol operations"
+        required: true
+        mcp_server: "serena"
+      - name: query_context7
+        description: "Get library documentation"
+        required: true
+        mcp_server: "context7"
+      - name: complex_reasoning
+        description: "Use sequential thinking for algorithms"
+        required: false
+        mcp_server: "sequentialthinking"
+    fallback_strategy:
+      filesystem: "use native Read/Write"
+      serena: "use grep for text search"
+      context7: "use cached documentation"
+      
+  error-handling:
+    description: "Implements comprehensive error handling"
+    trigger: "on_function_create"
+    priority: 2
+    actions:
+      - name: add_try_catch
+        description: "Wrap in error handling"
+        required: true
+      - name: add_validation
+        description: "Input validation"
+        required: true
+      - name: add_logging
+        description: "Error logging"
+        required: true
+      - name: define_recovery
+        description: "Recovery strategies"
+        required: false
+    patterns:
+      - try_catch_finally
+      - error_boundaries
+      - circuit_breakers
+      - graceful_degradation
+      
+  code-review:
+    description: "Self-review before completion"
+    trigger: "on_implementation_complete"
+    priority: 3
+    actions:
+      - name: check_functionality
+        description: "Verify feature works"
+        required: true
+      - name: check_tests
+        description: "Ensure test coverage"
+        required: true
+      - name: check_performance
+        description: "Performance validation"
+        required: false
+      - name: check_security
+        description: "Security review"
+        required: true
+      - name: check_docs
+        description: "Documentation complete"
+        required: true
+    checklist:
+      - "Does the code compile without warnings?"
+      - "Are all tests passing?"
+      - "Is error handling comprehensive?"
+      - "Are there any security vulnerabilities?"
+      - "Is the code performant?"
+      - "Is documentation updated?"
+      
+  git-workflow:
+    description: "Git operations and version control"
+    trigger: "on_changes_ready"
+    priority: 2
+    actions:
+      - name: stage_changes
+        description: "Stage appropriate files"
+        required: true
+      - name: create_commit
+        description: "Create atomic commit"
+        required: true
+      - name: write_message
+        description: "Meaningful commit message"
+        required: true
+      - name: update_branch
+        description: "Keep branch updated"
+        required: false
+    config:
+      commit_style: "conventional"
+      atomic_commits: true
+      sign_commits: false
+      auto_format: true
+      
+# Integration points with other agents
+integrations:
+  plan-agent:
+    - trigger: "on_task_received"
+      action: "implement_specification"
+      
+  reader-agent:
+    - trigger: "before_implementation"
+      action: "analyze_existing_code"
+      
+  test-agent:
+    - trigger: "after_implementation"
+      action: "run_test_suite"
+      
+  security-agent:
+    - trigger: "on_sensitive_operation"
+      action: "request_security_review"
+      
+  debug-agent:
+    - trigger: "on_error_encountered"
+      action: "request_debugging_help"
+      
+  docs-agent:
+    - trigger: "on_api_created"
+      action: "generate_documentation"
+      
+# Quality gates
+quality_gates:
+  pre_implementation:
+    - check: "requirements_clear"
+      threshold: 1.0
+    - check: "context_gathered"
+      threshold: 0.95
+    - check: "patterns_identified"
+      threshold: 0.9
+      
+  during_implementation:
+    - check: "compilation_success"
+      threshold: 1.0
+    - check: "lint_pass"
+      threshold: 0.95
+    - check: "unit_tests_pass"
+      threshold: 1.0
+      
+  post_implementation:
+    - check: "all_tests_pass"
+      threshold: 1.0
+    - check: "code_coverage"
+      threshold: 0.8
+    - check: "documentation_complete"
+      threshold: 0.9
+    - check: "performance_acceptable"
+      threshold: 0.95
+      
+# Language-specific hooks
+language_hooks:
+  javascript:
+    linter: "eslint"
+    formatter: "prettier"
+    test_runner: "jest"
+    
+  python:
+    linter: "pylint"
+    formatter: "black"
+    test_runner: "pytest"
+    
+  go:
+    linter: "golint"
+    formatter: "gofmt"
+    test_runner: "go test"
+    
+  typescript:
+    linter: "tslint"
+    formatter: "prettier"
+    test_runner: "jest"

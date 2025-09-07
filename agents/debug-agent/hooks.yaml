@@ -1,0 +1,313 @@
+# Debug Agent Hook Mappings
+# Defines integration points for systematic debugging
+
+version: "1.0"
+agent: debug-agent
+
+hooks:
+  debugging-methodology:
+    description: "Systematic debugging approaches"
+    trigger: "on_debug_start"
+    priority: 1
+    actions:
+      - name: select_methodology
+        description: "Choose debugging approach"
+        required: true
+        mcp_server: "sequentialthinking"
+      - name: create_hypothesis
+        description: "Form testable hypothesis"
+        required: true
+      - name: design_tests
+        description: "Create validation tests"
+        required: true
+      - name: document_process
+        description: "Track debugging steps"
+        required: true
+    methodologies:
+      - scientific_method
+      - binary_search
+      - differential_debugging
+      - time_travel
+      - rubber_duck
+      
+  error-patterns:
+    description: "Common error pattern detection"
+    trigger: "on_error_analysis"
+    priority: 1
+    actions:
+      - name: parse_error_message
+        description: "Extract error details"
+        required: true
+        mcp_server: "filesystem"
+      - name: match_patterns
+        description: "Find known patterns"
+        required: true
+      - name: extract_stack_trace
+        description: "Get call stack"
+        required: true
+        mcp_server: "serena"
+      - name: identify_category
+        description: "Classify error type"
+        required: true
+    patterns:
+      runtime:
+        - null_pointer
+        - array_bounds
+        - type_error
+        - division_zero
+      compilation:
+        - syntax_error
+        - type_mismatch
+        - missing_import
+        - undefined_symbol
+      performance:
+        - memory_leak
+        - cpu_spike
+        - deadlock
+        - infinite_loop
+        
+  log-analysis:
+    description: "Log file investigation"
+    trigger: "on_log_analysis"
+    priority: 1
+    actions:
+      - name: parse_logs
+        description: "Extract log entries"
+        required: true
+        mcp_server: "filesystem"
+      - name: filter_timeframe
+        description: "Focus on relevant period"
+        required: true
+      - name: correlate_events
+        description: "Link related events"
+        required: true
+      - name: identify_anomalies
+        description: "Find unusual patterns"
+        required: true
+      - name: build_timeline
+        description: "Create event sequence"
+        required: true
+    log_levels:
+      - FATAL
+      - ERROR
+      - WARN
+      - INFO
+      - DEBUG
+      - TRACE
+      
+  performance-debugging:
+    description: "Performance issue investigation"
+    trigger: "on_performance_issue"
+    priority: 2
+    actions:
+      - name: profile_execution
+        description: "CPU/memory profiling"
+        required: true
+      - name: identify_hotspots
+        description: "Find bottlenecks"
+        required: true
+        mcp_server: "serena"
+      - name: analyze_algorithms
+        description: "Check complexity"
+        required: true
+        mcp_server: "sequentialthinking"
+      - name: check_io_operations
+        description: "I/O bottlenecks"
+        required: true
+      - name: optimize_queries
+        description: "Database optimization"
+        required: false
+    metrics:
+      - response_time
+      - throughput
+      - cpu_usage
+      - memory_usage
+      - io_wait
+      - gc_time
+      
+  language-debuggers:
+    description: "Language-specific debugging tools"
+    trigger: "on_debugger_use"
+    priority: 3
+    actions:
+      - name: select_debugger
+        description: "Choose appropriate tool"
+        required: true
+      - name: set_breakpoints
+        description: "Strategic breakpoints"
+        required: true
+        mcp_server: "serena"
+      - name: inspect_variables
+        description: "Check variable states"
+        required: true
+      - name: step_through_code
+        description: "Line-by-line execution"
+        required: false
+      - name: evaluate_expressions
+        description: "Test expressions"
+        required: false
+    debuggers:
+      javascript:
+        tool: "chrome-devtools"
+        port: 9229
+      python:
+        tool: "pdb"
+        post_mortem: true
+      go:
+        tool: "delve"
+        headless: false
+      java:
+        tool: "jdb"
+        remote: true
+        
+  system-diagnostics:
+    description: "System-level debugging"
+    trigger: "on_system_issue"
+    priority: 2
+    actions:
+      - name: check_resources
+        description: "CPU, memory, disk"
+        required: true
+      - name: monitor_processes
+        description: "Process behavior"
+        required: true
+      - name: analyze_network
+        description: "Network issues"
+        required: false
+      - name: check_permissions
+        description: "File/user permissions"
+        required: true
+      - name: review_configuration
+        description: "Config issues"
+        required: true
+    tools:
+      - top
+      - htop
+      - iostat
+      - netstat
+      - lsof
+      - strace
+      
+  root-cause-templates:
+    description: "Root cause analysis frameworks"
+    trigger: "on_root_cause_analysis"
+    priority: 1
+    actions:
+      - name: apply_framework
+        description: "Use analysis framework"
+        required: true
+        mcp_server: "sequentialthinking"
+      - name: ask_why_questions
+        description: "5 Whys technique"
+        required: true
+      - name: create_fishbone
+        description: "Cause-effect diagram"
+        required: false
+      - name: build_fault_tree
+        description: "Fault tree analysis"
+        required: false
+      - name: document_findings
+        description: "Record conclusions"
+        required: true
+    frameworks:
+      five_whys:
+        iterations: 5
+        document: true
+      fishbone:
+        categories: ["people", "process", "tools", "environment"]
+      fault_tree:
+        operators: ["AND", "OR", "NOT"]
+        
+# Integration points with other agents
+integrations:
+  maker-agent:
+    - trigger: "after_root_cause_found"
+      action: "implement_fix"
+      
+  test-agent:
+    - trigger: "after_fix_applied"
+      action: "create_regression_test"
+      
+  security-agent:
+    - trigger: "on_security_issue"
+      action: "analyze_vulnerability"
+      
+  plan-agent:
+    - trigger: "after_debugging"
+      action: "post_mortem_analysis"
+      
+  docs-agent:
+    - trigger: "after_resolution"
+      action: "update_troubleshooting_guide"
+      
+  reader-agent:
+    - trigger: "during_debugging"
+      action: "search_similar_issues"
+      
+# Debugging workflows
+workflows:
+  compilation_error:
+    steps:
+      - parse_error_message
+      - check_syntax
+      - verify_imports
+      - check_types
+      - suggest_fix
+      
+  runtime_error:
+    steps:
+      - reproduce_issue
+      - extract_stack_trace
+      - trace_execution
+      - identify_failure_point
+      - fix_and_verify
+      
+  performance_issue:
+    steps:
+      - profile_application
+      - identify_bottlenecks
+      - analyze_algorithms
+      - optimize_code
+      - verify_improvement
+      
+  memory_leak:
+    steps:
+      - monitor_memory_growth
+      - take_heap_snapshots
+      - compare_snapshots
+      - find_leak_source
+      - fix_references
+      
+# Quality gates
+quality_gates:
+  reproduction:
+    - check: "issue_reproduced"
+      threshold: 1.0
+    - check: "steps_documented"
+      threshold: 1.0
+      
+  analysis:
+    - check: "root_cause_identified"
+      threshold: 0.9
+    - check: "hypothesis_tested"
+      threshold: 1.0
+      
+  resolution:
+    - check: "fix_verified"
+      threshold: 1.0
+    - check: "regression_test_added"
+      threshold: 1.0
+      
+# Performance thresholds
+performance:
+  log_processing:
+    max_size_mb: 1000
+    max_time_seconds: 30
+    
+  profiling:
+    duration_seconds: 30
+    sampling_rate_hz: 100
+    
+  analysis:
+    max_stack_depth: 100
+    max_iterations: 1000

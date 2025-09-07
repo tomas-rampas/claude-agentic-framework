@@ -1,0 +1,50 @@
+{
+  "name": "maker-agent",
+  "version": "1.0.0",
+  "description": "Context-aware code generation and implementation specialist",
+  "model_preference": "claude-sonnet-3.5-20241022",
+  "tools": {
+    "file_operations": ["read", "write", "search_files", "grep"],
+    "mcp_servers": {
+      "filesystem": {
+        "enabled": true,
+        "auto_engage": true,
+        "priority": "primary",
+        "triggers": ["file_write", "atomic_update", "batch_write", "safe_modify"]
+      },
+      "serena": {
+        "enabled": true,
+        "auto_engage": true,
+        "priority": "primary",
+        "triggers": ["refactor", "rename", "extract", "symbol_modify"]
+      },
+      "context7": {
+        "enabled": true,
+        "auto_engage": true,
+        "priority": "primary",
+        "triggers": ["framework_use", "library_impl", "api_pattern", "best_practice"]
+      }
+    }
+  },
+  "triggers": ["create", "implement", "build", "refactor", "modify"],
+  "hooks": {
+    "pre_implementation": {
+      "actions": ["query_context7", "analyze_with_serena", "verify_filesystem_ready"]
+    },
+    "implementation_methodology": {
+      "context7_patterns_first": true,
+      "serena_aware_modifications": true,
+      "filesystem_atomic_writes": true,
+      "incremental_changes": true
+    },
+    "post_implementation": {
+      "actions": ["verify_symbols", "validate_references", "commit_changes"]
+    }
+  },
+  "output_format": {
+    "show_file_modified": true,
+    "display_line_counts": true,
+    "performance_metrics": true,
+    "change_summary": true
+  }
+}

@@ -1,0 +1,752 @@
+# Hook Registry - Master Catalog
+# Complete registry of all 49+ hooks across the agent ecosystem
+# Provides discovery, categorization, and agent mapping functionality
+
+version: "2.0"
+last_updated: "2025-09-07"
+total_hooks: 49
+
+# CATEGORY DEFINITIONS
+categories:
+  development:
+    description: "Core development and code creation hooks"
+    priority: "high"
+    color: "#4CAF50"
+    icon: "code"
+  
+  quality:
+    description: "Testing, code review, and quality assurance hooks"
+    priority: "high" 
+    color: "#2196F3"
+    icon: "check_circle"
+  
+  mcp-integration:
+    description: "MCP server integration and optimization hooks"
+    priority: "high"
+    color: "#FF9800"
+    icon: "integration"
+  
+  agent-workflows:
+    description: "Inter-agent coordination and workflow hooks"
+    priority: "medium"
+    color: "#9C27B0"
+    icon: "workflow"
+
+# AGENT-TO-HOOK MAPPINGS
+agent_mappings:
+  plan-agent:
+    primary_hooks:
+      - planning-methodology
+      - architecture-patterns
+      - requirements-analysis
+      - documentation-templates
+      - risk-assessment
+    secondary_hooks:
+      - git-workflow
+      - quality-gates
+    mcp_dependencies:
+      - context7
+      - sequentialthinking
+    
+  maker-agent:
+    primary_hooks:
+      - development-standards
+      - mcp-integration
+      - error-handling
+      - code-review
+      - git-workflow
+      - language-hooks
+    secondary_hooks:
+      - performance-optimization
+      - security-integration
+    mcp_dependencies:
+      - filesystem
+      - serena
+      - context7
+    
+  reader-agent:
+    primary_hooks:
+      - file-analysis-patterns
+      - data-extraction
+      - code-exploration
+      - summary-templates
+      - search-strategies
+      - file-format-handlers
+      - content-parsing
+    secondary_hooks:
+      - performance-optimization
+      - caching-strategies
+    mcp_dependencies:
+      - filesystem
+      - serena
+    
+  debug-agent:
+    primary_hooks:
+      - debugging-methodology
+      - error-patterns
+      - log-analysis
+      - performance-debugging
+      - language-debuggers
+      - system-diagnostics
+      - root-cause-templates
+    secondary_hooks:
+      - tool-integration
+      - workflow-automation
+    mcp_dependencies:
+      - filesystem
+      - serena
+      - sequentialthinking
+    
+  security-agent:
+    primary_hooks:
+      - vulnerability-patterns
+      - owasp-top10
+      - secure-coding
+      - dependency-scanning
+      - secrets-detection
+      - authentication-review
+      - language-security
+      - security-tools
+    secondary_hooks:
+      - compliance-checks
+      - threat-modeling
+    mcp_dependencies:
+      - filesystem
+      - serena
+    
+  test-agent:
+    primary_hooks:
+      - testing-strategy
+      - test-types
+      - quality-gates
+      - failure-analysis
+      - coverage-standards
+      - test-patterns
+    secondary_hooks:
+      - performance-testing
+      - security-testing
+    mcp_dependencies:
+      - filesystem
+      - serena
+    
+  docs-agent:
+    primary_hooks:
+      - documentation-types
+      - readme-template
+      - api-documentation
+      - code-comments
+      - changelog-format
+      - documentation-quality
+      - markdown-best-practices
+      - diagrams-as-code
+    secondary_hooks:
+      - multilingual-docs
+      - accessibility-docs
+    mcp_dependencies:
+      - filesystem
+      - context7
+
+# HOOK CATALOG
+hooks:
+  # DEVELOPMENT CATEGORY
+  development-standards:
+    category: development
+    priority: high
+    agents: [maker-agent]
+    description: "Enforces coding standards and best practices"
+    file_path: "development/standards.yaml"
+    tags: [coding-standards, best-practices, style-guide]
+    mcp_servers: []
+    usage_frequency: very_high
+    
+  mcp-integration:
+    category: development
+    priority: high
+    agents: [maker-agent, reader-agent, debug-agent, security-agent, test-agent, docs-agent]
+    description: "Ensures proper MCP server usage across all agents"
+    file_path: "development/mcp-integration.yaml"
+    tags: [mcp, integration, filesystem, serena, context7, sequentialthinking]
+    mcp_servers: [filesystem, serena, context7, sequentialthinking]
+    usage_frequency: very_high
+    
+  error-handling:
+    category: development
+    priority: high
+    agents: [maker-agent]
+    description: "Implements comprehensive error handling patterns"
+    file_path: "development/error-handling.yaml"
+    tags: [error-handling, try-catch, validation, logging]
+    mcp_servers: []
+    usage_frequency: high
+    
+  code-review:
+    category: development
+    priority: medium
+    agents: [maker-agent]
+    description: "Self-review processes before code completion"
+    file_path: "development/code-review.yaml"
+    tags: [code-review, quality, validation, checklist]
+    mcp_servers: []
+    usage_frequency: high
+    
+  git-workflow:
+    category: development
+    priority: medium
+    agents: [maker-agent, plan-agent]
+    description: "Git operations and version control standards"
+    file_path: "development/git-workflow.yaml"
+    tags: [git, version-control, commits, branching]
+    mcp_servers: []
+    usage_frequency: medium
+    
+  language-hooks:
+    category: development
+    priority: medium
+    agents: [maker-agent]
+    description: "Language-specific development patterns and tools"
+    file_path: "development/language-specific.yaml"
+    tags: [javascript, python, go, typescript, linting, formatting]
+    mcp_servers: []
+    usage_frequency: high
+    
+  file-analysis-patterns:
+    category: development
+    priority: high
+    agents: [reader-agent]
+    description: "File structure and pattern analysis"
+    file_path: "development/file-analysis.yaml"
+    tags: [file-analysis, structure, metadata, complexity]
+    mcp_servers: [filesystem]
+    usage_frequency: very_high
+    
+  data-extraction:
+    category: development
+    priority: high
+    agents: [reader-agent]
+    description: "Structured data extraction from various file formats"
+    file_path: "development/data-extraction.yaml"
+    tags: [data-extraction, json, yaml, env-vars, secrets]
+    mcp_servers: [filesystem]
+    usage_frequency: high
+    
+  code-exploration:
+    category: development
+    priority: high
+    agents: [reader-agent]
+    description: "Code structure and relationship analysis"
+    file_path: "development/code-exploration.yaml"
+    tags: [code-analysis, symbols, dependencies, hierarchy]
+    mcp_servers: [serena]
+    usage_frequency: very_high
+    
+  content-parsing:
+    category: development
+    priority: medium
+    agents: [reader-agent]
+    description: "Intelligent file content parsing and analysis"
+    file_path: "development/content-parsing.yaml"
+    tags: [parsing, comments, docstrings, annotations]
+    mcp_servers: []
+    usage_frequency: medium
+
+  # QUALITY CATEGORY
+  testing-strategy:
+    category: quality
+    priority: high
+    agents: [test-agent]
+    description: "Overall testing approach and methodology"
+    file_path: "quality/testing-strategy.yaml"
+    tags: [testing, strategy, methodology, planning]
+    mcp_servers: []
+    usage_frequency: high
+    
+  test-types:
+    category: quality
+    priority: high
+    agents: [test-agent]
+    description: "Management of different test categories and execution"
+    file_path: "quality/test-types.yaml"
+    tags: [unit-tests, integration-tests, e2e-tests, performance-tests]
+    mcp_servers: [filesystem]
+    usage_frequency: very_high
+    
+  quality-gates:
+    category: quality
+    priority: high
+    agents: [test-agent, plan-agent]
+    description: "Quality standards enforcement and validation"
+    file_path: "quality/quality-gates.yaml"
+    tags: [quality-gates, thresholds, validation, standards]
+    mcp_servers: []
+    usage_frequency: high
+    
+  failure-analysis:
+    category: quality
+    priority: medium
+    agents: [test-agent]
+    description: "Test failure analysis and categorization"
+    file_path: "quality/failure-analysis.yaml"
+    tags: [failure-analysis, debugging, root-cause, flaky-tests]
+    mcp_servers: [serena]
+    usage_frequency: medium
+    
+  coverage-standards:
+    category: quality
+    priority: medium
+    agents: [test-agent]
+    description: "Code coverage requirements and analysis"
+    file_path: "quality/coverage-standards.yaml"
+    tags: [code-coverage, metrics, gaps, reporting]
+    mcp_servers: [serena, filesystem]
+    usage_frequency: medium
+    
+  test-patterns:
+    category: quality
+    priority: medium
+    agents: [test-agent]
+    description: "Testing best practices and patterns"
+    file_path: "quality/test-patterns.yaml"
+    tags: [test-patterns, best-practices, aaa, bdd]
+    mcp_servers: []
+    usage_frequency: medium
+    
+  vulnerability-patterns:
+    category: quality
+    priority: high
+    agents: [security-agent]
+    description: "Common vulnerability pattern detection"
+    file_path: "quality/vulnerability-patterns.yaml"
+    tags: [security, vulnerabilities, sql-injection, xss, csrf]
+    mcp_servers: [serena]
+    usage_frequency: high
+    
+  owasp-top10:
+    category: quality
+    priority: high
+    agents: [security-agent]
+    description: "OWASP Top 10 vulnerability assessment"
+    file_path: "quality/owasp-top10.yaml"
+    tags: [owasp, security, top10, vulnerabilities, assessment]
+    mcp_servers: [serena]
+    usage_frequency: medium
+    
+  secure-coding:
+    category: quality
+    priority: high
+    agents: [security-agent]
+    description: "Secure coding practices and standards"
+    file_path: "quality/secure-coding.yaml"
+    tags: [secure-coding, validation, encoding, parameterized-queries]
+    mcp_servers: []
+    usage_frequency: high
+    
+  dependency-scanning:
+    category: quality
+    priority: high
+    agents: [security-agent]
+    description: "Dependency vulnerability and compliance scanning"
+    file_path: "quality/dependency-scanning.yaml"
+    tags: [dependencies, vulnerabilities, licenses, supply-chain]
+    mcp_servers: [filesystem]
+    usage_frequency: medium
+    
+  secrets-detection:
+    category: quality
+    priority: high
+    agents: [security-agent]
+    description: "Detection of exposed secrets and credentials"
+    file_path: "quality/secrets-detection.yaml"
+    tags: [secrets, credentials, api-keys, tokens, entropy]
+    mcp_servers: [filesystem]
+    usage_frequency: high
+    
+  authentication-review:
+    category: quality
+    priority: medium
+    agents: [security-agent]
+    description: "Authentication and authorization review"
+    file_path: "quality/authentication-review.yaml"
+    tags: [authentication, authorization, mfa, sessions]
+    mcp_servers: [serena]
+    usage_frequency: low
+    
+  language-security:
+    category: quality
+    priority: medium
+    agents: [security-agent]
+    description: "Language-specific security assessments"
+    file_path: "quality/language-security.yaml"
+    tags: [language-security, javascript, python, java, go]
+    mcp_servers: []
+    usage_frequency: medium
+    
+  security-tools:
+    category: quality
+    priority: low
+    agents: [security-agent]
+    description: "Integration with external security tools"
+    file_path: "quality/security-tools.yaml"
+    tags: [security-tools, semgrep, bandit, gosec, npm-audit]
+    mcp_servers: []
+    usage_frequency: low
+
+  # MCP-INTEGRATION CATEGORY
+  filesystem-optimization:
+    category: mcp-integration
+    priority: high
+    agents: [maker-agent, reader-agent, debug-agent, security-agent, test-agent, docs-agent]
+    description: "Optimized filesystem MCP usage patterns"
+    file_path: "mcp-integration/filesystem-optimization.yaml"
+    tags: [filesystem, mcp, atomic-writes, large-files, performance]
+    mcp_servers: [filesystem]
+    usage_frequency: very_high
+    
+  serena-integration:
+    category: mcp-integration
+    priority: high
+    agents: [maker-agent, reader-agent, debug-agent, security-agent, test-agent]
+    description: "Semantic code intelligence through Serena MCP"
+    file_path: "mcp-integration/serena-integration.yaml"
+    tags: [serena, mcp, symbols, references, refactoring]
+    mcp_servers: [serena]
+    usage_frequency: very_high
+    
+  context7-patterns:
+    category: mcp-integration
+    priority: high
+    agents: [maker-agent, plan-agent, docs-agent]
+    description: "External documentation queries via Context7"
+    file_path: "mcp-integration/context7-patterns.yaml"
+    tags: [context7, mcp, documentation, frameworks, best-practices]
+    mcp_servers: [context7]
+    usage_frequency: high
+    
+  sequential-thinking:
+    category: mcp-integration
+    priority: medium
+    agents: [plan-agent, debug-agent, maker-agent]
+    description: "Complex reasoning through Sequential Thinking MCP"
+    file_path: "mcp-integration/sequential-thinking.yaml"
+    tags: [sequentialthinking, mcp, reasoning, complex-problems, planning]
+    mcp_servers: [sequentialthinking]
+    usage_frequency: medium
+    
+  mcp-fallback-strategies:
+    category: mcp-integration
+    priority: medium
+    agents: [maker-agent, reader-agent, debug-agent, security-agent, test-agent, docs-agent]
+    description: "Fallback patterns when MCP servers are unavailable"
+    file_path: "mcp-integration/fallback-strategies.yaml"
+    tags: [mcp, fallback, resilience, error-handling]
+    mcp_servers: []
+    usage_frequency: low
+
+  # AGENT-WORKFLOWS CATEGORY  
+  planning-methodology:
+    category: agent-workflows
+    priority: high
+    agents: [plan-agent]
+    description: "Planning methodology selection and application"
+    file_path: "agent-workflows/plan-agent/planning-methodology.yaml"
+    tags: [planning, methodology, agile, waterfall, milestones]
+    mcp_servers: []
+    usage_frequency: medium
+    
+  architecture-patterns:
+    category: agent-workflows
+    priority: high
+    agents: [plan-agent]
+    description: "Architectural pattern evaluation and selection"
+    file_path: "agent-workflows/plan-agent/architecture-patterns.yaml"
+    tags: [architecture, patterns, microservices, design]
+    mcp_servers: [context7, sequentialthinking]
+    usage_frequency: medium
+    
+  requirements-analysis:
+    category: agent-workflows
+    priority: medium
+    agents: [plan-agent]
+    description: "Requirements processing and validation"
+    file_path: "agent-workflows/plan-agent/requirements-analysis.yaml"
+    tags: [requirements, analysis, validation, gaps]
+    mcp_servers: [sequentialthinking]
+    usage_frequency: medium
+    
+  documentation-templates:
+    category: agent-workflows
+    priority: medium
+    agents: [plan-agent]
+    description: "Documentation template management"
+    file_path: "agent-workflows/plan-agent/documentation-templates.yaml"
+    tags: [documentation, templates, adr, specs]
+    mcp_servers: []
+    usage_frequency: low
+    
+  risk-assessment:
+    category: agent-workflows
+    priority: medium
+    agents: [plan-agent]
+    description: "Project risk identification and analysis"
+    file_path: "agent-workflows/plan-agent/risk-assessment.yaml"
+    tags: [risk-assessment, mitigation, contingency, planning]
+    mcp_servers: [sequentialthinking]
+    usage_frequency: low
+    
+  debugging-methodology:
+    category: agent-workflows
+    priority: high
+    agents: [debug-agent]
+    description: "Systematic debugging approaches and methodologies"
+    file_path: "agent-workflows/debug-agent/debugging-methodology.yaml"
+    tags: [debugging, methodology, systematic, hypothesis]
+    mcp_servers: [sequentialthinking]
+    usage_frequency: high
+    
+  error-patterns:
+    category: agent-workflows
+    priority: high
+    agents: [debug-agent]
+    description: "Common error pattern detection and classification"
+    file_path: "agent-workflows/debug-agent/error-patterns.yaml"
+    tags: [error-patterns, classification, runtime, compilation]
+    mcp_servers: [filesystem, serena]
+    usage_frequency: very_high
+    
+  log-analysis:
+    category: agent-workflows
+    priority: high
+    agents: [debug-agent]
+    description: "Log file investigation and analysis"
+    file_path: "agent-workflows/debug-agent/log-analysis.yaml"
+    tags: [log-analysis, parsing, correlation, timeline]
+    mcp_servers: [filesystem]
+    usage_frequency: high
+    
+  performance-debugging:
+    category: agent-workflows
+    priority: medium
+    agents: [debug-agent]
+    description: "Performance issue investigation and optimization"
+    file_path: "agent-workflows/debug-agent/performance-debugging.yaml"
+    tags: [performance, debugging, profiling, bottlenecks]
+    mcp_servers: [serena, sequentialthinking]
+    usage_frequency: medium
+    
+  language-debuggers:
+    category: agent-workflows
+    priority: medium
+    agents: [debug-agent]
+    description: "Language-specific debugging tools and techniques"
+    file_path: "agent-workflows/debug-agent/language-debuggers.yaml"
+    tags: [debuggers, javascript, python, go, java]
+    mcp_servers: [serena]
+    usage_frequency: medium
+    
+  system-diagnostics:
+    category: agent-workflows
+    priority: medium
+    agents: [debug-agent]
+    description: "System-level debugging and diagnostics"
+    file_path: "agent-workflows/debug-agent/system-diagnostics.yaml"
+    tags: [system-diagnostics, resources, processes, network]
+    mcp_servers: []
+    usage_frequency: low
+    
+  root-cause-templates:
+    category: agent-workflows
+    priority: high
+    agents: [debug-agent]
+    description: "Root cause analysis frameworks and templates"
+    file_path: "agent-workflows/debug-agent/root-cause-analysis.yaml"
+    tags: [root-cause, analysis, five-whys, fishbone]
+    mcp_servers: [sequentialthinking]
+    usage_frequency: medium
+    
+  summary-templates:
+    category: agent-workflows
+    priority: medium
+    agents: [reader-agent]
+    description: "Formatted summary generation templates"
+    file_path: "agent-workflows/reader-agent/summary-templates.yaml"
+    tags: [summaries, templates, formatting, metrics]
+    mcp_servers: []
+    usage_frequency: medium
+    
+  search-strategies:
+    category: agent-workflows
+    priority: high
+    agents: [reader-agent]
+    description: "Optimized search operation strategies"
+    file_path: "agent-workflows/reader-agent/search-strategies.yaml"
+    tags: [search, optimization, algorithms, ranking]
+    mcp_servers: [filesystem]
+    usage_frequency: high
+    
+  file-format-handlers:
+    category: agent-workflows
+    priority: medium
+    agents: [reader-agent]
+    description: "Different file format handling strategies"
+    file_path: "agent-workflows/reader-agent/file-format-handlers.yaml"
+    tags: [file-formats, parsers, content-extraction]
+    mcp_servers: [filesystem]
+    usage_frequency: medium
+    
+  documentation-types:
+    category: agent-workflows
+    priority: medium
+    agents: [docs-agent]
+    description: "Documentation category management"
+    file_path: "agent-workflows/docs-agent/documentation-types.yaml"
+    tags: [documentation, types, categories, templates]
+    mcp_servers: [filesystem]
+    usage_frequency: medium
+    
+  readme-template:
+    category: agent-workflows
+    priority: medium
+    agents: [docs-agent]
+    description: "README file generation with project analysis"
+    file_path: "agent-workflows/docs-agent/readme-template.yaml"
+    tags: [readme, project-analysis, features, examples]
+    mcp_servers: [filesystem, context7]
+    usage_frequency: low
+    
+  api-documentation:
+    category: agent-workflows
+    priority: medium
+    agents: [docs-agent]
+    description: "API documentation generation"
+    file_path: "agent-workflows/docs-agent/api-documentation.yaml"
+    tags: [api-docs, endpoints, parameters, examples]
+    mcp_servers: [context7]
+    usage_frequency: low
+    
+  code-comments:
+    category: agent-workflows
+    priority: medium
+    agents: [docs-agent]
+    description: "Code documentation standards and generation"
+    file_path: "agent-workflows/docs-agent/code-comments.yaml"
+    tags: [code-comments, documentation, jsdoc, docstrings]
+    mcp_servers: []
+    usage_frequency: medium
+    
+  changelog-format:
+    category: agent-workflows
+    priority: low
+    agents: [docs-agent]
+    description: "Changelog management and formatting"
+    file_path: "agent-workflows/docs-agent/changelog-format.yaml"
+    tags: [changelog, versioning, release-notes, semver]
+    mcp_servers: []
+    usage_frequency: low
+    
+  documentation-quality:
+    category: agent-workflows
+    priority: medium
+    agents: [docs-agent]
+    description: "Documentation quality assurance"
+    file_path: "agent-workflows/docs-agent/documentation-quality.yaml"
+    tags: [documentation-quality, validation, links, examples]
+    mcp_servers: [context7]
+    usage_frequency: medium
+    
+  markdown-best-practices:
+    category: agent-workflows
+    priority: low
+    agents: [docs-agent]
+    description: "Markdown formatting standards"
+    file_path: "agent-workflows/docs-agent/markdown-best-practices.yaml"
+    tags: [markdown, formatting, standards, best-practices]
+    mcp_servers: []
+    usage_frequency: low
+    
+  diagrams-as-code:
+    category: agent-workflows
+    priority: low
+    agents: [docs-agent]
+    description: "Diagram generation from code representations"
+    file_path: "agent-workflows/docs-agent/diagrams-as-code.yaml"
+    tags: [diagrams, mermaid, plantuml, visualization]
+    mcp_servers: []
+    usage_frequency: low
+
+# SEARCH AND DISCOVERY FUNCTIONALITY
+search:
+  by_agent:
+    description: "Find hooks used by specific agent"
+    syntax: "agent:<agent-name>"
+    example: "agent:maker-agent"
+  
+  by_category:
+    description: "Find hooks in specific category"
+    syntax: "category:<category-name>"
+    example: "category:development"
+  
+  by_tag:
+    description: "Find hooks with specific tag"
+    syntax: "tag:<tag-name>"
+    example: "tag:mcp"
+  
+  by_mcp_server:
+    description: "Find hooks using specific MCP server"
+    syntax: "mcp:<server-name>"
+    example: "mcp:filesystem"
+  
+  by_priority:
+    description: "Find hooks by priority level"
+    syntax: "priority:<level>"
+    example: "priority:high"
+  
+  by_frequency:
+    description: "Find hooks by usage frequency"
+    syntax: "frequency:<level>"
+    example: "frequency:very_high"
+
+# USAGE ANALYTICS
+analytics:
+  most_used_hooks:
+    - mcp-integration
+    - error-patterns
+    - file-analysis-patterns
+    - code-exploration
+    - test-types
+  
+  most_used_mcp_servers:
+    - filesystem
+    - serena
+    - context7
+    - sequentialthinking
+  
+  hooks_by_priority:
+    high: 28
+    medium: 18
+    low: 3
+  
+  hooks_by_category:
+    development: 10
+    quality: 14
+    mcp-integration: 5
+    agent-workflows: 20
+
+# MAINTENANCE METADATA
+maintenance:
+  version_history:
+    - version: "2.0"
+      date: "2025-09-07"
+      changes: "Complete reorganization and comprehensive registry"
+    - version: "1.0" 
+      date: "2025-01-15"
+      changes: "Initial agent-specific hook files"
+  
+  review_schedule:
+    frequency: "monthly"
+    next_review: "2025-10-07"
+    responsible: "system"
+  
+  migration_status:
+    from_agent_files: "in_progress"
+    directory_structure: "pending"
+    file_standardization: "pending"
+    validation: "pending"

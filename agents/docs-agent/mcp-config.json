@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/projs"
+      ],
+      "env": {
+        "FS_MODE": "documentation",
+        "MARKDOWN_SUPPORT": "true",
+        "TEMPLATE_ENGINE": "true",
+        "AUTO_TOC": "true",
+        "LINK_VALIDATION": "true"
+      }
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      },
+      "env": {
+        "DOC_MODE": "examples",
+        "OFFICIAL_DOCS": "true",
+        "CODE_SNIPPETS": "true",
+        "API_REFERENCE": "true"
+      }
+    }
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "name": "security-agent",
+  "version": "1.0.0",
+  "model": "haiku",
+  "description": "Security vulnerability scanner and secure coding enforcer",
+  
+  "mcp_servers": {
+    "serena": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 15000,
+      "retry_attempts": 2,
+      "config": {
+        "trace_data_flow": true,
+        "taint_analysis": true,
+        "call_graph_depth": 5,
+        "track_privileges": true
+      }
+    },
+    "filesystem": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 10000,
+      "retry_attempts": 2,
+      "config": {
+        "pattern_matching": true,
+        "regex_engine": "pcre",
+        "scan_archives": false,
+        "follow_symlinks": false
+      }
+    }
+  },
+  
+  "resource_limits": {
+    "max_execution_time": 60000,
+    "max_memory_mb": 1024,
+    "max_file_size_mb": 100,
+    "max_concurrent_operations": 5
+  },
+  
+  "output_preferences": {
+    "documentation_format": "markdown",
+    "diagram_format": "mermaid",
+    "code_style": "detailed",
+    "include_examples": true,
+    "verbosity": "comprehensive"
+  },
+  
+  "security_settings": {
+    "vulnerability_detection": {
+      "sql_injection": true,
+      "xss": true,
+      "csrf": true,
+      "xxe": true,
+      "path_traversal": true,
+      "command_injection": true,
+      "ldap_injection": true,
+      "header_injection": true,
+      "open_redirect": true
+    },
+    "secret_patterns": [
+      {
+        "name": "aws_access_key",
+        "pattern": "AKIA[0-9A-Z]{16}",
+        "severity": "critical"
+      },
+      {
+        "name": "aws_secret_key",
+        "pattern": "(?i)aws(.{0,20})?(?-i)['\"][0-9a-zA-Z/+=]{40}['\"]",
+        "severity": "critical"
+      },
+      {
+        "name": "github_token",
+        "pattern": "ghp_[0-9a-zA-Z]{36}",
+        "severity": "high"
+      },
+      {
+        "name": "private_key",
+        "pattern": "-----BEGIN (RSA |EC |DSA )?PRIVATE KEY-----",
+        "severity": "critical"
+      },
+      {
+        "name": "api_key",
+        "pattern": "(?i)(api[_-]?key|apikey)(.{0,20})?['\"][0-9a-zA-Z]{32,64}['\"]",
+        "severity": "high"
+      }
+    ],
+    "dependency_checking": {
+      "check_vulnerabilities": true,
+      "check_licenses": true,
+      "check_outdated": true,
+      "vulnerability_db": "nvd",
+      "max_cvss_score": 10.0,
+      "min_severity": "low"
+    },
+    "code_analysis": {
+      "check_input_validation": true,
+      "check_output_encoding": true,
+      "check_authentication": true,
+      "check_authorization": true,
+      "check_cryptography": true,
+      "check_error_handling": true,
+      "check_logging": true
+    }
+  },
+  
+  "severity_thresholds": {
+    "critical": {
+      "cvss_min": 9.0,
+      "auto_block": true,
+      "require_immediate_fix": true
+    },
+    "high": {
+      "cvss_min": 7.0,
+      "auto_block": false,
+      "require_immediate_fix": true
+    },
+    "medium": {
+      "cvss_min": 4.0,
+      "auto_block": false,
+      "require_immediate_fix": false
+    },
+    "low": {
+      "cvss_min": 0.1,
+      "auto_block": false,
+      "require_immediate_fix": false
+    }
+  },
+  
+  "hooks": {
+    "vulnerability-patterns": {
+      "enabled": true,
+      "config": {
+        "patterns_file": "~/.claude/security/patterns.yaml",
+        "custom_patterns": true
+      }
+    },
+    "owasp-top10": {
+      "enabled": true,
+      "config": {
+        "version": "2021",
+        "check_all": true
+      }
+    },
+    "secure-coding": {
+      "enabled": true,
+      "config": {
+        "enforce_standards": true,
+        "language_specific": true
+      }
+    },
+    "dependency-scanning": {
+      "enabled": true,
+      "config": {
+        "scan_transitive": true,
+        "check_licenses": true
+      }
+    },
+    "secrets-detection": {
+      "enabled": true,
+      "config": {
+        "scan_history": false,
+        "entropy_threshold": 4.5
+      }
+    },
+    "authentication-review": {
+      "enabled": true,
+      "config": {
+        "check_password_policy": true,
+        "check_mfa": true
+      }
+    },
+    "language-security": {
+      "enabled": true,
+      "config": {
+        "language_rules": true,
+        "framework_specific": true
+      }
+    },
+    "security-tools": {
+      "enabled": true,
+      "config": {
+        "integrate_external": true,
+        "tool_timeout": 30000
+      }
+    }
+  },
+  
+  "reporting": {
+    "format": "json",
+    "include_remediation": true,
+    "include_references": true,
+    "group_by_type": true,
+    "confidence_threshold": 0.7,
+    "max_findings_per_type": 100
+  },
+  
+  "quality_gates": {
+    "scan_coverage": {
+      "min_files_scanned": 0.95,
+      "min_code_coverage": 0.9
+    },
+    "findings": {
+      "max_critical": 0,
+      "max_high": 5,
+      "max_false_positive_rate": 0.1
+    },
+    "performance": {
+      "max_scan_time_minutes": 10,
+      "max_memory_gb": 1
+    }
+  },
+  
+  "environment": {
+    "SECURITY_AGENT_LOG_LEVEL": "info",
+    "SECURITY_AGENT_CACHE_DIR": "/tmp/security-agent-cache",
+    "SECURITY_AGENT_TEMPLATES_DIR": "~/.claude/templates/security"
+  }
+}

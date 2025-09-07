@@ -1,0 +1,246 @@
+{
+  "name": "debug-agent",
+  "version": "1.0.0",
+  "model": "sonnet",
+  "description": "Debugging specialist for systematic error investigation",
+  
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 15000,
+      "retry_attempts": 3,
+      "config": {
+        "stream_large_logs": true,
+        "chunk_size_mb": 10,
+        "max_log_size_mb": 1000,
+        "tail_follow": true
+      }
+    },
+    "serena": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 20000,
+      "retry_attempts": 2,
+      "config": {
+        "call_graph": true,
+        "symbol_resolution": true,
+        "variable_tracking": true,
+        "max_depth": 10
+      }
+    },
+    "sequentialthinking": {
+      "enabled": true,
+      "priority": 2,
+      "timeout": 30000,
+      "retry_attempts": 2,
+      "config": {
+        "reasoning_depth": 10,
+        "hypothesis_testing": true,
+        "systematic_elimination": true
+      }
+    }
+  },
+  
+  "resource_limits": {
+    "max_execution_time": 180000,
+    "max_memory_mb": 2048,
+    "max_file_size_mb": 1000,
+    "max_concurrent_operations": 3
+  },
+  
+  "output_preferences": {
+    "documentation_format": "markdown",
+    "diagram_format": "mermaid",
+    "code_style": "detailed",
+    "include_examples": true,
+    "verbosity": "comprehensive"
+  },
+  
+  "debugging_configuration": {
+    "methodologies": {
+      "scientific_method": true,
+      "binary_search": true,
+      "differential": true,
+      "time_travel": false,
+      "rubber_duck": true
+    },
+    "error_categories": {
+      "compilation": ["syntax", "type", "import", "config"],
+      "runtime": ["null_ref", "bounds", "type_assert", "resource"],
+      "logic": ["algorithm", "state", "concurrency", "edge_case"],
+      "performance": ["cpu", "memory", "io", "network", "database"]
+    },
+    "log_analysis": {
+      "patterns": {
+        "error": "ERROR|FATAL|CRITICAL",
+        "warning": "WARN|WARNING",
+        "info": "INFO|LOG",
+        "debug": "DEBUG|TRACE"
+      },
+      "time_formats": [
+        "ISO8601",
+        "RFC3339",
+        "Unix",
+        "Custom"
+      ],
+      "correlation_window_ms": 5000
+    }
+  },
+  
+  "profiling_settings": {
+    "cpu_profiling": {
+      "enabled": true,
+      "sampling_rate_hz": 100,
+      "duration_seconds": 30,
+      "include_native": false
+    },
+    "memory_profiling": {
+      "enabled": true,
+      "heap_snapshots": true,
+      "allocation_tracking": true,
+      "gc_monitoring": true
+    },
+    "io_profiling": {
+      "enabled": true,
+      "file_operations": true,
+      "network_operations": true,
+      "database_queries": true
+    }
+  },
+  
+  "debugger_integration": {
+    "gdb": {
+      "enabled": false,
+      "auto_attach": false,
+      "core_dumps": true
+    },
+    "chrome_devtools": {
+      "enabled": true,
+      "port": 9229,
+      "wait_for_debugger": false
+    },
+    "python_pdb": {
+      "enabled": true,
+      "post_mortem": true
+    },
+    "node_inspector": {
+      "enabled": true,
+      "break_on_start": false
+    }
+  },
+  
+  "hooks": {
+    "debugging-methodology": {
+      "enabled": true,
+      "config": {
+        "default_method": "scientific",
+        "document_steps": true
+      }
+    },
+    "error-patterns": {
+      "enabled": true,
+      "config": {
+        "pattern_database": "~/.claude/debug/patterns.json",
+        "learn_new_patterns": true
+      }
+    },
+    "log-analysis": {
+      "enabled": true,
+      "config": {
+        "auto_parse": true,
+        "extract_stack_traces": true,
+        "correlate_events": true
+      }
+    },
+    "performance-debugging": {
+      "enabled": true,
+      "config": {
+        "auto_profile": false,
+        "baseline_comparison": true,
+        "bottleneck_detection": true
+      }
+    },
+    "language-debuggers": {
+      "enabled": true,
+      "config": {
+        "auto_select": true,
+        "prefer_interactive": true
+      }
+    },
+    "system-diagnostics": {
+      "enabled": true,
+      "config": {
+        "collect_metrics": true,
+        "monitor_resources": true
+      }
+    },
+    "root-cause-templates": {
+      "enabled": true,
+      "config": {
+        "template": "5_whys",
+        "document_findings": true
+      }
+    }
+  },
+  
+  "analysis_settings": {
+    "stack_trace": {
+      "max_frames": 50,
+      "include_source": true,
+      "demangle_symbols": true,
+      "filter_noise": true
+    },
+    "memory_analysis": {
+      "track_allocations": true,
+      "detect_leaks": true,
+      "heap_analysis": true,
+      "reference_chains": true
+    },
+    "performance_analysis": {
+      "identify_hotspots": true,
+      "analyze_algorithms": true,
+      "check_io_blocking": true,
+      "database_slow_queries": true
+    }
+  },
+  
+  "reporting": {
+    "formats": ["markdown", "json", "html"],
+    "include_timeline": true,
+    "include_recommendations": true,
+    "include_code_snippets": true,
+    "include_metrics": true,
+    "severity_levels": ["critical", "high", "medium", "low", "info"]
+  },
+  
+  "quality_gates": {
+    "reproduction": {
+      "must_reproduce": true,
+      "max_attempts": 5,
+      "document_steps": true
+    },
+    "root_cause": {
+      "must_identify": true,
+      "confidence_threshold": 0.8
+    },
+    "fix_validation": {
+      "must_verify": true,
+      "regression_test": true
+    }
+  },
+  
+  "caching": {
+    "enabled": true,
+    "cache_symbols": true,
+    "cache_patterns": true,
+    "cache_analysis": true,
+    "ttl_seconds": 3600
+  },
+  
+  "environment": {
+    "DEBUG_AGENT_LOG_LEVEL": "info",
+    "DEBUG_AGENT_CACHE_DIR": "/tmp/debug-agent-cache",
+    "DEBUG_AGENT_TEMPLATES_DIR": "~/.claude/templates/debugging"
+  }
+}

@@ -1,0 +1,556 @@
+---
+category: agent-workflows
+priority: high
+agents: [debug-agent]
+description: "Common error pattern detection and classification"
+tags: [error-patterns, classification, runtime, compilation]
+last_updated: "2025-09-07"
+mcp_dependencies: [filesystem, serena]
+---
+
+# Error Patterns Hook
+# Comprehensive error pattern detection and classification system
+
+hook_name: error-patterns
+version: "1.0"
+trigger: "on_error_analysis"
+
+# CORE ERROR ANALYSIS ACTIONS
+actions:
+  parse_error_message:
+    description: "Extract and structure error information"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - Read error logs and stack traces
+      - Parse structured error formats
+      - Extract error codes and messages
+      - Identify error source locations
+      - Capture error context and environment
+    
+  match_patterns:
+    description: "Identify known error patterns"
+    required: true
+    implementation: |
+      - Compare against known error signatures
+      - Use pattern matching algorithms
+      - Apply fuzzy matching for variations
+      - Rank pattern matches by confidence
+      - Identify pattern categories and types
+    
+  extract_stack_trace:
+    description: "Analyze call stack and execution path"
+    required: true
+    mcp_server: "serena"
+    implementation: |
+      - Parse stack trace information
+      - Map stack frames to source code
+      - Identify function call sequence
+      - Locate error origin in call chain
+      - Analyze variable states at each frame
+    
+  identify_category:
+    description: "Classify error type and severity"
+    required: true
+    implementation: |
+      - Categorize by error type (runtime, compile, logic)
+      - Assess severity and impact level
+      - Determine urgency and priority
+      - Identify affected system components
+      - Predict potential cascading effects
+
+# ERROR PATTERN CATEGORIES
+patterns:
+  runtime:
+    null_pointer:
+      signatures:
+        - "NullPointerException"
+        - "TypeError: Cannot read property .* of null"
+        - "AttributeError: 'NoneType' object has no attribute"
+        - "panic: runtime error: invalid memory address or nil pointer dereference"
+        - "Object reference not set to an instance of an object"
+      
+      common_causes:
+        - Uninitialized variables
+        - Missing null checks
+        - Race conditions in initialization
+        - Object lifecycle management issues
+        - API contract violations
+      
+      detection_patterns:
+        javascript: |
+          // Pattern: accessing property of null/undefined
+          /(Cannot read property|Cannot read properties) '.*' of (null|undefined)/
+          /TypeError.*null.*undefined/
+        
+        python: |
+          # Pattern: None attribute access
+          /AttributeError: 'NoneType' object has no attribute/
+          /TypeError.*None.*has no attribute/
+        
+        java: |
+          // Pattern: null pointer access
+          /java\.lang\.NullPointerException/
+          /Attempt to invoke.*on a null object reference/
+        
+        go: |
+          // Pattern: nil pointer dereference
+          /panic: runtime error: invalid memory address or nil pointer dereference/
+          /panic.*nil pointer/
+      
+      resolution_strategies:
+        - Add null/undefined checks before usage
+        - Initialize variables with default values
+        - Use optional chaining where available
+        - Implement defensive programming practices
+        - Review object lifecycle management
+      
+      prevention_measures:
+        - Static analysis tools for null safety
+        - Code review focusing on initialization
+        - Unit tests covering edge cases
+        - Linting rules for null checks
+    
+    array_bounds:
+      signatures:
+        - "IndexOutOfBoundsException"
+        - "Array index out of range"
+        - "list index out of range"
+        - "Index was outside the bounds of the array"
+        - "panic: runtime error: index out of range"
+      
+      common_causes:
+        - Off-by-one errors in loops
+        - Incorrect array size assumptions
+        - Race conditions with array modifications
+        - Invalid user input handling
+        - Algorithmic logic errors
+      
+      detection_patterns:
+        javascript: |
+          /RangeError.*Invalid array length/
+          /TypeError.*Cannot read property '\d+'/
+        
+        python: |
+          /IndexError: list index out of range/
+          /IndexError.*index \d+ is out of bounds/
+        
+        java: |
+          /java\.lang\.ArrayIndexOutOfBoundsException/
+          /Index \d+ out of bounds for length \d+/
+        
+        go: |
+          /panic: runtime error: index out of range/
+          /slice bounds out of range/
+      
+      analysis_approach:
+        - Check loop boundaries and conditions
+        - Verify array size before access
+        - Analyze input validation logic
+        - Review concurrent access patterns
+        - Examine algorithmic correctness
+    
+    type_error:
+      signatures:
+        - "TypeError"
+        - "ClassCastException"
+        - "type.*expected.*got"
+        - "cannot convert.*to"
+        - "Invalid type conversion"
+      
+      common_causes:
+        - Incorrect type assumptions
+        - Missing type validation
+        - API contract misunderstandings
+        - Dynamic typing pitfalls
+        - Serialization/deserialization issues
+      
+      resolution_strategies:
+        - Add explicit type checks
+        - Use type annotations/hints
+        - Implement input validation
+        - Review API documentation
+        - Add runtime type assertions
+    
+    division_zero:
+      signatures:
+        - "Division by zero"
+        - "ZeroDivisionError"
+        - "ArithmeticException.*divide by zero"
+        - "panic.*division by zero"
+        - "Divide by zero error"
+      
+      common_causes:
+        - Missing input validation
+        - Edge cases in calculations
+        - Unhandled special values
+        - Logic errors in denominators
+        - Floating point precision issues
+      
+      prevention_measures:
+        - Validate divisors before operations
+        - Handle special cases (zero, infinity, NaN)
+        - Use safe division functions
+        - Add boundary condition tests
+  
+  compilation:
+    syntax_error:
+      signatures:
+        - "SyntaxError"
+        - "Syntax error.*unexpected"
+        - "Parse error.*syntax"
+        - "Expected.*but found"
+        - "Invalid syntax"
+      
+      common_causes:
+        - Missing brackets/braces
+        - Incorrect punctuation
+        - Mismatched quotes
+        - Invalid character encodings
+        - Language syntax violations
+      
+      detection_patterns:
+        javascript: |
+          /SyntaxError.*Unexpected token/
+          /SyntaxError.*Unexpected end of input/
+        
+        python: |
+          /SyntaxError.*invalid syntax/
+          /IndentationError.*unexpected indent/
+        
+        java: |
+          /error.*expected/
+          /';' expected/
+        
+        go: |
+          /syntax error.*unexpected/
+          /expected.*found/
+      
+      resolution_approach:
+        - Check bracket/brace matching
+        - Verify quote pairing
+        - Review indentation consistency
+        - Validate character encoding
+        - Use IDE syntax highlighting
+    
+    type_mismatch:
+      signatures:
+        - "Type mismatch"
+        - "cannot be applied to"
+        - "incompatible types"
+        - "type.*does not match"
+        - "Expected.*actual"
+      
+      analysis_strategy:
+        - Review variable declarations
+        - Check function signatures
+        - Verify generic type parameters
+        - Analyze implicit conversions
+        - Review type casting operations
+    
+    missing_import:
+      signatures:
+        - "ImportError"
+        - "ModuleNotFoundError"
+        - "cannot find symbol"
+        - "unresolved import"
+        - "No module named"
+      
+      resolution_steps:
+        - Verify module installation
+        - Check import paths and syntax
+        - Review dependency configurations
+        - Validate module availability
+        - Check environment setup
+    
+    undefined_symbol:
+      signatures:
+        - "NameError"
+        - "ReferenceError"
+        - "cannot find symbol"
+        - "undefined variable"
+        - "undeclared identifier"
+      
+      analysis_approach:
+        - Check variable declarations
+        - Verify scope and visibility
+        - Review import statements
+        - Check spelling and naming
+        - Analyze variable lifecycle
+  
+  performance:
+    memory_leak:
+      signatures:
+        - "OutOfMemoryError"
+        - "Memory usage.*exceeded"
+        - "GC overhead limit exceeded"
+        - "Cannot allocate memory"
+        - "Fatal error.*out of memory"
+      
+      detection_indicators:
+        - Gradually increasing memory usage
+        - Frequent garbage collection
+        - Performance degradation over time
+        - System resource exhaustion
+        - Application crashes under load
+      
+      investigation_approach:
+        heap_analysis:
+          - Take heap dumps at intervals
+          - Analyze object retention
+          - Identify large object graphs
+          - Review reference chains
+          - Check for circular references
+        
+        profiling:
+          - Use memory profilers
+          - Track allocation patterns
+          - Monitor garbage collection
+          - Analyze memory hotspots
+          - Review object lifecycles
+      
+      common_sources:
+        - Unclosed resources (files, connections)
+        - Static collections holding references
+        - Event listener leaks
+        - Cache without eviction
+        - Circular reference cycles
+      
+      resolution_strategies:
+        - Implement proper resource cleanup
+        - Use weak references where appropriate
+        - Add cache size limits and eviction
+        - Remove unused event listeners
+        - Fix circular dependencies
+    
+    cpu_spike:
+      signatures:
+        - "High CPU usage"
+        - "Performance degradation"
+        - "Response time exceeded"
+        - "Thread blocked"
+        - "Infinite loop detected"
+      
+      detection_methods:
+        - CPU usage monitoring
+        - Thread dump analysis
+        - Performance profiling
+        - Response time tracking
+        - Load testing results
+      
+      investigation_techniques:
+        profiling:
+          - CPU profiler analysis
+          - Hot method identification
+          - Call graph examination
+          - Thread state analysis
+          - Lock contention detection
+        
+        code_analysis:
+          - Algorithm complexity review
+          - Loop efficiency analysis
+          - Recursive function checking
+          - Database query optimization
+          - Network call efficiency
+    
+    deadlock:
+      signatures:
+        - "Deadlock detected"
+        - "ThreadDeadlockDetector"
+        - "Lock wait timeout"
+        - "Circular wait condition"
+        - "Resource deadlock"
+      
+      analysis_approach:
+        thread_analysis:
+          - Thread dump examination
+          - Lock acquisition order
+          - Resource dependency graph
+          - Wait-for graph construction
+          - Deadlock cycle identification
+        
+        resolution_strategies:
+          - Consistent lock ordering
+          - Timeout-based lock acquisition
+          - Lock-free programming patterns
+          - Resource pooling
+          - Deadlock detection and recovery
+    
+    infinite_loop:
+      signatures:
+        - "Infinite loop"
+        - "Stack overflow"
+        - "Maximum recursion depth"
+        - "Thread appears stuck"
+        - "Operation timeout"
+      
+      detection_indicators:
+        - High CPU usage with no progress
+        - Lack of expected output/results
+        - Application unresponsiveness
+        - Timeout errors
+        - Stack overflow errors
+      
+      investigation_methods:
+        - Thread dump analysis
+        - Debugger step-through
+        - Logging loop iterations
+        - Performance profiling
+        - Code review of loop conditions
+
+# ERROR CORRELATION AND CASCADING ANALYSIS
+correlation:
+  cascade_patterns:
+    upstream_failure:
+      description: "Downstream errors caused by upstream service failures"
+      indicators:
+        - Multiple services reporting errors simultaneously
+        - Error timeline correlation
+        - Dependency chain failures
+        - Network connectivity issues
+      
+      analysis_approach:
+        - Map service dependencies
+        - Analyze error propagation
+        - Identify root failure point
+        - Assess impact scope
+        - Plan coordinated recovery
+    
+    resource_exhaustion:
+      description: "Multiple errors due to resource constraints"
+      indicators:
+        - Memory/CPU/disk space errors
+        - Performance degradation
+        - Connection pool exhaustion
+        - Queue overflow conditions
+      
+      investigation_strategy:
+        - Monitor resource utilization
+        - Identify resource bottlenecks
+        - Analyze resource allocation
+        - Review capacity planning
+        - Implement resource limits
+    
+    configuration_mismatch:
+      description: "Errors from configuration inconsistencies"
+      indicators:
+        - Environment-specific failures
+        - Version compatibility issues
+        - Feature flag conflicts
+        - Permission-related errors
+      
+      resolution_approach:
+        - Compare configurations across environments
+        - Validate configuration schemas
+        - Check feature flag consistency
+        - Review permission settings
+        - Implement configuration validation
+  
+  temporal_correlation:
+    time_based_analysis:
+      - Identify error occurrence patterns
+      - Correlate with deployment times
+      - Analyze periodic error spikes
+      - Review maintenance windows
+      - Check batch job schedules
+    
+    frequency_analysis:
+      - Calculate error rates over time
+      - Identify trending patterns
+      - Detect anomalous spikes
+      - Analyze seasonal variations
+      - Monitor baseline deviations
+
+# AUTOMATED ERROR ANALYSIS
+automation:
+  pattern_recognition:
+    machine_learning:
+      - Train on historical error data
+      - Classify new errors automatically
+      - Predict error likelihood
+      - Identify anomalous patterns
+      - Suggest resolution strategies
+    
+    rule_based_systems:
+      - Define error classification rules
+      - Implement severity scoring
+      - Automate initial triage
+      - Route to appropriate teams
+      - Generate diagnostic reports
+  
+  error_aggregation:
+    grouping_strategies:
+      by_signature:
+        - Group identical error messages
+        - Cluster similar stack traces
+        - Aggregate by error codes
+        - Group by exception types
+      
+      by_context:
+        - Group by affected services
+        - Cluster by user segments
+        - Aggregate by time periods
+        - Group by deployment versions
+    
+    deduplication:
+      - Identify duplicate error reports
+      - Merge similar error instances
+      - Maintain occurrence counts
+      - Track error evolution
+      - Preserve unique contexts
+
+# ERROR RESOLUTION DATABASE
+knowledge_base:
+  error_solutions:
+    structure:
+      error_signature: "Unique error identifier"
+      description: "Detailed error explanation"
+      symptoms: "Observable error indicators"
+      causes: "Root cause analysis"
+      solutions: "Step-by-step resolution"
+      prevention: "Prevention strategies"
+      related_errors: "Connected error patterns"
+    
+    maintenance:
+      - Regular solution validation
+      - Effectiveness tracking
+      - Community contributions
+      - Expert review process
+      - Version control for solutions
+  
+  resolution_tracking:
+    metrics:
+      - Time to resolution
+      - Solution effectiveness
+      - Recurrence rates
+      - Team productivity impact
+      - Customer satisfaction
+    
+    continuous_improvement:
+      - Solution refinement
+      - Process optimization
+      - Tool enhancement
+      - Training updates
+      - Documentation improvements
+
+# INTEGRATION WITH DEBUGGING TOOLS
+tool_integration:
+  error_monitoring:
+    sentry: "Real-time error tracking and alerting"
+    rollbar: "Continuous error monitoring"
+    bugsnag: "Error monitoring and reporting"
+    airbrake: "Error tracking and performance monitoring"
+  
+  log_analysis:
+    elk_stack: "Elasticsearch, Logstash, and Kibana"
+    splunk: "Enterprise log analysis platform"
+    datadog: "Monitoring and analytics platform"
+    new_relic: "Application performance monitoring"
+  
+  debugging_assistance:
+    ai_powered_debugging:
+      - Automated error analysis
+      - Solution recommendation
+      - Code fix suggestions
+      - Test case generation
+      - Documentation updates

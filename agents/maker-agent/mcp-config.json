@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/projs"
+      ],
+      "env": {
+        "FS_MODE": "atomic_write",
+        "ENABLE_BACKUP": "true",
+        "CONCURRENT_WRITES": "safe",
+        "VALIDATION": "strict",
+        "TRANSACTION_MODE": "true"
+      }
+    },
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena-mcp-server"
+      ],
+      "env": {
+        "PROJECT_ROOT": "${workspaceFolder:-$PWD}",
+        "SERENA_MODE": "refactoring",
+        "SYMBOL_UPDATES": "atomic",
+        "REFERENCE_TRACKING": "full",
+        "SAFE_RENAME": "true",
+        "IMPACT_ANALYSIS": "true"
+      }
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      },
+      "env": {
+        "PATTERN_MODE": "implementation",
+        "CODE_EXAMPLES": "true",
+        "VERSION_SPECIFIC": "true",
+        "BEST_PRACTICES": "enforce"
+      }
+    }
+  }
+}

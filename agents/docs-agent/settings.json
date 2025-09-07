@@ -1,0 +1,267 @@
+{
+  "name": "docs-agent",
+  "version": "1.0.0",
+  "model": "haiku",
+  "description": "Documentation specialist for technical writing",
+  
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 10000,
+      "retry_attempts": 3,
+      "config": {
+        "atomic_writes": true,
+        "backup_before_update": true,
+        "preserve_formatting": true,
+        "batch_operations": true
+      }
+    },
+    "context7": {
+      "enabled": true,
+      "priority": 1,
+      "timeout": 15000,
+      "retry_attempts": 2,
+      "config": {
+        "fetch_examples": true,
+        "version_specific": true,
+        "cache_responses": true,
+        "include_best_practices": true
+      }
+    }
+  },
+  
+  "resource_limits": {
+    "max_execution_time": 60000,
+    "max_memory_mb": 512,
+    "max_file_size_mb": 50,
+    "max_concurrent_operations": 5
+  },
+  
+  "output_preferences": {
+    "documentation_format": "markdown",
+    "diagram_format": "mermaid",
+    "code_style": "detailed",
+    "include_examples": true,
+    "verbosity": "comprehensive"
+  },
+  
+  "documentation_settings": {
+    "formats": {
+      "markdown": {
+        "enabled": true,
+        "extensions": [".md", ".markdown"],
+        "flavor": "github",
+        "toc_generation": true
+      },
+      "restructuredtext": {
+        "enabled": false,
+        "extensions": [".rst"],
+        "sphinx_compatible": true
+      },
+      "asciidoc": {
+        "enabled": false,
+        "extensions": [".adoc", ".asciidoc"]
+      }
+    },
+    "templates": {
+      "readme": "~/.claude/templates/docs/readme.md",
+      "api": "~/.claude/templates/docs/api.md",
+      "guide": "~/.claude/templates/docs/guide.md",
+      "changelog": "~/.claude/templates/docs/changelog.md"
+    },
+    "style_guide": {
+      "voice": "active",
+      "person": "second",
+      "tense": "present",
+      "max_line_length": 80,
+      "heading_style": "atx",
+      "list_style": "dash"
+    }
+  },
+  
+  "api_documentation": {
+    "openapi_version": "3.0.0",
+    "include_examples": true,
+    "include_schemas": true,
+    "group_by_tags": true,
+    "authentication_section": true,
+    "error_codes_section": true,
+    "rate_limiting_section": true
+  },
+  
+  "code_documentation": {
+    "languages": {
+      "javascript": {
+        "style": "jsdoc",
+        "include_types": true,
+        "include_examples": true
+      },
+      "python": {
+        "style": "google",
+        "include_types": true,
+        "include_raises": true
+      },
+      "go": {
+        "style": "godoc",
+        "include_examples": true
+      },
+      "typescript": {
+        "style": "tsdoc",
+        "include_types": true
+      }
+    },
+    "complexity_threshold": 10,
+    "require_comments_for_public": true,
+    "require_examples_for_public": false
+  },
+  
+  "quality_standards": {
+    "grammar_check": {
+      "enabled": true,
+      "min_score": 90,
+      "language": "en-US"
+    },
+    "readability": {
+      "target_grade": 10,
+      "max_sentence_length": 25,
+      "max_paragraph_length": 150
+    },
+    "completeness": {
+      "required_sections": ["description", "usage", "examples"],
+      "min_coverage": 0.9
+    },
+    "accuracy": {
+      "validate_code_examples": true,
+      "check_links": true,
+      "verify_versions": true
+    }
+  },
+  
+  "quality_gates": {
+    "documentation_coverage": {
+      "enabled": true,
+      "threshold": 0.9
+    },
+    "grammar_quality": {
+      "enabled": true,
+      "min_score": 90
+    },
+    "completeness_check": {
+      "enabled": true,
+      "required_sections": [
+        "overview",
+        "usage", 
+        "examples",
+        "api_reference"
+      ]
+    }
+  },
+  
+  "hooks": {
+    "documentation-types": {
+      "enabled": true,
+      "config": {
+        "auto_detect": true,
+        "prioritize": ["readme", "api", "guides"]
+      }
+    },
+    "readme-template": {
+      "enabled": true,
+      "config": {
+        "sections": ["badges", "description", "features", "installation", "usage", "api", "contributing", "license"],
+        "auto_badges": true
+      }
+    },
+    "api-documentation": {
+      "enabled": true,
+      "config": {
+        "extract_from_code": true,
+        "include_curl_examples": true,
+        "include_sdk_examples": true
+      }
+    },
+    "code-comments": {
+      "enabled": true,
+      "config": {
+        "enforce_standards": true,
+        "auto_generate": false
+      }
+    },
+    "changelog-format": {
+      "enabled": true,
+      "config": {
+        "format": "keepachangelog",
+        "sections": ["added", "changed", "deprecated", "removed", "fixed", "security"],
+        "date_format": "YYYY-MM-DD"
+      }
+    },
+    "documentation-quality": {
+      "enabled": true,
+      "config": {
+        "auto_check": true,
+        "block_on_errors": false
+      }
+    },
+    "markdown-best-practices": {
+      "enabled": true,
+      "config": {
+        "lint": true,
+        "auto_format": true
+      }
+    },
+    "diagrams-as-code": {
+      "enabled": true,
+      "config": {
+        "default_tool": "mermaid",
+        "auto_render": true
+      }
+    }
+  },
+  
+  "generation_settings": {
+    "auto_generate": {
+      "from_code": true,
+      "from_tests": true,
+      "from_comments": true
+    },
+    "update_strategy": {
+      "incremental": true,
+      "preserve_custom": true,
+      "track_changes": true
+    },
+    "example_generation": {
+      "from_tests": true,
+      "from_usage": true,
+      "validate": true
+    }
+  },
+  
+  "localization": {
+    "enabled": false,
+    "default_language": "en",
+    "supported_languages": ["en"],
+    "translation_service": null
+  },
+  
+  "versioning": {
+    "track_versions": true,
+    "maintain_old_docs": true,
+    "version_pattern": "v{major}.{minor}.{patch}",
+    "deprecation_period_days": 90
+  },
+  
+  "reporting": {
+    "coverage_report": true,
+    "quality_report": true,
+    "update_frequency_report": true,
+    "formats": ["markdown", "json", "html"]
+  },
+  
+  "environment": {
+    "DOCS_AGENT_LOG_LEVEL": "info",
+    "DOCS_AGENT_OUTPUT_DIR": "/tmp/docs-output",
+    "DOCS_AGENT_TEMPLATES_DIR": "~/.claude/templates/docs",
+    "DOCS_AGENT_CACHE_DIR": "/tmp/docs-cache"
+  }
+}

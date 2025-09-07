@@ -1,18 +1,24 @@
-# Ignore everything by default
-*
+# Ignore everything
+/*
 
-# But do not ignore these files and directories
-!/agents/
-!/commands/
-!/hooks/
+# But not these files
 !/claude.json
 !/CLAUDE.md
 !/.gitignore
 
-# Ignore specific sensitive or local configuration files explicitly
-.credentials.json
-settings.local.json
-statsig/
-shell-snapshots/
-todos/
-projects/
+# And not these directories and their contents
+!/agents/
+!/commands/
+!/hooks/
+
+# Explicitly ignore files at the root that should not be tracked
+/settings.json
+/settings.local.json
+/.credentials.json
+
+# Explicitly ignore directories at the root that should not be tracked
+/plugins/
+/projects/
+/shell-snapshots/
+/statsig/
+/todos/

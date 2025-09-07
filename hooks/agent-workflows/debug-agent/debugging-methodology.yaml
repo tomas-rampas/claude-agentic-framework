@@ -1,0 +1,580 @@
+---
+category: agent-workflows
+priority: high
+agents: [debug-agent]
+description: "Systematic debugging approaches and methodologies"
+tags: [debugging, methodology, systematic, hypothesis]
+last_updated: "2025-09-07"
+mcp_dependencies: [sequentialthinking]
+---
+
+# Debugging Methodology Hook
+# Systematic debugging approaches for complex problem resolution
+
+hook_name: debugging-methodology
+version: "1.0"
+trigger: "on_debug_start"
+
+# CORE DEBUGGING ACTIONS
+actions:
+  select_methodology:
+    description: "Choose appropriate debugging approach based on problem characteristics"
+    required: true
+    mcp_server: "sequentialthinking"
+    implementation: |
+      - Analyze problem complexity and scope
+      - Consider available time and resources
+      - Evaluate reproducibility of the issue
+      - Select optimal debugging strategy
+      - Establish success criteria and metrics
+    
+  create_hypothesis:
+    description: "Form testable hypothesis about the root cause"
+    required: true
+    implementation: |
+      - Gather initial evidence and symptoms
+      - Analyze system behavior patterns
+      - Formulate specific, testable hypotheses
+      - Prioritize hypotheses by likelihood
+      - Define validation tests for each hypothesis
+    
+  design_tests:
+    description: "Create systematic validation tests"
+    required: true
+    implementation: |
+      - Design minimal reproducible test cases
+      - Create isolation tests to narrow scope
+      - Develop regression tests for verification
+      - Plan test data and environment requirements
+      - Define clear pass/fail criteria
+    
+  document_process:
+    description: "Track debugging steps and findings"
+    required: true
+    implementation: |
+      - Log all debugging activities and findings
+      - Document tested hypotheses and results
+      - Record system state at key investigation points
+      - Maintain timeline of debugging activities
+      - Create knowledge base entries for future reference
+
+# DEBUGGING METHODOLOGIES
+methodologies:
+  scientific_method:
+    description: "Systematic scientific approach to problem solving"
+    best_for:
+      - Complex, multi-component issues
+      - Intermittent or hard-to-reproduce problems
+      - Performance degradation issues
+      - System behavior anomalies
+    
+    process:
+      observation:
+        description: "Gather and document symptoms"
+        activities:
+          - Collect error messages and stack traces
+          - Document system behavior and performance metrics
+          - Identify patterns in failure occurrences
+          - Gather user reports and reproduction steps
+        
+        tools:
+          - logging_systems
+          - monitoring_dashboards
+          - error_tracking_systems
+          - user_feedback_systems
+      
+      question:
+        description: "Define the problem clearly"
+        activities:
+          - Formulate specific questions about the issue
+          - Define scope and boundaries of the problem
+          - Identify what is working vs. what is not
+          - Clarify expected vs. actual behavior
+        
+        templates:
+          - "Why does [system] behave [unexpected_way] when [conditions]?"
+          - "What causes [error] to occur in [context]?"
+          - "Under what conditions does [issue] manifest?"
+      
+      hypothesis:
+        description: "Propose potential explanations"
+        activities:
+          - Generate multiple hypotheses based on evidence
+          - Rank hypotheses by probability and testability
+          - Consider both obvious and non-obvious causes
+          - Document assumptions behind each hypothesis
+        
+        hypothesis_types:
+          configuration_issue:
+            indicators: ["Recent config changes", "Environment differences"]
+            tests: ["Config comparison", "Rollback testing"]
+          
+          resource_exhaustion:
+            indicators: ["Performance degradation", "Memory/CPU spikes"]
+            tests: ["Resource monitoring", "Load testing"]
+          
+          external_dependency:
+            indicators: ["Network errors", "Third-party service issues"]
+            tests: ["Connectivity tests", "Service health checks"]
+          
+          code_defect:
+            indicators: ["Logic errors", "Edge case failures"]
+            tests: ["Code review", "Unit testing"]
+      
+      experiment:
+        description: "Test hypotheses systematically"
+        activities:
+          - Design controlled experiments
+          - Isolate variables being tested
+          - Execute tests in safe environments
+          - Collect quantitative and qualitative data
+        
+        experiment_types:
+          isolation_testing:
+            description: "Test components in isolation"
+            methodology: |
+              1. Identify suspect component
+              2. Create minimal test environment
+              3. Test component with known inputs
+              4. Compare results with expectations
+          
+          comparative_testing:
+            description: "Compare working vs. non-working scenarios"
+            methodology: |
+              1. Identify working reference system
+              2. Compare configurations and states
+              3. Identify differences systematically
+              4. Test impact of each difference
+          
+          regression_testing:
+            description: "Identify when issue was introduced"
+            methodology: |
+              1. Identify last known good state
+              2. Binary search through changes
+              3. Test each suspected change
+              4. Pinpoint exact introduction point
+      
+      analysis:
+        description: "Evaluate results and draw conclusions"
+        activities:
+          - Analyze experiment results objectively
+          - Determine if hypothesis is supported or refuted
+          - Identify need for additional testing
+          - Synthesize findings into actionable insights
+        
+        decision_matrix:
+          hypothesis_confirmed:
+            action: "Proceed to solution implementation"
+            documentation: "Record validated root cause"
+          
+          hypothesis_refuted:
+            action: "Test next hypothesis or generate new ones"
+            documentation: "Record negative results for future reference"
+          
+          inconclusive_results:
+            action: "Refine hypothesis or improve test methodology"
+            documentation: "Identify gaps in testing approach"
+      
+      conclusion:
+        description: "Document findings and implement solutions"
+        activities:
+          - Document root cause analysis
+          - Implement and validate solution
+          - Create preventive measures
+          - Share learnings with team
+  
+  binary_search:
+    description: "Divide and conquer approach for isolating issues"
+    best_for:
+      - Large codebases with recent changes
+      - Performance regression identification
+      - Configuration-related issues
+      - Integration point failures
+    
+    process:
+      setup:
+        - Identify search space (code changes, time range, components)
+        - Establish working and non-working bounds
+        - Define test criteria for each iteration
+        - Prepare test environment and data
+      
+      iteration:
+        - Divide current search space in half
+        - Test the midpoint condition
+        - Determine which half contains the issue
+        - Narrow search space to problematic half
+        - Repeat until issue is isolated
+      
+      validation:
+        - Confirm identified change causes the issue
+        - Test fix in isolated environment
+        - Verify fix doesn't introduce new issues
+        - Document the root cause and solution
+    
+    tools:
+      git_bisect:
+        usage: "Automated binary search through git commits"
+        command_template: |
+          git bisect start
+          git bisect bad [bad_commit]
+          git bisect good [good_commit]
+          # Test each commit automatically
+          git bisect run ./test_script.sh
+      
+      configuration_bisect:
+        usage: "Binary search through configuration parameters"
+        methodology: |
+          1. Backup current configuration
+          2. Start with minimal/default configuration
+          3. Add configuration sections incrementally
+          4. Test after each addition
+          5. Isolate problematic configuration
+      
+      dependency_bisect:
+        usage: "Binary search through dependency versions"
+        methodology: |
+          1. Identify dependency version ranges
+          2. Test with middle version
+          3. Narrow range based on results
+          4. Continue until exact problematic version found
+  
+  differential_debugging:
+    description: "Compare working vs. non-working systems"
+    best_for:
+      - Environment-specific issues
+      - Configuration differences
+      - Version compatibility problems
+      - System integration issues
+    
+    comparison_dimensions:
+      environment:
+        - Operating system and version
+        - Runtime versions and configuration
+        - Available libraries and dependencies
+        - System resources and limits
+      
+      configuration:
+        - Application configuration files
+        - Environment variables
+        - System settings and policies
+        - Network configuration
+      
+      data:
+        - Input data formats and values
+        - Database schema and content
+        - File system state
+        - User permissions and roles
+      
+      code:
+        - Source code versions
+        - Compiled artifacts
+        - Deployment packages
+        - Build configurations
+    
+    analysis_techniques:
+      side_by_side_comparison:
+        methodology: |
+          1. Set up identical test scenarios
+          2. Execute same operations on both systems
+          3. Compare outputs, logs, and system states
+          4. Identify and investigate differences
+      
+      controlled_modification:
+        methodology: |
+          1. Start with working system as baseline
+          2. Apply changes one at a time
+          3. Test after each change
+          4. Identify change that breaks functionality
+      
+      environment_migration:
+        methodology: |
+          1. Gradually migrate non-working environment
+          2. Replace components with working versions
+          3. Test functionality after each replacement
+          4. Identify problematic components
+  
+  time_travel:
+    description: "Trace execution history and state changes"
+    best_for:
+      - Race conditions and timing issues
+      - Complex state management problems
+      - Asynchronous operation debugging
+      - Memory corruption issues
+    
+    techniques:
+      execution_tracing:
+        description: "Record complete execution history"
+        tools:
+          - debugger_step_through
+          - execution_profilers
+          - custom_instrumentation
+          - logging_frameworks
+        
+        implementation: |
+          1. Instrument critical code paths
+          2. Record function entry/exit with parameters
+          3. Log state changes and variable modifications
+          4. Capture timing and sequence information
+          5. Analyze recorded execution flow
+      
+      state_snapshots:
+        description: "Capture system state at key points"
+        methodology: |
+          1. Identify critical state transition points
+          2. Create state capture mechanisms
+          3. Take snapshots before/after operations
+          4. Compare snapshots to identify changes
+          5. Correlate state changes with observed issues
+        
+        snapshot_types:
+          memory_snapshots:
+            - heap_dumps
+            - stack_traces
+            - variable_states
+            - object_references
+          
+          system_snapshots:
+            - file_system_state
+            - network_connections
+            - process_information
+            - system_resources
+      
+      reverse_debugging:
+        description: "Debug by running execution backwards"
+        tools: ["rr", "gdb_reverse", "time_travel_debuggers"]
+        capabilities:
+          - Step backwards through execution
+          - Examine past variable states
+          - Identify when values changed
+          - Understand causation chains
+  
+  rubber_duck:
+    description: "Explain problem systematically to identify solutions"
+    best_for:
+      - Logic errors and mental blocks
+      - Complex problem understanding
+      - Solution validation
+      - Knowledge transfer and documentation
+    
+    process:
+      problem_articulation:
+        activities:
+          - Describe the problem in simple terms
+          - Explain expected vs. actual behavior
+          - Identify all assumptions being made
+          - Question each assumption systematically
+      
+      solution_walkthrough:
+        activities:
+          - Explain proposed solution step by step
+          - Identify potential edge cases and risks
+          - Verify solution addresses root cause
+          - Consider alternative approaches
+      
+      knowledge_externalization:
+        benefits:
+          - Forces clear problem definition
+          - Identifies knowledge gaps
+          - Reveals unstated assumptions
+          - Improves solution communication
+        
+        techniques:
+          - Verbal explanation to colleague
+          - Written problem description
+          - Diagram or flowchart creation
+          - Code comments and documentation
+
+# DEBUGGING WORKFLOW TEMPLATES
+workflow_templates:
+  systematic_investigation:
+    phases:
+      phase_1_triage:
+        objectives:
+          - Assess problem severity and impact
+          - Gather initial information
+          - Determine resource allocation
+          - Set investigation timeline
+        
+        activities:
+          - Review error reports and symptoms
+          - Check system health and status
+          - Identify affected users and systems
+          - Establish communication channels
+        
+        outputs:
+          - Problem severity classification
+          - Initial impact assessment
+          - Investigation team and resources
+          - Communication plan
+      
+      phase_2_investigation:
+        objectives:
+          - Understand problem completely
+          - Generate and test hypotheses
+          - Identify root cause
+          - Validate findings
+        
+        activities:
+          - Apply selected debugging methodology
+          - Execute systematic investigation
+          - Document findings and decisions
+          - Validate root cause identification
+        
+        outputs:
+          - Root cause analysis
+          - Evidence supporting conclusions
+          - Investigation timeline
+          - Solution recommendations
+      
+      phase_3_resolution:
+        objectives:
+          - Implement effective solution
+          - Verify problem resolution
+          - Prevent recurrence
+          - Document lessons learned
+        
+        activities:
+          - Design and implement solution
+          - Test solution effectiveness
+          - Deploy to production
+          - Monitor for regression
+        
+        outputs:
+          - Implemented solution
+          - Verification test results
+          - Deployment documentation
+          - Post-mortem report
+      
+      phase_4_prevention:
+        objectives:
+          - Prevent similar issues
+          - Improve detection capabilities
+          - Share knowledge and learnings
+          - Update processes and tools
+        
+        activities:
+          - Analyze prevention opportunities
+          - Implement monitoring and alerting
+          - Update documentation and procedures
+          - Conduct team knowledge sharing
+        
+        outputs:
+          - Prevention measures
+          - Monitoring improvements
+          - Updated procedures
+          - Knowledge base articles
+
+# DEBUGGING TOOLS AND TECHNIQUES
+tools:
+  logging_and_monitoring:
+    structured_logging:
+      benefits:
+        - Consistent log format
+        - Easy parsing and analysis
+        - Rich contextual information
+        - Correlation across systems
+      
+      implementation:
+        format: "JSON"
+        required_fields: ["timestamp", "level", "message", "context"]
+        optional_fields: ["correlation_id", "user_id", "request_id"]
+    
+    distributed_tracing:
+      purpose: "Track requests across multiple services"
+      tools: ["Jaeger", "Zipkin", "OpenTelemetry"]
+      benefits:
+        - End-to-end request visibility
+        - Service dependency mapping
+        - Performance bottleneck identification
+        - Error correlation across services
+    
+    application_metrics:
+      types:
+        business_metrics: ["user_actions", "transaction_counts", "revenue"]
+        technical_metrics: ["response_times", "error_rates", "resource_usage"]
+        infrastructure_metrics: ["cpu_usage", "memory_usage", "disk_io"]
+  
+  debugging_environments:
+    local_development:
+      advantages: ["Full control", "Immediate feedback", "Rich tooling"]
+      limitations: ["Different from production", "Limited scale", "Missing dependencies"]
+      setup: ["IDE integration", "Local services", "Test data"]
+    
+    staging_environment:
+      advantages: ["Production-like", "Safe testing", "Full integration"]
+      limitations: ["Limited access", "Shared resources", "Data constraints"]
+      setup: ["Production mirror", "Test data sets", "Monitoring tools"]
+    
+    production_debugging:
+      advantages: ["Real conditions", "Actual data", "User scenarios"]
+      limitations: ["Risk to users", "Limited access", "Performance impact"]
+      safety_measures: ["Read-only access", "Non-intrusive tools", "Rollback plans"]
+
+# QUALITY ASSURANCE
+quality_gates:
+  investigation_quality:
+    - check: "root_cause_identified"
+      threshold: 1.0
+      validation: "Evidence supports conclusions"
+    
+    - check: "hypotheses_tested"
+      threshold: 0.9
+      validation: "Systematic hypothesis validation"
+    
+    - check: "solution_verified"
+      threshold: 1.0
+      validation: "Solution resolves original problem"
+  
+  documentation_quality:
+    - check: "investigation_documented"
+      threshold: 1.0
+      validation: "Complete investigation record"
+    
+    - check: "lessons_captured"
+      threshold: 0.8
+      validation: "Key learnings documented"
+    
+    - check: "knowledge_shared"
+      threshold: 0.7
+      validation: "Team knowledge transfer"
+
+# CONTINUOUS IMPROVEMENT
+improvement_practices:
+  post_mortem_analysis:
+    triggers:
+      - Critical system outages
+      - Security incidents
+      - Data loss events
+      - Recurring issues
+    
+    process:
+      - Timeline reconstruction
+      - Root cause analysis
+      - Contributing factor identification
+      - Prevention opportunity analysis
+      - Action item definition
+    
+    outputs:
+      - Incident report
+      - Action items with owners
+      - Process improvements
+      - Tool and monitoring enhancements
+  
+  debugging_skill_development:
+    training_areas:
+      - Systematic thinking approaches
+      - Tool proficiency and usage
+      - Domain-specific debugging techniques
+      - Communication and documentation skills
+    
+    learning_methods:
+      - Hands-on debugging exercises
+      - Code review and pair debugging
+      - Post-mortem study and analysis
+      - Debugging technique workshops
+    
+    skill_assessment:
+      - Problem-solving methodology
+      - Tool usage effectiveness
+      - Documentation quality
+      - Knowledge sharing ability

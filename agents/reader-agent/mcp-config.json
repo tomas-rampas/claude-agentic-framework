@@ -1,0 +1,35 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/projs"
+      ],
+      "env": {
+        "FS_MODE": "enhanced",
+        "BATCH_OPERATIONS": "true",
+        "MAX_FILE_SIZE": "10485760",
+        "ENABLE_WATCH": "true",
+        "CACHE_ENABLED": "true"
+      }
+    },
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena-mcp-server"
+      ],
+      "env": {
+        "PROJECT_ROOT": "${workspaceFolder:-$PWD}",
+        "SERENA_MODE": "semantic",
+        "SYMBOL_ANALYSIS": "deep",
+        "INCLUDE_REFERENCES": "true",
+        "CALL_GRAPH": "enabled",
+        "TYPE_CHECKING": "true"
+      }
+    }
+  }
+}

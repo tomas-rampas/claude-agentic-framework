@@ -1,0 +1,270 @@
+# Security Agent Hook Mappings
+# Defines integration points for security vulnerability scanning
+
+version: "1.0"
+agent: security-agent
+
+hooks:
+  vulnerability-patterns:
+    description: "Detects common vulnerability patterns"
+    trigger: "on_code_scan"
+    priority: 1
+    actions:
+      - name: scan_sql_injection
+        description: "Check for SQL injection"
+        required: true
+        mcp_server: "serena"
+      - name: scan_xss
+        description: "Check for XSS vulnerabilities"
+        required: true
+      - name: scan_csrf
+        description: "Check CSRF protection"
+        required: true
+      - name: scan_path_traversal
+        description: "Check path traversal"
+        required: true
+      - name: scan_command_injection
+        description: "Check command injection"
+        required: true
+    patterns:
+      - sql_injection
+      - cross_site_scripting
+      - csrf_token_missing
+      - directory_traversal
+      - os_command_injection
+      
+  owasp-top10:
+    description: "OWASP Top 10 vulnerability checks"
+    trigger: "on_security_audit"
+    priority: 1
+    actions:
+      - name: broken_access_control
+        description: "A01:2021"
+        required: true
+        mcp_server: "serena"
+      - name: cryptographic_failures
+        description: "A02:2021"
+        required: true
+      - name: injection
+        description: "A03:2021"
+        required: true
+      - name: insecure_design
+        description: "A04:2021"
+        required: true
+      - name: security_misconfiguration
+        description: "A05:2021"
+        required: true
+    version: "2021"
+    
+  secure-coding:
+    description: "Enforces secure coding practices"
+    trigger: "on_code_review"
+    priority: 2
+    actions:
+      - name: check_input_validation
+        description: "Verify input validation"
+        required: true
+      - name: check_output_encoding
+        description: "Verify output encoding"
+        required: true
+      - name: use_parameterized_queries
+        description: "Check query parameterization"
+        required: true
+      - name: secure_random
+        description: "Check random generation"
+        required: true
+      - name: error_handling
+        description: "Verify error handling"
+        required: true
+    standards:
+      - input_whitelist_validation
+      - context_aware_encoding
+      - prepared_statements
+      - cryptographic_randomness
+      
+  dependency-scanning:
+    description: "Scans dependencies for vulnerabilities"
+    trigger: "on_dependency_check"
+    priority: 1
+    actions:
+      - name: parse_manifests
+        description: "Parse dependency files"
+        required: true
+        mcp_server: "filesystem"
+      - name: check_vulnerabilities
+        description: "Check CVE database"
+        required: true
+      - name: check_licenses
+        description: "Verify license compliance"
+        required: false
+      - name: check_outdated
+        description: "Find outdated packages"
+        required: false
+      - name: check_supply_chain
+        description: "Supply chain analysis"
+        required: false
+    files:
+      - package.json
+      - package-lock.json
+      - requirements.txt
+      - go.mod
+      - pom.xml
+      - Gemfile.lock
+      
+  secrets-detection:
+    description: "Detects exposed secrets and credentials"
+    trigger: "on_secret_scan"
+    priority: 1
+    actions:
+      - name: scan_api_keys
+        description: "Find API keys"
+        required: true
+        mcp_server: "filesystem"
+      - name: scan_passwords
+        description: "Find hardcoded passwords"
+        required: true
+      - name: scan_private_keys
+        description: "Find private keys"
+        required: true
+      - name: scan_tokens
+        description: "Find access tokens"
+        required: true
+      - name: entropy_analysis
+        description: "High entropy string detection"
+        required: false
+    patterns:
+      - aws_credentials
+      - github_tokens
+      - private_keys
+      - database_passwords
+      - jwt_tokens
+      
+  authentication-review:
+    description: "Reviews authentication and authorization"
+    trigger: "on_auth_review"
+    priority: 2
+    actions:
+      - name: check_password_policy
+        description: "Verify password requirements"
+        required: true
+      - name: check_session_management
+        description: "Review session handling"
+        required: true
+        mcp_server: "serena"
+      - name: check_mfa
+        description: "Check MFA implementation"
+        required: false
+      - name: check_authorization
+        description: "Verify access controls"
+        required: true
+        mcp_server: "serena"
+      - name: check_account_lockout
+        description: "Review lockout mechanism"
+        required: true
+    requirements:
+      - min_password_length: 12
+      - require_special_chars: true
+      - session_timeout: 30
+      - max_login_attempts: 5
+      
+  language-security:
+    description: "Language-specific security checks"
+    trigger: "on_language_scan"
+    priority: 2
+    actions:
+      - name: javascript_security
+        description: "JS/Node.js specific"
+        required: false
+      - name: python_security
+        description: "Python specific"
+        required: false
+      - name: java_security
+        description: "Java specific"
+        required: false
+      - name: go_security
+        description: "Go specific"
+        required: false
+    language_rules:
+      javascript:
+        - no_eval
+        - no_dangerouslySetInnerHTML
+        - csp_headers
+      python:
+        - no_pickle
+        - no_exec
+        - safe_yaml_load
+      java:
+        - no_serialization
+        - sql_prepared_statements
+        - xxe_prevention
+      go:
+        - no_unsafe_pointer
+        - sql_placeholders
+        - template_escaping
+        
+  security-tools:
+    description: "Integrates external security tools"
+    trigger: "on_tool_integration"
+    priority: 3
+    actions:
+      - name: run_semgrep
+        description: "Semgrep static analysis"
+        required: false
+      - name: run_bandit
+        description: "Python security linter"
+        required: false
+      - name: run_gosec
+        description: "Go security checker"
+        required: false
+      - name: run_npm_audit
+        description: "NPM vulnerability scan"
+        required: false
+    tool_config:
+      semgrep:
+        rules: "auto"
+        severity: "warning"
+      bandit:
+        skip_tests: []
+        severity: "medium"
+        
+# Integration points with other agents
+integrations:
+  maker-agent:
+    - trigger: "before_code_commit"
+      action: "security_review"
+      
+  test-agent:
+    - trigger: "on_security_test"
+      action: "generate_security_tests"
+      
+  debug-agent:
+    - trigger: "on_security_incident"
+      action: "investigate_breach"
+      
+  plan-agent:
+    - trigger: "on_architecture_review"
+      action: "threat_modeling"
+      
+  docs-agent:
+    - trigger: "on_security_report"
+      action: "generate_documentation"
+      
+# Quality gates
+quality_gates:
+  scan_quality:
+    - check: "coverage"
+      threshold: 0.95
+    - check: "false_positive_rate"
+      threshold: 0.1
+      
+  findings:
+    - check: "critical_vulnerabilities"
+      threshold: 0
+    - check: "high_vulnerabilities"
+      threshold: 5
+      
+  compliance:
+    - check: "owasp_compliance"
+      threshold: 1.0
+    - check: "security_headers"
+      threshold: 0.9

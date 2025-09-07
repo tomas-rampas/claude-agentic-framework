@@ -1,0 +1,49 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/projs"
+      ],
+      "env": {
+        "FS_MODE": "debug",
+        "LOG_ANALYSIS": "true",
+        "ERROR_TRACKING": "true",
+        "STACK_TRACE": "true",
+        "REAL_TIME": "true"
+      }
+    },
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena-mcp-server"
+      ],
+      "env": {
+        "PROJECT_ROOT": "${workspaceFolder:-$PWD}",
+        "SERENA_MODE": "debug",
+        "CALL_GRAPH": "detailed",
+        "STACK_ANALYSIS": "true",
+        "SYMBOL_RESOLUTION": "aggressive",
+        "ERROR_TRACING": "true"
+      }
+    },
+    "sequential-thinking": {
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source ~/.nvm/nvm.sh && /home/mcquak/.nvm/versions/node/v24.1.0/bin/npx mcp-sequentialthinking-tools"
+      ],
+      "env": {
+        "SEQUENTIAL_THINKING_MODE": "debug",
+        "ROOT_CAUSE_ANALYSIS": "true",
+        "HYPOTHESIS_GENERATION": "true",
+        "SYSTEMATIC_APPROACH": "true",
+        "MAX_ITERATIONS": "20"
+      }
+    }
+  }
+}
