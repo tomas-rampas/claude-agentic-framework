@@ -41,4 +41,20 @@
     "risk_assessment": true,
     "remediation_steps": true
   }
+,
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(semgrep:*)",
+      "Bash(bandit:*)",
+      "Bash(npm:*)",
+      "Bash(gosec:*)"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(write_to_file:*)"
+    ]
+  }
 }

@@ -46,5 +46,22 @@
     "display_line_counts": true,
     "performance_metrics": true,
     "change_summary": true
+,
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(node:*)",
+      "Bash(cargo:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(write_to_file:*)"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(pkill:*)",
+      "Bash(killall:*)"
+    ]
+  }
   }
 }

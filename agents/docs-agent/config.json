@@ -40,4 +40,16 @@
     "markdown_generation": true,
     "example_inclusion": true
   }
+,
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(write_to_file:*)"
+    ],
+    "deny": [
+      "Bash(rm:*)"
+    ]
+  }
 }

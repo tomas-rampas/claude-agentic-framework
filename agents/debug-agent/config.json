@@ -53,4 +53,22 @@
     "performance_debug": ["sequential-thinking", "filesystem", "serena"],
     "integration_issues": ["filesystem", "serena", "atomic_fixes"]
   }
+,
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(node:*)",
+      "Bash(gdb:*)",
+      "Bash(lldb:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(pkill:*)",
+      "Bash(killall:*)"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(write_to_file:*)"
+    ]
+  }
 }

@@ -52,6 +52,12 @@ else
     echo "WARNING: Python3 not found, skipping JSON validation"
 fi
 
+if command -v uvx &> /dev/null; then
+    echo "✓ uvx available for Serena MCP"
+else
+    echo "WARNING: uvx not found, Serena MCP may not work"
+fi
+
 # Environment variables check
 echo ""
 echo "Checking environment variables..."
@@ -85,6 +91,31 @@ for agent in "${AGENTS[@]}"; do
     AGENT_DIR="$AGENTS_DIR/$agent"
     echo ""
     echo "[$agent]"
+    # Configuration Auditing
+    echo -n "  - Auditing config: "
+    if python3 -c "
+import json
+with open('$AGENT_DIR/mcp-config.json') as f:
+    agent_config = json.load(f).get('mcpServers', {})
+with open('$CLAUDE_CONFIG') as f:
+    main_config = json.load(f).get('mcpServers', {})
+valid = True
+for server, config in agent_config.items():
+    if server not in main_config:
+        valid = False
+        break
+    if config.get('command') != main_config[server].get('command'):
+        valid = False
+        break
+if valid:
+    print('✓ consistent')
+else:
+    print('✗ inconsistent')
+" 2>/dev/null; then
+        : # pass
+    else
+        echo "error auditing"
+    fi
     
     # Check directory exists
     if [ ! -d "$AGENT_DIR" ]; then
@@ -206,6 +237,13 @@ for package in "${MCP_PACKAGES[@]}"; do
     # Try to check if package exists (will be downloaded on first use)
     if npx -y "$package" --help &> /dev/null || npx -y "$package" --version &> /dev/null; then
         echo "✓ available"
+        # Liveness Probe
+        echo -n "    - Liveness probe: "
+        if npx -y "$package" --health &> /dev/null; then
+            echo "✓ healthy"
+        else
+            echo "⚠ liveness probe failed"
+        fi
     else
         echo "⚠ will be installed on first use"
     fi

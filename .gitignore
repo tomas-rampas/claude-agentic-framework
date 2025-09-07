@@ -5,6 +5,7 @@
 !/claude.json
 !/CLAUDE.md
 !/.gitignore
+!/.env.example
 
 # And not these directories and their contents
 !/agents/

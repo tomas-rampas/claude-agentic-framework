@@ -64,7 +64,7 @@
       "command": "bash",
       "args": [
         "-lc",
-        "source ~/.nvm/nvm.sh && /home/mcquak/.nvm/versions/node/v24.1.0/bin/npx mcp-sequentialthinking-tools"
+        "source .env; source $NVM_DIR/nvm.sh && npx mcp-sequentialthinking-tools"
       ]
     },
     "serena": {
@@ -75,7 +75,7 @@
         "serena-mcp-server"
       ],
       "env": {
-        "PROJECT_ROOT": "${workspaceFolder:-$PWD}"
+        "PROJECT_ROOT": "${PROJECT_ROOT}"
       }
     },
     "filesystem": {
@@ -83,7 +83,7 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "~/projs"
+        "${PROJECT_ROOT}/projs"
       ]
     },
     "context7": {

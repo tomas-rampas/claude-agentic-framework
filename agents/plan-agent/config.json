@@ -40,4 +40,16 @@
     "decision_tree": true,
     "performance_metrics": true
   }
+,
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(write_to_file:*)"
+    ]
+  }
 }

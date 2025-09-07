@@ -40,4 +40,21 @@
     "test_results": true,
     "gap_analysis": true
   }
+,
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(node:*)",
+      "Bash(cargo:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(pkill:*)",
+      "Bash(killall:*)"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(write_to_file:*)"
+    ]
+  }
 }

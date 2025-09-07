@@ -40,4 +40,16 @@
     "integration_points": true,
     "symbol_map": true
   }
+,
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(write_to_file:*)"
+    ]
+  }
 }
