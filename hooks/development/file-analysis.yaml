@@ -1,0 +1,45 @@
+---
+category: development
+priority: high
+agents: [reader-agent]
+description: "File structure and pattern analysis"
+tags: [file-analysis, structure, metadata, complexity]
+last_updated: "2025-09-07"
+mcp_dependencies: [filesystem]
+---
+
+# File Analysis Hook
+# Defines patterns for analyzing file structure and content
+
+hook_name: file-analysis
+version: "1.0"
+trigger: "on_file_read"
+
+# CORE FILE ANALYSIS ACTIONS
+actions:
+  analyze_file_structure:
+    description: "Analyze the structure of a file"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - Determine the file type based on its extension and content
+      - Extract metadata such as file size, creation date, and modification date
+      - For structured files (e.g., JSON, YAML), parse the content and validate the schema
+
+  identify_code_patterns:
+    description: "Identify common code patterns and anti-patterns"
+    required: false
+    mcp_server: "serena"
+    implementation: |
+      - Use semantic analysis to identify design patterns (e.g., Singleton, Factory)
+      - Look for common code smells and anti-patterns (e.g., long methods, large classes)
+      - Suggest opportunities for refactoring and simplification
+
+  measure_code_complexity:
+    description: "Measure the complexity of the code"
+    required: false
+    mcp_server: "serena"
+    implementation: |
+      - Calculate cyclomatic complexity for functions and methods
+      - Measure cognitive complexity to assess understandability
+      - Identify areas of high complexity that may be difficult to maintain

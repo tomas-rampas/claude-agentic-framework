@@ -1,0 +1,47 @@
+---
+category: quality
+priority: high
+agents: [test-agent, plan-agent]
+description: "Quality standards enforcement and validation"
+tags: [quality-gates, thresholds, validation, standards]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Quality Gates Hook
+# Defines and enforces quality gates at different stages of the development lifecycle
+
+hook_name: quality-gates
+version: "1.0"
+trigger: "on_pipeline_stage"
+
+# CORE QUALITY GATE ACTIONS
+actions:
+  check_code_coverage:
+    description: "Ensure that code coverage meets the defined threshold"
+    required: true
+    implementation: |
+      - Run the test suite and generate a coverage report
+      - Compare the coverage percentage against the target for the current project
+      - Fail the quality gate if the coverage is below the threshold
+
+  run_static_analysis:
+    description: "Run static analysis tools to check for code quality issues"
+    required: true
+    implementation: |
+      - Run linters, formatters, and security scanners
+      - Fail the quality gate if any critical issues are found
+
+  validate_test_pass_rate:
+    description: "Ensure that all tests are passing"
+    required: true
+    implementation: |
+      - Run the entire test suite
+      - Fail the quality gate if any tests fail
+
+  check_performance_benchmarks:
+    description: "Ensure that the code meets performance targets"
+    required: false
+    implementation: |
+      - Run performance tests and compare the results against benchmarks
+      - Fail the quality gate if there is a significant performance regression

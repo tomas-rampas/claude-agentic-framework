@@ -1,0 +1,54 @@
+---
+category: agent-workflows
+priority: medium
+agents: [docs-agent]
+description: "README file generation with project analysis"
+tags: [readme, project-analysis, features, examples]
+last_updated: "2025-09-07"
+mcp_dependencies: [filesystem, context7]
+---
+
+# README Template Hook
+# Defines a template for generating README files
+
+hook_name: readme-template
+version: "1.0"
+trigger: "on_readme_generation"
+
+# CORE README TEMPLATE ACTIONS
+actions:
+  generate_project_overview:
+    description: "Generate a high-level overview of the project"
+    required: true
+    implementation: |
+      - Include the project name, a brief description, and any relevant badges
+      - Provide links to the project website, documentation, and other resources
+
+  list_features:
+    description: "List the key features of the project"
+    required: true
+    implementation: |
+      - Create a bulleted list of the main features and benefits of the project
+      - Use clear and concise language that is easy for users to understand
+
+  provide_installation_instructions:
+    description: "Provide clear and simple installation instructions"
+    required: true
+    implementation: |
+      - Include instructions for different operating systems and package managers
+      - Provide a one-line command that users can copy and paste to install the project
+
+  add_usage_examples:
+    description: "Add usage examples to demonstrate how to use the project"
+    required: true
+    mcp_server: "context7"
+    implementation: |
+      - Include code snippets and screenshots to make the examples easy to follow
+      - Provide examples for common use cases and workflows
+
+  include_contribution_guidelines:
+    description: "Include guidelines for contributing to the project"
+    required: false
+    implementation: |
+      - Explain how to set up the development environment, run tests, and submit pull requests
+      - Include a code of conduct to ensure a welcoming and inclusive community

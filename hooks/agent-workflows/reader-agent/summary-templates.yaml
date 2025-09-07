@@ -1,0 +1,39 @@
+---
+category: agent-workflows
+priority: medium
+agents: [reader-agent]
+description: "Formatted summary generation templates"
+tags: [summaries, templates, formatting, metrics]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Summary Templates Hook
+# Defines templates for generating formatted summaries of different types of content
+
+hook_name: summary-templates
+version: "1.0"
+trigger: "on_summary_generation"
+
+# CORE SUMMARY TEMPLATE ACTIONS
+actions:
+  use_project_summary_template:
+    description: "Use a template for generating a summary of a software project"
+    required: false
+    implementation: |
+      - The summary should include the project name, description, primary language, and key dependencies
+      - It should also include a high-level overview of the project architecture
+
+  use_file_summary_template:
+    description: "Use a template for generating a summary of a single file"
+    required: false
+    implementation: |
+      - The summary should include the file name, path, size, and type
+      - For source code files, it should also include a list of the functions and classes defined in the file
+
+  use_code_metrics_template:
+    description: "Use a template for presenting code metrics"
+    required: false
+    implementation: |
+      - The template should include metrics such as lines of code, cyclomatic complexity, and test coverage
+      - This provides a quick overview of the quality and complexity of the code

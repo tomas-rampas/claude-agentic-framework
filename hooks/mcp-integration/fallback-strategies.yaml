@@ -1,0 +1,51 @@
+---
+category: mcp-integration
+priority: medium
+agents: [maker-agent, reader-agent, debug-agent, security-agent, test-agent, docs-agent]
+description: "Fallback patterns when MCP servers are unavailable"
+tags: [mcp, fallback, resilience, error-handling]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# MCP Fallback Strategies Hook
+# Defines fallback patterns for when MCP servers are unavailable
+
+hook_name: mcp-fallback-strategies
+version: "1.0"
+trigger: "on_mcp_error"
+
+# CORE FALLBACK ACTIONS
+actions:
+  filesystem_fallback:
+    description: "Fallback for filesystem MCP"
+    required: true
+    implementation: |
+      - Fall back to native Read/Write tools
+      - Log MCP unavailability with a warning
+      - Proceed with the operation, notifying the user of reduced capabilities
+      - Periodically retry connecting to the filesystem MCP
+
+  serena_fallback:
+    description: "Fallback for serena MCP"
+    required: true
+    implementation: |
+      - Use text-based search (grep) for symbol operations
+      - Warn the user that refactoring and analysis will be less accurate
+      - Defer complex, symbol-dependent tasks until the serena MCP is available
+
+  context7_fallback:
+    description: "Fallback for context7 MCP"
+    required: true
+    implementation: |
+      - Use general best practices and cached knowledge
+      - Flag generated code or documentation for manual review
+      - Proceed with a conservative approach, avoiding complex library-specific features
+
+  sequentialthinking_fallback:
+    description: "Fallback for sequentialthinking MCP"
+    required: true
+    implementation: |
+      - Use the agent's native reasoning capabilities
+      - Simplify the problem scope to what can be handled by the agent alone
+      - If the problem is too complex, request human guidance

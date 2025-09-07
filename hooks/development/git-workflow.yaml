@@ -1,0 +1,45 @@
+---
+category: development
+priority: medium
+agents: [maker-agent, plan-agent]
+description: "Git operations and version control standards"
+tags: [git, version-control, commits, branching]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Git Workflow Hook
+# Defines standards for Git operations and version control
+
+hook_name: git-workflow
+version: "1.0"
+trigger: "on_git_operation"
+
+# CORE GIT ACTIONS
+actions:
+  validate_commit_message:
+    description: "Ensure that commit messages follow a consistent format"
+    required: true
+    implementation: |
+      - Enforce a conventional commit format (e.g., feat: add new feature)
+      - Check for a subject line of 50 characters or less
+      - Ensure a blank line between the subject and the body
+      - Wrap the body at 72 characters
+
+  manage_branches:
+    description: "Enforce a consistent branching strategy"
+    required: true
+    implementation: |
+      - Use feature branches for new development (e.g., feat/new-feature)
+      - Use bugfix branches for bug fixes (e.g., fix/bug-fix)
+      - Protect the main branch from direct commits
+      - Encourage the use of pull requests for code review
+
+  handle_pull_requests:
+    description: "Define a process for creating and reviewing pull requests"
+    required: true
+    implementation: |
+      - Ensure that pull requests have a clear title and description
+      - Link pull requests to the relevant issues or tasks
+      - Require at least one approving review before merging
+      - Ensure that all status checks have passed before merging

@@ -1,0 +1,42 @@
+---
+category: development
+priority: medium
+agents: [reader-agent]
+description: "Intelligent file content parsing and analysis"
+tags: [parsing, comments, docstrings, annotations]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Content Parsing Hook
+# Defines patterns for intelligent parsing and analysis of file content
+
+hook_name: content-parsing
+version: "1.0"
+trigger: "on_file_read"
+
+# CORE CONTENT PARSING ACTIONS
+actions:
+  parse_comments:
+    description: "Extract and analyze comments from code"
+    required: true
+    implementation: |
+      - Differentiate between single-line and multi-line comments
+      - Identify and categorize special comment tags (e.g., TODO, FIXME, HACK)
+      - Extract comments that provide meaningful context or documentation
+
+  parse_docstrings:
+    description: "Extract and parse docstrings from functions and classes"
+    required: true
+    implementation: |
+      - Identify the format of the docstring (e.g., reStructuredText, Google style)
+      - Extract the summary, parameters, return values, and other sections
+      - Validate the docstring against the function or class signature
+
+  parse_annotations:
+    description: "Extract and interpret annotations or decorators"
+    required: false
+    implementation: |
+      - Identify the annotations or decorators applied to functions, classes, and methods
+      - Extract the arguments and values passed to the annotations
+      - Understand the impact of the annotations on the code's behavior

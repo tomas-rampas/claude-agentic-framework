@@ -1,0 +1,46 @@
+---
+category: quality
+priority: low
+agents: [security-agent]
+description: "Integration with external security tools"
+tags: [security-tools, semgrep, bandit, gosec, npm-audit]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Security Tools Hook
+# Defines a process for integrating with external security tools
+
+hook_name: security-tools
+version: "1.0"
+trigger: "on_security_scan"
+
+# CORE SECURITY TOOLS ACTIONS
+actions:
+  run_semgrep:
+    description: "Run Semgrep to find security vulnerabilities"
+    required: false
+    implementation: |
+      - Use a pre-defined set of Semgrep rules to scan the codebase
+      - Triage the results and create issues for any vulnerabilities found
+
+  run_bandit:
+    description: "Run Bandit to find common security issues in Python code"
+    required: false
+    implementation: |
+      - Run Bandit with a medium confidence level to reduce false positives
+      - Integrate the results into the overall security report
+
+  run_gosec:
+    description: "Run Gosec to find security vulnerabilities in Go code"
+    required: false
+    implementation: |
+      - Run Gosec with the default rule set
+      - Exclude test files from the scan to reduce noise
+
+  run_npm_audit:
+    description: "Run npm audit to find vulnerabilities in Node.js dependencies"
+    required: false
+    implementation: |
+      - Run npm audit with the --audit-level=high flag to only report on high and critical vulnerabilities
+      - Automatically create pull requests to upgrade vulnerable dependencies

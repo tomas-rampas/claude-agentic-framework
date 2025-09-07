@@ -1,0 +1,45 @@
+---
+category: development
+priority: high
+agents: [reader-agent]
+description: "Code structure and relationship analysis"
+tags: [code-analysis, symbols, dependencies, hierarchy]
+last_updated: "2025-09-07"
+mcp_dependencies: [serena]
+---
+
+# Code Exploration Hook
+# Defines patterns for exploring code structure and relationships
+
+hook_name: code-exploration
+version: "1.0"
+trigger: "on_code_analysis"
+
+# CORE CODE EXPLORATION ACTIONS
+actions:
+  analyze_symbol_hierarchy:
+    description: "Analyze the hierarchy of symbols in a file or project"
+    required: true
+    mcp_server: "serena"
+    implementation: |
+      - Extract all symbols (e.g., classes, functions, variables) from the code
+      - Build a tree structure representing the hierarchy of symbols
+      - Identify the relationships between symbols (e.g., inheritance, composition)
+
+  map_dependencies:
+    description: "Map the dependencies between modules and files"
+    required: true
+    mcp_server: "serena"
+    implementation: |
+      - Analyze import and export statements to identify dependencies
+      - Create a dependency graph to visualize the relationships between modules
+      - Identify circular dependencies and other potential issues
+
+  trace_call_graphs:
+    description: "Trace the call graphs of functions and methods"
+    required: false
+    mcp_server: "serena"
+    implementation: |
+      - For a given function, identify all the functions that it calls
+      - Recursively trace the call graph to understand the full execution path
+      - Identify potential performance bottlenecks and areas of high complexity

@@ -1,0 +1,48 @@
+---
+category: agent-workflows
+priority: medium
+agents: [plan-agent]
+description: "Project risk identification and analysis"
+tags: [risk-assessment, mitigation, contingency, planning]
+last_updated: "2025-09-07"
+mcp_dependencies: [sequentialthinking]
+---
+
+# Risk Assessment Hook
+# Defines a process for identifying, analyzing, and mitigating project risks
+
+hook_name: risk-assessment
+version: "1.0"
+trigger: "on_project_planning"
+
+# CORE RISK ASSESSMENT ACTIONS
+actions:
+  identify_risks:
+    description: "Identify potential risks to the project"
+    required: true
+    mcp_server: "sequentialthinking"
+    implementation: |
+      - Brainstorm potential risks in areas such as technical, schedule, budget, and resources
+      - Review historical data from similar projects to identify common risks
+      - Use techniques like SWOT analysis to identify internal and external risks
+
+  analyze_risks:
+    description: "Analyze the likelihood and impact of each identified risk"
+    required: true
+    implementation: |
+      - Create a risk matrix to prioritize risks based on their likelihood and impact
+      - For high-priority risks, perform a more detailed quantitative analysis
+
+  develop_mitigation_strategies:
+    description: "Develop strategies to mitigate the identified risks"
+    required: true
+    implementation: |
+      - For each high-priority risk, define a clear mitigation plan
+      - This may include actions to reduce the likelihood of the risk, or to reduce its impact if it occurs
+
+  create_contingency_plans:
+    description: "Create contingency plans for risks that cannot be fully mitigated"
+    required: false
+    implementation: |
+      - For each high-priority risk, define a fallback plan to be executed if the risk occurs
+      - This ensures that the project can continue to move forward even in the face of unexpected challenges

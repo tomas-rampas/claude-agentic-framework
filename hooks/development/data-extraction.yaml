@@ -1,0 +1,54 @@
+---
+category: development
+priority: high
+agents: [reader-agent]
+description: "Structured data extraction from various file formats"
+tags: [data-extraction, json, yaml, env-vars, secrets]
+last_updated: "2025-09-07"
+mcp_dependencies: [filesystem]
+---
+
+# Data Extraction Hook
+# Defines patterns for extracting structured data from various file formats
+
+hook_name: data-extraction
+version: "1.0"
+trigger: "on_file_read"
+
+# CORE DATA EXTRACTION ACTIONS
+actions:
+  extract_from_json:
+    description: "Extract data from JSON files"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - Parse the JSON content and validate its structure
+      - Use JSONPath expressions to extract specific data points
+      - Handle parsing errors gracefully
+
+  extract_from_yaml:
+    description: "Extract data from YAML files"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - Parse the YAML content and validate its structure
+      - Traverse the YAML document to extract the desired data
+      - Handle parsing errors and inconsistencies
+
+  extract_from_env:
+    description: "Extract environment variables from .env files"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - Parse the .env file and extract key-value pairs
+      - Handle comments and empty lines
+      - Expand variables if necessary
+
+  detect_secrets:
+    description: "Detect and extract potential secrets from files"
+    required: false
+    mcp_server: "filesystem"
+    implementation: |
+      - Use regular expressions and entropy analysis to identify potential secrets
+      - Look for common patterns for API keys, passwords, and other credentials
+      - Flag potential secrets for manual review

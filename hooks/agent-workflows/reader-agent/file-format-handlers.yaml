@@ -1,0 +1,51 @@
+---
+category: agent-workflows
+priority: medium
+agents: [reader-agent]
+description: "Different file format handling strategies"
+tags: [file-formats, parsers, content-extraction]
+last_updated: "2025-09-07"
+mcp_dependencies: [filesystem]
+---
+
+# File Format Handlers Hook
+# Defines strategies for handling different file formats
+
+hook_name: file-format-handlers
+version: "1.0"
+trigger: "on_file_read"
+
+# CORE FILE FORMAT HANDLER ACTIONS
+actions:
+  handle_source_code:
+    description: "Handle source code files"
+    required: true
+    mcp_server: "serena"
+    implementation: |
+      - Use semantic analysis to parse the code and extract symbols
+      - Identify the programming language and apply the appropriate syntax highlighting
+      - Extract comments and docstrings for further analysis
+
+  handle_configuration_files:
+    description: "Handle configuration files"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - For JSON and YAML files, parse the content and validate the schema
+      - For .env files, extract key-value pairs
+      - For other formats, use regular expressions to extract key-value pairs
+
+  handle_documentation_files:
+    description: "Handle documentation files"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - For Markdown files, parse the content and render it as HTML
+      - For other formats, extract the plain text content
+
+  handle_binary_files:
+    description: "Handle binary files"
+    required: false
+    implementation: |
+      - For common binary formats (e.g., images, PDFs), extract metadata
+      - For other formats, report the file type and size

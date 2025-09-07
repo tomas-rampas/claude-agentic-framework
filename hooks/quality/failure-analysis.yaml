@@ -1,0 +1,44 @@
+---
+category: quality
+priority: medium
+agents: [test-agent]
+description: "Test failure analysis and categorization"
+tags: [failure-analysis, debugging, root-cause, flaky-tests]
+last_updated: "2025-09-07"
+mcp_dependencies: [serena]
+---
+
+# Failure Analysis Hook
+# Defines a process for analyzing and categorizing test failures
+
+hook_name: failure-analysis
+version: "1.0"
+trigger: "on_test_failure"
+
+# CORE FAILURE ANALYSIS ACTIONS
+actions:
+  categorize_failure:
+    description: "Categorize the test failure to help with root cause analysis"
+    required: true
+    implementation: |
+      - Determine if the failure is a new regression, a known issue, or a flaky test
+      - Identify the area of the application that the failure is related to
+      - Assign a priority to the failure based on its impact
+
+  collect_diagnostics:
+    description: "Collect diagnostic information to help with debugging"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - Capture screenshots or videos of the application at the time of failure
+      - Collect logs from the application and the test runner
+      - Gather performance data to identify any regressions
+
+  suggest_root_cause:
+    description: "Suggest potential root causes for the failure"
+    required: false
+    mcp_server: "serena"
+    implementation: |
+      - Analyze the stack trace to identify the exact line of code where the failure occurred
+      - Use the call graph to understand the execution path that led to the failure
+      - Correlate the failure with recent code changes to identify the commit that introduced the bug

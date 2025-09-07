@@ -1,0 +1,42 @@
+---
+category: agent-workflows
+priority: high
+agents: [plan-agent]
+description: "Planning methodology selection and application"
+tags: [planning, methodology, agile, waterfall, milestones]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Planning Methodology Hook
+# Defines and applies different planning methodologies
+
+hook_name: planning-methodology
+version: "1.0"
+trigger: "on_planning_start"
+
+# CORE PLANNING METHODOLOGY ACTIONS
+actions:
+  select_methodology:
+    description: "Select the most appropriate planning methodology for the project"
+    required: true
+    implementation: |
+      - For small, well-defined projects, consider a Waterfall approach
+      - For larger, more complex projects with evolving requirements, use an Agile approach
+      - For projects with a mix of known and unknown requirements, consider a hybrid approach
+
+  apply_agile_planning:
+    description: "Apply Agile planning techniques"
+    required: false
+    implementation: |
+      - Break down the project into smaller sprints or iterations
+      - Create a backlog of user stories and prioritize them
+      - Use techniques like Scrum or Kanban to manage the workflow
+
+  apply_waterfall_planning:
+    description: "Apply Waterfall planning techniques"
+    required: false
+    implementation: |
+      - Define the project phases (e.g., requirements, design, implementation, testing)
+      - Create a detailed project plan with timelines and milestones
+      - Ensure that each phase is completed before the next one begins

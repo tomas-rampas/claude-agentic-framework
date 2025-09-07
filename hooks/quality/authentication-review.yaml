@@ -1,0 +1,43 @@
+---
+category: quality
+priority: medium
+agents: [security-agent]
+description: "Authentication and authorization review"
+tags: [authentication, authorization, mfa, sessions]
+last_updated: "2025-09-07"
+mcp_dependencies: [serena]
+---
+
+# Authentication Review Hook
+# Defines a process for reviewing the authentication and authorization mechanisms of an application
+
+hook_name: authentication-review
+version: "1.0"
+trigger: "on_security_scan"
+
+# CORE AUTHENTICATION REVIEW ACTIONS
+actions:
+  review_authentication_logic:
+    description: "Review the application's authentication logic for common flaws"
+    required: true
+    mcp_server: "serena"
+    implementation: |
+      - Check for weak password policies
+      - Ensure that session management is secure (e.g., using secure, http-only cookies)
+      - Look for vulnerabilities in the password reset process
+
+  review_authorization_checks:
+    description: "Review the application's authorization checks to ensure that they are correctly implemented"
+    required: true
+    mcp_server: "serena"
+    implementation: |
+      - Ensure that all sensitive operations have an authorization check
+      - Check for insecure direct object references (IDOR)
+      - Validate that users can only access their own data
+
+  assess_mfa_implementation:
+    description: "Assess the implementation of multi-factor authentication (MFA)"
+    required: false
+    implementation: |
+      - Check that MFA is enforced for all privileged users
+      - Look for vulnerabilities in the MFA implementation (e.g., weak TOTP, bypasses)

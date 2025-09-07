@@ -1,0 +1,67 @@
+---
+category: agent-workflows
+priority: medium
+agents: [debug-agent]
+description: "Language-specific debugging tools and techniques"
+tags: [debuggers, javascript, python, go, java]
+last_updated: "2025-09-07"
+mcp_dependencies: [serena]
+---
+
+# Language-Specific Debuggers Hook
+# Defines and applies language-specific debugging tools and techniques
+
+hook_name: language-debuggers
+version: "1.0"
+trigger: "on_debugging_start"
+
+# CORE LANGUAGE-SPECIFIC DEBUGGER ACTIONS
+actions:
+  use_javascript_debugger:
+    description: "Use the appropriate debugger for JavaScript code"
+    required: false
+    implementation: |
+      - For Node.js, use the built-in inspector and connect with Chrome DevTools
+      - For front-end JavaScript, use the browser's developer tools
+
+  use_python_debugger:
+    description: "Use the appropriate debugger for Python code"
+    required: false
+    implementation: |
+      - Use the built-in `pdb` module for interactive debugging
+      - For more advanced debugging, use a graphical debugger like `PyCharm` or `VS Code`
+
+  use_go_debugger:
+    description: "Use the appropriate debugger for Go code"
+    required: false
+    implementation: |
+      - Use `delve` for a full-featured debugging experience
+      - Set breakpoints, inspect variables, and step through the code
+
+  use_csharp_debugger:
+    description: "Use the appropriate debugger for C# code"
+    required: false
+    implementation: |
+      - Use the Visual Studio Debugger for a rich debugging experience
+      - For cross-platform debugging, use the VS Code debugger with the C# extension
+
+  use_cpp_debugger:
+    description: "Use the appropriate debugger for C++ code"
+    required: false
+    implementation: |
+      - Use `gdb` on Linux or `lldb` on macOS for command-line debugging
+      - For a graphical experience, use Visual Studio or CLion
+
+  use_rust_debugger:
+    description: "Use the appropriate debugger for Rust code"
+    required: false
+    implementation: |
+      - Use `rust-gdb` or `rust-lldb` for command-line debugging
+      - For a better experience, use the `CodeLLDB` extension in VS Code
+
+  use_java_debugger:
+    description: "Use the appropriate debugger for Java code"
+    required: false
+    implementation: |
+      - Use `jdb` for basic command-line debugging
+      - For more advanced debugging, use a graphical debugger like `IntelliJ IDEA` or `Eclipse`

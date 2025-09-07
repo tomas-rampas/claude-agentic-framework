@@ -1,0 +1,45 @@
+---
+category: agent-workflows
+priority: high
+agents: [plan-agent]
+description: "Architectural pattern evaluation and selection"
+tags: [architecture, patterns, microservices, design]
+last_updated: "2025-09-07"
+mcp_dependencies: [context7, sequentialthinking]
+---
+
+# Architecture Patterns Hook
+# Defines and applies different architectural patterns
+
+hook_name: architecture-patterns
+version: "1.0"
+trigger: "on_architecture_design"
+
+# CORE ARCHITECTURE PATTERN ACTIONS
+actions:
+  select_architectural_pattern:
+    description: "Select the most appropriate architectural pattern for the project"
+    required: true
+    mcp_server: "sequentialthinking"
+    implementation: |
+      - Analyze the project requirements and constraints
+      - Use the context7 MCP to research different architectural patterns
+      - Evaluate the trade-offs of each pattern (e.g., performance, scalability, complexity)
+      - Select the pattern that best fits the needs of the project
+
+  apply_microservices_pattern:
+    description: "Apply the microservices architectural pattern"
+    required: false
+    implementation: |
+      - Break down the application into small, independent services
+      - Define the API for each service
+      - Use a containerization technology like Docker to package each service
+      - Use a container orchestration platform like Kubernetes to manage the services
+
+  apply_monolithic_pattern:
+    description: "Apply the monolithic architectural pattern"
+    required: false
+    implementation: |
+      - Build the application as a single, unified unit
+      - Use a modular design to separate concerns within the monolith
+      - This pattern is simpler to develop and deploy for smaller applications

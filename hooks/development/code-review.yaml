@@ -1,0 +1,50 @@
+---
+category: development
+priority: medium
+agents: [maker-agent]
+description: "Self-review processes before code completion"
+tags: [code-review, quality, validation, checklist]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Code Review Hook
+# Defines a self-review process to be followed by the maker-agent before completing a task
+
+hook_name: code-review
+version: "1.0"
+trigger: "before_task_completion"
+
+# CORE REVIEW ACTIONS
+actions:
+  run_static_analysis:
+    description: "Run static analysis tools to check for common issues"
+    required: true
+    implementation: |
+      - Run linters (e.g., ESLint, Pylint)
+      - Run formatters (e.g., Prettier, Black)
+      - Run security scanners (e.g., Semgrep, Bandit)
+
+  check_for_test_coverage:
+    description: "Ensure that the new code is covered by tests"
+    required: true
+    implementation: |
+      - Run the test suite and check for coverage gaps
+      - Ensure that all new functions and branches are covered
+      - Aim for a high level of coverage for new code
+
+  review_for_best_practices:
+    description: "Review the code for adherence to best practices"
+    required: true
+    implementation: |
+      - Check for clarity, readability, and maintainability
+      - Ensure that the code is well-documented
+      - Look for opportunities for refactoring and simplification
+
+  validate_requirements:
+    description: "Ensure that the code meets all the requirements of the task"
+    required: true
+    implementation: |
+      - Review the original task description and acceptance criteria
+      - Manually test the new functionality to ensure it works as expected
+      - Check for any missed edge cases or error conditions

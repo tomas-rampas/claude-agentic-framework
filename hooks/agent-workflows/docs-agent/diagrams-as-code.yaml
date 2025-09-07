@@ -1,0 +1,41 @@
+---
+category: agent-workflows
+priority: low
+agents: [docs-agent]
+description: "Diagram generation from code representations"
+tags: [diagrams, mermaid, plantuml, visualization]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Diagrams as Code Hook
+# Defines a process for generating diagrams from code representations
+
+hook_name: diagrams-as-code
+version: "1.0"
+trigger: "on_documentation_write"
+
+# CORE DIAGRAMS AS CODE ACTIONS
+actions:
+  use_mermaid_for_diagrams:
+    description: "Use Mermaid to create diagrams from a text-based syntax"
+    required: false
+    implementation: |
+      - Use Mermaid to create flowcharts, sequence diagrams, and other common diagram types
+      - Embed the Mermaid syntax directly in the Markdown documentation
+      - Use a tool like the Mermaid CLI to render the diagrams as images
+
+  use_plantuml_for_uml_diagrams:
+    description: "Use PlantUML to create UML diagrams"
+    required: false
+    implementation: |
+      - Use PlantUML to create class diagrams, sequence diagrams, and other UML diagrams
+      - This is particularly useful for documenting the architecture of object-oriented systems
+
+  use_graphviz_for_graph_visualizations:
+    description: "Use Graphviz to create graph visualizations"
+    required: false
+    implementation: |
+      - Use the DOT language to describe the graph structure
+      - Use Graphviz to render the graph as an image
+      - This is useful for visualizing complex relationships and dependencies

@@ -1,0 +1,41 @@
+---
+category: agent-workflows
+priority: low
+agents: [docs-agent]
+description: "Changelog management and formatting"
+tags: [changelog, versioning, release-notes, semver]
+last_updated: "2025-09-07"
+mcp_dependencies: []
+---
+
+# Changelog Format Hook
+# Defines a format for managing and formatting changelogs
+
+hook_name: changelog-format
+version: "1.0"
+trigger: "on_release"
+
+# CORE CHANGELOG FORMAT ACTIONS
+actions:
+  use_keep_a_changelog_format:
+    description: "Use the Keep a Changelog format for the changelog"
+    required: true
+    implementation: |
+      - The changelog should have a clear and consistent format
+      - It should be organized by version, with the most recent version at the top
+      - Each version section should have subsections for Added, Changed, Deprecated, Removed, Fixed, and Security
+
+  follow_semantic_versioning:
+    description: "Follow the Semantic Versioning specification for version numbers"
+    required: true
+    implementation: |
+      - Increment the MAJOR version for incompatible API changes
+      - Increment the MINOR version for new functionality in a backwards-compatible manner
+      - Increment the PATCH version for backwards-compatible bug fixes
+
+  automate_changelog_generation:
+    description: "Automate the generation of the changelog from commit messages"
+    required: false
+    implementation: |
+      - Use a tool like conventional-changelog to automatically generate the changelog
+      - This ensures that the changelog is always up to date and consistent

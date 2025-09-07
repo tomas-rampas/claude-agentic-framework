@@ -1,0 +1,44 @@
+---
+category: agent-workflows
+priority: medium
+agents: [debug-agent]
+description: "Performance issue investigation and optimization"
+tags: [performance, debugging, profiling, bottlenecks]
+last_updated: "2025-09-07"
+mcp_dependencies: [serena, sequentialthinking]
+---
+
+# Performance Debugging Hook
+# Defines a process for investigating and optimizing performance issues
+
+hook_name: performance-debugging
+version: "1.0"
+trigger: "on_performance_issue"
+
+# CORE PERFORMANCE DEBUGGING ACTIONS
+actions:
+  profile_application:
+    description: "Profile the application to identify performance bottlenecks"
+    required: true
+    mcp_server: "serena"
+    implementation: |
+      - Use a profiling tool (e.g., cProfile, pprof) to collect performance data
+      - Analyze the data to identify hot spots and areas of high resource consumption
+      - Create flame graphs to visualize the execution flow
+
+  identify_bottlenecks:
+    description: "Identify the root cause of performance bottlenecks"
+    required: true
+    mcp_server: "sequentialthinking"
+    implementation: |
+      - Analyze the profiling data to find the functions or methods that are consuming the most resources
+      - Look for common performance anti-patterns (e.g., N+1 queries, inefficient algorithms)
+      - Use the call graph to understand the full execution path that leads to the bottleneck
+
+  suggest_optimizations:
+    description: "Suggest optimizations to improve performance"
+    required: true
+    implementation: |
+      - Recommend specific code changes to address the identified bottlenecks
+      - Suggest algorithmic improvements or architectural changes
+      - Provide guidance on how to measure the impact of the optimizations

@@ -100,6 +100,30 @@ language_rules:
       - package_comment
       - receiver_name
 
+  csharp:
+    formatter: "dotnet-format"
+    linter: ".NET Analyzers"
+    rules:
+      - "IDE0005: Using directive is unnecessary"
+      - "IDE0055: Fix formatting"
+      - "IDE0060: Remove unused parameter"
+
+  cpp:
+    formatter: "Clang-Format"
+    linter: "Clang-Tidy"
+    rules:
+      - "modernize-use-nullptr"
+      - "readability-braces-around-statements"
+      - "performance-unnecessary-value-param"
+
+  rust:
+    formatter: "rustfmt"
+    linter: "Clippy"
+    rules:
+      - "clippy::all"
+      - "clippy::pedantic"
+      - "clippy::nursery"
+
 # QUALITY METRICS
 quality_metrics:
   cyclomatic_complexity: 10

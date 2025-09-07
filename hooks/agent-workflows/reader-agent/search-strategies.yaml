@@ -1,0 +1,42 @@
+---
+category: agent-workflows
+priority: high
+agents: [reader-agent]
+description: "Optimized search operation strategies"
+tags: [search, optimization, algorithms, ranking]
+last_updated: "2025-09-07"
+mcp_dependencies: [filesystem]
+---
+
+# Search Strategies Hook
+# Defines strategies for optimizing search operations
+
+hook_name: search-strategies
+version: "1.0"
+trigger: "on_search"
+
+# CORE SEARCH STRATEGY ACTIONS
+actions:
+  optimize_search_scope:
+    description: "Optimize the scope of the search to improve performance"
+    required: true
+    implementation: |
+      - Limit the search to specific directories or file types
+      - Exclude irrelevant directories like node_modules or .git
+      - Use a project-specific .ignore file to exclude files from the search
+
+  select_search_algorithm:
+    description: "Select the most appropriate search algorithm for the task"
+    required: true
+    mcp_server: "filesystem"
+    implementation: |
+      - For simple string searches, use a fast algorithm like Boyer-Moore
+      - For regular expression searches, use a modern regex engine like RE2
+      - For fuzzy searches, use an algorithm like Levenshtein distance
+
+  rank_search_results:
+    description: "Rank the search results by relevance"
+    required: false
+    implementation: |
+      - Use a ranking algorithm like TF-IDF or BM25
+      - Consider factors like the number of matches, the location of the matches, and the file type
