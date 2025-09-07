@@ -13,6 +13,7 @@ This repository contains a sophisticated, multi-agent workspace for the Claude C
   - [Hooks](#hooks)
 - [Usage](#usage)
 - [Development](#development)
+- [Security](#security)
 
 ## Overview
 
@@ -149,6 +150,37 @@ Then, register the new agent in `claude.json`.
 ### Adding a New Hook
 
 To add a new hook, create a new YAML file in the appropriate category under `/hooks`. The hook should follow the standard format defined in the existing hooks.
+
+## Security
+
+This repository follows strict security practices to protect sensitive information:
+
+- ✅ **No hardcoded credentials**: All API keys use environment variables
+- ✅ **Secure configuration**: Sensitive files excluded from version control  
+- ✅ **Built-in scanning**: Security-agent provides continuous vulnerability monitoring
+- ✅ **Regular audits**: Automated security validation included
+
+### Security Features
+
+- **Environment Variable Management**: All credentials use `${VARIABLE_NAME}` syntax
+- **Template System**: `.env.example` provides secure setup instructions
+- **Security Agent**: Built-in vulnerability scanning and secret detection
+- **Validation Script**: Run `./security-check.sh` to verify security status
+
+### Security Validation
+
+To verify the repository contains no sensitive information:
+
+```bash
+# Quick security check
+./security-check.sh
+
+# Full security audit report
+cat SECURITY_AUDIT.md
+```
+
+For security concerns, see [SECURITY_AUDIT.md](SECURITY_AUDIT.md) for detailed findings and recommendations.
+=======
 
 ### Contributing
 
