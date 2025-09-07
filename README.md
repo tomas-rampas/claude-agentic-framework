@@ -1,4 +1,4 @@
-# Claude Code Workspace
+# Claude Code Agentic Framework
 
 This repository contains a sophisticated, multi-agent workspace for the Claude Code CLI, enhanced with a suite of Model Context Protocol (MCP) servers. It is designed to be a highly modular, extensible, and efficient environment for software development tasks.
 
