@@ -1,4 +1,4 @@
-# Claude Code Workspace
+# Claude Code Agentic Framework
 
 This repository contains a sophisticated, multi-agent workspace for the Claude Code CLI, enhanced with a suite of Model Context Protocol (MCP) servers. It is designed to be a highly modular, extensible, and efficient environment for software development tasks.
 
@@ -151,10 +151,6 @@ Then, register the new agent in `claude.json`.
 
 To add a new hook, create a new YAML file in the appropriate category under `/hooks`. The hook should follow the standard format defined in the existing hooks.
 
-### Contributing
-
-Please follow the existing coding standards and best practices when contributing to this workspace. All new code should be accompanied by appropriate tests and documentation.
-
 ## Security
 
 This repository follows strict security practices to protect sensitive information:
@@ -184,3 +180,8 @@ cat SECURITY_AUDIT.md
 ```
 
 For security concerns, see [SECURITY_AUDIT.md](SECURITY_AUDIT.md) for detailed findings and recommendations.
+=======
+
+### Contributing
+
+Please follow the existing coding standards and best practices when contributing to this workspace. All new code should be accompanied by appropriate tests and documentation.
