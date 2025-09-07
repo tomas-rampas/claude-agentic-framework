@@ -1,0 +1,105 @@
+{
+  "version": "1.0.0",
+  "description": "Claude Code CLI with MCP-enhanced sub-agents",
+  "sub_agents": {
+    "plan-agent": {
+      "enabled": true,
+      "path": "~/.claude/agents/plan-agent",
+      "config_file": "~/.claude/agents/plan-agent/config.json",
+      "mcp_config": "~/.claude/agents/plan-agent/mcp-config.json",
+      "prompt_file": "~/.claude/agents/plan-agent/agent.md",
+      "model": "claude-opus-4-1-20250805"
+    },
+    "reader-agent": {
+      "enabled": true,
+      "path": "~/.claude/agents/reader-agent",
+      "config_file": "~/.claude/agents/reader-agent/config.json",
+      "mcp_config": "~/.claude/agents/reader-agent/mcp-config.json",
+      "prompt_file": "~/.claude/agents/reader-agent/agent.md",
+      "model": "claude-sonnet-4-20250514"
+    },
+    "maker-agent": {
+      "enabled": true,
+      "path": "~/.claude/agents/maker-agent",
+      "config_file": "~/.claude/agents/maker-agent/config.json",
+      "mcp_config": "~/.claude/agents/maker-agent/mcp-config.json",
+      "prompt_file": "~/.claude/agents/maker-agent/agent.md",
+      "model": "claude-sonnet-4-20250514"
+    },
+    "security-agent": {
+      "enabled": true,
+      "path": "~/.claude/agents/security-agent",
+      "config_file": "~/.claude/agents/security-agent/config.json",
+      "mcp_config": "~/.claude/agents/security-agent/mcp-config.json",
+      "prompt_file": "~/.claude/agents/security-agent/agent.md",
+      "model": "claude-sonnet-4-20250514"
+    },
+    "test-agent": {
+      "enabled": true,
+      "path": "~/.claude/agents/test-agent",
+      "config_file": "~/.claude/agents/test-agent/config.json",
+      "mcp_config": "~/.claude/agents/test-agent/mcp-config.json",
+      "prompt_file": "~/.claude/agents/test-agent/agent.md",
+      "model": "claude-sonnet-4-20250514"
+    },
+    "docs-agent": {
+      "enabled": true,
+      "path": "~/.claude/agents/docs-agent",
+      "config_file": "~/.claude/agents/docs-agent/config.json",
+      "mcp_config": "~/.claude/agents/docs-agent/mcp-config.json",
+      "prompt_file": "~/.claude/agents/docs-agent/agent.md",
+      "model": "claude-sonnet-4-20250514"
+    },
+    "debug-agent": {
+      "enabled": true,
+      "path": "~/.claude/agents/debug-agent",
+      "config_file": "~/.claude/agents/debug-agent/config.json",
+      "mcp_config": "~/.claude/agents/debug-agent/mcp-config.json",
+      "prompt_file": "~/.claude/agents/debug-agent/agent.md",
+      "model": "claude-sonnet-4-20250514"
+    }
+  },
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "bash",
+      "args": [
+        "-lc",
+        "source ~/.nvm/nvm.sh && /home/mcquak/.nvm/versions/node/v24.1.0/bin/npx mcp-sequentialthinking-tools"
+      ]
+    },
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena-mcp-server"
+      ],
+      "env": {
+        "PROJECT_ROOT": "${workspaceFolder:-$PWD}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/projs"
+      ]
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      }
+    }
+  },
+  "global_settings": {
+    "mcp_timeout": 30000,
+    "mcp_retry_count": 3,
+    "mcp_fallback_enabled": true,
+    "log_level": "info",
+    "console_output": true,
+    "agent_coordination": "automatic"
+  }
+}

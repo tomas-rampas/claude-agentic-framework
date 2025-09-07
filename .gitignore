@@ -1,0 +1,18 @@
+# Ignore everything by default
+*
+
+# But do not ignore these files and directories
+!/agents/
+!/commands/
+!/hooks/
+!/claude.json
+!/CLAUDE.md
+!/.gitignore
+
+# Ignore specific sensitive or local configuration files explicitly
+.credentials.json
+settings.local.json
+statsig/
+shell-snapshots/
+todos/
+projects/
