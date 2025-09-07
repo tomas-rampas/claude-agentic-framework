@@ -5,6 +5,7 @@
 !/claude.json
 !/CLAUDE.md
 !/.gitignore
+!/README.md
 !/.env.example
 
 # And not these directories and their contents
