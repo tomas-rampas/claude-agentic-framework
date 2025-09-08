@@ -1,0 +1,183 @@
+{
+  "name": "progressive-escalation",
+  "description": "Progressive escalation system to prevent orchestrator takeover and maintain proper delegation",
+  "version": "1.0",
+  "
+escalation_levels": [
+    {
+      "level": 1,
+      "name": "AGENT_RETRY",
+      "description": "Retry with same agent using simplified approach",
+      "timeout": 60000,
+      "max_attempts": 2,
+      "strategy": {
+        "reduce_complexity": true,
+        "break_down_task": true,
+        "provide_more_context": true,
+        "clear_constraints": true
+      }
+    },
+    {
+      "level": 2, 
+      "name": "PEER_AGENT_ASSISTANCE",
+      "description": "Bring in complementary agent for assistance",
+      "timeout": 120000,
+      "strategy": {
+        "maker_stuck": "ADD_DEBUG_AGENT_SUPPORT",
+        "test_stuck": "ADD_MAKER_AGENT_COLLABORATION", 
+        "debug_stuck": "ADD_READER_AGENT_CONTEXT",
+        "coordination_mode": "COLLABORATIVE"
+      }
+    },
+    {
+      "level": 3,
+      "name": "EXPERT_AGENT_TAKEOVER", 
+      "description": "Transfer to most capable agent for the task",
+      "timeout": 180000,
+      "strategy": {
+        "analyze_task_type": true,
+        "select_best_agent": true,
+        "transfer_full_context": true,
+        "maintain_quality_standards": true
+      }
+    },
+    {
+      "level": 4,
+      "name": "MULTI_AGENT_COORDINATION",
+      "description": "Coordinate multiple agents to solve the problem",
+      "timeout": 300000,
+      "strategy": {
+        "task_decomposition": true,
+        "parallel_execution": true,
+        "result_integration": true,
+        "conflict_resolution": "AUTOMATIC"
+      }
+    },
+    {
+      "level": 5,
+      "name": "ORCHESTRATOR_GUIDED_EXECUTION",
+      "description": "Orchestrator provides step-by-step guidance to agents",
+      "timeout": 600000,
+      "strategy": {
+        "maintain_delegation": true,
+        "provide_detailed_instructions": true,
+        "monitor_each_step": true,
+        "prevent_direct_takeover": true
+      }
+    },
+    {
+      "level": 6,
+      "name": "EMERGENCY_SIMPLIFICATION",
+      "description": "Simplify task to absolute minimum and retry",
+      "timeout": 120000,
+      "strategy": {
+        "minimal_viable_solution": true,
+        "defer_optimization": true,
+        "focus_on_core_requirement": true,
+        "document_limitations": true
+      }
+    }
+  ],
+  
+  "escalation_triggers": {
+    "agent_timeout": {
+      "threshold": 180000,
+      "action": "LEVEL_1_ESCALATION",
+      "context_preservation": true
+    },
+    "agent_stuck_no_progress": {
+      "threshold": 120000,
+      "action": "LEVEL_2_ESCALATION", 
+      "add_diagnostic_info": true
+    },
+    "repeated_failures": {
+      "failure_count": 3,
+      "action": "LEVEL_3_ESCALATION",
+      "analyze_failure_pattern": true
+    },
+    "quality_gate_violations": {
+      "consecutive_violations": 2,
+      "action": "LEVEL_4_ESCALATION",
+      "maintain_quality_standards": true
+    },
+    "coordination_breakdown": {
+      "agent_conflict_threshold": 2,
+      "action": "LEVEL_5_ESCALATION",
+      "restore_coordination": true
+    }
+  },
+  
+  "orchestrator_prevention": {
+    "never_take_over_directly": true,
+    "always_work_through_agents": true,
+    "max_guidance_level": "STEP_BY_STEP_INSTRUCTIONS",
+    "emergency_exceptions": [
+      "CRITICAL_SECURITY_ISSUE",
+      "DATA_LOSS_IMMINENT", 
+      "SYSTEM_INTEGRITY_THREAT"
+    ],
+    
+    "fallback_protocols": {
+      "when_all_agents_fail": "CREATE_MINIMAL_SOLUTION_AGENT",
+      "when_coordination_impossible": "SEQUENTIAL_SINGLE_AGENT_APPROACH",
+      "when_quality_gates_blocking": "TEMPORARY_QUALITY_RELAXATION_WITH_APPROVAL"
+    }
+  },
+  
+  "escalation_workflows": {
+    "maker_agent_stuck": [
+      "1. Simplify task and retry (Level 1)",
+      "2. Add debug-agent for assistance (Level 2)",
+      "3. Transfer to debug-agent as lead (Level 3)",
+      "4. Multi-agent: debug + test + maker (Level 4)",
+      "5. Orchestrator guides maker step-by-step (Level 5)",
+      "6. Minimal solution approach (Level 6)"
+    ],
+    
+    "test_agent_stuck": [
+      "1. Reduce test scope and retry (Level 1)",
+      "2. Add maker-agent for test creation help (Level 2)", 
+      "3. Transfer to maker-agent for test implementation (Level 3)",
+      "4. Multi-agent: maker + debug + test (Level 4)",
+      "5. Orchestrator guides test strategy (Level 5)",
+      "6. Basic validation only (Level 6)"
+    ],
+    
+    "quality_gate_blocking": [
+      "1. Focus on critical issues only (Level 1)",
+      "2. Add debug-agent for issue resolution (Level 2)",
+      "3. Expert agent handles specific issue type (Level 3)", 
+      "4. Multi-agent attack on quality issues (Level 4)",
+      "5. Orchestrator provides detailed fixing guidance (Level 5)",
+      "6. Temporary quality relaxation with documentation (Level 6)"
+    ]
+  },
+  
+  "success_criteria": {
+    "task_completion": true,
+    "quality_maintenance": true,
+    "no_orchestrator_takeover": true,
+    "agent_delegation_preserved": true,
+    "reasonable_completion_time": true
+  },
+  
+  "monitoring_and_adjustment": {
+    "track_escalation_frequency": true,
+    "analyze_escalation_patterns": true,
+    "optimize_thresholds": true,
+    "improve_agent_capabilities": true,
+    "reduce_future_escalations": true
+  },
+  
+  "integration": {
+    "works_with": [
+      "agent-health-monitor",
+      "zero-tolerance-quality", 
+      "tdd-workflow",
+      "development-standards"
+    ],
+    "provides_fallback_for": "ALL_HOOKS",
+    "escalation_reporting": "ORCHESTRATOR",
+    "success_metrics": "CONTINUOUS_TRACKING"
+  }
+}

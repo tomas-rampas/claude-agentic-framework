@@ -13,13 +13,30 @@
   ],
   
   "enforcement_levels": {
-    "compilation_errors": "BLOCKING",
-    "linting_errors": "BLOCKING",
-    "test_failures": "BLOCKING", 
-    "linting_warnings": "BLOCKING",
+    "compilation_errors": "BLOCKING_WITH_TIMEOUT",
+    "linting_errors": "BLOCKING_WITH_TIMEOUT",
+    "test_failures": "BLOCKING_WITH_TIMEOUT", 
+    "linting_warnings": "BLOCKING_WITH_TIMEOUT",
     "test_warnings": "WARNING_WITH_APPROVAL",
-    "performance_regression": "BLOCKING",
-    "security_warnings": "BLOCKING"
+    "performance_regression": "BLOCKING_WITH_TIMEOUT",
+    "security_warnings": "BLOCKING_WITH_TIMEOUT"
+  },
+  
+  "timeout_settings": {
+    "validation_timeout": 300000,
+    "compilation_timeout": 120000,
+    "linting_timeout": 60000,
+    "test_timeout": 300000,
+    "agent_activity_timeout": 180000,
+    "fallback_activation_delay": 30000
+  },
+  
+  "fallback_strategies": {
+    "compilation_timeout": "DELEGATE_TO_DEBUG_AGENT",
+    "linting_timeout": "APPLY_AUTO_FIXES_THEN_WARN",
+    "test_timeout": "RUN_SUBSET_THEN_ESCALATE",
+    "agent_stuck": "PROGRESSIVE_ESCALATION",
+    "validation_failure": "EXPERT_AGENT_TAKEOVER"
   },
   
   "validation_sequence": [
@@ -29,7 +46,9 @@
       "description": "Verify code compiles without errors",
       "command_examples": ["npm run build", "mvn compile", "go build", "python -m py_compile"],
       "success_criteria": "Zero compilation errors",
-      "failure_action": "BLOCK_IMMEDIATELY"
+      "failure_action": "BLOCK_WITH_TIMEOUT",
+      "timeout": 120000,
+      "fallback_action": "DELEGATE_TO_DEBUG_AGENT"
     },
     {
       "step": 2, 
@@ -37,7 +56,9 @@
       "description": "Execute linting with zero tolerance for errors and warnings",
       "command_examples": ["eslint --max-warnings 0", "pylint --fail-under=10", "golangci-lint run", "checkstyle"],
       "success_criteria": "Zero linting errors and warnings",
-      "failure_action": "BLOCK_IMMEDIATELY"
+      "failure_action": "BLOCK_WITH_TIMEOUT",
+      "timeout": 60000,
+      "fallback_action": "AUTO_FIX_THEN_WARN"
     },
     {
       "step": 3,
@@ -45,7 +66,9 @@
       "description": "Run full test suite with zero failures",
       "command_examples": ["npm test", "pytest", "go test ./...", "mvn test"],
       "success_criteria": "All tests pass, zero warnings",
-      "failure_action": "BLOCK_IMMEDIATELY"
+      "failure_action": "BLOCK_WITH_TIMEOUT",
+      "timeout": 300000,
+      "fallback_action": "RUN_CRITICAL_TESTS_ONLY"
     },
     {
       "step": 4,

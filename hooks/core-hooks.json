@@ -33,7 +33,21 @@
       "triggers": ["code_change", "file_modification", "pre_commit", "build_process"],
       "actions": ["validate_compilation", "check_linting", "run_tests", "prevent_regressions"],
       "enforcement_levels": ["compilation_errors", "linting_errors", "test_failures"],
-      "enforcement": "blocking"
+      "enforcement": "blocking_with_timeout"
+    },
+    "agent-health-monitor": {
+      "agents": ["all"],
+      "triggers": ["agent_activity", "task_execution", "coordination_events"],
+      "actions": ["monitor_performance", "detect_stuck_agents", "trigger_recovery"],
+      "monitoring": "continuous",
+      "escalation": "automatic"
+    },
+    "progressive-escalation": {
+      "agents": ["orchestrator"],
+      "triggers": ["agent_timeout", "agent_stuck", "coordination_failure"],
+      "actions": ["escalate_progressively", "maintain_delegation", "prevent_takeover"],
+      "escalation_levels": 6,
+      "enforcement": "mandatory"
     },
     "security-check": {
       "agents": ["security", "maker"],

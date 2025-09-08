@@ -1,0 +1,165 @@
+{
+  "name": "agent-health-monitor",
+  "description": "Monitor agent health and implement automatic recovery mechanisms",
+  "version": "1.0",
+  "monitors": ["maker", "test", "debug", "plan", "reader", "security", "docs"],
+  
+  "health_checks": {
+    "activity_monitoring": {
+      "check_interval": 30000,
+      "inactivity_threshold": 180000,
+      "stuck_detection_threshold": 300000,
+      "token_usage_monitoring": true,
+      "tool_usage_tracking": true
+    },
+    
+    "performance_monitoring": {
+      "response_time_threshold": 120000,
+      "memory_usage_threshold": "80%",
+      "token_efficiency_threshold": 0.1,
+      "task_completion_rate_threshold": 0.8
+    },
+    
+    "quality_monitoring": {
+      "error_rate_threshold": 0.05,
+      "timeout_rate_threshold": 0.1,
+      "retry_success_rate_threshold": 0.7,
+      "coordination_failure_threshold": 0.15
+    }
+  },
+  
+  "health_states": {
+    "HEALTHY": {
+      "description": "Agent operating normally",
+      "action": "CONTINUE_MONITORING",
+      "escalation_level": 0
+    },
+    "DEGRADED": {
+      "description": "Agent performance below optimal",
+      "action": "INCREASE_MONITORING_FREQUENCY",
+      "escalation_level": 1
+    },
+    "STUCK": {
+      "description": "Agent inactive for extended period",
+      "action": "TRIGGER_RECOVERY_SEQUENCE",
+      "escalation_level": 2
+    },
+    "FAILED": {
+      "description": "Agent unresponsive or critically failed",
+      "action": "EMERGENCY_FALLBACK",
+      "escalation_level": 3
+    }
+  },
+  
+  "recovery_strategies": {
+    "STUCK_AGENT_RECOVERY": {
+      "step_1": "SEND_HEALTH_CHECK_PING",
+      "step_2": "RETRY_LAST_OPERATION",
+      "step_3": "DELEGATE_TO_BACKUP_AGENT",
+      "step_4": "PROGRESSIVE_ESCALATION",
+      "timeout_per_step": 60000
+    },
+    
+    "PERFORMANCE_DEGRADATION": {
+      "step_1": "REDUCE_TASK_COMPLEXITY",
+      "step_2": "ALLOCATE_ADDITIONAL_RESOURCES",
+      "step_3": "DELEGATE_SUBTASKS",
+      "step_4": "AGENT_REPLACEMENT",
+      "adaptive_scaling": true
+    },
+    
+    "COORDINATION_FAILURE": {
+      "step_1": "RESTART_COORDINATION_PROTOCOL",
+      "step_2": "SIMPLIFY_WORKFLOW",
+      "step_3": "DIRECT_ORCHESTRATOR_INTERVENTION",
+      "step_4": "FALLBACK_TO_SINGLE_AGENT",
+      "maintain_consistency": true
+    }
+  },
+  
+  "escalation_matrix": {
+    "level_0": {
+      "action": "LOG_AND_CONTINUE",
+      "notification": "NONE",
+      "intervention": "AUTOMATIC"
+    },
+    "level_1": {
+      "action": "ADJUST_PARAMETERS",
+      "notification": "INTERNAL_LOG",
+      "intervention": "AUTOMATIC"
+    },
+    "level_2": {
+      "action": "ACTIVATE_RECOVERY",
+      "notification": "ORCHESTRATOR_ALERT",
+      "intervention": "GUIDED_AUTOMATIC"
+    },
+    "level_3": {
+      "action": "EMERGENCY_HANDOVER",
+      "notification": "IMMEDIATE_ESCALATION",
+      "intervention": "ORCHESTRATOR_TAKEOVER"
+    }
+  },
+  
+  "backup_strategies": {
+    "maker-agent": {
+      "primary_backup": "debug-agent",
+      "secondary_backup": "orchestrator_direct",
+      "capability_overlap": ["code_creation", "file_modification"],
+      "handover_protocol": "PRESERVE_CONTEXT"
+    },
+    "test-agent": {
+      "primary_backup": "maker-agent",
+      "secondary_backup": "debug-agent", 
+      "capability_overlap": ["test_execution", "validation"],
+      "handover_protocol": "MAINTAIN_TEST_STATE"
+    },
+    "debug-agent": {
+      "primary_backup": "maker-agent",
+      "secondary_backup": "orchestrator_direct",
+      "capability_overlap": ["error_investigation", "problem_solving"],
+      "handover_protocol": "TRANSFER_INVESTIGATION_STATE"
+    }
+  },
+  
+  "prevention_mechanisms": {
+    "proactive_timeout_management": {
+      "early_warning_threshold": 0.8,
+      "timeout_prediction": true,
+      "automatic_extension": true,
+      "graceful_degradation": true
+    },
+    
+    "resource_optimization": {
+      "memory_management": "AUTOMATIC",
+      "token_budgeting": "ADAPTIVE",
+      "task_prioritization": "DYNAMIC",
+      "load_balancing": "ENABLED"
+    },
+    
+    "coordination_improvement": {
+      "communication_protocol": "OPTIMIZED",
+      "state_synchronization": "CONTINUOUS",
+      "conflict_resolution": "AUTOMATIC",
+      "workflow_adaptation": "REAL_TIME"
+    }
+  },
+  
+  "recovery_success_metrics": {
+    "recovery_time": "< 60 seconds",
+    "data_loss": "ZERO",
+    "workflow_continuity": "> 95%",
+    "user_experience_impact": "MINIMAL"
+  },
+  
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "tdd-workflow", 
+      "development-standards",
+      "error-handling"
+    ],
+    "monitors_hooks": "ALL",
+    "provides_feedback_to": "ORCHESTRATOR",
+    "automatic_reporting": "ENABLED"
+  }
+}
