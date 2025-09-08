@@ -8,10 +8,10 @@
     "filesystem": {
       "enabled": true,
       "auto_engage": false,
-      "essential_tools_only": true,
+      "essential_tools_only": false,
       "max_context_tokens": 3000,
-      "tools": ["read_text_file", "write_file", "list_directory"],
-      "triggers": ["documentation_operations", "template_processing"],
+      "tools": ["read_text_file", "write_file", "edit_file", "list_directory"],
+      "triggers": ["documentation_operations", "template_processing", "file_editing"],
       "priority": 1
     },
     "context7": {
@@ -25,7 +25,7 @@
     }
   },
   
-  "tools": ["Read", "Write", "Search_files", "Grep"],
+  "tools": ["Read", "Write", "Edit", "MultiEdit", "Search_files", "Grep"],
   "hooks": ["documentation-sync", "file-operations", "framework-integration"],
   
   "specialization": {

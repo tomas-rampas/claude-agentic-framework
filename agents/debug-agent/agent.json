@@ -8,10 +8,10 @@
     "filesystem": {
       "enabled": true,
       "auto_engage": false,
-      "essential_tools_only": true,
+      "essential_tools_only": false,
       "max_context_tokens": 4000,
-      "tools": ["read_text_file", "list_directory", "search_files"],
-      "triggers": ["log_analysis", "large_file_processing"],
+      "tools": ["read_text_file", "edit_file", "write_file", "list_directory", "search_files"],
+      "triggers": ["log_analysis", "large_file_processing", "config_debugging"],
       "priority": 1
     },
     "serena": {
@@ -34,7 +34,7 @@
     }
   },
   
-  "tools": ["Read", "Bash", "Search_files", "Grep"],
+  "tools": ["Read", "Edit", "MultiEdit", "Bash", "Search_files", "Grep"],
   "hooks": ["debugging-support", "error-handling", "performance-monitor", "file-operations", "symbol-operations", "zero-tolerance-quality"],
   
   "resource_limits": {

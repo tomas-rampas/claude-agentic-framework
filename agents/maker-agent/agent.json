@@ -8,7 +8,10 @@
     "filesystem": {
       "enabled": true,
       "auto_engage": false,
-      "triggers": ["file_operations", "atomic_writes", "large_files"],
+      "essential_tools_only": false,
+      "max_context_tokens": 4000,
+      "tools": ["read_text_file", "write_file", "edit_file", "list_directory", "create_directory", "move_file"],
+      "triggers": ["file_operations", "atomic_writes", "large_files", "file_editing"],
       "priority": 1
     },
     "serena": {
@@ -31,7 +34,7 @@
     }
   },
   
-  "tools": ["Read", "Write", "Bash", "Search_files", "Grep"],
+  "tools": ["Read", "Write", "Edit", "MultiEdit", "Bash", "Search_files", "Grep"],
   "hooks": ["development-standards", "mcp-integration", "error-handling", "file-operations", "symbol-operations", "framework-integration", "tdd-workflow", "zero-tolerance-quality"],
   
   "resource_limits": {

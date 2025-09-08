@@ -25,7 +25,7 @@
     }
   },
   
-  "tools": ["Read", "Search_files", "Grep"],
+  "tools": ["Read", "Write", "Search_files", "Grep"],
   "hooks": ["planning-support", "workflow-coordination", "framework-integration"],
   
   "specialization": {

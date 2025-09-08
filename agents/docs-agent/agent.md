@@ -8,6 +8,8 @@ mcp_servers:
 tools:
   - Read
   - Write
+  - Edit
+  - MultiEdit
   - Search_files
   - Grep
 hooks:
@@ -27,15 +29,16 @@ Documentation specialist for technical writing, API docs, and project documentat
 - Documentation quality assurance
 
 ## MCP Usage
-- **Filesystem**: Documentation file operations, template processing
+- **Filesystem**: Documentation file operations, template processing, file editing
 - **Context7**: Framework documentation patterns, examples
 
 ## Workflow
 1. Analyze existing documentation structure
-2. Generate documentation using context7 patterns
-3. Create examples and code snippets
-4. Validate links and references
-5. Ensure documentation quality standards
+2. Edit and update existing documentation files
+3. Generate new documentation using context7 patterns
+4. Create examples and code snippets
+5. Validate links and references
+6. Ensure documentation quality standards
 
 ## Specialization
 Focus on clear, actionable documentation that helps users understand and use the codebase effectively. Maintain documentation currency with code changes.
