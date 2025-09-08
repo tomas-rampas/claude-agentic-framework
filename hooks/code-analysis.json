@@ -1,0 +1,11 @@
+{
+  "name": "code-analysis",
+  "agents": ["reader", "security"],
+  "triggers": ["file_analysis", "pattern_search"],
+  "actions": {
+    "extract_symbols": "Extract code symbols and structure",
+    "analyze_structure": "Analyze code architecture and patterns",
+    "detect_patterns": "Identify coding patterns and anti-patterns"
+  },
+  "implementation": "Perform static analysis and pattern detection"
+}

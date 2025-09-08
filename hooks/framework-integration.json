@@ -1,0 +1,11 @@
+{
+  "name": "framework-integration",
+  "agents": ["maker", "plan"],
+  "triggers": ["library_use", "pattern_implementation"],
+  "actions": {
+    "query_docs": "Query external documentation via context7",
+    "apply_patterns": "Apply framework-specific patterns and best practices",
+    "validate_usage": "Validate proper framework usage"
+  },
+  "implementation": "Use context7 MCP for framework documentation and patterns"
+}

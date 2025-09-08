@@ -1,0 +1,11 @@
+{
+  "name": "quality-gates",
+  "agents": ["all"],
+  "triggers": ["task_completion", "validation_required"],
+  "actions": {
+    "validate_outputs": "Validate agent outputs meet standards",
+    "check_standards": "Ensure coding standards compliance",
+    "approve_changes": "Gate changes based on quality criteria"
+  },
+  "implementation": "Enforce quality standards across all agents"
+}

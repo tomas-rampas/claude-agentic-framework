@@ -1,0 +1,11 @@
+{
+  "name": "security-check",
+  "agents": ["security", "maker"],
+  "triggers": ["code_creation", "dependency_change"],
+  "actions": {
+    "scan_vulnerabilities": "Check for common vulnerability patterns",
+    "detect_secrets": "Scan for exposed credentials and API keys", 
+    "validate_inputs": "Ensure proper input validation and sanitization"
+  },
+  "implementation": "Use security patterns, validate all inputs, never expose secrets"
+}

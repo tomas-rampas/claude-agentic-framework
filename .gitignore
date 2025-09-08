@@ -9,11 +9,13 @@
 !/.env.example
 !/SECURITY_AUDIT.md
 !/security-check.sh
+!/valiadate-framework.sh
 
 # And not these directories and their contents
 !/agents/
 !/commands/
 !/hooks/
+!/shared/
 
 # Explicitly ignore files at the root that should not be tracked
 /settings.json

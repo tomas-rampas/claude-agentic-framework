@@ -1,0 +1,11 @@
+{
+  "name": "file-operations",
+  "agents": ["reader", "maker", "docs"],
+  "triggers": ["file_access", "bulk_operations"],
+  "actions": {
+    "optimize_io": "Optimize file I/O operations for performance",
+    "handle_large_files": "Efficiently process large files",
+    "ensure_atomicity": "Ensure atomic file operations"
+  },
+  "implementation": "Optimize file operations using filesystem MCP when appropriate"
+}

@@ -1,0 +1,47 @@
+{
+  "name": "maker-agent",
+  "description": "Code creation and development specialist",
+  "model": "claude-sonnet-4-20250514",
+  "extends": "../../shared/base-config.json",
+  
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["file_operations", "atomic_writes", "large_files"],
+      "priority": 1
+    },
+    "serena": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["symbol_operations", "refactoring", "code_analysis"],
+      "priority": 1
+    },
+    "context7": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["external_libraries", "framework_patterns"],
+      "priority": 1
+    },
+    "sequentialthinking": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["complex_algorithms", "multi_step_implementation"],
+      "priority": 2
+    }
+  },
+  
+  "tools": ["Read", "Write", "Bash", "Search_files", "Grep"],
+  "hooks": ["development-standards", "mcp-integration", "error-handling", "file-operations", "symbol-operations", "framework-integration"],
+  
+  "resource_limits": {
+    "max_execution_time": 120000,
+    "max_memory_mb": 2048
+  },
+  
+  "specialization": {
+    "focus": "code_implementation_following_patterns",
+    "ensure_atomicity": true,
+    "validate_symbols": true
+  }
+}

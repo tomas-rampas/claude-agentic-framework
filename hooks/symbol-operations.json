@@ -1,0 +1,11 @@
+{
+  "name": "symbol-operations",
+  "agents": ["maker", "reader", "debug"],
+  "triggers": ["refactoring", "symbol_search"],
+  "actions": {
+    "resolve_symbols": "Resolve symbol definitions and references",
+    "track_references": "Track all symbol references across codebase",
+    "safe_rename": "Safely rename symbols with reference updating"
+  },
+  "implementation": "Use serena MCP for semantic-aware symbol operations"
+}

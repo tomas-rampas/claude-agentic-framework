@@ -1,0 +1,80 @@
+{
+  "version": "2.0",
+  "hooks": {
+    "development-standards": {
+      "agents": ["maker"],
+      "triggers": ["code_creation", "file_modification"],
+      "actions": ["enforce_style", "validate_syntax", "check_conventions"]
+    },
+    "mcp-integration": {
+      "agents": ["all"],
+      "triggers": ["file_ops", "symbol_ops", "framework_use", "complex_reasoning"],
+      "actions": ["route_to_mcp", "validate_fallback", "cache_results"]
+    },
+    "error-handling": {
+      "agents": ["maker", "debug"],
+      "triggers": ["exception_detected", "validation_failed"],
+      "actions": ["try_catch_wrap", "log_error", "graceful_fallback"]
+    },
+    "testing-workflow": {
+      "agents": ["test", "maker"],
+      "triggers": ["code_change", "test_execution"],
+      "actions": ["run_tests", "analyze_coverage", "report_failures"]
+    },
+    "security-check": {
+      "agents": ["security", "maker"],
+      "triggers": ["code_creation", "dependency_change"],
+      "actions": ["scan_vulnerabilities", "detect_secrets", "validate_inputs"]
+    },
+    "documentation-sync": {
+      "agents": ["docs", "maker"],
+      "triggers": ["code_change", "api_modification"],
+      "actions": ["update_docs", "generate_examples", "validate_links"]
+    },
+    "performance-monitor": {
+      "agents": ["debug", "maker"],
+      "triggers": ["performance_issue", "resource_usage"],
+      "actions": ["profile_execution", "identify_bottlenecks", "suggest_optimizations"]
+    },
+    "code-analysis": {
+      "agents": ["reader", "security"],
+      "triggers": ["file_analysis", "pattern_search"],
+      "actions": ["extract_symbols", "analyze_structure", "detect_patterns"]
+    },
+    "workflow-coordination": {
+      "agents": ["plan", "all"],
+      "triggers": ["task_planning", "agent_handoff"],
+      "actions": ["coordinate_agents", "track_progress", "resolve_conflicts"]
+    },
+    "quality-gates": {
+      "agents": ["all"],
+      "triggers": ["task_completion", "validation_required"],
+      "actions": ["validate_outputs", "check_standards", "approve_changes"]
+    },
+    "debugging-support": {
+      "agents": ["debug", "maker"],
+      "triggers": ["error_reported", "test_failure"],
+      "actions": ["trace_execution", "analyze_logs", "suggest_fixes"]
+    },
+    "planning-support": {
+      "agents": ["plan"],
+      "triggers": ["architecture_design", "requirement_analysis"],
+      "actions": ["decompose_problem", "evaluate_options", "create_roadmap"]
+    },
+    "file-operations": {
+      "agents": ["reader", "maker", "docs"],
+      "triggers": ["file_access", "bulk_operations"],
+      "actions": ["optimize_io", "handle_large_files", "ensure_atomicity"]
+    },
+    "symbol-operations": {
+      "agents": ["maker", "reader", "debug"],
+      "triggers": ["refactoring", "symbol_search"],
+      "actions": ["resolve_symbols", "track_references", "safe_rename"]
+    },
+    "framework-integration": {
+      "agents": ["maker", "plan"],
+      "triggers": ["library_use", "pattern_implementation"],
+      "actions": ["query_docs", "apply_patterns", "validate_usage"]
+    }
+  }
+}

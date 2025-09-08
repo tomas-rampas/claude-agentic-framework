@@ -1,0 +1,11 @@
+{
+  "name": "planning-support",
+  "agents": ["plan"],
+  "triggers": ["architecture_design", "requirement_analysis"],
+  "actions": {
+    "decompose_problem": "Break down complex problems into manageable parts",
+    "evaluate_options": "Analyze trade-offs between different approaches",
+    "create_roadmap": "Generate implementation roadmaps and timelines"
+  },
+  "implementation": "Support strategic planning and architecture design"
+}

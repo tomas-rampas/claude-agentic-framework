@@ -1,0 +1,16 @@
+{
+  "name": "mcp-integration", 
+  "agents": ["all"],
+  "triggers": ["file_ops", "symbol_ops", "framework_use", "complex_reasoning"],
+  "actions": {
+    "route_to_mcp": "Use appropriate MCP server for enhanced capabilities",
+    "validate_fallback": "Ensure graceful degradation when MCP unavailable",
+    "cache_results": "Cache MCP responses for performance"
+  },
+  "mcp_routing": {
+    "file_operations": "filesystem",
+    "symbol_operations": "serena", 
+    "external_docs": "context7",
+    "complex_reasoning": "sequentialthinking"
+  }
+}

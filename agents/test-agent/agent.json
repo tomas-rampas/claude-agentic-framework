@@ -1,0 +1,30 @@
+{
+  "name": "test-agent",
+  "description": "Testing and validation specialist for quality assurance",
+  "model": "claude-haiku-3-20241201",
+  "extends": "../../shared/base-config.json",
+  
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["test_file_operations", "coverage_processing"],
+      "priority": 1
+    },
+    "serena": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["test_coverage_analysis", "test_target_analysis"],
+      "priority": 1
+    }
+  },
+  
+  "tools": ["Read", "Bash", "Search_files", "Grep"],
+  "hooks": ["testing-workflow", "quality-gates", "file-operations", "symbol-operations"],
+  
+  "specialization": {
+    "focus": "comprehensive_testing_and_validation",
+    "ensure_quality_standards": true,
+    "prevent_regressions": true
+  }
+}

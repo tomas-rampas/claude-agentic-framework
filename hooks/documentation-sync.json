@@ -1,0 +1,11 @@
+{
+  "name": "documentation-sync",
+  "agents": ["docs", "maker"],
+  "triggers": ["code_change", "api_modification"],
+  "actions": {
+    "update_docs": "Update documentation when code changes",
+    "generate_examples": "Create code examples for documentation",
+    "validate_links": "Check documentation links and references"
+  },
+  "implementation": "Monitor code changes and ensure documentation stays current"
+}

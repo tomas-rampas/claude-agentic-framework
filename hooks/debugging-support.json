@@ -1,0 +1,11 @@
+{
+  "name": "debugging-support",
+  "agents": ["debug", "maker"],
+  "triggers": ["error_reported", "test_failure"],
+  "actions": {
+    "trace_execution": "Trace code execution paths",
+    "analyze_logs": "Analyze error logs and stack traces",
+    "suggest_fixes": "Recommend bug fixes and solutions"
+  },
+  "implementation": "Support systematic debugging and error resolution"
+}

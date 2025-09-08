@@ -1,0 +1,11 @@
+{
+  "name": "testing-workflow",
+  "agents": ["test", "maker"], 
+  "triggers": ["code_change", "test_execution"],
+  "actions": {
+    "run_tests": "Execute relevant test suites",
+    "analyze_coverage": "Check code coverage and identify gaps",
+    "report_failures": "Analyze and categorize test failures"
+  },
+  "implementation": "Run tests after changes, maintain coverage thresholds, create regression tests"
+}

@@ -1,0 +1,36 @@
+{
+  "name": "reader-agent",
+  "description": "Fast file analysis and information extraction specialist",
+  "model": "claude-haiku-3-20241201",
+  "extends": "../../shared/base-config.json",
+  
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["file_reading", "directory_traversal", "pattern_matching"],
+      "priority": 1
+    },
+    "serena": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["symbol_extraction", "dependency_analysis"],
+      "priority": 1
+    }
+  },
+  
+  "tools": ["Read", "Grep", "Glob", "Search_files"],
+  "hooks": ["code-analysis", "file-operations", "symbol-operations"],
+  
+  "resource_limits": {
+    "max_execution_time": 30000,
+    "max_memory_mb": 512,
+    "max_file_size_mb": 500
+  },
+  
+  "specialization": {
+    "focus": "fast_analysis_and_extraction",
+    "optimize_for_speed": true,
+    "stream_large_files": true
+  }
+}

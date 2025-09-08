@@ -1,0 +1,25 @@
+{
+  "version": "2.0",
+  "resource_limits": {
+    "max_execution_time": 60000,
+    "max_memory_mb": 1024,
+    "max_concurrent_operations": 5
+  },
+  "mcp_usage": {
+    "auto_engage": false,
+    "conditional_activation": true,
+    "cache_results": true,
+    "timeout": 15000,
+    "retry_attempts": 2
+  },
+  "output_preferences": {
+    "format": "markdown",
+    "verbosity": "concise",
+    "include_progress": true
+  },
+  "quality_gates": {
+    "validate_inputs": true,
+    "handle_errors": true,
+    "verify_results": true
+  }
+}

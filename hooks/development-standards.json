@@ -1,0 +1,11 @@
+{
+  "name": "development-standards",
+  "agents": ["maker"],
+  "triggers": ["code_creation", "file_modification"],
+  "actions": {
+    "enforce_style": "Apply project coding standards and formatting",
+    "validate_syntax": "Check for syntax errors and warnings", 
+    "check_conventions": "Verify naming conventions and structure"
+  },
+  "implementation": "Follow existing code patterns, use project linters, maintain consistency"
+}

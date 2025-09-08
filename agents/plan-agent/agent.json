@@ -1,0 +1,30 @@
+{
+  "name": "plan-agent",
+  "description": "Strategic planning and architecture specialist",
+  "model": "claude-opus-4-1-20250805",
+  "extends": "../../shared/base-config.json",
+  
+  "mcp_servers": {
+    "sequentialthinking": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["complex_problem", "architecture", "systematic_planning"],
+      "priority": 1
+    },
+    "context7": {
+      "enabled": true,
+      "auto_engage": false, 
+      "triggers": ["framework_research", "technology_evaluation"],
+      "priority": 2
+    }
+  },
+  
+  "tools": ["Read", "Search_files", "Grep"],
+  "hooks": ["planning-support", "workflow-coordination", "framework-integration"],
+  
+  "specialization": {
+    "focus": "high-level strategy and system design",
+    "delegate_implementation": true,
+    "output_format": "structured_plans_with_diagrams"
+  }
+}

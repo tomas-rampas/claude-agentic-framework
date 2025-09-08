@@ -1,0 +1,35 @@
+{
+  "mcp_servers": {
+    "filesystem": {
+      "purpose": "Enhanced file operations with atomic writes and large file handling",
+      "operations": ["read", "write", "list", "search", "tree"],
+      "triggers": ["file_write", "atomic_update", "large_file", "directory_ops"],
+      "fallback": "native Read/Write tools"
+    },
+    "serena": {
+      "purpose": "Semantic code intelligence and symbol operations",
+      "operations": ["getSymbolDefinition", "getSymbolReferences", "renameSymbol"],
+      "triggers": ["refactor", "symbol_ops", "reference_tracking"],
+      "fallback": "grep/text search"
+    },
+    "context7": {
+      "purpose": "External documentation and framework patterns",
+      "operations": ["queryDocumentation", "getBestPractices", "getMigrationGuide"],
+      "triggers": ["framework_use", "library_impl", "best_practices"],
+      "fallback": "cached knowledge"
+    },
+    "sequentialthinking": {
+      "purpose": "Complex problem decomposition and systematic reasoning",
+      "operations": ["decomposeStrategy", "analyzeTradeoffs", "developStrategy"],
+      "triggers": ["complex_problem", "architecture", "systematic_debug"],
+      "fallback": "native reasoning"
+    }
+  },
+  "usage_patterns": {
+    "conditional_activation": true,
+    "result_caching": true,
+    "timeout": 15000,
+    "retry_attempts": 2,
+    "fallback_enabled": true
+  }
+}

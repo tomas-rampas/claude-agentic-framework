@@ -1,0 +1,11 @@
+{
+  "name": "error-handling",
+  "agents": ["maker", "debug"],
+  "triggers": ["exception_detected", "validation_failed"],
+  "actions": {
+    "try_catch_wrap": "Wrap risky operations in try-catch blocks",
+    "log_error": "Log errors with context and stack traces",
+    "graceful_fallback": "Provide fallback behavior when possible"
+  },
+  "implementation": "Always validate inputs, handle edge cases, provide meaningful error messages"
+}

@@ -1,0 +1,30 @@
+{
+  "name": "security-agent",
+  "description": "Security vulnerability scanner and secure coding practices enforcer",
+  "model": "claude-haiku-3-20241201",
+  "extends": "../../shared/base-config.json",
+  
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["file_scanning", "secret_detection"],
+      "priority": 1
+    },
+    "serena": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["data_flow_analysis", "vulnerability_tracing"],
+      "priority": 1
+    }
+  },
+  
+  "tools": ["Read", "Search_files", "Grep"],
+  "hooks": ["security-check", "code-analysis", "file-operations"],
+  
+  "specialization": {
+    "focus": "defensive_security_only",
+    "scan_patterns": "common_vulnerabilities",
+    "provide_remediation": true
+  }
+}

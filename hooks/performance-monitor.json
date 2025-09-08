@@ -1,0 +1,11 @@
+{
+  "name": "performance-monitor",
+  "agents": ["debug", "maker"],
+  "triggers": ["performance_issue", "resource_usage"],
+  "actions": {
+    "profile_execution": "Profile application performance",
+    "identify_bottlenecks": "Find performance bottlenecks",
+    "suggest_optimizations": "Recommend performance improvements"
+  },
+  "implementation": "Monitor and optimize system performance"
+}

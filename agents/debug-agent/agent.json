@@ -1,0 +1,42 @@
+{
+  "name": "debug-agent",
+  "description": "Debugging specialist for systematic error investigation",
+  "model": "claude-sonnet-4-20250514",
+  "extends": "../../shared/base-config.json",
+  
+  "mcp_servers": {
+    "filesystem": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["log_analysis", "large_file_processing"],
+      "priority": 1
+    },
+    "serena": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["call_graph_tracing", "symbol_debugging"],
+      "priority": 1
+    },
+    "sequentialthinking": {
+      "enabled": true,
+      "auto_engage": false,
+      "triggers": ["complex_debugging", "root_cause_analysis"],
+      "priority": 2
+    }
+  },
+  
+  "tools": ["Read", "Bash", "Search_files", "Grep"],
+  "hooks": ["debugging-support", "error-handling", "performance-monitor", "file-operations", "symbol-operations"],
+  
+  "resource_limits": {
+    "max_execution_time": 180000,
+    "max_memory_mb": 2048,
+    "max_file_size_mb": 1000
+  },
+  
+  "specialization": {
+    "focus": "systematic_problem_solving",
+    "methodology": "scientific_approach",
+    "document_process": true
+  }
+}

@@ -1,392 +1,363 @@
-# Claude Code CLI - Global Configuration with MCP Servers
+# Claude Code CLI - Global Configuration v2.0
 
-## 🚀 ACTIVE MCP SERVERS
+## 🎯 OPTIMIZED DEVELOPMENT FRAMEWORK
 
-| Server | Purpose | Status | Primary Use |
-|--------|---------|--------|-------------|
-| **context7** | External library documentation | ✓ Connected | Framework patterns, API docs |
-| **filesystem** | Enhanced file operations | ✓ Connected | Atomic writes, large files |
-| **serena** | Semantic code intelligence | ✓ Connected | Symbol navigation, refactoring |
-| **sequentialthinking** | Complex reasoning | ✓ Connected | Problem decomposition, planning |
+**Core Principle**: Intelligent delegation to specialized agents with smart MCP activation for maximum efficiency within orchestrator limits.
+
+## 🚀 ACTIVE MCP SERVERS (Smart Activation)
+
+| Server | Purpose | Activation | Performance Benefit |
+|--------|---------|------------|-------------------|
+| **context7** | External documentation | On-demand for framework/library usage | Official patterns, version-specific guidance |
+| **filesystem** | Enhanced file operations | Conditional (large files, atomic writes) | 10x faster for large files, atomic safety |
+| **serena** | Semantic code intelligence | Conditional (symbol operations, refactoring) | Type-aware operations, cross-reference tracking |
+| **sequentialthinking** | Complex reasoning | Conditional (>3 components, systematic analysis) | Multi-step problem decomposition |
 
 ## CORE OPERATING PRINCIPLES
 
-### Primary Directive: Always Delegate with MCP Enhancement
-**NEVER execute tasks directly. ALWAYS delegate to specialized agents with appropriate MCP servers.**
+### Primary Directive: Intelligent Delegation with Smart MCP Usage
+**ALWAYS delegate to specialized agents. MCPs activate automatically based on context, not by default.**
 
-Every request must be:
-1. Analyzed for complexity (use sequentialthinking if complex)
-2. Delegated to appropriate agent(s)
-3. Enhanced with relevant MCP servers
-4. Orchestrated through proper workflow patterns
-5. Validated through quality gates
+Every request workflow:
+1. **Analyze** complexity and required capabilities
+2. **Route** to appropriate lean agent(s)
+3. **Activate** MCPs conditionally based on task requirements
+4. **Execute** efficiently with minimal overhead
+5. **Validate** results through automated quality gates
 
-## MCP-ENHANCED AGENT MATRIX
+## OPTIMIZED AGENT MATRIX
 
-| Agent | Model | Primary MCPs | Secondary MCPs | Enhanced Capabilities |
-|-------|-------|--------------|----------------|----------------------|
-| **plan-agent** | opus | sequentialthinking | context7 | Deep reasoning, complex decomposition |
-| **reader-agent** | haiku | filesystem, serena | - | Fast file ops, symbol analysis |
-| **maker-agent** | sonnet | filesystem, serena, context7 | sequentialthinking | Context-aware generation |
-| **security-agent** | haiku/sonnet | serena, filesystem | - | Data flow tracing, vulnerability scanning |
-| **test-agent** | haiku | filesystem, serena | - | Test discovery, coverage analysis |
-| **docs-agent** | haiku | filesystem, context7 | - | Doc generation with examples |
-| **debug-agent** | haiku/sonnet | filesystem, serena | sequentialthinking | Log analysis, call graph tracing |
+| Agent | Model | Context | Primary MCPs | Specialization |
+|-------|-------|---------|--------------|----------------|
+| **plan-agent** | opus | ~1000 tokens | sequentialthinking, context7 | Strategic planning, architecture design |
+| **reader-agent** | haiku | ~900 tokens | filesystem, serena | Fast analysis, information extraction |
+| **maker-agent** | sonnet | ~1100 tokens | filesystem, serena, context7 | Code implementation, refactoring |
+| **security-agent** | haiku | ~870 tokens | filesystem, serena | Vulnerability scanning, security validation |
+| **test-agent** | haiku | ~810 tokens | filesystem, serena | Quality validation, test execution |
+| **docs-agent** | haiku | ~880 tokens | filesystem, context7 | Documentation generation, maintenance |
+| **debug-agent** | sonnet | ~950 tokens | filesystem, serena, sequentialthinking | Systematic debugging, root cause analysis |
 
-## Agent Output Configuration
+## SMART MCP ACTIVATION PATTERNS
 
-### Plan-Agent
-- ALWAYS output step-by-step planning to console
-- Show decision tree for architecture choices
-- Log performance calculations visibly
+### 🧠 Sequential Thinking MCP
+**Auto-activates when:**
+- Problem complexity >3 interconnected components
+- Architectural decision-making required
+- Systematic debugging with multiple error categories
+- Multi-step planning or strategy development
 
-### Debug-Agent  
-- Stream each error as it's being fixed
-- Show compilation output after each fix
-- Display error count reduction progress
-
-### Maker-Agent
-- Show file being modified
-- Display line counts and changes
-- Output performance metrics during creation
-
-### Read-Agent
-- List all files being analyzed
-- Show dependency graph construction
-- Output integration points discovered
-
-### Doc-Agent
-- Display documentation coverage percentage
-- Show files being documented
-- Output markdown generation progress
-
-## MCP SERVER USAGE PATTERNS
-
-### 📚 Context7 MCP - External Documentation
-**When to use:**
-- Before implementing ANY external library/framework code
-- When upgrading dependencies
-- For best practices and patterns
-- API reference lookups
-
-**Key operations:**
-```
-- Query framework documentation (React, Next.js, etc.)
-- Get version-specific patterns
-- Find migration guides
-- Retrieve code examples
-```
-
-**Agent integration:**
-- plan-agent: Technology selection with current best practices
-- maker-agent: Implementation following official patterns
-- docs-agent: Generate docs with official examples
-
-### 📁 Filesystem MCP - Enhanced File Operations
-**When to use:**
-- Large file operations (>1MB)
-- Atomic write requirements
-- Directory tree analysis
-- Concurrent file access
-- Binary file handling
-
-**Key operations:**
-```
-- filesystem.read(path) - Efficient file reading
-- filesystem.write(path, content) - Atomic writes
-- filesystem.list(directory) - Structured listing
-- filesystem.tree(directory) - Recursive exploration
-- filesystem.search(pattern) - Fast pattern matching
-- filesystem.watch(path) - Change monitoring
-```
-
-**Agent integration:**
-- ALL agents: Replace basic Read/Write with filesystem MCP
-- reader-agent: Use for large file analysis
-- maker-agent: Use for safe concurrent writes
-- test-agent: Use for test file discovery
-
-### 🔍 Serena MCP - Semantic Code Intelligence
-**When to use:**
-- Symbol-aware refactoring
-- Finding all references
-- Type-safe modifications
-- Impact analysis
-- Call graph navigation
-- Method extraction
-
-**Key operations:**
-```
-- getSymbolDefinition - Find where symbols are defined
-- getSymbolReferences - Find all usages
-- getDocumentSymbols - List symbols in file
-- getWorkspaceSymbols - Search across project
-- renameSymbol - Safe renaming across codebase
-- extractMethod - Extract with reference updates
-```
-
-**Agent integration:**
-- reader-agent: Semantic code exploration
-- maker-agent: Symbol-aware modifications
-- security-agent: Data flow analysis
-- debug-agent: Call graph traversal
-
-### 🧠 Sequential Thinking MCP - Complex Reasoning
-**When to use:**
-- Complex problem decomposition
-- Multi-step planning
-- Architectural decisions
-- Strategy development
-- Root cause analysis
-- Algorithm design
-
-**Key operations:**
-```
-- Break down complex problems into steps
-- Maintain reasoning context across steps
-- Develop comprehensive strategies
-- Analyze trade-offs systematically
-- Create detailed implementation plans
-```
-
-**Agent integration:**
-- plan-agent: PRIMARY - All planning tasks
+**Agents that use it:**
+- plan-agent: PRIMARY (strategic planning, architecture)
 - debug-agent: Complex debugging scenarios
 - maker-agent: Complex algorithm implementation
 
-## MCP-ENHANCED WORKFLOW PATTERNS
+### 📚 Context7 MCP  
+**Auto-activates when:**
+- External library or framework usage detected
+- Best practices or migration guides needed
+- API documentation lookup required
+- Framework-specific patterns needed
 
-### 🏗️ Architecture-First Development (All MCPs)
+**Agents that use it:**
+- plan-agent: Technology selection, best practices
+- maker-agent: Implementation following official patterns
+- docs-agent: Documentation with official examples
+
+### 🔍 Serena MCP
+**Auto-activates when:**
+- Symbol operations (refactoring, renaming)
+- Reference tracking across codebase
+- Type-safe modifications required
+- Code analysis or impact assessment needed
+
+**Agents that use it:**
+- reader-agent: Semantic code exploration
+- maker-agent: Symbol-aware modifications
+- security-agent: Data flow tracing
+- debug-agent: Call graph traversal
+
+### 📁 Filesystem MCP
+**Auto-activates when:**
+- File size >1MB or atomic writes required
+- Directory tree operations
+- Concurrent file access
+- Large-scale file processing
+
+**Agents that use it:**
+- ALL agents: Replace basic Read/Write for enhanced operations
+- reader-agent: Efficient large file analysis
+- maker-agent: Safe concurrent writes
+- debug-agent: Large log file processing
+
+## DEVELOPMENT WORKFLOW PATTERNS
+
+### Single-Agent Patterns (Preferred for Efficiency)
 ```
-1. sequentialthinking → Break down requirements
-2. plan-agent + sequentialthinking → Comprehensive architecture
-3. context7 → Gather framework best practices
-4. reader-agent + filesystem + serena → Analyze existing code
-5. maker-agent + all MCPs → Context-aware implementation
-6. security-agent + serena → Data flow security review
-7. test-agent + filesystem → Comprehensive testing
-8. docs-agent + context7 → Documentation with examples
-```
-
-### 🔄 Large-Scale Refactoring (Serena + Filesystem)
-```
-1. serena → Complete symbol mapping
-2. sequentialthinking → Refactoring strategy
-3. plan-agent + sequentialthinking → Phased plan
-4. reader-agent + serena → Impact analysis
-5. maker-agent + serena → Symbol-aware refactoring
-6. filesystem → Atomic file updates
-7. test-agent + filesystem → Continuous validation
-```
-
-### 🚀 New Feature Implementation (All MCPs)
-```
-1. sequentialthinking → Feature breakdown
-2. context7 → Library documentation
-3. serena → Current code patterns
-4. plan-agent → Integration strategy
-5. maker-agent + all MCPs → Implementation
-6. filesystem → Safe file operations
-7. test-agent → Validation
-```
-
-### 🐛 Complex Bug Investigation (Sequential + Serena)
-```
-1. sequentialthinking → Systematic analysis approach
-2. debug-agent + sequentialthinking → Root cause hypothesis
-3. serena → Trace through call graph
-4. filesystem → Analyze logs efficiently
-5. maker-agent + serena → Precise fix
-6. test-agent → Regression prevention
-```
-
-## MCP COORDINATION MATRIX
-
-| Task Type | Context7 | Filesystem | Serena | Sequential |
-|-----------|----------|------------|---------|------------|
-| New API endpoint | ✅ | ✅ | ✅ | - |
-| Refactor function | - | ✅ | ✅ | - |
-| Complex debugging | - | ✅ | ✅ | ✅ |
-| Architecture design | ✅ | - | - | ✅ |
-| Dependency upgrade | ✅ | ✅ | ✅ | ✅ |
-| Security audit | - | ✅ | ✅ | - |
-| Performance optimization | ✅ | ✅ | ✅ | ✅ |
-| Documentation | ✅ | ✅ | - | - |
-
-## MANDATORY MCP USAGE RULES
-
-### File Operations - ALWAYS use Filesystem MCP
-- ❌ DON'T: Use basic Read/Write for large files
-- ✅ DO: Use filesystem.read() and filesystem.write()
-- ✅ DO: Use filesystem for atomic operations
-
-### Symbol Operations - ALWAYS use Serena MCP
-- ❌ DON'T: Use text search for refactoring
-- ✅ DO: Use serena for ALL symbol renames
-- ✅ DO: Check references before changes
-
-### External Libraries - ALWAYS use Context7 MCP
-- ❌ DON'T: Guess at framework patterns
-- ✅ DO: Query Context7 before implementation
-- ✅ DO: Get version-specific documentation
-
-### Complex Problems - ALWAYS use Sequential Thinking
-- ❌ DON'T: Jump to solutions for complex issues
-- ✅ DO: Use sequentialthinking for decomposition
-- ✅ DO: Break down into manageable steps
-
-## MCP ERROR HANDLING
-
-### Fallback Strategies
-```
-If context7 fails → Use general best practices + flag for review
-If filesystem fails → Fall back to Read/Write tools
-If serena fails → Use grep/search for text-based fallback
-If sequentialthinking fails → Use plan-agent's native reasoning
+Simple Analysis → reader-agent
+Basic Implementation → maker-agent  
+Security Scan → security-agent
+Documentation → docs-agent
+Bug Investigation → debug-agent
 ```
 
-### Recovery Patterns
-- MCP timeout → Reduce scope and retry
-- MCP error → Log, fallback, continue
-- MCP unavailable → Use native tools with warning
-
-## QUALITY GATES WITH MCP
-
-### Pre-Implementation Gate
-- ✅ Context7 queried for patterns
-- ✅ Serena analyzed current code
-- ✅ Sequential thinking decomposed problem
-
-### Post-Implementation Gate
-- ✅ Serena verified all references updated
-- ✅ Filesystem confirmed atomic writes
-- ✅ No broken symbols detected
-
-### Pre-Deployment Gate
-- ✅ All MCP operations succeeded
-- ✅ Fallbacks not triggered
-- ✅ Symbol integrity maintained
-
-## MCP OPTIMIZATION STRATEGIES
-
-### Performance Tips
-1. **Batch MCP operations** when possible
-2. **Cache Context7 responses** for common queries
-3. **Limit Serena scope** to relevant modules
-4. **Use filesystem.tree() sparingly** on large directories
-5. **Sequential thinking for truly complex problems only**
-
-### Parallel MCP Usage
-When independent, run MCPs in parallel:
+### Two-Agent Patterns (Common)
 ```
-Context7 (library docs) ──┐
-                          ├──→ maker-agent
-Serena (current code) ────┘
+Understand + Implement:
+reader-agent → maker-agent
+
+Debug + Fix:
+debug-agent → maker-agent
+
+Plan + Build:
+plan-agent → maker-agent
 ```
 
-## REPORTING WITH MCP STATUS
+### Multi-Agent Patterns (Complex Projects)
+```
+Full Feature Development:
+plan-agent → reader-agent → maker-agent → test-agent → docs-agent
 
-### Progress Format
-```
-✅ Planning complete (plan-agent + sequentialthinking)
-🔄 Context gathering (context7 + serena)
-🔄 Implementation (maker-agent + filesystem)
-⏸️ Testing queued (test-agent)
-```
+Security-First Development:
+security-agent → plan-agent → maker-agent → test-agent → security-agent
 
-### MCP Health Check
-```
-MCP Status:
-- context7: ✓ Connected
-- filesystem: ✓ Connected
-- serena: ✓ Connected
-- sequentialthinking: ✓ Connected
-All systems operational
+Performance Optimization:
+debug-agent → reader-agent → maker-agent → test-agent → debug-agent
 ```
 
-## AGENT-SPECIFIC MCP INSTRUCTIONS
+## PROJECT-SPECIFIC USAGE EXAMPLES
 
-### For plan-agent
-ALWAYS use sequentialthinking for:
-- Problems with >3 components
-- Architectural decisions
-- Technology comparisons
-- Risk assessments
-
-### For maker-agent
-ALWAYS use:
-- context7 before using any external library
-- serena before modifying existing code
-- filesystem for all file writes
-
-### For reader-agent
-ALWAYS use:
-- filesystem for file operations
-- serena for symbol analysis
-Priority: filesystem → serena → native tools
-
-### For security-agent
-ALWAYS use:
-- serena to trace data flows
-- filesystem to scan for secrets
-Priority: serena for flow analysis
-
-### For debug-agent
-ALWAYS use:
-- filesystem for ALL file operations (logs, errors, outputs)
-- serena for ALL symbol analysis and call graph tracing
-- sequentialthinking for problems with >2 error categories
-
-NEVER:
-- Use bash commands for file analysis
-- Skip serena for symbol-related errors
-- Analyze compilation output without filesystem MCP
-
-Specific Debug Workflows
-1. Compilation Error Analysis: filesystem → serena → sequentialthinking
-2. Performance Debugging: sequentialthinking → filesystem → serena
-3. Integration Issues: filesystem → serena → atomic fixes
-
-## PRACTICAL MCP COMMAND EXAMPLES
-
-### "Refactor this function"
+### Web Development (React/Next.js)
 ```
-1. serena: Find all references
-2. sequentialthinking: Plan refactor steps
-3. maker-agent + serena: Execute refactoring
-4. filesystem: Atomic file updates
+"Build a user authentication system"
+→ plan-agent uses context7 for Next.js auth patterns
+→ maker-agent implements following official patterns
+→ security-agent validates auth implementation
+→ test-agent creates comprehensive auth tests
 ```
 
-### "Add new REST endpoint"
+### API Development (REST/GraphQL)
 ```
-1. context7: Get framework patterns
-2. serena: Analyze existing endpoints
-3. plan-agent + sequentialthinking: Design endpoint
-4. maker-agent: Implement with patterns
-```
-
-### "Debug performance issue"
-```
-1. sequentialthinking: Systematic approach
-2. debug-agent + filesystem: Analyze logs
-3. serena: Trace hot paths
-4. context7: Check for known issues
+"Create a scalable API with rate limiting"
+→ plan-agent designs API architecture with best practices
+→ reader-agent analyzes existing API patterns
+→ maker-agent implements with framework-specific patterns
+→ security-agent validates rate limiting and auth
 ```
 
-### "Update all dependencies"
+### Database Operations
 ```
-1. context7: Get migration guides
-2. serena: Find all usage points
-3. sequentialthinking: Plan update sequence
-4. maker-agent: Update systematically
+"Optimize slow database queries"
+→ debug-agent uses sequentialthinking for systematic analysis
+→ reader-agent analyzes query patterns with serena
+→ maker-agent optimizes queries with atomic file updates
+→ test-agent validates performance improvements
 ```
+
+### Mobile Development (React Native/Flutter)
+```
+"Implement offline data sync"
+→ plan-agent uses context7 for platform-specific patterns
+→ maker-agent implements following official docs
+→ test-agent validates sync across different scenarios
+```
+
+### DevOps/Infrastructure
+```
+"Set up CI/CD pipeline with security scanning"
+→ plan-agent designs pipeline architecture
+→ maker-agent implements pipeline configuration
+→ security-agent validates security scanning integration
+→ test-agent ensures pipeline reliability
+```
+
+## LANGUAGE-SPECIFIC OPTIMIZATIONS
+
+### JavaScript/TypeScript Projects
+- **Context7**: React, Next.js, Node.js, TypeScript best practices
+- **Serena**: Component analysis, dependency tracking
+- **Filesystem**: Package.json, large bundle analysis
+- **Sequential**: Complex async flow design
+
+### Python Projects
+- **Context7**: Django, FastAPI, Flask documentation
+- **Serena**: Class hierarchy analysis, import optimization
+- **Filesystem**: Virtual environment, requirements management
+- **Sequential**: Data pipeline architecture
+
+### Java/Spring Projects
+- **Context7**: Spring Boot, Maven/Gradle patterns
+- **Serena**: Interface analysis, annotation processing
+- **Filesystem**: Large JAR analysis, configuration management
+- **Sequential**: Microservice architecture design
+
+### Go Projects
+- **Context7**: Go standard library, framework patterns
+- **Serena**: Package analysis, interface definitions
+- **Filesystem**: Module management, binary analysis
+- **Sequential**: Concurrent architecture design
+
+## SMART ROUTING DECISION TREE
+
+```
+File Analysis → reader-agent
+Code Implementation → maker-agent
+Architecture Design → plan-agent
+Security Review → security-agent
+Testing/Validation → test-agent
+Documentation → docs-agent
+Error Investigation → debug-agent
+
+Complex Multi-Step Task → Start with plan-agent
+Unknown Requirements → Start with reader-agent
+Performance Issues → Start with debug-agent
+```
+
+## QUALITY GATES (Automated)
+
+### Pre-Development
+- ✅ Requirements analyzed (reader-agent or plan-agent)
+- ✅ Architecture validated (plan-agent with sequentialthinking)
+- ✅ Patterns researched (context7 activation)
+
+### During Development  
+- ✅ Code compiles and passes linting (maker-agent)
+- ✅ Symbol consistency maintained (serena activation)
+- ✅ File operations atomic (filesystem activation)
+
+### Post-Development
+- ✅ Security vulnerabilities addressed (security-agent)
+- ✅ Test coverage adequate (test-agent)
+- ✅ Documentation current (docs-agent)
+
+### Production Ready
+- ✅ No critical security issues
+- ✅ Performance benchmarks met
+- ✅ All quality gates passed
+
+## COMMON DEVELOPMENT SCENARIOS
+
+### New Project Setup
+```
+1. plan-agent: Project architecture with technology selection
+2. maker-agent: Initial project structure and configuration
+3. security-agent: Security baseline and best practices
+4. test-agent: Testing framework setup
+5. docs-agent: Initial documentation and README
+```
+
+### Feature Development
+```
+1. reader-agent: Analyze existing codebase (if needed)
+2. plan-agent: Feature design and integration strategy (if complex)
+3. maker-agent: Implementation following discovered patterns
+4. security-agent: Security implications review
+5. test-agent: Feature testing and validation
+6. docs-agent: Documentation updates
+```
+
+### Bug Fixing
+```
+1. debug-agent: Systematic bug investigation
+2. reader-agent: Related code analysis (if needed)
+3. maker-agent: Precise fix implementation
+4. test-agent: Regression testing
+5. docs-agent: Update if user-facing
+```
+
+### Code Refactoring
+```
+1. reader-agent: Current implementation analysis
+2. plan-agent: Refactoring strategy (if complex)
+3. test-agent: Preserve existing behavior tests
+4. maker-agent: Safe refactoring with serena
+5. test-agent: Validate behavior unchanged
+```
+
+### Dependency Updates
+```
+1. reader-agent: Current usage analysis
+2. plan-agent: Update strategy and risk assessment
+3. maker-agent: Systematic updates following migration guides
+4. test-agent: Comprehensive regression testing
+5. docs-agent: Update version documentation
+```
+
+## ERROR HANDLING & RECOVERY
+
+### MCP Server Issues
+```
+Context7 unavailable → Use cached patterns + flag for review
+Filesystem unavailable → Fall back to native Read/Write tools
+Serena unavailable → Use text-based search as fallback
+Sequential unavailable → Use agent's native reasoning
+```
+
+### Agent Overload
+```
+Agent hits token limit → Break task into smaller chunks
+Complex task overwhelming → Route to plan-agent first
+Multiple failures → Systematic debug-agent investigation
+```
+
+### Quality Gate Failures
+```
+Security issues found → security-agent → maker-agent → test-agent loop
+Test failures → debug-agent → maker-agent → test-agent loop
+Performance degradation → debug-agent investigation → optimization cycle
+```
+
+## OPTIMIZATION STRATEGIES
+
+### Token Efficiency
+1. **Single-agent solutions** when possible
+2. **Smart MCP activation** only when needed
+3. **Parallel execution** for independent tasks
+4. **Context-aware routing** to avoid unnecessary coordination
+
+### Performance Optimization
+1. **Cache MCP responses** for repeated queries
+2. **Batch operations** when possible
+3. **Scope limitation** for large codebases
+4. **Incremental processing** for large changes
+
+### Development Speed
+1. **Pattern recognition** through context7 caching
+2. **Symbol-aware operations** through serena
+3. **Atomic operations** through filesystem
+4. **Systematic approaches** through sequential thinking
+
+## PROJECT TEMPLATES
+
+### Web Application
+- **Primary agents**: plan-agent, maker-agent, security-agent, test-agent
+- **Key MCPs**: context7 (React/Next.js), serena (components), filesystem (builds)
+- **Workflows**: Architecture-first, security-integrated, test-driven
+
+### API Service
+- **Primary agents**: plan-agent, maker-agent, security-agent, docs-agent
+- **Key MCPs**: context7 (framework docs), serena (API structure), filesystem (configs)
+- **Workflows**: API-first design, comprehensive testing, security validation
+
+### Data Processing
+- **Primary agents**: plan-agent, maker-agent, debug-agent, test-agent
+- **Key MCPs**: sequentialthinking (pipeline design), filesystem (large data), serena (processing logic)
+- **Workflows**: Performance-focused, systematic optimization, data validation
+
+### Mobile Application
+- **Primary agents**: plan-agent, maker-agent, test-agent, docs-agent
+- **Key MCPs**: context7 (platform docs), filesystem (assets), serena (navigation)
+- **Workflows**: Platform-specific, performance-conscious, user-experience focused
 
 ---
 
-**Remember**: You now have 4 powerful MCP servers. Use them wisely:
-- 🧠 Sequential Thinking for complex reasoning
-- 📚 Context7 for external knowledge
-- 🔍 Serena for internal code intelligence  
-- 📁 Filesystem for robust file operations
+## 🎯 SUMMARY: INTELLIGENT DEVELOPMENT
 
-Always delegate to agents, always enhance with MCPs, never execute directly.
+Your development workflow is now powered by:
+
+- **🤖 7 specialized agents** operating efficiently within token limits
+- **⚡ 4 smart MCP servers** activating conditionally for enhanced capabilities  
+- **🔄 Optimized workflows** from single-agent to complex multi-agent orchestration
+- **🛡️ Automated quality gates** ensuring production-ready code
+- **📊 Performance monitoring** with intelligent routing and fallback strategies
+
+**Remember**: Always delegate to agents, let MCPs activate smartly, never execute tasks directly. This framework scales from simple scripts to enterprise applications while maintaining efficiency and quality.

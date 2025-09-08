@@ -1,0 +1,11 @@
+{
+  "name": "workflow-coordination",
+  "agents": ["plan", "all"],
+  "triggers": ["task_planning", "agent_handoff"],
+  "actions": {
+    "coordinate_agents": "Coordinate between multiple agents",
+    "track_progress": "Monitor task progress across agents",
+    "resolve_conflicts": "Handle conflicts between agent outputs"
+  },
+  "implementation": "Manage multi-agent workflows and coordination"
+}
