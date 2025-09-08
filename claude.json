@@ -62,18 +62,13 @@
   },
   
   "mcpServers": {
-    "sequential-thinking": {
-      "command": "bash",
-      "args": ["-lc", "source .env; source $NVM_DIR/nvm.sh && npx mcp-sequentialthinking-tools"],
-      "usage": "conditional_activation",
-      "cache_results": true,
-      "timeout": 30000
-    },
     "serena": {
       "command": "uvx",
       "args": ["--from", "git+https://github.com/oraios/serena", "serena-mcp-server"],
       "env": {"PROJECT_ROOT": "${PROJECT_ROOT}"},
-      "usage": "conditional_activation", 
+      "usage": "conditional_activation",
+      "essential_tools_only": true,
+      "max_context_tokens": 6000,
       "cache_results": true,
       "timeout": 20000
     },
@@ -81,17 +76,28 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem", "${PROJECT_ROOT}/projs"],
       "usage": "conditional_activation",
+      "essential_tools_only": true,
+      "max_context_tokens": 4000,
       "cache_results": false,
       "timeout": 10000
     },
     "context7": {
       "type": "http",
-      "url": "https://mcp.context7.com/mcp", 
+      "url": "https://mcp.context7.com/mcp",
       "headers": {"CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"},
       "usage": "conditional_activation",
       "cache_results": true,
       "cache_ttl": 3600000,
       "timeout": 15000
+    },
+    "sequential-thinking": {
+      "command": "bash",
+      "args": ["-lc", "source .env; source $NVM_DIR/nvm.sh && npx mcp-sequentialthinking-tools"],
+      "usage": "conditional_activation",
+      "compress_descriptions": true,
+      "max_context_tokens": 1200,
+      "cache_results": true,
+      "timeout": 30000
     }
   },
   

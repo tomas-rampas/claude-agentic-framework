@@ -1,20 +1,5 @@
 {
   "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "~/projs"
-      ],
-      "env": {
-        "FS_MODE": "atomic_write",
-        "ENABLE_BACKUP": "true",
-        "CONCURRENT_WRITES": "safe",
-        "VALIDATION": "strict",
-        "TRANSACTION_MODE": "true"
-      }
-    },
     "serena": {
       "command": "uvx",
       "args": [
@@ -29,7 +14,26 @@
         "REFERENCE_TRACKING": "full",
         "SAFE_RENAME": "true",
         "IMPACT_ANALYSIS": "true"
-      }
+      },
+      "essential_tools_only": true,
+      "max_context_tokens": 6000
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/projs"
+      ],
+      "env": {
+        "FS_MODE": "atomic_write",
+        "ENABLE_BACKUP": "true",
+        "CONCURRENT_WRITES": "safe",
+        "VALIDATION": "strict",
+        "TRANSACTION_MODE": "true"
+      },
+      "essential_tools_only": true,
+      "max_context_tokens": 4000
     },
     "context7": {
       "type": "http",
@@ -43,6 +47,16 @@
         "VERSION_SPECIFIC": "true",
         "BEST_PRACTICES": "enforce"
       }
+    },
+    "sequentialthinking": {
+      "command": "bash",
+      "args": ["-lc", "source .env; source $NVM_DIR/nvm.sh && npx mcp-sequentialthinking-tools"],
+      "compress_descriptions": true,
+      "max_context_tokens": 1200
     }
+  },
+  "optimization": {
+    "reduce_tool_context": true,
+    "target_total_tokens": 12500
   }
 }

@@ -8,18 +8,27 @@
     "filesystem": {
       "enabled": true,
       "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 4000,
+      "tools": ["read_text_file", "list_directory", "search_files"],
       "triggers": ["log_analysis", "large_file_processing"],
       "priority": 1
     },
     "serena": {
       "enabled": true,
       "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 5000,
+      "tools": ["find_symbol", "find_referencing_symbols", "search_for_pattern"],
       "triggers": ["call_graph_tracing", "symbol_debugging"],
       "priority": 1
     },
     "sequentialthinking": {
       "enabled": true,
       "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 3000,
+      "tools": ["sequentialthinking_tools"],
       "triggers": ["complex_debugging", "root_cause_analysis"],
       "priority": 2
     }

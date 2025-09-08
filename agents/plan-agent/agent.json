@@ -8,12 +8,18 @@
     "sequentialthinking": {
       "enabled": true,
       "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 4000,
+      "tools": ["sequentialthinking_tools"],
       "triggers": ["complex_problem", "architecture", "systematic_planning"],
       "priority": 1
     },
     "context7": {
       "enabled": true,
-      "auto_engage": false, 
+      "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 5000,
+      "tools": ["resolve-library-id", "get-library-docs"],
       "triggers": ["framework_research", "technology_evaluation"],
       "priority": 2
     }

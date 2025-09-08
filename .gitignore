@@ -10,6 +10,7 @@
 !/SECURITY_AUDIT.md
 !/security-check.sh
 !/valiadate-framework.sh
+!/AGENT_ARCHITECTURE_SUMMARY.md
 
 # And not these directories and their contents
 !/agents/

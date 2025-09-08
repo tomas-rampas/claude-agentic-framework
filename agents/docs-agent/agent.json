@@ -8,12 +8,18 @@
     "filesystem": {
       "enabled": true,
       "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 3000,
+      "tools": ["read_text_file", "write_file", "list_directory"],
       "triggers": ["documentation_operations", "template_processing"],
       "priority": 1
     },
     "context7": {
       "enabled": true,
       "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 4000,
+      "tools": ["resolve-library-id", "get-library-docs"],
       "triggers": ["documentation_patterns", "example_generation"],
       "priority": 2
     }

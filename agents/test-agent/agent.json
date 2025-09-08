@@ -8,12 +8,18 @@
     "filesystem": {
       "enabled": true,
       "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 3000,
+      "tools": ["read_text_file", "list_directory", "search_files"],
       "triggers": ["test_file_operations", "coverage_processing"],
       "priority": 1
     },
     "serena": {
       "enabled": true,
       "auto_engage": false,
+      "essential_tools_only": true,
+      "max_context_tokens": 3000,
+      "tools": ["find_symbol", "search_for_pattern"],
       "triggers": ["test_coverage_analysis", "test_target_analysis"],
       "priority": 1
     }

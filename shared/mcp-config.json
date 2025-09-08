@@ -1,29 +1,44 @@
 {
   "mcp_servers": {
-    "filesystem": {
-      "purpose": "Enhanced file operations with atomic writes and large file handling",
-      "operations": ["read", "write", "list", "search", "tree"],
-      "triggers": ["file_write", "atomic_update", "large_file", "directory_ops"],
-      "fallback": "native Read/Write tools"
-    },
     "serena": {
       "purpose": "Semantic code intelligence and symbol operations",
-      "operations": ["getSymbolDefinition", "getSymbolReferences", "renameSymbol"],
+      "essential_tools_only": true,
+      "max_context_tokens": 6000,
+      "essential_operations": ["read_file", "find_symbol", "find_referencing_symbols", "replace_symbol_body", "get_symbols_overview"],
+      "conditional_operations": ["search_for_pattern", "insert_after_symbol", "insert_before_symbol"],
       "triggers": ["refactor", "symbol_ops", "reference_tracking"],
       "fallback": "grep/text search"
     },
+    "filesystem": {
+      "purpose": "Enhanced file operations with atomic writes and large file handling",
+      "essential_tools_only": true,
+      "max_context_tokens": 4000,
+      "essential_operations": ["read_text_file", "write_file", "list_directory", "search_files", "edit_file"],
+      "conditional_operations": ["read_media_file", "create_directory", "move_file", "directory_tree"],
+      "triggers": ["file_write", "atomic_update", "large_file", "directory_ops"],
+      "fallback": "native Read/Write tools"
+    },
     "context7": {
       "purpose": "External documentation and framework patterns",
-      "operations": ["queryDocumentation", "getBestPractices", "getMigrationGuide"],
+      "essential_operations": ["resolve-library-id", "get-library-docs"],
       "triggers": ["framework_use", "library_impl", "best_practices"],
       "fallback": "cached knowledge"
     },
     "sequentialthinking": {
       "purpose": "Complex problem decomposition and systematic reasoning",
-      "operations": ["decomposeStrategy", "analyzeTradeoffs", "developStrategy"],
+      "compress_descriptions": true,
+      "max_context_tokens": 1200,
+      "essential_operations": ["sequentialthinking_tools"],
       "triggers": ["complex_problem", "architecture", "systematic_debug"],
       "fallback": "native reasoning"
     }
+  },
+  "optimization_settings": {
+    "reduce_tool_context": true,
+    "essential_tools_only": true,
+    "lazy_load_descriptions": true,
+    "compress_tool_docs": true,
+    "target_total_tokens": 12500
   },
   "usage_patterns": {
     "conditional_activation": true,
