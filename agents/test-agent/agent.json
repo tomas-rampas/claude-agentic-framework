@@ -26,14 +26,17 @@
   },
   
   "tools": ["Read", "Bash", "Search_files", "Grep"],
-  "hooks": ["testing-workflow", "quality-gates", "file-operations", "symbol-operations", "tdd-workflow"],
+  "hooks": ["testing-workflow", "quality-gates", "file-operations", "symbol-operations", "tdd-workflow", "zero-tolerance-quality"],
   
   "specialization": {
-    "focus": "tdd_leadership_and_proactive_test_creation",
+    "focus": "zero_failure_enforcement_and_tdd_leadership",
     "ensure_quality_standards": true,
     "prevent_regressions": true,
     "tdd_enforcement": true,
     "test_first_approach": true,
-    "coordinate_with_maker": true
+    "coordinate_with_maker": true,
+    "zero_test_failures_policy": true,
+    "block_on_any_failure": true,
+    "comprehensive_validation": true
   }
 }

@@ -35,7 +35,7 @@
   },
   
   "tools": ["Read", "Bash", "Search_files", "Grep"],
-  "hooks": ["debugging-support", "error-handling", "performance-monitor", "file-operations", "symbol-operations"],
+  "hooks": ["debugging-support", "error-handling", "performance-monitor", "file-operations", "symbol-operations", "zero-tolerance-quality"],
   
   "resource_limits": {
     "max_execution_time": 180000,
@@ -44,8 +44,11 @@
   },
   
   "specialization": {
-    "focus": "systematic_problem_solving",
-    "methodology": "scientific_approach",
-    "document_process": true
+    "focus": "zero_error_elimination_and_systematic_debugging",
+    "methodology": "comprehensive_error_prevention",
+    "document_process": true,
+    "zero_warning_tolerance": true,
+    "proactive_issue_detection": true,
+    "comprehensive_validation": true
   }
 }

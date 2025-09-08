@@ -1,0 +1,159 @@
+{
+  "name": "zero-tolerance-quality",
+  "description": "Zero tolerance for compilation, linting, and test errors/warnings - ensures no code changes break existing functionality",
+  "version": "1.0",
+  "agents": ["maker", "test", "debug"],
+  "triggers": [
+    "code_change",
+    "file_modification", 
+    "pre_commit",
+    "build_process",
+    "deployment_preparation",
+    "feature_completion"
+  ],
+  
+  "enforcement_levels": {
+    "compilation_errors": "BLOCKING",
+    "linting_errors": "BLOCKING",
+    "test_failures": "BLOCKING", 
+    "linting_warnings": "BLOCKING",
+    "test_warnings": "WARNING_WITH_APPROVAL",
+    "performance_regression": "BLOCKING",
+    "security_warnings": "BLOCKING"
+  },
+  
+  "validation_sequence": [
+    {
+      "step": 1,
+      "name": "compilation_check",
+      "description": "Verify code compiles without errors",
+      "command_examples": ["npm run build", "mvn compile", "go build", "python -m py_compile"],
+      "success_criteria": "Zero compilation errors",
+      "failure_action": "BLOCK_IMMEDIATELY"
+    },
+    {
+      "step": 2, 
+      "name": "linting_validation",
+      "description": "Execute linting with zero tolerance for errors and warnings",
+      "command_examples": ["eslint --max-warnings 0", "pylint --fail-under=10", "golangci-lint run", "checkstyle"],
+      "success_criteria": "Zero linting errors and warnings",
+      "failure_action": "BLOCK_IMMEDIATELY"
+    },
+    {
+      "step": 3,
+      "name": "test_execution", 
+      "description": "Run full test suite with zero failures",
+      "command_examples": ["npm test", "pytest", "go test ./...", "mvn test"],
+      "success_criteria": "All tests pass, zero warnings",
+      "failure_action": "BLOCK_IMMEDIATELY"
+    },
+    {
+      "step": 4,
+      "name": "regression_validation",
+      "description": "Ensure no existing functionality is broken",
+      "command_examples": ["npm run test:regression", "pytest tests/integration/", "go test -tags=integration"],
+      "success_criteria": "No regressions detected",
+      "failure_action": "BLOCK_IMMEDIATELY"
+    },
+    {
+      "step": 5,
+      "name": "performance_check",
+      "description": "Validate no performance degradation",
+      "command_examples": ["npm run benchmark", "pytest --benchmark", "go test -bench=."],
+      "success_criteria": "Performance within acceptable thresholds",
+      "failure_action": "BLOCK_WITH_REVIEW"
+    }
+  ],
+  
+  "quality_standards": {
+    "compilation": {
+      "zero_errors": true,
+      "zero_warnings": true,
+      "build_success_required": true
+    },
+    "linting": {
+      "zero_errors": true,
+      "zero_warnings": true,
+      "code_style_compliance": true,
+      "complexity_thresholds": true
+    },
+    "testing": {
+      "zero_failures": true,
+      "minimum_coverage": 80,
+      "zero_skipped_critical_tests": true,
+      "performance_regression_threshold": "5%"
+    },
+    "security": {
+      "zero_high_severity": true,
+      "zero_medium_severity": true, 
+      "dependency_vulnerability_scan": true
+    }
+  },
+  
+  "agent_responsibilities": {
+    "maker-agent": {
+      "pre_implementation": ["validate_compilation_baseline", "check_existing_tests"],
+      "during_implementation": ["continuous_compilation_check", "incremental_testing"],
+      "post_implementation": ["full_validation_suite", "regression_prevention"]
+    },
+    "test-agent": {
+      "primary_role": "zero_failure_enforcement",
+      "responsibilities": ["execute_full_suite", "validate_coverage", "regression_testing"],
+      "quality_gates": ["block_on_failure", "validate_warnings", "performance_monitoring"]
+    },
+    "debug-agent": {
+      "error_elimination": ["systematic_warning_resolution", "performance_debugging"],
+      "prevention": ["root_cause_analysis", "proactive_issue_detection"],
+      "validation": ["comprehensive_error_checking", "edge_case_validation"]
+    }
+  },
+  
+  "integration": {
+    "coordinates_with": [
+      "development-standards",
+      "tdd-workflow",
+      "quality-gates",
+      "testing-workflow"
+    ],
+    "blocks_progression_until": [
+      "zero_compilation_errors",
+      "zero_linting_issues", 
+      "zero_test_failures",
+      "zero_regressions"
+    ],
+    "ci_cd_integration": {
+      "pipeline_gates": ["pre_merge", "pre_deploy", "post_deploy_validation"],
+      "failure_notifications": ["immediate_alert", "rollback_trigger"],
+      "success_criteria": ["all_validations_pass", "performance_within_threshold"]
+    }
+  },
+  
+  "failure_handling": {
+    "compilation_failure": {
+      "immediate_action": "BLOCK_ALL_PROGRESS",
+      "remediation": "debug-agent systematic error resolution",
+      "prevention": "Pre-compile validation in maker-agent"
+    },
+    "linting_failure": {
+      "immediate_action": "BLOCK_COMMIT",
+      "remediation": "Automatic fixing where possible, manual review required",
+      "prevention": "Real-time linting during development"
+    },
+    "test_failure": {
+      "immediate_action": "BLOCK_DEPLOYMENT", 
+      "remediation": "test-agent investigation and debug-agent assistance",
+      "prevention": "TDD workflow ensures tests pass during development"
+    },
+    "regression_detected": {
+      "immediate_action": "BLOCK_AND_ROLLBACK",
+      "remediation": "Full regression analysis and systematic fix",
+      "prevention": "Comprehensive regression suite on every change"
+    }
+  },
+  
+  "reporting": {
+    "quality_metrics": ["error_count", "warning_count", "test_pass_rate", "coverage_percentage"],
+    "trend_analysis": ["quality_improvement_over_time", "regression_frequency"],
+    "compliance_reporting": ["zero_tolerance_adherence", "policy_violations"]
+  }
+}

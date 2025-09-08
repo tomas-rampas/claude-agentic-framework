@@ -28,6 +28,13 @@
       "workflow_phases": ["red", "green", "refactor"],
       "enforcement": "blocking"
     },
+    "zero-tolerance-quality": {
+      "agents": ["maker", "test", "debug"],
+      "triggers": ["code_change", "file_modification", "pre_commit", "build_process"],
+      "actions": ["validate_compilation", "check_linting", "run_tests", "prevent_regressions"],
+      "enforcement_levels": ["compilation_errors", "linting_errors", "test_failures"],
+      "enforcement": "blocking"
+    },
     "security-check": {
       "agents": ["security", "maker"],
       "triggers": ["code_creation", "dependency_change"],

@@ -135,6 +135,48 @@ Every request workflow:
   5. test-agent: Ensure all tests still pass
 ```
 
+## 🚫 ZERO-TOLERANCE QUALITY POLICY
+
+**MANDATORY**: Zero tolerance for compilation, linting, and test errors/warnings
+
+### Quality Enforcement Levels
+```
+🚫 BLOCKING (Build Fails):
+├── Compilation errors
+├── Linting errors  
+├── Test failures
+└── Critical warnings
+
+⚠️ WARNING (Requires Approval):
+├── Minor linting warnings (configurable)
+└── Performance warnings (within threshold)
+
+✅ PASSING (Deployment Allowed):
+├── Clean compilation
+├── Zero linting issues
+├── All tests passing
+└── No regressions detected
+```
+
+### Automatic Quality Validation
+- **maker-agent**: Never completes tasks with any errors/warnings
+- **test-agent**: Blocks all progression until zero test failures
+- **debug-agent**: Systematic elimination of all warnings and errors
+- **zero-tolerance-quality hook**: Enforces policy across all agents
+
+### Quality Gate Sequence
+1. **Compilation Check**: Must compile without errors
+2. **Linting Validation**: Zero errors, zero warnings allowed
+3. **Test Execution**: All tests must pass, no warnings
+4. **Regression Check**: Ensure no existing functionality broken
+5. **Performance Validation**: No degradation allowed
+
+### Integration with CI/CD
+- **Pre-commit hooks**: Block commits with any quality issues
+- **Pipeline gates**: Automatic build failure on violations  
+- **Deployment blocking**: Zero-tolerance before production
+- **Rollback triggers**: Automatic revert on quality regression
+
 ## DEVELOPMENT WORKFLOW PATTERNS
 
 ### Single-Agent Patterns (Preferred for Efficiency)

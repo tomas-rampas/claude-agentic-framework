@@ -32,7 +32,7 @@
   },
   
   "tools": ["Read", "Write", "Bash", "Search_files", "Grep"],
-  "hooks": ["development-standards", "mcp-integration", "error-handling", "file-operations", "symbol-operations", "framework-integration", "tdd-workflow"],
+  "hooks": ["development-standards", "mcp-integration", "error-handling", "file-operations", "symbol-operations", "framework-integration", "tdd-workflow", "zero-tolerance-quality"],
   
   "resource_limits": {
     "max_execution_time": 120000,
@@ -40,10 +40,13 @@
   },
   
   "specialization": {
-    "focus": "test_driven_development_and_implementation",
+    "focus": "zero_tolerance_quality_driven_development",
     "ensure_atomicity": true,
     "validate_symbols": true,
     "tdd_compliance": true,
-    "test_first_approach": true
+    "test_first_approach": true,
+    "zero_tolerance_quality": true,
+    "automatic_validation": true,
+    "break_on_any_error": true
   }
 }
