@@ -1,0 +1,101 @@
+{
+  "name": "tdd-workflow",
+  "description": "Enforce Test-Driven Development workflow with Red-Green-Refactor cycle",
+  "version": "1.0",
+  "agents": ["maker", "test", "plan"],
+  "triggers": [
+    "code_creation",
+    "new_feature", 
+    "function_implementation",
+    "class_creation",
+    "method_addition",
+    "algorithm_implementation"
+  ],
+  
+  "workflow_phases": {
+    "red_phase": {
+      "description": "Create failing test first",
+      "requirements": [
+        "test_exists",
+        "test_fails_initially",
+        "test_covers_expected_behavior"
+      ],
+      "responsible_agent": "test-agent",
+      "blocking": true
+    },
+    "green_phase": {
+      "description": "Implement minimal code to pass test",
+      "requirements": [
+        "code_implementation_minimal",
+        "test_passes",
+        "no_additional_functionality"
+      ],
+      "responsible_agent": "maker-agent",
+      "depends_on": "red_phase"
+    },
+    "refactor_phase": {
+      "description": "Improve code while maintaining test passage",
+      "requirements": [
+        "code_quality_improved",
+        "all_tests_still_pass",
+        "no_behavior_changes"
+      ],
+      "responsible_agent": "maker-agent",
+      "depends_on": "green_phase",
+      "optional": false
+    }
+  },
+  
+  "enforcement_rules": {
+    "pre_implementation": {
+      "block_code_creation_without_test": true,
+      "require_test_failure_first": true,
+      "validate_test_quality": true
+    },
+    "during_implementation": {
+      "minimal_implementation_only": true,
+      "continuous_test_validation": true,
+      "prevent_feature_creep": true
+    },
+    "post_implementation": {
+      "require_all_tests_pass": true,
+      "enforce_refactoring_step": true,
+      "validate_code_quality": true
+    }
+  },
+  
+  "quality_standards": {
+    "test_requirements": {
+      "meaningful_test_names": true,
+      "clear_assertions": true,
+      "edge_case_coverage": true,
+      "isolated_tests": true
+    },
+    "code_requirements": {
+      "passes_all_tests": true,
+      "follows_coding_standards": true,
+      "maintains_simplicity": true,
+      "avoids_premature_optimization": true
+    }
+  },
+  
+  "integration": {
+    "coordinates_with": [
+      "development-standards",
+      "testing-workflow", 
+      "quality-gates",
+      "code-analysis"
+    ],
+    "triggers_after_completion": [
+      "quality-gates",
+      "testing-workflow"
+    ]
+  },
+  
+  "failure_handling": {
+    "test_creation_failure": "Guide user to create appropriate test",
+    "test_not_failing": "Help fix test to properly validate expected behavior",
+    "implementation_too_complex": "Break down into smaller TDD cycles",
+    "refactoring_breaks_tests": "Revert changes, smaller refactoring steps"
+  }
+}

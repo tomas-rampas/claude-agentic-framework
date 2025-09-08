@@ -89,6 +89,52 @@ Every request workflow:
 - maker-agent: Safe concurrent writes
 - debug-agent: Large log file processing
 
+## 🧪 TEST-DRIVEN DEVELOPMENT (TDD) ENFORCEMENT
+
+**MANDATORY**: All new code must follow Test-Driven Development workflow
+
+### TDD Workflow (Red-Green-Refactor)
+```
+🔴 RED Phase: test-agent creates failing test first
+🟢 GREEN Phase: maker-agent implements minimal passing code  
+🔄 REFACTOR Phase: maker-agent improves code while maintaining tests
+```
+
+### TDD Agent Coordination
+- **test-agent**: Leads TDD cycle, creates tests BEFORE implementation
+- **maker-agent**: Follows TDD cycle, implements ONLY after tests exist
+- **tdd-workflow hook**: Automatically enforces test-first approach
+
+### TDD Quality Gates
+- ❌ **BLOCKS code creation** until failing test exists
+- ✅ **Allows implementation** only after test validates expected behavior
+- 🔄 **Enforces refactoring** while maintaining all test passage
+- 📊 **Validates coverage** and test quality standards
+
+### TDD Triggers (Automatic)
+- New feature development
+- Function/method creation
+- Class implementation  
+- Algorithm development
+- Bug fixes (test for reproduction first)
+
+### TDD Integration with MCPs
+- **Context7**: Query testing best practices and framework patterns
+- **Serena**: Analyze existing test patterns and code integration points
+- **Filesystem**: Manage test files and ensure atomic test/code operations
+- **Sequential Thinking**: Break complex features into testable components
+
+### TDD Compliance Examples
+```
+❌ WRONG: "Implement user authentication"
+✅ CORRECT: 
+  1. test-agent: Create failing test for user login
+  2. maker-agent: Implement minimal login functionality
+  3. test-agent: Verify test passes
+  4. maker-agent: Refactor for security and performance
+  5. test-agent: Ensure all tests still pass
+```
+
 ## DEVELOPMENT WORKFLOW PATTERNS
 
 ### Single-Agent Patterns (Preferred for Efficiency)

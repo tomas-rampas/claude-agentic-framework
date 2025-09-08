@@ -21,6 +21,13 @@
       "triggers": ["code_change", "test_execution"],
       "actions": ["run_tests", "analyze_coverage", "report_failures"]
     },
+    "tdd-workflow": {
+      "agents": ["test", "maker", "plan"],
+      "triggers": ["code_creation", "new_feature", "function_implementation"],
+      "actions": ["create_failing_test", "minimal_implementation", "refactor_with_tests"],
+      "workflow_phases": ["red", "green", "refactor"],
+      "enforcement": "blocking"
+    },
     "security-check": {
       "agents": ["security", "maker"],
       "triggers": ["code_creation", "dependency_change"],

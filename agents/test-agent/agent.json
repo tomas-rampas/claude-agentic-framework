@@ -26,11 +26,14 @@
   },
   
   "tools": ["Read", "Bash", "Search_files", "Grep"],
-  "hooks": ["testing-workflow", "quality-gates", "file-operations", "symbol-operations"],
+  "hooks": ["testing-workflow", "quality-gates", "file-operations", "symbol-operations", "tdd-workflow"],
   
   "specialization": {
-    "focus": "comprehensive_testing_and_validation",
+    "focus": "tdd_leadership_and_proactive_test_creation",
     "ensure_quality_standards": true,
-    "prevent_regressions": true
+    "prevent_regressions": true,
+    "tdd_enforcement": true,
+    "test_first_approach": true,
+    "coordinate_with_maker": true
   }
 }
