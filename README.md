@@ -107,7 +107,7 @@ cp .env.example .env
 ### 2. **Smart MCP Activation** 
 - **Before**: Auto-engagement for all MCPs on all agents
 - **After**: Conditional activation based on task context
-- **Implementation**: `hooks-v2/smart-mcp.json` with activation rules
+- **Implementation**: `hooks/smart-mcp.json` with activation rules
 
 ### 3. **Essential Hooks System**
 - **Before**: 49 hooks with verbose YAML (4900+ lines)
@@ -223,7 +223,7 @@ For existing users upgrading from the previous version:
 
 - **`REFACTOR_SUMMARY.md`** - Complete refactoring documentation
 - **`shared/agent-patterns.md`** - Common workflows and MCP guidelines  
-- **`hooks-v2/core-hooks.json`** - Hook registry and documentation
+- **`hooks/core-hooks.json`** - Hook registry and documentation
 - **Migration logs** - Available in `backup/` directory
 
 ## 🎯 Success Metrics Achieved

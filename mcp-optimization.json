@@ -1,0 +1,105 @@
+{
+  "description": "MCP Server optimization configuration to reduce context usage",
+  "version": "2.0.0",
+  
+  "optimization_settings": {
+    "reduce_tool_context": true,
+    "essential_tools_only": true,
+    "lazy_load_descriptions": true,
+    "compress_tool_docs": true
+  },
+  
+  "server_configurations": {
+    "serena": {
+      "current_tools": 25,
+      "current_tokens": "~14,716",
+      "optimization_strategy": "core_operations_only",
+      "essential_tools": [
+        "read_file",
+        "find_symbol", 
+        "find_referencing_symbols",
+        "replace_symbol_body",
+        "get_symbols_overview"
+      ],
+      "recommended_reduction": "60%",
+      "target_tokens": "~6,000"
+    },
+    
+    "filesystem": {
+      "current_tools": 14,
+      "current_tokens": "~6,659", 
+      "optimization_strategy": "smart_activation",
+      "essential_tools": [
+        "read_text_file",
+        "write_file", 
+        "list_directory",
+        "search_files",
+        "edit_file"
+      ],
+      "recommended_reduction": "40%",
+      "target_tokens": "~4,000"
+    },
+    
+    "sequentialthinking": {
+      "current_tools": 1,
+      "current_tokens": "~2,321",
+      "optimization_strategy": "compress_descriptions", 
+      "essential_tools": [
+        "sequentialthinking_tools"
+      ],
+      "recommended_reduction": "50%",
+      "target_tokens": "~1,200"
+    },
+    
+    "context7": {
+      "current_tools": 2,
+      "current_tokens": "~1,343",
+      "optimization_strategy": "already_optimal",
+      "essential_tools": [
+        "resolve-library-id",
+        "get-library-docs"
+      ],
+      "recommended_reduction": "0%",
+      "target_tokens": "~1,343"
+    }
+  },
+  
+  "optimization_targets": {
+    "total_current": "~25,039 tokens",
+    "total_target": "~12,543 tokens", 
+    "reduction_goal": "50%",
+    "orchestrator_safe": true
+  },
+  
+  "implementation_recommendations": {
+    "immediate_actions": [
+      "Configure serena MCP to expose only core symbol operations",
+      "Configure filesystem MCP for conditional tool exposure",
+      "Compress sequentialthinking tool descriptions",
+      "Keep context7 as-is (already optimized)"
+    ],
+    
+    "configuration_changes": [
+      "Add 'essential_tools_only' flag to MCP server configs",
+      "Implement lazy loading for advanced MCP features", 
+      "Use compressed tool descriptions in agent contexts",
+      "Enable conditional tool exposure based on task type"
+    ],
+    
+    "monitoring": [
+      "Track MCP context usage per agent invocation",
+      "Monitor orchestrator limit hits (should be zero)", 
+      "Measure performance impact of tool reduction",
+      "Validate that essential functionality is preserved"
+    ]
+  },
+  
+  "fallback_strategy": {
+    "if_reduction_insufficient": [
+      "Further reduce serena tools to top 3 most used",
+      "Implement tool grouping (expose groups based on task)",
+      "Use tool aliases to reduce description length",
+      "Consider separate MCP configs per agent type"
+    ]
+  }
+}

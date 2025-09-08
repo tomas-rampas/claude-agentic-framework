@@ -9,8 +9,12 @@
 !/.env.example
 !/SECURITY_AUDIT.md
 !/security-check.sh
-!/valiadate-framework.sh
+!/validate-framework.sh
 !/AGENT_ARCHITECTURE_SUMMARY.md
+!/REFACTOR_SUMMARY.md
+!/fix-mcp-context.md
+!/migrate-to-optimized.sh
+!/mcp-optimization.json
 
 # And not these directories and their contents
 !/agents/
@@ -22,6 +26,7 @@
 /settings.json
 /settings.local.json
 /.credentials.json
+/.env
 
 # Explicitly ignore directories at the root that should not be tracked
 /plugins/
@@ -29,3 +34,7 @@
 /shell-snapshots/
 /statsig/
 /todos/
+/backup/
+/hooks-v1-archived/
+/hooks-active
+/ide/
