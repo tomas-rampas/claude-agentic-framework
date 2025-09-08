@@ -7,6 +7,7 @@ mcp_servers:
   - serena
 tools:
   - Read
+  - Write
   - Search_files
   - Grep
 hooks:

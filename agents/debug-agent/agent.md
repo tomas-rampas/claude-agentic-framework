@@ -8,6 +8,9 @@ mcp_servers:
   - sequentialthinking
 tools:
   - Read
+  - Write
+  - Edit
+  - MultiEdit
   - Bash
   - Search_files
   - Grep

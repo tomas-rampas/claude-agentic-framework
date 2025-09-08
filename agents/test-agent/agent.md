@@ -7,6 +7,9 @@ mcp_servers:
   - serena
 tools:
   - Read
+  - Write
+  - Edit
+  - MultiEdit
   - Bash
   - Search_files
   - Grep

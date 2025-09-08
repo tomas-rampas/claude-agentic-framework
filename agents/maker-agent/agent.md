@@ -10,6 +10,9 @@ mcp_servers:
 tools:
   - Read
   - Write
+  - Write
+  - Edit
+  - MultiEdit
   - Bash
   - Search_files
   - Grep
