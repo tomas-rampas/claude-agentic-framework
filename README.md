@@ -1,100 +1,105 @@
-# Claude Code Agentic Framework v2.0
+# Claude Agentic Framework v2.0
 
-**Optimized multi-agent workspace for Claude Code CLI with lean, efficient sub-agents designed to eliminate orchestrator limits.**
+**Production-ready multi-agent system for Claude with specialized agents and smart MCP integration.**
 
 ## 🎯 Overview
 
-This repository contains an **optimized** multi-agent framework enhanced with Model Context Protocol (MCP) servers. After comprehensive refactoring, the framework now operates efficiently within orchestrator constraints while maintaining full functionality.
+This repository contains a fully optimized multi-agent framework built for Claude with Model Context Protocol (MCP) server integration. The system features specialized agents for different development tasks, smart resource sharing, and efficient token usage.
 
-**Key Improvements in v2.0:**
-- **75% reduction in token usage** (12,000 → 3,000 tokens per agent)
-- **Orchestrator limit hits eliminated** completely
-- **80% faster agent initialization** (5s → <1s)
-- **Smart MCP activation** with conditional usage
-- **Essential hooks system** (49 → 15 hooks)
+**Current Status (September 2025):**
+- ✅ **Production Ready** - Framework is stable and actively maintained
+- ✅ **Token Optimized** - Efficient agent prompts (800-1100 tokens each)
+- ✅ **Smart MCP Integration** - Conditional activation based on task needs
+- ✅ **Specialized Agents** - 7 focused agents for different development tasks
+- ✅ **Security Audited** - Regular security scans with clean audit reports
 
 ## 🚀 Quick Start
 
 ### 1. Setup
 ```bash
-git clone <repository-url>
-cd claude-code-agentic-framework
-cp .env.example .env
-# Edit .env with your API keys (CONTEXT7_API_KEY, etc.)
+git clone https://github.com/tomas-rampas/claude-agentic-framework.git
+cd claude-agentic-framework
+cp .env.example .env  # Create if needed
+# Configure any required environment variables
 ```
 
-### 2. Migration (for existing users)
+### 2. Validation
 ```bash
-# Migrate from v1.0 to v2.0 (creates backup automatically)
-./migrate-to-optimized.sh
-```
-
-### 3. Validation
-```bash
-# Validate framework integrity
+# Validate framework integrity and agent configurations
 ./validate-framework.sh
 ```
 
-### 4. Usage
-```bash
-# Use agents through Claude Code's Task tool system
-# The Task tool automatically selects and invokes the appropriate agent
-```
+### 3. Usage
+The framework operates through Claude's natural conversation interface. Simply describe your task and the system automatically routes to the appropriate specialized agent.
 
-## 📊 Performance Comparison
+**Examples:**
+- "Plan the architecture for a new web application" → `plan-agent`
+- "Implement user authentication" → `maker-agent`  
+- "Debug this performance issue" → `debug-agent`
+- "Analyze these files" → `reader-agent`
+- "Check for security vulnerabilities" → `security-agent`
 
-| Metric | v1.0 (Before) | v2.0 (After) | Improvement |
-|--------|---------------|--------------|-------------|
-| **Agent Context Size** | ~12,000 tokens | ~3,000 tokens | **75% ↓** |
-| **Agent Prompts** | 2000+ tokens | 800-1100 tokens | **60% ↓** |
-| **Hook System** | 49 hooks, 4900+ lines | 15 hooks, 150 lines | **85% ↓** |
-| **Initialization Time** | ~5 seconds | <1 second | **80% ↓** |
-| **Memory Usage** | ~2GB | ~600MB | **70% ↓** |
-| **Orchestrator Hits** | 100% | 0% | **ELIMINATED** |
+## 📊 Framework Metrics
+
+| Metric | Current Status | Performance |
+|--------|----------------|-------------|
+| **Active Agents** | 7 specialized agents | Each optimized for specific tasks |
+| **Token Usage** | ~900-1100 per agent | Efficient, focused prompts |
+| **Response Time** | Sub-second routing | Automatic agent selection |
+| **MCP Integration** | 4 smart servers | Conditional activation |
+| **Security Status** | ✅ Clean audit | Regular vulnerability scanning |
+| **Maintenance** | Active development | Updated September 2025 |
 
 ## 🏗️ Architecture
 
-### Agent Specialization Matrix
+### Agent Specialization
 
-| Agent | Model | Focus | Token Usage | Primary MCPs |
-|-------|-------|--------|-------------|-------------|
-| **plan-agent** | Opus | Strategic planning & architecture | ~1000 | sequentialthinking, context7 |
-| **maker-agent** | Sonnet | Code implementation | ~1100 | filesystem, serena, context7 |
-| **reader-agent** | Haiku | Fast file analysis | ~900 | filesystem, serena |
-| **debug-agent** | Sonnet | Systematic debugging | ~950 | filesystem, serena, sequentialthinking |
-| **security-agent** | Haiku | Vulnerability scanning | ~870 | filesystem, serena |
-| **test-agent** | Haiku | Quality validation | ~810 | filesystem, serena |
-| **docs-agent** | Haiku | Documentation | ~880 | filesystem, context7 |
+| Agent | Model | Focus Area | Use Cases |
+|-------|-------|------------|-----------|
+| **plan-agent** | Claude Opus 4.1 | Strategic planning & system design | Architecture decisions, project planning, system design |
+| **maker-agent** | Claude Sonnet 4 | Code implementation & development | Writing code, implementing features, refactoring |
+| **reader-agent** | Claude Haiku 3 | File analysis & code comprehension | Reading codebases, analyzing files, extracting information |
+| **debug-agent** | Claude Sonnet 4 | Debugging & troubleshooting | Finding bugs, performance issues, error investigation |
+| **security-agent** | Claude Haiku 3 | Security analysis & vulnerability scanning | Security audits, vulnerability detection, compliance checks |
+| **test-agent** | Claude Haiku 3 | Testing & quality assurance | Writing tests, test planning, quality validation |
+| **docs-agent** | Claude Haiku 3 | Documentation & technical writing | Creating documentation, README files, API docs |
 
 ### MCP Servers (Smart Activation)
 
-| Server | Purpose | Activation | Performance |
-|--------|---------|------------|-------------|
-| **filesystem** | Enhanced file operations | Conditional (large files, atomic writes) | 10x faster for large files |
-| **serena** | Semantic code intelligence | Conditional (symbol operations, refactoring) | Type-aware, cross-reference tracking |
-| **context7** | External documentation | Conditional (framework usage, best practices) | Official docs, version-specific |
-| **sequentialthinking** | Complex reasoning | Conditional (>3 components, systematic analysis) | Multi-step problem decomposition |
+| Server | Purpose | When Activated | Benefits |
+|--------|---------|----------------|----------|
+| **filesystem** | Enhanced file operations | Large files, atomic operations | Optimized file handling, batch operations |
+| **serena** | Semantic code intelligence | Symbol analysis, refactoring | Type-aware operations, cross-reference tracking |
+| **context7** | External documentation | Framework queries, best practices | Official docs, version-specific guidance |
+| **sequentialthinking** | Complex reasoning | Multi-step analysis, planning | Structured problem decomposition |
 
-## 📁 Framework Structure
+## 📁 Project Structure
 
 ```
-├── claude.json                    # Optimized main configuration (v2.0)
-├── shared/                        # 🆕 Shared resources (eliminate duplication)
-│   ├── base-config.json          # Common agent configuration template
-│   ├── mcp-config.json           # MCP server definitions and patterns
-│   └── agent-patterns.md         # Shared workflows and guidelines
-├── agents/
-│   └── {agent-name}/
-│       ├── agent.md              # 🔧 Lean prompts (800-1100 tokens)
-│       └── agent.json            # 🔧 Consolidated configuration
-├── hooks/                        # Essential hooks system (15 hooks)
-│   ├── core-hooks.json           # Hook registry and routing
-│   ├── smart-mcp.json            # Conditional MCP activation rules
+claude-agentic-framework/
+├── claude.json                    # Main framework configuration
+├── agents/                        # Agent definitions
+│   ├── plan-agent.md             # Strategic planning agent
+│   ├── maker-agent.md            # Code implementation agent  
+│   ├── reader-agent.md           # File analysis agent
+│   ├── debug-agent.md            # Debugging agent
+│   ├── security-agent.md         # Security scanning agent
+│   ├── test-agent.md             # Testing agent
+│   ├── docs-agent.md             # Documentation agent
+│   └── setup-*.sh               # Agent setup scripts
+├── shared/                        # Shared configurations and patterns
+│   ├── base-config.json          # Common agent configuration
+│   ├── mcp-config.json           # MCP server definitions
+│   └── agent-patterns.md         # Shared workflows and patterns
+├── hooks/                        # Essential system hooks (15 total)
+│   ├── core-hooks.json           # Hook registry
+│   ├── smart-mcp.json            # MCP activation rules
 │   └── *.json                    # Individual hook implementations
-├── backup/                       # Automatic backups during migration
-├── migrate-to-optimized.sh       # 🆕 Migration script
-├── validate-framework.sh         # 🆕 Validation and testing
-└── REFACTOR_SUMMARY.md           # Complete refactoring documentation
+├── scripts/                      # Utility scripts
+├── backup/                       # Automatic backups
+├── validate-framework.sh         # Framework validation
+├── security-check.sh             # Security audit script
+└── README.md                     # This file
 ```
 
 ## 🔧 Key Optimizations
@@ -131,256 +136,197 @@ cp .env.example .env
 
 ## 💡 Usage Examples
 
-The framework uses Claude Code's Task tool system which automatically delegates to the appropriate specialized agent based on your request:
+The framework automatically routes requests to appropriate agents based on the task description:
 
 ### Strategic Planning
 ```
-"Design a scalable e-commerce architecture with microservices"
+"Design a microservices architecture for an e-commerce platform"
 ```
-→ **Automatically routed to plan-agent**
+→ **Routed to plan-agent** (Claude Opus)
 → Uses sequential thinking for complex architecture decisions
-→ Queries context7 for microservices best practices
+→ Leverages context7 for microservices best practices
 
-### Code Implementation
+### Implementation
 ```
-"Implement user authentication with JWT tokens"
+"Implement JWT authentication for the user service"
 ```
-→ **Automatically routed to maker-agent**  
+→ **Routed to maker-agent** (Claude Sonnet)
 → Queries context7 for JWT implementation patterns
-→ Uses serena for symbol-aware code modifications
-→ Uses filesystem for atomic file operations
+→ Uses serena for symbol-aware code generation
+→ Employs filesystem for efficient file operations
 
 ### Debugging
 ```
-"Debug the performance issue in the checkout process"
+"Investigate why the checkout process is slow"
 ```
-→ **Automatically routed to debug-agent**
-→ Uses filesystem for log analysis
-→ Uses serena for call graph tracing  
-→ Uses sequential thinking for systematic debugging
+→ **Routed to debug-agent** (Claude Sonnet)
+→ Uses sequential thinking for systematic analysis
+→ Leverages filesystem for log analysis
+→ Employs serena for call graph tracing
 
-### Security Analysis
+### Code Analysis
 ```
-"Scan the codebase for security vulnerabilities"
+"Analyze this React component and explain its functionality"
 ```
-→ **Automatically routed to security-agent**
-→ Uses filesystem for file scanning
-→ Uses serena for data flow analysis
-→ Provides actionable remediation steps
-
-### File Analysis
-```
-"Analyze the project structure and dependencies"
-```
-→ **Automatically routed to reader-agent**
+→ **Routed to reader-agent** (Claude Haiku)
 → Uses filesystem for efficient file reading
-→ Uses serena for symbol analysis
-→ Generates comprehensive project summary
+→ Leverages serena for symbol and dependency analysis
+
+### Security Assessment
+```
+"Scan the authentication module for security vulnerabilities"
+```
+→ **Routed to security-agent** (Claude Haiku)
+→ Uses filesystem for comprehensive file scanning
+→ Employs serena for data flow analysis
+→ Provides actionable remediation recommendations
 
 ## 🔒 Security
 
-This framework follows strict security practices:
+The framework maintains strict security standards:
 
-- ✅ **No hardcoded credentials**: Environment variables only
-- ✅ **Secure configuration**: Sensitive files excluded from git
-- ✅ **Built-in scanning**: security-agent provides continuous monitoring
-- ✅ **Regular validation**: `./security-check.sh` for auditing
+- ✅ **Zero hardcoded credentials** - All sensitive data via environment variables
+- ✅ **Regular security audits** - Automated scanning with `security-agent`
+- ✅ **Clean audit status** - Latest audit: September 2025, no issues found  
+- ✅ **Secure defaults** - All configurations follow security best practices
+- ✅ **Version control safety** - Sensitive files properly excluded from git
 
-### Security Validation
+### Security Commands
 ```bash
-# Quick security check
+# Run security audit
 ./security-check.sh
 
-# Full security audit
+# View latest security report
 cat SECURITY_AUDIT.md
+
+# Validate framework security
+./validate-framework.sh --security
 ```
 
-## 🚦 Migration from v1.0
-
-For existing users upgrading from the previous version:
-
-### Automatic Migration
-```bash
-./migrate-to-optimized.sh
-```
-**This script will:**
-- Create automatic backups of existing configuration
-- Remove old verbose configuration files  
-- Archive old hook system (hooks → hooks-v1-archived)
-- Activate optimized v2.0 system
-- Validate new configuration
-
-### Manual Verification
-```bash
-# Validate migration success
-./validate-framework.sh
-
-# Check agent functionality - agents are invoked automatically by Claude Code
-# Just provide natural language requests and the system routes to appropriate agents
-```
-
-## 📚 Documentation
-
-- **`REFACTOR_SUMMARY.md`** - Complete refactoring documentation
-- **`shared/agent-patterns.md`** - Common workflows and MCP guidelines  
-- **`hooks/core-hooks.json`** - Hook registry and documentation
-- **Migration logs** - Available in `backup/` directory
-
-## 🎯 Success Metrics Achieved
-
-✅ **75% token usage reduction** - Target: 70%, Achieved: 75%  
-✅ **Orchestrator limits eliminated** - Target: reduce hits, Achieved: 0 hits  
-✅ **80% faster initialization** - Target: 50% improvement, Achieved: 80%  
-✅ **All functionality preserved** - No capability loss during optimization  
-✅ **Smart MCP activation** - Conditional usage implemented successfully  
-✅ **Essential hooks only** - 85% reduction while maintaining core functionality  
-
-## 🛠️ Development
+## �️ Development & Configuration
 
 ### Adding a New Agent
 
-To add a new agent to the framework:
+To extend the framework with a custom agent:
 
-1. **Create agent directory structure:**
+1. **Create the agent file:**
 ```bash
-mkdir -p agents/new-agent
+# Create agent definition
+touch agents/custom-agent.md
 ```
 
-2. **Create agent configuration files:**
-```
-/agents/new-agent/
-  ├── agent.md              # Agent prompt with YAML frontmatter
-  └── agent.json            # Agent configuration (extends shared/base-config.json)
-```
-
-3. **Agent prompt template (`agent.md`):**
+2. **Define the agent prompt:**
 ```yaml
 ---
-name: new-agent
+name: custom-agent
 description: Brief description of agent purpose
-model: haiku|sonnet|opus
+model: claude-haiku-3-20241201  # or sonnet/opus
 mcp_servers:
   - relevant_mcp_server
 tools:
-  - Read
-  - Write
-  # ... other tools
+  - specific_tools_needed
 hooks:
-  - relevant-hooks
+  - relevant_hooks
 ---
 
-# New Agent
+# Custom Agent
 
-Agent description and specialization (keep under 1000 tokens).
+Agent specialization and key responsibilities (keep concise, ~800-1000 tokens).
 
-## Core Focus
-- Specific responsibilities
+## Focus Areas
+- Primary responsibilities
 - Key capabilities
+- Integration points
 
-## MCP Usage
-- **MCP Server**: When and why to use it
+## When to Use
+- Specific use cases
+- Task patterns that trigger this agent
 
-## Workflow
-1. Step-by-step process
-2. Key decision points
+## MCP Integration
+- **Server Name**: When and why to use specific MCP servers
 
-## Specialization
-Focus area and integration with other agents.
-
-Reference: `shared/agent-patterns.md` for common workflows.
+Refer to `shared/agent-patterns.md` for common workflows.
 ```
 
-4. **Agent configuration template (`agent.json`):**
-```json
-{
-  "name": "new-agent",
-  "description": "Agent purpose",
-  "model": "claude-haiku-3-20241201",
-  "extends": "../../shared/base-config.json",
-  
-  "mcp_servers": {
-    "relevant_server": {
-      "enabled": true,
-      "auto_engage": false,
-      "triggers": ["specific_conditions"],
-      "priority": 1
-    }
-  },
-  
-  "tools": ["Read", "Write"],
-  "hooks": ["relevant-hooks"],
-  
-  "specialization": {
-    "focus": "agent_specialty",
-    "key_capabilities": true
-  }
-}
-```
+3. **Register in main configuration:**
+Edit `claude.json` to add your agent to the `sub_agents` section.
 
-5. **Register in main configuration (`claude.json`):**
-```json
-"sub_agents": {
-  "new-agent": {
-    "enabled": true,
-    "path": "~/.claude/agents/new-agent",
-    "config_file": "~/.claude/agents/new-agent/agent.json",
-    "prompt_file": "~/.claude/agents/new-agent/agent.md",
-    "model": "claude-haiku-3-20241201",
-    "specialization": "brief_description"
-  }
-}
-```
-
-6. **Validate the new agent:**
+4. **Validate the setup:**
 ```bash
 ./validate-framework.sh
 ```
 
-### Adding New Hooks
+### Framework Configuration
 
-To add a new hook:
+Key configuration files:
+- `claude.json` - Main framework settings and agent registry
+- `shared/base-config.json` - Common agent configuration template  
+- `shared/mcp-config.json` - MCP server definitions
+- `hooks/core-hooks.json` - Hook system registry
 
-1. **Create hook file in `hooks/`:**
-```json
-{
-  "name": "new-hook",
-  "agents": ["target-agents"],
-  "triggers": ["activation_conditions"],
-  "actions": {
-    "action_name": "Description of what this action does"
-  },
-  "implementation": "Brief implementation guidance"
-}
-```
+## 📚 Documentation & Resources
 
-2. **Register in core hooks (`hooks/core-hooks.json`):
-```json
-"hooks": {
-  "new-hook": {
-    "agents": ["target-agents"],
-    "triggers": ["activation_conditions"],
-    "actions": ["action_list"]
-  }
-}
-```
+- **`claude.json`** - Main framework configuration and agent definitions
+- **`shared/agent-patterns.md`** - Common workflows and MCP usage patterns
+- **`hooks/core-hooks.json`** - Hook system documentation and registry  
+- **`SECURITY_AUDIT.md`** - Latest security audit report (updated regularly)
+- **Agent files** - Individual agent documentation in `agents/` directory
+- **Setup scripts** - Agent configuration and validation tools
+
+## 🎯 Current Status & Roadmap
+
+### ✅ Completed (v2.0)
+- ✅ **Optimized agent system** - 7 specialized agents with focused responsibilities
+- ✅ **Smart MCP integration** - Conditional activation based on task requirements
+- ✅ **Security hardening** - Regular audits and secure configuration management
+- ✅ **Performance optimization** - Efficient token usage and fast response times
+- ✅ **Production stability** - Stable, tested framework ready for daily use
+
+### 🔄 Ongoing Maintenance
+- 🔄 **Regular security audits** - Monthly vulnerability assessments
+- 🔄 **Performance monitoring** - Continuous optimization of token usage and response times
+- 🔄 **Agent refinement** - Ongoing improvements to agent specializations
+- 🔄 **Documentation updates** - Keeping documentation current with framework changes  
 
 ## 🤝 Contributing
 
 When contributing to the framework:
 
-1. **Follow the lean approach**: Keep prompts focused and concise (under 1000 tokens)
-2. **Use shared resources**: Leverage `shared/` directory for common patterns
-3. **Smart MCP usage**: Only activate MCPs when specifically needed
-4. **Essential hooks only**: Avoid adding hooks unless absolutely necessary
-5. **Extend base config**: New agents should extend `shared/base-config.json`
-6. **Validate changes**: Run `./validate-framework.sh` before submitting
-7. **Test functionality**: Ensure agents work within token limits
+1. **Follow agent design principles:**
+   - Keep agent prompts focused and concise (800-1100 tokens)
+   - Use shared resources from `shared/` directory for common patterns
+   - Implement smart MCP activation (avoid auto-engagement)
+   - Focus on essential functionality only
+
+2. **Development workflow:**
+   - Test changes with `./validate-framework.sh`
+   - Run security checks with `./security-check.sh` 
+   - Update documentation for new features
+   - Follow existing code patterns and naming conventions
+
+3. **Pull request guidelines:**
+   - Include validation test results
+   - Update relevant documentation
+   - Explain the motivation for changes
+   - Ensure security audit passes
+
+## 📋 Requirements
+
+- **Claude Access** - Framework designed for Claude AI models
+- **Bash Shell** - Required for setup and validation scripts  
+- **Git** - For version control and updates
+- **Environment Variables** - For any external API keys (optional)
 
 ## 📖 Version History
 
-- **v2.0** (Current) - Optimized framework with 75% token reduction and eliminated orchestrator limits
-- **v1.0** (Archived) - Original verbose implementation with extensive documentation per agent
+- **v2.0** (Current, September 2025) - Production-ready optimized framework
+  - 7 specialized agents with focused responsibilities
+  - Smart MCP integration with conditional activation
+  - Regular security auditing and maintenance
+  - Comprehensive documentation and validation tools
+
+- **v1.0** (Archived) - Original implementation with extensive per-agent documentation
 
 ---
 
-**🎉 The framework is now optimized and ready for production use with guaranteed orchestrator compatibility.**
+**🚀 Ready for production use with active maintenance and security monitoring.**
