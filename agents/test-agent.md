@@ -5,14 +5,6 @@ model: haiku
 mcp_servers:
   - filesystem
   - serena
-tools:
-  - Read
-  - Write
-  - Edit
-  - MultiEdit
-  - Bash
-  - Search_files
-  - Grep
 hooks:
   - testing-workflow
   - quality-gates

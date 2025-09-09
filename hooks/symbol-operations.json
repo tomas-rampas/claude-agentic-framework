@@ -7,5 +7,15 @@
     "track_references": "Track all symbol references across codebase",
     "safe_rename": "Safely rename symbols with reference updating"
   },
-  "implementation": "Use serena MCP for semantic-aware symbol operations"
+  "implementation": "Use serena MCP for symbol operations, fallback to text-based search and replace",
+  "mcp_routing": {
+    "primary": "serena",
+    "fallback": "native_text_operations",
+    "tools": {
+      "resolve_symbols": "find_symbol",
+      "track_references": "find_referencing_symbols", 
+      "safe_rename": "replace_symbol_body"
+    },
+    "architecture_note": "References serena server defined in ~/.claude.json"
+  }
 }

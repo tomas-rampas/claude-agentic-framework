@@ -6,14 +6,6 @@ mcp_servers:
   - filesystem
   - serena
   - sequentialthinking
-tools:
-  - Read
-  - Write
-  - Edit
-  - MultiEdit
-  - Bash
-  - Search_files
-  - Grep
 hooks:
   - debugging-support
   - error-handling

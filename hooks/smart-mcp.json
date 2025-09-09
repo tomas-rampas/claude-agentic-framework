@@ -9,17 +9,12 @@
       "auto_activate": false,
       "cache_duration": 300000
     },
-    "serena": {
-      "conditions": ["symbol_modification", "refactoring_task", "reference_tracking", "code_analysis"],
-      "auto_activate": false,
-      "cache_duration": 1800000
-    },
     "context7": {
       "conditions": ["external_library_usage", "framework_implementation", "best_practices_needed"],
       "auto_activate": false,
       "cache_duration": 3600000
     },
-    "sequentialthinking": {
+    "sequential-thinking": {
       "conditions": ["problem_complexity > 3", "architectural_decision", "systematic_approach_needed"],
       "auto_activate": false,
       "cache_duration": 1800000
@@ -28,9 +23,8 @@
   
   "fallback_strategies": {
     "filesystem": "native Read/Write tools",
-    "serena": "grep/text-based search",
     "context7": "cached knowledge",
-    "sequentialthinking": "linear reasoning"
+    "sequential-thinking": "linear reasoning"
   },
   
   "performance_monitoring": {

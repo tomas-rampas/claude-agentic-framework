@@ -5,13 +5,6 @@ model: haiku
 mcp_servers:
   - filesystem
   - context7
-tools:
-  - Read
-  - Write
-  - Edit
-  - MultiEdit
-  - Search_files
-  - Grep
 hooks:
   - documentation-sync
   - file-operations

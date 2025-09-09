@@ -11,6 +11,16 @@
     "file_operations": "filesystem",
     "symbol_operations": "serena", 
     "external_docs": "context7",
-    "complex_reasoning": "sequentialthinking"
+    "complex_reasoning": "sequential-thinking"
+  },
+  "architecture_notes": {
+    "single_source": "All MCP servers defined ONLY in ~/.claude.json",
+    "reference_only": "This hook references servers, does not define them"
+  },
+  "fallback_strategy": {
+    "serena_unavailable": "Use native text search and Edit tools",
+    "filesystem_unavailable": "Use native Read/Write tools",
+    "context7_unavailable": "Use cached knowledge",
+    "sequential_thinking_unavailable": "Use native reasoning"
   }
 }

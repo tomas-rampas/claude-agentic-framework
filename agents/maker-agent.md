@@ -7,15 +7,6 @@ mcp_servers:
   - serena
   - context7
   - sequentialthinking
-tools:
-  - Read
-  - Write
-  - Write
-  - Edit
-  - MultiEdit
-  - Bash
-  - Search_files
-  - Grep
 hooks:
   - development-standards
   - mcp-integration

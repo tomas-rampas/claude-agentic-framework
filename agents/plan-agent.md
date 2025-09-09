@@ -5,11 +5,6 @@ model: opus
 mcp_servers: 
   - sequentialthinking
   - context7
-tools: 
-  - Read
-  - Write
-  - Search_files
-  - Grep
 hooks:
   - planning-support
   - workflow-coordination

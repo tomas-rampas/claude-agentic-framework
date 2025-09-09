@@ -11,18 +11,9 @@
   
   "server_configurations": {
     "serena": {
-      "current_tools": 25,
-      "current_tokens": "~14,716",
-      "optimization_strategy": "core_operations_only",
-      "essential_tools": [
-        "read_file",
-        "find_symbol", 
-        "find_referencing_symbols",
-        "replace_symbol_body",
-        "get_symbols_overview"
-      ],
-      "recommended_reduction": "60%",
-      "target_tokens": "~6,000"
+      "status": "DISABLED",
+      "reason": "Removed to eliminate 14,716 tokens from MCP context",
+      "fallback": "Use native text-based search and replace tools"
     },
     
     "filesystem": {
@@ -66,8 +57,8 @@
   
   "optimization_targets": {
     "total_current": "~25,039 tokens",
-    "total_target": "~12,543 tokens", 
-    "reduction_goal": "50%",
+    "total_after_serena_removal": "~10,323 tokens", 
+    "reduction_achieved": "59%",
     "orchestrator_safe": true
   },
   

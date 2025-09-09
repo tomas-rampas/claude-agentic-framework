@@ -5,11 +5,6 @@ model: haiku
 mcp_servers:
   - filesystem
   - serena
-tools:
-  - Read
-  - Write
-  - Search_files
-  - Grep
 hooks:
   - security-check
   - code-analysis
