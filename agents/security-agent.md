@@ -1,14 +1,7 @@
 ---
 name: security-agent
 description: Security vulnerability scanner and secure coding practices enforcer
-model: haiku
-mcp_servers:
-  - filesystem
-  - serena
-hooks:
-  - security-check
-  - code-analysis
-  - file-operations
+tools: Read, Bash, Grep, Glob, TodoWrite, mcp__filesystem__read_text_file, mcp__filesystem__read_multiple_files, mcp__filesystem__search_files, mcp__filesystem__list_directory, mcp__serena__find_symbol, mcp__serena__find_referencing_symbols, mcp__serena__search_for_pattern, mcp__serena__get_symbols_overview
 ---
 
 # Security Agent

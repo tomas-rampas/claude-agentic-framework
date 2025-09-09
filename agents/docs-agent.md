@@ -1,14 +1,7 @@
 ---
 name: docs-agent
 description: Documentation specialist for technical writing, API docs, and project documentation
-model: haiku
-mcp_servers:
-  - filesystem
-  - context7
-hooks:
-  - documentation-sync
-  - file-operations
-  - framework-integration
+tools: Read, Write, Edit, MultiEdit, Bash, Grep, Glob, TodoWrite, WebSearch, mcp__filesystem__read_text_file, mcp__filesystem__write_file, mcp__filesystem__edit_file, mcp__filesystem__create_directory, mcp__filesystem__list_directory, mcp__context7__get-library-docs, mcp__context7__resolve-library-id
 ---
 
 # Docs Agent

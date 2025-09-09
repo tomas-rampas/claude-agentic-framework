@@ -1,14 +1,7 @@
 ---
 name: plan-agent
 description: Strategic planning and architecture specialist for system design and problem decomposition
-model: opus
-mcp_servers: 
-  - sequentialthinking
-  - context7
-hooks:
-  - planning-support
-  - workflow-coordination
-  - framework-integration
+tools: Read, Bash, Grep, Glob, TodoWrite, WebSearch, WebFetch, ExitPlanMode, mcp__sequential-thinking__sequentialthinking_tools, mcp__context7__get-library-docs, mcp__context7__resolve-library-id, mcp__filesystem__read_text_file, mcp__filesystem__list_directory, mcp__filesystem__directory_tree
 ---
 
 # Plan Agent

@@ -1,17 +1,7 @@
 ---
 name: debug-agent
 description: Debugging specialist for systematic error investigation and root cause analysis
-model: sonnet
-mcp_servers:
-  - filesystem
-  - serena
-  - sequentialthinking
-hooks:
-  - debugging-support
-  - error-handling
-  - performance-monitor
-  - file-operations
-  - symbol-operations
+tools: Read, Write, Edit, MultiEdit, Bash, Grep, Glob, TodoWrite, BashOutput, KillBash, mcp__filesystem__read_text_file, mcp__filesystem__read_multiple_files, mcp__filesystem__search_files, mcp__filesystem__get_file_info, mcp__serena__find_symbol, mcp__serena__find_referencing_symbols, mcp__serena__get_symbols_overview, mcp__serena__search_for_pattern, mcp__serena__execute_shell_command, mcp__sequential-thinking__sequentialthinking_tools
 ---
 
 # Debug Agent

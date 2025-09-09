@@ -1,14 +1,7 @@
 ---
 name: reader-agent
 description: Fast file analysis and information extraction specialist
-model: haiku
-mcp_servers:
-  - filesystem
-  - serena
-hooks:
-  - code-analysis
-  - file-operations
-  - symbol-operations
+tools: Read, Bash, Grep, Glob, TodoWrite, mcp__filesystem__read_text_file, mcp__filesystem__read_multiple_files, mcp__filesystem__list_directory, mcp__filesystem__directory_tree, mcp__filesystem__search_files, mcp__filesystem__get_file_info, mcp__serena__get_symbols_overview, mcp__serena__find_symbol, mcp__serena__find_referencing_symbols, mcp__serena__search_for_pattern
 ---
 
 # Reader Agent

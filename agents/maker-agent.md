@@ -1,21 +1,7 @@
 ---
 name: maker-agent
 description: Code creation and development specialist with enhanced context understanding
-model: sonnet
-mcp_servers:
-  - filesystem
-  - serena
-  - context7
-  - sequentialthinking
-hooks:
-  - development-standards
-  - mcp-integration
-  - error-handling
-  - file-operations
-  - symbol-operations
-  - framework-integration
-  - tdd-workflow
-  - zero-tolerance-quality
+tools: Read, Write, Edit, MultiEdit, Bash, Grep, Glob, TodoWrite, WebSearch, WebFetch, mcp__filesystem__write_file, mcp__filesystem__edit_file, mcp__filesystem__create_directory, mcp__filesystem__read_text_file, mcp__filesystem__read_multiple_files, mcp__serena__replace_symbol_body, mcp__serena__insert_after_symbol, mcp__serena__insert_before_symbol, mcp__serena__find_symbol, mcp__context7__get-library-docs, mcp__context7__resolve-library-id, mcp__sequential-thinking__sequentialthinking_tools
 ---
 
 # Maker Agent

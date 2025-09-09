@@ -52,17 +52,60 @@ The framework operates through Claude's natural conversation interface. Simply d
 
 ## 🏗️ Architecture
 
-### Agent Specialization
+### Agent Specialization with Tool Configuration
 
-| Agent | Model | Focus Area | Use Cases |
-|-------|-------|------------|-----------|
-| **plan-agent** | Claude Opus 4.1 | Strategic planning & system design | Architecture decisions, project planning, system design |
-| **maker-agent** | Claude Sonnet 4 | Code implementation & development | Writing code, implementing features, refactoring |
-| **reader-agent** | Claude Haiku 3 | File analysis & code comprehension | Reading codebases, analyzing files, extracting information |
-| **debug-agent** | Claude Sonnet 4 | Debugging & troubleshooting | Finding bugs, performance issues, error investigation |
-| **security-agent** | Claude Haiku 3 | Security analysis & vulnerability scanning | Security audits, vulnerability detection, compliance checks |
-| **test-agent** | Claude Haiku 3 | Testing & quality assurance | Writing tests, test planning, quality validation |
-| **docs-agent** | Claude Haiku 3 | Documentation & technical writing | Creating documentation, README files, API docs |
+Each agent is configured with specific tools tailored to their role, preventing unnecessary permissions while enabling full functionality:
+
+| Agent | Model | Focus Area | Tool Categories | Key Capabilities |
+|-------|-------|------------|-----------------|------------------|
+| **plan-agent** | Claude Opus 4.1 | Strategic planning & system design | Read-only analysis, Web research, Sequential thinking | Architecture decisions, technology evaluation, planning |
+| **maker-agent** | Claude Sonnet 4 | Code implementation & development | Full file manipulation, All MCPs, Web access | Code creation, refactoring, symbol operations |
+| **reader-agent** | Claude Haiku 3 | File analysis & code comprehension | Read-only tools, Search & analysis | Fast scanning, pattern detection, no write access |
+| **debug-agent** | Claude Sonnet 4 | Debugging & troubleshooting | Read/Write/Edit, Process control, Sequential thinking | Error investigation, fixes, process monitoring |
+| **security-agent** | Claude Haiku 3 | Security analysis & vulnerability scanning | Read-only scanning, Pattern detection | Vulnerability detection, data flow tracing |
+| **test-agent** | Claude Haiku 3 | Testing & quality assurance | Full test file creation/editing, MCP integration | TDD test creation, test modification, validation |
+| **docs-agent** | Claude Haiku 3 | Documentation & technical writing | Documentation writing, Web research | Creating/updating docs, framework patterns |
+
+### Agent Tool Configuration Details
+
+#### **maker-agent** (Most Comprehensive Toolset)
+- **File Operations**: Read, Write, Edit, MultiEdit
+- **Search & Analysis**: Bash, Grep, Glob
+- **MCP Tools**: Full filesystem, serena, context7, sequentialthinking access
+- **Web Access**: WebSearch, WebFetch for research
+- **Task Management**: TodoWrite
+
+#### **test-agent** (TDD-Focused Tools)
+- **Test Creation**: Write, Edit, MultiEdit for test files
+- **File Operations**: Read for understanding code to test
+- **MCP Integration**: filesystem write/edit capabilities, serena for analysis
+- **Execution**: Bash for running tests
+
+#### **reader-agent** (Read-Only Analysis)
+- **Analysis Tools**: Read, Grep, Glob for searching
+- **MCP Read Operations**: filesystem read/list/search, serena symbol analysis
+- **No Write Access**: Cannot modify any files (security by design)
+
+#### **debug-agent** (Debugging Suite)
+- **Full Debugging**: Read, Write, Edit for bug fixes
+- **Process Control**: BashOutput, KillBash for long-running processes
+- **MCP Analysis**: serena for tracing, sequentialthinking for complex issues
+
+#### **security-agent** (Secure Scanning)
+- **Read-Only**: No write permissions (security principle)
+- **Pattern Detection**: Grep, search tools
+- **MCP Analysis**: serena for data flow tracing
+
+#### **docs-agent** (Documentation Management)
+- **Documentation**: Write, Edit, MultiEdit for docs
+- **Web Research**: WebSearch for standards
+- **MCP Docs**: context7 for framework documentation
+
+#### **plan-agent** (Strategic Planning)
+- **Planning**: ExitPlanMode for plan completion
+- **Research**: WebSearch, WebFetch
+- **Analysis**: Read-only file access
+- **MCP Strategy**: sequentialthinking, context7
 
 ### MCP Servers (Smart Activation)
 
@@ -123,6 +166,19 @@ claude-agentic-framework/
 - **Configuration inheritance** eliminates duplication
 - **Common patterns library** reduces context size
 - **Centralized MCP definitions** improve maintainability
+
+### 5. **Role-Based Tool Access**
+- **Security Principle**: Each agent only gets tools necessary for their role
+- **test-agent Fix**: Now has Write/Edit tools for TDD test creation
+- **reader-agent**: Read-only access prevents accidental modifications
+- **security-agent**: Read-only scanning for security isolation
+- **maker-agent**: Full toolset for comprehensive development
+
+### 6. **Correct Agent Configuration**
+- **Valid Parameters**: Only `name`, `description`, and `tools` in YAML frontmatter
+- **Model Assignment**: Handled by orchestrator (delegate.md), not in agent files
+- **MCP Access**: Via full tool names (e.g., `mcp__filesystem__write_file`)
+- **Hooks**: Configured globally in settings.local.json, not per-agent
 
 ## 🪝 Essential Hooks (15 Total)
 
@@ -220,13 +276,7 @@ touch agents/custom-agent.md
 ---
 name: custom-agent
 description: Brief description of agent purpose
-model: claude-haiku-3-20241201  # or sonnet/opus
-mcp_servers:
-  - relevant_mcp_server
-tools:
-  - specific_tools_needed
-hooks:
-  - relevant_hooks
+tools: Read, Write, Edit, Bash, Grep, mcp__filesystem__read_text_file  # Specify exact tools needed
 ---
 
 # Custom Agent
@@ -319,7 +369,19 @@ When contributing to the framework:
 
 ## 📖 Version History
 
-- **v2.0** (Current, September 2025) - Production-ready optimized framework
+- **v2.2** (Current, September 2025) - Corrected agent configuration format
+  - Removed invalid parameters (mcp_servers, hooks, model) from agent files
+  - Clarified that models are assigned by orchestrator, not agents
+  - Configured global hooks in settings.local.json
+  - MCP tools accessed via full names in tools list
+  
+- **v2.1** (September 2025) - Enhanced with role-based tool access
+  - Each agent now has specific tools tailored to their role
+  - test-agent fixed with Write/Edit capabilities for TDD
+  - Security improvements through least-privilege tool access
+  - Complete tool configuration in agent YAML frontmatter
+
+- **v2.0** (September 2025) - Production-ready optimized framework
   - 7 specialized agents with focused responsibilities
   - Smart MCP integration with conditional activation
   - Regular security auditing and maintenance

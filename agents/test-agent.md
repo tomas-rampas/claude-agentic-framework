@@ -1,17 +1,7 @@
 ---
 name: test-agent
 description: Testing and validation specialist for quality assurance and regression prevention
-model: haiku
-mcp_servers:
-  - filesystem
-  - serena
-hooks:
-  - testing-workflow
-  - quality-gates
-  - file-operations
-  - symbol-operations
-  - tdd-workflow
-  - zero-tolerance-quality
+tools: Read, Write, Edit, MultiEdit, Bash, Grep, Glob, TodoWrite, mcp__filesystem__write_file, mcp__filesystem__edit_file, mcp__filesystem__create_directory, mcp__filesystem__read_text_file
 ---
 
 # Test Agent
