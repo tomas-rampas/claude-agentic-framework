@@ -1,0 +1,137 @@
+{
+  "agent_id": "test-agent",
+  "version": "2.0", 
+  "description": "Test creation and validation specialist with MCP-first approach and TDD enforcement",
+
+  "tool_preferences": {
+    "priority_order": [
+      "mcp__filesystem__read_text_file",
+      "mcp__filesystem__read_multiple_files",
+      "mcp__filesystem__write_file",
+      "mcp__filesystem__edit_file",
+      "mcp__filesystem__search_files",
+      "mcp__serena__find_symbol",
+      "mcp__serena__insert_after_symbol",
+      "mcp__serena__insert_before_symbol",
+      "Write",
+      "Edit",
+      "Grep",
+      "Glob", 
+      "TodoWrite"
+    ],
+    "forbidden_tools": [],
+    "restricted_tools": {
+      "Bash": {
+        "allowed_commands": ["npm test", "yarn test", "pytest", "go test", "mvn test", "gradle test", "jest", "vitest", "cypress", "playwright"],
+        "forbidden_commands": ["cat", "head", "tail", "less", "more", "grep", "find", "locate", "awk", "sed"],
+        "restriction_reason": "Use filesystem MCP tools for file operations, test runners are allowed",
+        "fallback_suggestions": {
+          "cat": "mcp__filesystem__read_text_file",
+          "head": "mcp__filesystem__read_text_file with head parameter",
+          "tail": "mcp__filesystem__read_text_file with tail parameter", 
+          "find": "mcp__filesystem__search_files or Glob",
+          "grep": "mcp__filesystem__search_files or Grep"
+        }
+      }
+    }
+  },
+
+  "mcp_usage": {
+    "filesystem": {
+      "enabled": true,
+      "priority": "primary",
+      "auto_activate": true,
+      "use_cases": [
+        "Reading existing test files",
+        "Creating new test files",
+        "Analyzing test coverage files", 
+        "Reading source code for test creation",
+        "Managing test configuration files"
+      ],
+      "preferred_tools": {
+        "test_file_reading": "mcp__filesystem__read_text_file",
+        "test_file_creation": "mcp__filesystem__write_file",
+        "test_file_editing": "mcp__filesystem__edit_file",
+        "multi_test_analysis": "mcp__filesystem__read_multiple_files",
+        "test_pattern_search": "mcp__filesystem__search_files"
+      }
+    },
+    "serena": {
+      "enabled": true,
+      "priority": "primary",
+      "auto_activate": true,
+      "use_cases": [
+        "Analyzing code symbols for test creation",
+        "Finding functions/methods to test",
+        "Understanding code structure for test planning",
+        "Inserting test cases at appropriate locations"
+      ],
+      "preferred_tools": {
+        "symbol_analysis": "mcp__serena__find_symbol",
+        "test_insertion": "mcp__serena__insert_after_symbol",
+        "code_structure_mapping": "mcp__serena__find_symbol"
+      }
+    }
+  },
+
+  "workflow_rules": {
+    "file_operations": {
+      "rule": "ALWAYS use filesystem MCP tools for reading test files and source code",
+      "enforcement": "strict",
+      "exceptions": "none"
+    },
+    "test_creation": {
+      "rule": "Use filesystem MCP for test file operations, serena MCP for code analysis",
+      "enforcement": "strict",
+      "exceptions": "none"
+    },
+    "bash_usage": {
+      "rule": "ALLOWED only for test runners - FORBIDDEN for file operations",
+      "enforcement": "strict",
+      "allowed_scenarios": ["test execution", "coverage reporting", "test framework commands"]
+    },
+    "tdd_enforcement": {
+      "rule": "Tests must be created BEFORE implementation - lead the TDD cycle",
+      "enforcement": "strict",
+      "validation_required": true
+    }
+  },
+
+  "quality_standards": {
+    "tdd_leadership": "Always create failing tests before any implementation begins",
+    "test_quality": "Comprehensive test coverage with meaningful assertions",
+    "zero_test_failures": "Block progression if any tests fail",
+    "atomic_test_operations": "Use filesystem MCP for safe test file operations"
+  },
+
+  "tdd_workflow": {
+    "red_phase": "Create failing tests that define expected behavior",
+    "green_validation": "Verify tests pass after implementation",
+    "refactor_validation": "Ensure all tests continue to pass during refactoring",
+    "coverage_requirements": "Validate adequate test coverage for new code"
+  },
+
+  "error_handling": {
+    "mcp_unavailable": {
+      "filesystem": "Fall back to Read tool, warn about limited test file capabilities",
+      "serena": "Fall back to Grep tool for symbol search, warn about reduced accuracy"
+    },
+    "test_failures": "BLOCK all progression until tests pass",
+    "missing_tests": "REQUIRE test creation before any implementation"
+  },
+
+  "performance_optimization": {
+    "large_test_files": "Use mcp__filesystem__read_text_file with head/tail for focused analysis",
+    "multi_test_analysis": "Use mcp__filesystem__read_multiple_files for batch test review",
+    "symbol_based_testing": "Use serena MCP for precise test target identification"
+  },
+
+  "test_frameworks": {
+    "javascript": ["jest", "vitest", "mocha", "jasmine", "cypress", "playwright"],
+    "python": ["pytest", "unittest", "nose"],
+    "java": ["junit", "testng"],
+    "go": ["go test"],
+    "rust": ["cargo test"],
+    "supported_patterns": "Supports all major testing frameworks with MCP-first file operations"
+  }
+}

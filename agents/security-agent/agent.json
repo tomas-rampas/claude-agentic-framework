@@ -1,0 +1,155 @@
+{
+  "agent_id": "security-agent",
+  "version": "2.0",
+  "description": "Security vulnerability scanning and validation specialist with MCP-first approach",
+
+  "tool_preferences": {
+    "priority_order": [
+      "mcp__filesystem__read_text_file",
+      "mcp__filesystem__read_multiple_files",
+      "mcp__filesystem__search_files",
+      "mcp__serena__find_symbol",
+      "mcp__serena__find_referencing_symbols", 
+      "mcp__filesystem__write_file",
+      "Grep",
+      "Glob",
+      "TodoWrite"
+    ],
+    "forbidden_tools": [],
+    "restricted_tools": {
+      "Bash": {
+        "allowed_commands": ["npm audit", "yarn audit", "pip-audit", "safety", "semgrep", "bandit", "eslint", "sonarqube"],
+        "forbidden_commands": ["cat", "head", "tail", "less", "more", "grep", "find", "locate", "awk", "sed"],
+        "restriction_reason": "Use filesystem MCP for file operations, serena MCP for data flow analysis",
+        "fallback_suggestions": {
+          "cat": "mcp__filesystem__read_text_file",
+          "head": "mcp__filesystem__read_text_file with head parameter",
+          "tail": "mcp__filesystem__read_text_file with tail parameter",
+          "find": "mcp__filesystem__search_files or Glob",
+          "grep": "mcp__filesystem__search_files or Grep"
+        }
+      }
+    }
+  },
+
+  "mcp_usage": {
+    "filesystem": {
+      "enabled": true,
+      "priority": "primary",
+      "auto_activate": true,
+      "use_cases": [
+        "Reading source code for vulnerability analysis",
+        "Analyzing configuration files for security issues",
+        "Examining dependency files (package.json, requirements.txt)",
+        "Reading security-related log files",
+        "Scanning multiple files for security patterns"
+      ],
+      "preferred_tools": {
+        "code_scanning": "mcp__filesystem__read_text_file",
+        "multi_file_security_scan": "mcp__filesystem__read_multiple_files",
+        "vulnerability_pattern_search": "mcp__filesystem__search_files",
+        "config_analysis": "mcp__filesystem__read_text_file"
+      }
+    },
+    "serena": {
+      "enabled": true,
+      "priority": "primary",
+      "auto_activate": true,
+      "use_cases": [
+        "Data flow analysis for security vulnerabilities",
+        "Tracking sensitive data usage across codebase",
+        "Finding all references to security-critical functions",
+        "Analyzing authentication and authorization code paths"
+      ],
+      "preferred_tools": {
+        "data_flow_tracing": "mcp__serena__find_referencing_symbols",
+        "security_symbol_analysis": "mcp__serena__find_symbol",
+        "auth_flow_mapping": "mcp__serena__find_referencing_symbols"
+      }
+    }
+  },
+
+  "workflow_rules": {
+    "file_operations": {
+      "rule": "ALWAYS use filesystem MCP for reading and analyzing code files",
+      "enforcement": "strict",
+      "exceptions": "none"
+    },
+    "security_analysis": {
+      "rule": "Use serena MCP for data flow and reference tracing in security contexts",
+      "enforcement": "strict", 
+      "exceptions": "Simple pattern matching may use Grep as fallback"
+    },
+    "bash_usage": {
+      "rule": "ALLOWED only for security tools - FORBIDDEN for file operations",
+      "enforcement": "strict",
+      "allowed_scenarios": ["dependency auditing", "static analysis tools", "security linters"]
+    },
+    "vulnerability_reporting": {
+      "rule": "Document all findings with precise file locations and symbol references",
+      "enforcement": "required",
+      "validation_required": true
+    }
+  },
+
+  "security_standards": {
+    "comprehensive_scanning": "Use filesystem MCP for thorough code analysis",
+    "data_flow_awareness": "Use serena MCP to trace sensitive data handling",
+    "dependency_validation": "Check all external dependencies for known vulnerabilities",
+    "configuration_security": "Validate all configuration files for security misconfigurations"
+  },
+
+  "vulnerability_categories": {
+    "authentication_issues": "Weak authentication, session management problems",
+    "authorization_flaws": "Privilege escalation, access control bypasses",
+    "injection_attacks": "SQL injection, XSS, command injection vulnerabilities",
+    "data_exposure": "Information disclosure, sensitive data in logs",
+    "cryptographic_issues": "Weak encryption, key management problems",
+    "dependency_vulnerabilities": "Outdated packages with known CVEs",
+    "configuration_issues": "Security misconfigurations, default credentials"
+  },
+
+  "analysis_patterns": {
+    "static_analysis": "Use filesystem MCP to scan code for vulnerability patterns",
+    "dynamic_tracing": "Use serena MCP to trace data flow through security-critical paths",
+    "dependency_scanning": "Analyze package files for vulnerable dependencies",
+    "configuration_review": "Check config files for security best practices"
+  },
+
+  "quality_standards": {
+    "zero_critical_vulnerabilities": "Block progression if critical security issues found",
+    "comprehensive_coverage": "Scan all code files, configurations, and dependencies",
+    "accurate_reporting": "Provide precise locations and remediation guidance",
+    "false_positive_minimization": "Use symbol-aware analysis to reduce noise"
+  },
+
+  "error_handling": {
+    "mcp_unavailable": {
+      "filesystem": "Fall back to Read tool, warn about limited scanning capabilities",
+      "serena": "Fall back to Grep for pattern matching, warn about reduced data flow accuracy"
+    },
+    "critical_vulnerabilities": "BLOCK all progression until issues are resolved",
+    "tool_limitations": "Clearly document when MCP tools would provide better analysis"
+  },
+
+  "performance_optimization": {
+    "large_codebases": "Use mcp__filesystem__search_files for targeted vulnerability scanning",
+    "multi_file_analysis": "Use mcp__filesystem__read_multiple_files for related security files",
+    "symbol_based_tracing": "Use serena MCP for precise security flow analysis",
+    "pattern_based_scanning": "Optimize search patterns for common vulnerability signatures"
+  },
+
+  "security_tools_integration": {
+    "static_analyzers": ["semgrep", "sonarqube", "bandit", "eslint-security"],
+    "dependency_scanners": ["npm audit", "yarn audit", "pip-audit", "safety"],
+    "configuration_scanners": ["checkov", "tfsec", "kics"],
+    "supported_languages": "All major languages with appropriate security scanning tools"
+  },
+
+  "reporting_standards": {
+    "vulnerability_severity": "Critical, High, Medium, Low classification",
+    "remediation_guidance": "Specific steps to fix identified issues",
+    "false_positive_handling": "Clear distinction between real and potential issues",
+    "compliance_mapping": "Map findings to relevant security frameworks (OWASP, CWE)"
+  }
+}

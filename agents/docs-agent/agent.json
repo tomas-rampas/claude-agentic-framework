@@ -1,0 +1,173 @@
+{
+  "agent_id": "docs-agent",
+  "version": "2.0",
+  "description": "Documentation generation and maintenance specialist with MCP-first approach",
+
+  "tool_preferences": {
+    "priority_order": [
+      "mcp__filesystem__read_text_file",
+      "mcp__filesystem__read_multiple_files",
+      "mcp__filesystem__write_file",
+      "mcp__filesystem__edit_file",
+      "mcp__filesystem__search_files",
+      "mcp__context7__get-library-docs",
+      "mcp__context7__resolve-library-id",
+      "mcp__serena__find_symbol",
+      "Write",
+      "Edit",
+      "Grep",
+      "Glob",
+      "TodoWrite"
+    ],
+    "forbidden_tools": [],
+    "restricted_tools": {
+      "Bash": {
+        "allowed_commands": ["git log", "git diff", "npm run docs", "yarn docs", "typedoc", "jsdoc", "sphinx-build"],
+        "forbidden_commands": ["cat", "head", "tail", "less", "more", "grep", "find", "locate", "awk", "sed"],
+        "restriction_reason": "Use filesystem MCP for file operations, context7 MCP for external docs",
+        "fallback_suggestions": {
+          "cat": "mcp__filesystem__read_text_file",
+          "head": "mcp__filesystem__read_text_file with head parameter",
+          "tail": "mcp__filesystem__read_text_file with tail parameter",
+          "find": "mcp__filesystem__search_files or Glob",
+          "grep": "mcp__filesystem__search_files or Grep"
+        }
+      }
+    }
+  },
+
+  "mcp_usage": {
+    "filesystem": {
+      "enabled": true,
+      "priority": "primary",
+      "auto_activate": true,
+      "use_cases": [
+        "Reading existing documentation files",
+        "Creating new documentation files",
+        "Reading source code for documentation generation",
+        "Managing documentation file structure",
+        "Batch processing of multiple documentation files"
+      ],
+      "preferred_tools": {
+        "doc_file_reading": "mcp__filesystem__read_text_file",
+        "doc_file_creation": "mcp__filesystem__write_file",
+        "doc_file_editing": "mcp__filesystem__edit_file",
+        "multi_doc_analysis": "mcp__filesystem__read_multiple_files",
+        "doc_pattern_search": "mcp__filesystem__search_files"
+      }
+    },
+    "context7": {
+      "enabled": true,
+      "priority": "primary",
+      "auto_activate": true,
+      "use_cases": [
+        "Retrieving official documentation examples",
+        "Getting framework-specific documentation patterns",
+        "Finding best practices for documentation",
+        "API documentation references",
+        "Migration guide documentation"
+      ],
+      "preferred_tools": {
+        "external_docs": "mcp__context7__get-library-docs",
+        "library_resolution": "mcp__context7__resolve-library-id"
+      }
+    },
+    "serena": {
+      "enabled": true,
+      "priority": "secondary",
+      "auto_activate": false,
+      "use_cases": [
+        "Extracting API signatures for documentation",
+        "Finding code symbols to document",
+        "Understanding code structure for docs",
+        "Generating API reference documentation"
+      ],
+      "preferred_tools": {
+        "api_analysis": "mcp__serena__find_symbol"
+      }
+    }
+  },
+
+  "workflow_rules": {
+    "file_operations": {
+      "rule": "ALWAYS use filesystem MCP for all documentation file operations",
+      "enforcement": "strict",
+      "exceptions": "none"
+    },
+    "external_references": {
+      "rule": "Use context7 MCP for official documentation patterns and examples",
+      "enforcement": "preferred",
+      "activation_threshold": "When referencing external libraries or frameworks"
+    },
+    "bash_usage": {
+      "rule": "ALLOWED only for documentation build tools - FORBIDDEN for file operations",
+      "enforcement": "strict",
+      "allowed_scenarios": ["documentation generators", "git operations for change tracking"]
+    },
+    "documentation_standards": {
+      "rule": "Follow official patterns when available through context7 MCP",
+      "enforcement": "preferred",
+      "validation_required": true
+    }
+  },
+
+  "documentation_standards": {
+    "accuracy": "Use filesystem MCP to verify code examples match actual implementation",
+    "completeness": "Document all public APIs and user-facing functionality", 
+    "consistency": "Follow established patterns from context7 MCP when available",
+    "maintainability": "Structure docs for easy updates and maintenance"
+  },
+
+  "documentation_types": {
+    "api_documentation": "Technical reference for developers",
+    "user_guides": "Step-by-step instructions for end users",
+    "tutorials": "Learning-oriented documentation with examples",
+    "architectural_docs": "System design and component interaction",
+    "deployment_guides": "Installation and deployment instructions",
+    "changelog": "Version history and breaking changes"
+  },
+
+  "quality_standards": {
+    "code_example_validation": "All code examples must be tested and working",
+    "link_validation": "All internal and external links must be valid",
+    "format_consistency": "Consistent formatting across all documentation",
+    "up_to_date_content": "Documentation reflects current code implementation"
+  },
+
+  "error_handling": {
+    "mcp_unavailable": {
+      "filesystem": "Fall back to Write/Edit tools, warn about limited batch capabilities",
+      "context7": "Proceed without external examples, note manual pattern verification needed",
+      "serena": "Fall back to manual code analysis for API documentation"
+    },
+    "outdated_documentation": "Flag inconsistencies between docs and code implementation",
+    "broken_examples": "Validate all code examples before publication"
+  },
+
+  "performance_optimization": {
+    "large_documentation_sets": "Use mcp__filesystem__read_multiple_files for batch processing",
+    "external_pattern_lookup": "Cache context7 MCP responses for repeated framework queries",
+    "structured_generation": "Use filesystem MCP for efficient documentation file management"
+  },
+
+  "supported_formats": {
+    "markup_languages": ["Markdown", "reStructuredText", "AsciiDoc"],
+    "documentation_generators": ["GitBook", "Docusaurus", "MkDocs", "Sphinx", "Jekyll"],
+    "api_doc_tools": ["OpenAPI/Swagger", "JSDoc", "TypeDoc", "Pydoc"],
+    "integration_formats": "README files, Wiki pages, inline code comments"
+  },
+
+  "content_organization": {
+    "information_architecture": "Logical structure following user needs",
+    "navigation_design": "Clear hierarchy and cross-references",
+    "search_optimization": "Structured content for easy discovery",
+    "accessibility": "Documentation accessible to all skill levels"
+  },
+
+  "maintenance_workflows": {
+    "regular_updates": "Keep docs synchronized with code changes",
+    "broken_link_detection": "Regular validation of all references",
+    "user_feedback_integration": "Incorporate feedback for continuous improvement",
+    "version_management": "Maintain docs for multiple product versions"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "reader-agent-mcp-enforcement",
+  "version": "1.0",
+  "description": "Enforces MCP-first tool usage for reader-agent, blocking bash file operations",
+  
+  "triggers": {
+    "agent": "reader-agent",
+    "tool_use": ["Bash"],
+    "pre_execution": true
+  },
+  
+  "validation_rules": {
+    "forbidden_bash_commands": {
+      "commands": ["awk", "sed", "grep", "cat", "head", "tail", "less", "more", "find", "locate", "tree"],
+      "action": "block",
+      "message": "BLOCKED: Use filesystem MCP tools instead. Command '{command}' is forbidden for reader-agent.",
+      "suggestions": {
+        "cat": "Use mcp__filesystem__read_text_file instead",
+        "head": "Use mcp__filesystem__read_text_file with head parameter",
+        "tail": "Use mcp__filesystem__read_text_file with tail parameter", 
+        "find": "Use mcp__filesystem__search_files or Glob instead",
+        "grep": "Use mcp__filesystem__search_files or Grep instead",
+        "awk": "Use mcp__filesystem__read_text_file and process programmatically",
+        "sed": "Use mcp__filesystem__read_text_file and Edit tool instead"
+      }
+    },
+    
+    "allowed_bash_commands": {
+      "commands": ["git", "pwd", "whoami", "ps", "kill"],
+      "patterns": ["git *"],
+      "action": "allow"
+    }
+  },
+  
+  "enforcement": {
+    "level": "strict",
+    "bypass_allowed": false,
+    "log_violations": true,
+    "suggest_alternatives": true
+  },
+  
+  "recommendations": {
+    "on_violation": [
+      "Check available MCP tools: mcp__filesystem__* and mcp__serena__*",
+      "Refer to reader-agent configuration at ~/.claude/agents/reader-agent/agent.json",
+      "Use MCP tools for better performance and atomic operations"
+    ]
+  }
+}
