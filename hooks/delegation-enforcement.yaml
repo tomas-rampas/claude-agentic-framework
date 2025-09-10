@@ -1,0 +1,187 @@
+# Delegation Enforcement Hook v2.0
+# Blocks direct execution attempts and enforces agent delegation mandate
+---
+version: "2.0"
+hook_type: "pre_execution"
+priority: 1  # Highest priority - runs before all other hooks
+enforcement: "blocking"
+status: "active"
+
+metadata:
+  name: "delegation-enforcement"
+  description: "Enforces delegation mandate by blocking direct tool execution"
+  author: "Claude Code Framework"
+  created: "2025-09-10"
+  updated: "2025-09-10"
+
+# Configuration
+config:
+  strict_mode: true
+  log_violations: true
+  provide_guidance: true
+  emergency_bypass: false  # Set to true only for critical system operations
+  
+# Tool execution monitoring and blocking
+execution_blocks:
+  direct_bash:
+    tools: ["Bash"]
+    conditions:
+      - "not_delegated_agent"
+      - "technical_operation"
+    block_message: "🚫 DELEGATION REQUIRED: Direct bash execution blocked. Delegate to appropriate agent:"
+    suggested_agents:
+      - "maker-agent: For code compilation, build operations, installation"
+      - "debug-agent: For troubleshooting, log analysis, system diagnosis"
+      - "security-agent: For security scans, vulnerability checks"
+      - "test-agent: For running tests, validation scripts"
+    
+  direct_file_operations:
+    tools: ["Read", "Write", "Edit", "MultiEdit", "mcp__filesystem__write_file", "mcp__filesystem__edit_file", "mcp__filesystem__read_text_file"]
+    conditions:
+      - "not_delegated_agent"
+      - "code_modification"
+      - "large_file_operation"
+    block_message: "🚫 DELEGATION REQUIRED: Direct file operations blocked. Delegate to appropriate agent:"
+    suggested_agents:
+      - "maker-agent: For code implementation, refactoring, configuration"
+      - "reader-agent: For code analysis, file exploration, documentation review"
+      - "docs-agent: For documentation creation, maintenance, updates"
+      
+  direct_code_implementation:
+    tools: ["Write", "Edit", "MultiEdit", "mcp__serena__replace_symbol_body", "mcp__serena__insert_after_symbol", "mcp__serena__insert_before_symbol"]
+    conditions:
+      - "not_delegated_agent"
+      - "code_creation"
+      - "symbol_modification"
+    block_message: "🚫 DELEGATION REQUIRED: Direct code implementation blocked. TDD workflow required:"
+    suggested_workflow:
+      - "1. test-agent: Create failing test first (TDD RED phase)"
+      - "2. maker-agent: Implement minimal passing code (TDD GREEN phase)"
+      - "3. maker-agent: Refactor while maintaining tests (TDD REFACTOR phase)"
+      - "4. test-agent: Validate all tests pass"
+      
+  direct_search_operations:
+    tools: ["Grep", "Glob", "WebSearch", "WebFetch"]
+    conditions:
+      - "not_delegated_agent"
+      - "analysis_required"
+    block_message: "🚫 DELEGATION REQUIRED: Direct search/analysis blocked. Delegate to appropriate agent:"
+    suggested_agents:
+      - "reader-agent: For code analysis, pattern search, file exploration"
+      - "plan-agent: For architecture analysis, requirement gathering"
+      - "debug-agent: For error investigation, root cause analysis"
+      
+  direct_mcp_operations:
+    tools: ["mcp__context7__get-library-docs", "mcp__context7__resolve-library-id", "mcp__sequential-thinking__sequentialthinking_tools"]
+    conditions:
+      - "not_delegated_agent"
+      - "complex_operation"
+    block_message: "🚫 DELEGATION REQUIRED: Direct MCP operations blocked. Smart MCP activation through agents:"
+    suggested_agents:
+      - "plan-agent: For complex reasoning, architecture decisions (sequential-thinking MCP)"
+      - "maker-agent: For implementation patterns (context7 MCP)"
+      - "reader-agent: For semantic analysis (serena MCP)"
+
+# Agent identification patterns
+agent_detection:
+  orchestrator_patterns:
+    - "not in delegated context"
+    - "direct tool execution from orchestrator"
+    - "no agent handoff initiated"
+    
+  delegated_patterns:
+    - "agent context active"
+    - "proper delegation workflow"
+    - "agent-specific operation"
+
+# Violation logging
+logging:
+  enabled: true
+  log_file: "/home/mcquak/.claude/logs/delegation-violations.log"
+  log_format: "timestamp"
+  log_details:
+    - "attempted_tool"
+    - "blocked_reason"
+    - "suggested_agent"
+    - "user_context"
+    - "violation_count"
+
+# Compliance monitoring
+monitoring:
+  track_delegation_rate: true
+  generate_reports: true
+  alert_on_violations: true
+  metrics_file: "/home/mcquak/.claude/metrics/delegation-compliance.json"
+
+# Exception handling
+exceptions:
+  emergency_bypass:
+    enabled: false  # Only enable for critical system operations
+    bypass_code: "EMERGENCY_DIRECT_EXECUTION"
+    log_emergency_usage: true
+    
+  system_operations:
+    tools: ["ls", "pwd", "whoami"]  # Basic system info commands
+    allow_direct: true
+    
+  help_operations:
+    tools: ["--help", "help"]
+    allow_direct: true
+
+# Enforcement rules
+enforcement_rules:
+  - name: "technical_operations_require_delegation"
+    description: "All technical operations must be delegated to appropriate agents"
+    severity: "blocking"
+    
+  - name: "tdd_workflow_mandatory"
+    description: "All code implementation must follow TDD workflow through test-agent -> maker-agent"
+    severity: "blocking"
+    
+  - name: "zero_tolerance_quality"
+    description: "No direct execution that could bypass quality gates"
+    severity: "blocking"
+    
+  - name: "mcp_smart_activation"
+    description: "MCP servers must be activated through agent delegation, not directly"
+    severity: "blocking"
+
+# Guidance messages
+guidance:
+  delegation_benefits:
+    - "🎯 Specialized expertise: Each agent optimized for specific tasks"
+    - "⚡ Smart MCP activation: Automatic context-aware tool selection"
+    - "🛡️ Quality gates: Zero-tolerance policy enforced through agent workflows"
+    - "📊 Performance monitoring: Token efficiency and intelligent routing"
+    
+  workflow_examples:
+    simple_analysis: "reader-agent"
+    code_implementation: "test-agent → maker-agent (TDD workflow)"
+    bug_investigation: "debug-agent → maker-agent"
+    architecture_design: "plan-agent → maker-agent"
+    security_review: "security-agent → maker-agent"
+    documentation: "docs-agent"
+    
+  emergency_procedures:
+    - "For critical system issues, contact system administrator"
+    - "Emergency bypass requires special authorization"
+    - "All emergency operations are logged and audited"
+
+# Integration with other hooks
+hook_integration:
+  tdd_workflow: "enforces_before"
+  zero_tolerance_quality: "enforces_before" 
+  progressive_escalation: "coordinates_with"
+  agent_health_monitor: "provides_data_to"
+
+# Validation and testing
+validation:
+  test_scenarios:
+    - "direct_bash_blocked"
+    - "direct_file_write_blocked"
+    - "direct_code_implementation_blocked"
+    - "proper_delegation_allowed"
+    - "emergency_bypass_logged"
+  
+  performance_impact: "minimal"  # Hook runs pre-execution only
+  false_positive_rate: "low"     # Clear agent detection patterns
