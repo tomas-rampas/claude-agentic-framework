@@ -1,0 +1,256 @@
+{
+  "name": "lesson-learned",
+  "description": "Captures insights from both successes and failures to build institutional knowledge",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all"],
+  "triggers": [
+    "task_failure_with_resolution",
+    "unexpected_challenge_overcome",
+    "quality_gate_failure_resolved",
+    "performance_issue_solved",
+    "novel_solution_discovered",
+    "significant_optimization_achieved",
+    "stakeholder_feedback_received",
+    "post_mortem_analysis_completed"
+  ],
+
+  "lesson_capture_conditions": {
+    "learning_value_indicators": {
+      "novel_insight_discovered": true,
+      "problem_resolution_achieved": true,
+      "improvement_opportunity_identified": true,
+      "unexpected_outcome_analyzed": true,
+      "stakeholder_feedback_significant": true,
+      "process_improvement_realized": true
+    },
+    "knowledge_gap_filled": {
+      "new_domain_knowledge": "knowledge in previously unexplored area",
+      "edge_case_handling": "solution for previously unhandled edge case",
+      "integration_challenge": "solution for complex integration problem",
+      "optimization_breakthrough": "significant performance or efficiency gain",
+      "quality_enhancement": "approach that substantially improves quality"
+    }
+  },
+
+  "lesson_extraction_process": {
+    "step_1_situation_analysis": {
+      "context_documentation": {
+        "problem_definition": "clear description of the challenge or opportunity",
+        "environmental_factors": "relevant context and constraints",
+        "stakeholder_involvement": "who was affected and how",
+        "timeline_context": "timing and urgency factors",
+        "resource_constraints": "limitations that influenced the approach"
+      },
+      "initial_understanding": {
+        "assumptions_made": "initial assumptions about the situation",
+        "expected_approach": "originally planned solution approach",
+        "anticipated_challenges": "expected difficulties and how to handle them",
+        "success_criteria": "original definition of successful outcome",
+        "risk_assessment": "initially identified risks and mitigation plans"
+      }
+    },
+
+    "step_2_approach_documentation": {
+      "solution_development": {
+        "approaches_attempted": "all approaches tried, including failed ones",
+        "decision_rationale": "reasoning behind key decisions",
+        "adaptation_points": "where and why approach was modified",
+        "resource_utilization": "how resources (time, tokens, agents) were used",
+        "collaboration_patterns": "how agents and stakeholders worked together"
+      },
+      "implementation_details": {
+        "technical_approaches": "specific technical solutions implemented",
+        "workflow_modifications": "changes made to standard workflows",
+        "tool_usage": "which tools were effective or ineffective",
+        "quality_measures": "quality assurance approaches used",
+        "validation_methods": "how solution correctness was verified"
+      }
+    },
+
+    "step_3_outcome_analysis": {
+      "results_evaluation": {
+        "success_metrics": "quantitative measures of outcome success",
+        "quality_outcomes": "quality-related results and implications",
+        "efficiency_outcomes": "resource usage and time outcomes",
+        "stakeholder_satisfaction": "feedback from users and stakeholders",
+        "unintended_consequences": "unexpected positive or negative effects"
+      },
+      "root_cause_analysis": {
+        "success_factors": "key factors that contributed to success",
+        "failure_factors": "factors that led to problems or inefficiencies",
+        "critical_decisions": "decisions that had the most significant impact",
+        "turning_points": "moments where the outcome direction changed",
+        "system_behaviors": "how the overall system responded to interventions"
+      }
+    },
+
+    "step_4_insight_extraction": {
+      "key_learnings": {
+        "fundamental_insights": "deep understanding gained from the experience",
+        "practical_knowledge": "actionable knowledge for future similar situations",
+        "process_improvements": "how processes could be enhanced",
+        "prevention_strategies": "how to avoid similar problems in the future",
+        "optimization_opportunities": "ways to achieve better outcomes"
+      },
+      "generalization": {
+        "applicability_scope": "where these insights apply beyond this specific case",
+        "context_dependencies": "conditions necessary for insights to be valid",
+        "scaling_considerations": "how insights apply at different scales",
+        "domain_transferability": "applicability across different domains",
+        "temporal_relevance": "how long these insights are likely to remain valid"
+      }
+    },
+
+    "step_5_knowledge_formalization": {
+      "lesson_structuring": {
+        "lesson_title": "concise, searchable title for the lesson",
+        "lesson_category": "classification for organizational purposes",
+        "situation_summary": "brief summary of the situation and context",
+        "key_insights": "primary learnings in actionable form",
+        "application_guidance": "how to apply these insights in practice",
+        "warning_signs": "indicators that suggest these insights are relevant",
+        "success_indicators": "how to know when insights are being applied well"
+      },
+      "knowledge_integration": {
+        "related_lessons": "connections to other lessons learned",
+        "pattern_connections": "how this lesson relates to known patterns",
+        "framework_implications": "how this lesson affects the overall framework",
+        "best_practice_updates": "changes to best practices based on this lesson",
+        "decision_tree_updates": "improvements to decision-making processes"
+      }
+    }
+  },
+
+  "lesson_categories": {
+    "technical_lessons": {
+      "architecture_insights": "lessons about system design and architecture",
+      "implementation_approaches": "insights about code implementation strategies",
+      "debugging_techniques": "effective approaches to problem diagnosis",
+      "optimization_methods": "techniques for improving performance",
+      "integration_strategies": "approaches for system integration challenges"
+    },
+    "process_lessons": {
+      "workflow_optimization": "improvements to standard workflows",
+      "quality_assurance": "insights about ensuring quality outcomes",
+      "collaboration_patterns": "effective team and agent coordination",
+      "communication_strategies": "approaches for clear and effective communication",
+      "project_management": "insights about managing complex projects"
+    },
+    "domain_lessons": {
+      "business_domain_insights": "learnings about specific business domains",
+      "technology_domain_knowledge": "insights about specific technologies",
+      "user_experience_insights": "learnings about user needs and preferences",
+      "stakeholder_management": "approaches for effective stakeholder relationships",
+      "change_management": "strategies for managing change effectively"
+    },
+    "meta_lessons": {
+      "learning_process_insights": "improvements to the learning process itself",
+      "knowledge_management": "better approaches to managing knowledge",
+      "adaptation_strategies": "how to adapt to changing circumstances",
+      "decision_making": "improvements to decision-making processes",
+      "continuous_improvement": "strategies for ongoing improvement"
+    }
+  },
+
+  "lesson_validation": {
+    "quality_criteria": {
+      "insight_depth": "lesson provides meaningful, actionable insights",
+      "clarity": "lesson is clearly articulated and understandable",
+      "applicability": "lesson has clear applications in future situations",
+      "evidence_support": "lesson is supported by concrete evidence",
+      "generalizability": "lesson has applicability beyond the specific case"
+    },
+    "consistency_checks": {
+      "conflict_detection": "lesson doesn't conflict with existing knowledge",
+      "integration_validation": "lesson integrates well with existing framework",
+      "coherence_verification": "lesson is internally consistent",
+      "completeness_check": "lesson includes all necessary components",
+      "accuracy_validation": "lesson accurately reflects the actual experience"
+    }
+  },
+
+  "lesson_lifecycle": {
+    "capture_phase": {
+      "automatic_detection": "system identifies lesson-worthy situations",
+      "manual_submission": "agents or users can manually submit lessons",
+      "structured_extraction": "guided process for extracting insights",
+      "quality_validation": "lessons validated for quality and completeness"
+    },
+    "integration_phase": {
+      "knowledge_base_integration": "lessons integrated into knowledge base",
+      "pattern_connection": "lessons connected to relevant patterns",
+      "workflow_updates": "workflows updated based on lesson insights",
+      "training_integration": "lessons incorporated into agent training"
+    },
+    "application_phase": {
+      "proactive_suggestion": "lessons suggested when relevant situations arise",
+      "decision_support": "lessons used to inform decision-making",
+      "pattern_enhancement": "lessons used to improve existing patterns",
+      "continuous_reference": "lessons available for ongoing consultation"
+    },
+    "evolution_phase": {
+      "lesson_refinement": "lessons improved based on application experience",
+      "consolidation": "related lessons merged or synthesized",
+      "obsolescence_management": "outdated lessons retired gracefully",
+      "meta_learning": "learning about the lesson learning process itself"
+    }
+  },
+
+  "application_mechanisms": {
+    "proactive_suggestion": {
+      "context_matching": "suggest lessons when similar contexts are detected",
+      "warning_system": "alert when warning signs from lessons are present",
+      "opportunity_identification": "highlight opportunities based on lesson insights",
+      "decision_support": "provide lesson-based guidance for decisions"
+    },
+    "reactive_consultation": {
+      "lesson_search": "enable search through lessons for relevant insights",
+      "similarity_matching": "find lessons from similar situations",
+      "category_browsing": "browse lessons by category or topic",
+      "cross_reference_following": "follow connections between related lessons"
+    }
+  },
+
+  "integration": {
+    "agent_integration": {
+      "lesson_awareness": "agents aware of relevant lessons before starting tasks",
+      "lesson_application": "agents apply lesson insights during task execution",
+      "lesson_feedback": "agents provide feedback on lesson applicability",
+      "lesson_contribution": "agents contribute new lessons from their experiences"
+    },
+    "workflow_integration": {
+      "prevention_integration": "lessons integrated into prevention strategies",
+      "optimization_integration": "optimization insights applied automatically",
+      "quality_integration": "quality lessons built into quality assurance",
+      "efficiency_integration": "efficiency insights applied to improve workflows"
+    },
+    "decision_integration": {
+      "decision_guidance": "lessons inform decision-making processes",
+      "risk_awareness": "lessons enhance risk identification and mitigation",
+      "opportunity_recognition": "lessons help identify improvement opportunities",
+      "strategic_planning": "lessons inform strategic planning processes"
+    }
+  },
+
+  "metrics": {
+    "capture_effectiveness": {
+      "lesson_quality": "quality scores of captured lessons",
+      "insight_depth": "depth and actionability of insights",
+      "capture_completeness": "completeness of lesson documentation",
+      "processing_efficiency": "resource usage for lesson capture"
+    },
+    "application_effectiveness": {
+      "lesson_utilization": "frequency of lesson application",
+      "application_success": "success rate when lessons are applied",
+      "prevention_effectiveness": "how well lessons prevent recurring problems",
+      "optimization_impact": "measurable improvements from applied lessons"
+    },
+    "knowledge_evolution": {
+      "knowledge_growth": "expansion of lesson-based knowledge",
+      "knowledge_quality": "improvement in knowledge quality over time",
+      "knowledge_integration": "degree of integration across knowledge domains",
+      "learning_acceleration": "rate of learning improvement over time"
+    }
+  }
+}

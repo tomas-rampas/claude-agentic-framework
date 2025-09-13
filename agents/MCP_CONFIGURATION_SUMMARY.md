@@ -1,9 +1,33 @@
-# MCP Configuration Summary for All Agents v2.0
+# MCP Configuration Summary for All Agents v2.2
 
 ## Overview
-All agents have been configured with MCP-first approach, prioritizing MCP server tools over bash commands for file operations and specialized tasks.
+All 11 agents have been configured with MCP-first approach, prioritizing MCP server tools over bash commands for file operations and specialized tasks. Framework now includes separation of product ownership and technical architecture responsibilities, plus 3 specialist agents for comprehensive development coverage.
 
 ## Agent Configurations Summary
+
+### 📋 product-agent
+**Primary MCPs**: sequentialthinking, filesystem
+**Tool Priorities**: 
+- `mcp__sequential-thinking__sequentialthinking_tools` (business strategy)
+- `mcp__filesystem__read_text_file` (requirements analysis)
+- `mcp__filesystem__write_file` (user story creation)
+
+**Forbidden Bash Commands**: `cat`, `head`, `tail`, `less`, `more`, `grep`, `find`, `locate`, `awk`, `sed`
+**Allowed Bash Commands**: `git log`, `git status`
+
+---
+
+### 🏗️ architect-agent
+**Primary MCPs**: sequentialthinking, context7, serena
+**Tool Priorities**: 
+- `mcp__sequential-thinking__sequentialthinking_tools` (architecture design)
+- `mcp__context7__get-library-docs` (best practices)
+- `mcp__serena__get_symbols_overview` (code analysis)
+
+**Forbidden Bash Commands**: `cat`, `head`, `tail`, `less`, `more`, `grep`, `find`, `locate`, `awk`, `sed`
+**Allowed Bash Commands**: `git log`, `git status`, `npm list`, `pip list`, `tree`
+
+---
 
 ### 🔍 reader-agent
 **Primary MCPs**: filesystem, serena
@@ -75,17 +99,35 @@ All agents have been configured with MCP-first approach, prioritizing MCP server
 **Forbidden Bash Commands**: `cat`, `head`, `tail`, `less`, `more`, `grep`, `find`, `locate`, `awk`, `sed`
 **Allowed Bash Commands**: `git log`, `git diff`, `npm run docs`, `yarn docs`, `typedoc`, `jsdoc`, `sphinx-build`
 
----
-
-### 📋 plan-agent
-**Primary MCPs**: sequentialthinking, context7
+### 🚀 devops-agent
+**Primary MCPs**: filesystem, context7
 **Tool Priorities**:
-- `mcp__sequential-thinking__sequentialthinking_tools` (strategic planning)
-- `mcp__context7__get-library-docs` (best practices)
-- `mcp__filesystem__read_text_file` (minimal context reading)
+- `mcp__filesystem__read_text_file` (config file reading)
+- `mcp__filesystem__write_file` (pipeline creation)
+- `mcp__context7__get-library-docs` (cloud best practices)
 
 **Forbidden Bash Commands**: `cat`, `head`, `tail`, `less`, `more`, `grep`, `find`, `locate`, `awk`, `sed`
-**Allowed Bash Commands**: `git log`, `git status`, `npm list`, `pip list`, `tree`
+**Allowed Bash Commands**: `docker`, `kubectl`, `terraform`, `ansible`, `aws`, `az`, `gcloud`, `helm`
+
+### ⚡ performance-agent
+**Primary MCPs**: sequentialthinking, filesystem, serena
+**Tool Priorities**:
+- `mcp__sequential-thinking__sequentialthinking_tools` (systematic analysis)
+- `mcp__filesystem__read_text_file` (log analysis)
+- `mcp__serena__find_symbol` (hotspot analysis)
+
+**Forbidden Bash Commands**: `cat`, `head`, `tail`, `less`, `more`, `grep`, `find`, `locate`, `awk`, `sed`
+**Allowed Bash Commands**: `perf`, `valgrind`, `ab`, `wrk`, `node --prof`, `go tool pprof`
+
+### 💾 data-agent
+**Primary MCPs**: sequentialthinking, filesystem
+**Tool Priorities**:
+- `mcp__sequential-thinking__sequentialthinking_tools` (pipeline design)
+- `mcp__filesystem__read_text_file` (config reading)
+- `mcp__filesystem__write_file` (script management)
+
+**Forbidden Bash Commands**: `cat`, `head`, `tail`, `less`, `more`, `grep`, `find`, `locate`, `awk`, `sed`
+**Allowed Bash Commands**: `psql`, `mysql`, `mongo`, `redis-cli`, `docker exec`, `airflow`, `dbt`
 
 ---
 
@@ -97,11 +139,11 @@ All agents have been configured with MCP-first approach, prioritizing MCP server
 - **Fallback Suggestions**: Clear mappings from forbidden bash commands to MCP alternatives
 - **Role-Specific Permissions**: Each agent has bash commands appropriate to their function
 
-### 🔧 MCP Server Usage Patterns  
-- **filesystem MCP**: Universal priority for file operations across all agents
-- **serena MCP**: Code analysis and symbol operations (reader, maker, test, debug, security)
-- **context7 MCP**: External documentation and best practices (maker, docs, plan)
-- **sequential-thinking MCP**: Complex analysis and planning (debug, plan)
+### 🔧 MCP Server Usage Patterns
+- **filesystem MCP**: Universal priority for file operations across all 11 agents
+- **serena MCP**: Code analysis and symbol operations (reader, maker, test, debug, security, performance, architect)
+- **context7 MCP**: External documentation and best practices (maker, docs, architect, devops)
+- **sequential-thinking MCP**: Complex analysis and planning (debug, product, architect, performance, data)
 
 ### 🚫 Universally Forbidden Bash Commands
 All agents forbid these file operation commands:
@@ -111,12 +153,16 @@ All agents forbid these file operation commands:
 
 ### ✅ Agent-Specific Allowed Bash Commands
 Each agent retains bash access for their core functions:
+- **product-agent**: Basic git operations (`git log`, `git status`)
+- **architect-agent**: Environment discovery (`git log`, `git status`, `npm list`, `pip list`, `tree`)
 - **maker-agent**: Build tools (`npm`, `yarn`, `pip`, `cargo`, `go`, `mvn`, `gradle`, `make`)
-- **test-agent**: Test runners (`jest`, `pytest`, `go test`, `cypress`, etc.)  
+- **test-agent**: Test runners (`jest`, `pytest`, `go test`, `cypress`, etc.)
 - **debug-agent**: System debugging (`git log`, `ps`, `netstat`, `lsof`)
 - **security-agent**: Security tools (`npm audit`, `semgrep`, `bandit`)
 - **docs-agent**: Documentation generators (`typedoc`, `jsdoc`, `sphinx-build`)
-- **plan-agent**: Environment discovery (`git status`, `npm list`, `tree`)
+- **devops-agent**: Infrastructure tools (`docker`, `kubectl`, `terraform`, `ansible`)
+- **performance-agent**: Profiling tools (`perf`, `valgrind`, `ab`, `wrk`)
+- **data-agent**: Database tools (`psql`, `mysql`, `mongo`, `airflow`, `dbt`)
 
 ### 🎯 Quality Standards Integration
 - **Zero-tolerance policy**: maker-agent enforces no compilation/linting/test errors
@@ -128,11 +174,14 @@ Each agent retains bash access for their core functions:
 ---
 
 ## Validation Results
-✅ All 7 agent configurations created successfully  
-✅ All JSON configurations are syntactically valid  
-✅ Consistent MCP prioritization across all agents  
-✅ Appropriate bash command restrictions per agent role  
-✅ Proper fallback suggestions for forbidden commands  
-✅ Role-specific tool access patterns maintained  
+✅ All 11 agent configurations created successfully (8 core + 3 specialist agents)
+✅ All JSON configurations are syntactically valid
+✅ Consistent MCP prioritization across all agents
+✅ Appropriate bash command restrictions per agent role
+✅ Proper fallback suggestions for forbidden commands
+✅ Role-specific tool access patterns maintained
+✅ Product/Architecture separation successfully implemented
+✅ Specialist agents integrated with existing quality standards
+✅ Enhanced workflow patterns support full-stack development
 
-The MCP-first approach is now enforced consistently across the entire agent ecosystem.
+The MCP-first approach is now enforced consistently across the expanded 11-agent ecosystem, providing comprehensive coverage from product ownership through technical architecture, implementation, deployment, optimization, and data management.

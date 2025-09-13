@@ -1,0 +1,249 @@
+{
+  "memory_categories_version": "1.0",
+  "description": "Structured memory categories for agent learning and knowledge accumulation",
+  "created": "2025-09-13",
+
+  "memory_categories": {
+    "workflow_patterns": {
+      "description": "Successful workflow patterns and agent combinations",
+      "memory_prefix": "workflow_",
+      "retention_policy": "permanent",
+      "structure": {
+        "pattern_name": "descriptive name for the workflow pattern",
+        "agent_sequence": "ordered list of agents involved",
+        "task_types": "types of tasks this pattern works best for",
+        "success_rate": "percentage of successful completions",
+        "performance_metrics": "time, tokens, quality scores",
+        "conditions": "when to use this pattern",
+        "variations": "alternative approaches that also work",
+        "last_used": "timestamp of most recent successful use",
+        "usage_count": "number of times this pattern has been used"
+      }
+    },
+
+    "solution_patterns": {
+      "description": "Proven solutions for common problems and implementation patterns",
+      "memory_prefix": "solution_",
+      "retention_policy": "permanent",
+      "structure": {
+        "problem_description": "clear description of the problem solved",
+        "solution_approach": "step-by-step solution methodology",
+        "code_patterns": "reusable code patterns or templates",
+        "technology_context": "relevant technologies, frameworks, languages",
+        "complexity_level": "simple, medium, complex classification",
+        "validation_method": "how to verify the solution works",
+        "common_pitfalls": "what to avoid when implementing",
+        "success_indicators": "signs that solution is working correctly",
+        "related_solutions": "links to similar or complementary solutions"
+      }
+    },
+
+    "optimization_insights": {
+      "description": "Performance optimizations and efficiency improvements discovered",
+      "memory_prefix": "optimization_",
+      "retention_policy": "evolving",
+      "structure": {
+        "optimization_area": "performance, resource usage, quality, time",
+        "baseline_metrics": "measurements before optimization",
+        "improved_metrics": "measurements after optimization",
+        "optimization_technique": "specific method or approach used",
+        "implementation_details": "how the optimization was implemented",
+        "trade_offs": "what was sacrificed for the optimization",
+        "applicability": "contexts where this optimization works",
+        "monitoring": "how to track continued effectiveness",
+        "evolution_notes": "how this optimization can be further improved"
+      }
+    },
+
+    "lessons_learned": {
+      "description": "Knowledge gained from both successes and failures",
+      "memory_prefix": "lesson_",
+      "retention_policy": "permanent",
+      "structure": {
+        "situation": "context and circumstances of the learning experience",
+        "approach_taken": "what was attempted or implemented",
+        "outcome": "what actually happened (success, partial, failure)",
+        "root_cause": "underlying reasons for the outcome",
+        "key_insights": "primary lessons extracted from the experience",
+        "prevention_strategies": "how to avoid similar issues in future",
+        "improvement_opportunities": "how the approach could be enhanced",
+        "stakeholder_impact": "effect on users, team, or project",
+        "generalizability": "applicability to other similar situations"
+      }
+    },
+
+    "code_patterns": {
+      "description": "Reusable code patterns, architectures, and design solutions",
+      "memory_prefix": "code_",
+      "retention_policy": "permanent",
+      "structure": {
+        "pattern_type": "architectural, design, implementation pattern",
+        "technology_stack": "languages, frameworks, tools involved",
+        "use_cases": "scenarios where this pattern is applicable",
+        "implementation": "concrete code examples or templates",
+        "benefits": "advantages of using this pattern",
+        "limitations": "constraints or downsides to consider",
+        "alternatives": "other patterns that solve similar problems",
+        "testing_approach": "how to validate implementations using this pattern",
+        "maintenance_notes": "long-term care and evolution considerations"
+      }
+    },
+
+    "project_context": {
+      "description": "Project-specific knowledge, standards, and accumulated wisdom",
+      "memory_prefix": "project_",
+      "retention_policy": "project_scoped",
+      "structure": {
+        "context_type": "standards, conventions, decisions, constraints",
+        "scope": "global, module, component, or feature specific",
+        "rationale": "reasoning behind decisions or standards",
+        "implementation_details": "specific ways context is applied",
+        "evolution_history": "how context has changed over time",
+        "stakeholder_agreements": "who approved or uses this context",
+        "validation_method": "how compliance is verified",
+        "exception_conditions": "when context can be overridden",
+        "related_contexts": "connections to other project contexts"
+      }
+    },
+
+    "quality_insights": {
+      "description": "Quality-related discoveries, patterns, and improvement strategies",
+      "memory_prefix": "quality_",
+      "retention_policy": "evolving",
+      "structure": {
+        "quality_dimension": "correctness, performance, security, maintainability",
+        "quality_issue": "specific quality problem or opportunity",
+        "detection_method": "how the quality aspect is identified",
+        "improvement_approach": "strategies for enhancing quality",
+        "measurement_criteria": "how quality improvement is quantified",
+        "implementation_cost": "effort required to implement improvements",
+        "long_term_benefits": "sustained value from quality improvements",
+        "automation_potential": "opportunities for automated quality assurance",
+        "best_practice_evolution": "how quality practices improve over time"
+      }
+    },
+
+    "integration_knowledge": {
+      "description": "Knowledge about system integrations, APIs, and external dependencies",
+      "memory_prefix": "integration_",
+      "retention_policy": "permanent",
+      "structure": {
+        "integration_type": "API, database, service, library integration",
+        "integration_target": "specific system, service, or component",
+        "connection_method": "protocols, authentication, data formats",
+        "reliability_patterns": "error handling, retry logic, fallbacks",
+        "performance_considerations": "latency, throughput, resource usage",
+        "security_requirements": "authentication, authorization, data protection",
+        "monitoring_strategy": "health checks, metrics, alerting",
+        "evolution_planning": "how integration adapts to changes",
+        "troubleshooting_guide": "common issues and resolution steps"
+      }
+    }
+  },
+
+  "memory_management": {
+    "retention_policies": {
+      "permanent": {
+        "description": "Knowledge that remains valuable indefinitely",
+        "auto_cleanup": false,
+        "versioning": true,
+        "backup_required": true
+      },
+      "evolving": {
+        "description": "Knowledge that improves and gets updated over time",
+        "auto_cleanup": false,
+        "versioning": true,
+        "merge_strategy": "enhance_existing"
+      },
+      "project_scoped": {
+        "description": "Knowledge specific to current project lifecycle",
+        "auto_cleanup": "project_end",
+        "versioning": false,
+        "archive_on_completion": true
+      }
+    },
+
+    "memory_operations": {
+      "create_memory": {
+        "validation": "ensure proper category and structure",
+        "deduplication": "check for similar existing memories",
+        "cross_referencing": "link to related memories automatically"
+      },
+      "update_memory": {
+        "versioning": "maintain history of changes",
+        "merge_detection": "identify conflicts with existing knowledge",
+        "quality_validation": "ensure updates improve knowledge quality"
+      },
+      "retrieve_memory": {
+        "relevance_scoring": "rank memories by applicability",
+        "context_filtering": "select memories relevant to current task",
+        "freshness_weighting": "prefer recent successful patterns"
+      }
+    },
+
+    "knowledge_validation": {
+      "consistency_checking": "ensure memories don't conflict",
+      "effectiveness_tracking": "monitor success rates of applied knowledge",
+      "obsolescence_detection": "identify outdated knowledge",
+      "quality_metrics": "measure usefulness and accuracy of memories"
+    }
+  },
+
+  "learning_workflows": {
+    "post_task_analysis": {
+      "trigger": "task completion (success or failure)",
+      "analysis_steps": [
+        "Extract key patterns and approaches used",
+        "Identify what worked well and what didn't",
+        "Determine generalizability to similar tasks",
+        "Create or update relevant memories",
+        "Cross-reference with existing knowledge"
+      ]
+    },
+
+    "pattern_recognition": {
+      "trigger": "multiple similar successful tasks",
+      "recognition_steps": [
+        "Identify common elements across successes",
+        "Analyze context patterns and conditions",
+        "Formalize pattern structure and applicability",
+        "Create reusable workflow template",
+        "Validate pattern through controlled application"
+      ]
+    },
+
+    "knowledge_synthesis": {
+      "trigger": "periodic (weekly) or accumulated threshold",
+      "synthesis_steps": [
+        "Identify connections between disparate memories",
+        "Synthesize higher-level insights and principles",
+        "Update best practices and recommendations",
+        "Refine decision trees and routing logic",
+        "Generate improvement recommendations"
+      ]
+    }
+  },
+
+  "integration_points": {
+    "agent_configuration": {
+      "memory_access": "all agents can read relevant memories",
+      "memory_creation": "agents create memories in their expertise areas",
+      "memory_updates": "agents can evolve memories based on new experiences",
+      "memory_sharing": "cross-agent knowledge sharing through memories"
+    },
+
+    "workflow_enhancement": {
+      "pattern_suggestion": "suggest proven patterns for similar tasks",
+      "context_injection": "provide relevant historical context",
+      "optimization_guidance": "recommend efficiency improvements",
+      "risk_mitigation": "warn about known pitfalls and issues"
+    },
+
+    "quality_improvement": {
+      "success_amplification": "replicate successful approaches",
+      "failure_prevention": "avoid known problematic patterns",
+      "continuous_refinement": "evolve approaches based on outcomes",
+      "best_practice_evolution": "upgrade practices based on learning"
+    }
+  }
+}

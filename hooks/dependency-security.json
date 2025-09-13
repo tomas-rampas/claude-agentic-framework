@@ -1,0 +1,252 @@
+{
+  "name": "dependency-security",
+  "description": "Real-time CVE scanning and dependency vulnerability management with automatic blocking",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["security", "maker", "devops"],
+  "triggers": [
+    "dependency_change",
+    "package_install",
+    "pre_commit",
+    "pre_deploy",
+    "scheduled_security_scan",
+    "new_cve_published"
+  ],
+
+  "vulnerability_thresholds": {
+    "critical_severity": {
+      "cvss_score": "9.0_to_10.0",
+      "action": "IMMEDIATE_BLOCK",
+      "timeline": "immediate",
+      "approval_override": false
+    },
+    "high_severity": {
+      "cvss_score": "7.0_to_8.9",
+      "action": "BLOCK_WITH_TIMELINE",
+      "timeline": "24_hours",
+      "approval_override": true
+    },
+    "medium_severity": {
+      "cvss_score": "4.0_to_6.9",
+      "action": "WARNING_WITH_TRACKING",
+      "timeline": "7_days",
+      "approval_override": true
+    },
+    "low_severity": {
+      "cvss_score": "0.1_to_3.9",
+      "action": "LOG_AND_MONITOR",
+      "timeline": "30_days",
+      "approval_override": true
+    }
+  },
+
+  "scanning_tools": {
+    "npm_ecosystem": {
+      "tools": ["npm audit", "yarn audit", "snyk", "socket.dev"],
+      "scan_frequency": "on_change_and_daily",
+      "vulnerability_databases": ["npm_security_advisories", "snyk_db", "nvd"]
+    },
+    "python_ecosystem": {
+      "tools": ["pip-audit", "safety", "bandit", "semgrep"],
+      "scan_frequency": "on_change_and_daily",
+      "vulnerability_databases": ["pyup_safety_db", "nvd", "osv_dev"]
+    },
+    "java_ecosystem": {
+      "tools": ["OWASP Dependency Check", "Snyk", "JFrog Xray"],
+      "scan_frequency": "on_change_and_daily",
+      "vulnerability_databases": ["maven_central_security", "nvd", "sonatype_ossindex"]
+    },
+    "go_ecosystem": {
+      "tools": ["govulncheck", "nancy", "snyk"],
+      "scan_frequency": "on_change_and_daily",
+      "vulnerability_databases": ["go_vulnerability_database", "nvd"]
+    },
+    "rust_ecosystem": {
+      "tools": ["cargo-audit", "cargo-deny"],
+      "scan_frequency": "on_change_and_daily",
+      "vulnerability_databases": ["rustsec_database", "nvd"]
+    },
+    "docker_containers": {
+      "tools": ["trivy", "clair", "snyk container", "docker scout"],
+      "scan_frequency": "on_build_and_deploy",
+      "vulnerability_databases": ["alpine_security", "debian_security", "redhat_security"]
+    }
+  },
+
+  "enforcement_rules": {
+    "pre_installation": {
+      "scan_before_install": true,
+      "block_vulnerable_packages": true,
+      "require_manual_approval_for_warnings": true,
+      "suggest_alternative_packages": true
+    },
+    "continuous_monitoring": {
+      "daily_vulnerability_scans": true,
+      "real_time_cve_alerts": true,
+      "automatic_pr_creation_for_updates": true,
+      "dependency_update_automation": "patch_and_minor_only"
+    },
+    "deployment_gates": {
+      "pre_deployment_scan": true,
+      "block_deployment_on_critical": true,
+      "require_security_approval": true,
+      "vulnerability_report_generation": true
+    }
+  },
+
+  "remediation_strategies": {
+    "automatic_updates": {
+      "patch_versions": "auto_update_with_testing",
+      "minor_versions": "auto_update_with_approval",
+      "major_versions": "manual_review_required",
+      "security_patches": "priority_auto_update"
+    },
+    "vulnerability_patching": {
+      "critical_timeline": "immediate",
+      "high_timeline": "24_hours",
+      "medium_timeline": "7_days",
+      "low_timeline": "30_days"
+    },
+    "alternative_packages": {
+      "package_recommendation_engine": true,
+      "security_score_comparison": true,
+      "maintenance_status_check": true,
+      "license_compatibility_validation": true
+    },
+    "workarounds": {
+      "configuration_changes": "isolate_vulnerable_functionality",
+      "runtime_protection": "WAF_and_monitoring_rules",
+      "network_segmentation": "limit_attack_surface",
+      "temporary_disabling": "non_critical_features_only"
+    }
+  },
+
+  "agent_responsibilities": {
+    "security-agent": {
+      "primary_role": "vulnerability_scanning_and_analysis",
+      "responsibilities": [
+        "continuous_vulnerability_monitoring",
+        "risk_assessment_and_prioritization",
+        "security_advisory_analysis",
+        "compliance_validation"
+      ],
+      "triggers": ["new_vulnerability_detected", "security_scan_required", "compliance_check"]
+    },
+    "maker-agent": {
+      "primary_role": "vulnerability_remediation_implementation",
+      "responsibilities": [
+        "dependency_updates_and_patches",
+        "code_changes_for_security_fixes",
+        "configuration_hardening",
+        "security_test_integration"
+      ],
+      "triggers": ["security_fix_required", "dependency_update_needed"]
+    },
+    "devops-agent": {
+      "primary_role": "infrastructure_security_and_deployment",
+      "responsibilities": [
+        "container_security_scanning",
+        "infrastructure_vulnerability_management",
+        "security_automation_in_pipelines",
+        "incident_response_automation"
+      ],
+      "triggers": ["container_vulnerability", "infrastructure_security_issue"]
+    }
+  },
+
+  "compliance_frameworks": {
+    "regulatory_requirements": {
+      "gdpr": "data_protection_vulnerability_assessment",
+      "hipaa": "healthcare_security_compliance",
+      "pci_dss": "payment_card_security_standards",
+      "sox": "financial_reporting_security_controls"
+    },
+    "industry_standards": {
+      "owasp_top_10": "web_application_security_risks",
+      "nist_cybersecurity": "cybersecurity_framework_alignment",
+      "iso_27001": "information_security_management",
+      "cis_controls": "critical_security_controls"
+    },
+    "organizational_policies": {
+      "security_baseline": "minimum_security_requirements",
+      "acceptable_risk_levels": "risk_tolerance_matrix",
+      "exception_processes": "security_exception_workflow",
+      "incident_response": "security_incident_procedures"
+    }
+  },
+
+  "reporting_and_metrics": {
+    "vulnerability_dashboard": {
+      "real_time_metrics": ["active_vulnerabilities", "risk_score", "remediation_progress"],
+      "trend_analysis": ["vulnerability_introduction_rate", "mean_time_to_remediation"],
+      "compliance_status": ["framework_compliance_percentage", "policy_adherence"]
+    },
+    "security_reports": {
+      "executive_summary": "high_level_risk_overview",
+      "technical_details": "detailed_vulnerability_analysis",
+      "remediation_roadmap": "prioritized_action_items",
+      "compliance_report": "regulatory_compliance_status"
+    },
+    "alerting": {
+      "critical_vulnerabilities": "immediate_notification",
+      "new_cve_matching_dependencies": "real_time_alerts",
+      "compliance_violations": "escalated_notifications",
+      "remediation_timeline_breaches": "management_alerts"
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "development-standards",
+      "testing-workflow",
+      "deployment-automation"
+    ],
+    "blocks_progression_until": [
+      "critical_vulnerabilities_resolved",
+      "security_approval_obtained",
+      "compliance_requirements_met"
+    ],
+    "ci_cd_integration": {
+      "pipeline_security_gates": ["dependency_scan", "container_scan", "infrastructure_scan"],
+      "automated_security_testing": ["SAST", "DAST", "dependency_analysis"],
+      "security_metrics": ["vulnerability_count", "security_score", "compliance_percentage"]
+    }
+  },
+
+  "incident_response": {
+    "zero_day_vulnerabilities": {
+      "immediate_assessment": "impact_and_exposure_analysis",
+      "emergency_procedures": "rapid_response_team_activation",
+      "communication_plan": "stakeholder_notification_protocol",
+      "remediation_priority": "highest"
+    },
+    "supply_chain_attacks": {
+      "dependency_integrity_validation": "checksum_and_signature_verification",
+      "dependency_source_validation": "trusted_repository_enforcement",
+      "impact_assessment": "blast_radius_analysis",
+      "isolation_procedures": "affected_system_quarantine"
+    },
+    "vulnerability_disclosure": {
+      "responsible_disclosure": "coordinated_vulnerability_disclosure",
+      "patch_timeline": "vendor_patch_availability_tracking",
+      "workaround_implementation": "temporary_mitigation_measures",
+      "public_communication": "transparency_with_users_and_customers"
+    }
+  },
+
+  "performance_optimization": {
+    "scan_efficiency": {
+      "incremental_scanning": "scan_only_changed_dependencies",
+      "parallel_scanning": "multi_tool_concurrent_execution",
+      "cache_optimization": "vulnerability_database_caching",
+      "smart_scheduling": "off_peak_comprehensive_scans"
+    },
+    "false_positive_reduction": {
+      "vulnerability_validation": "automated_exploitability_analysis",
+      "context_aware_filtering": "application_specific_risk_assessment",
+      "whitelist_management": "approved_exceptions_and_waivers",
+      "continuous_tuning": "machine_learning_based_refinement"
+    }
+  }
+}

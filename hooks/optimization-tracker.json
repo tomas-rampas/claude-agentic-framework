@@ -1,0 +1,237 @@
+{
+  "name": "optimization-tracker",
+  "description": "Tracks performance improvements over time and identifies optimization opportunities",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all"],
+  "triggers": [
+    "task_completion",
+    "workflow_sequence_completion",
+    "performance_measurement_available",
+    "resource_usage_data_collected",
+    "quality_metrics_updated",
+    "optimization_applied",
+    "baseline_established",
+    "benchmark_comparison_available"
+  ],
+
+  "optimization_tracking_scope": {
+    "performance_dimensions": {
+      "execution_time": "time from task start to successful completion",
+      "resource_utilization": "tokens, memory, CPU, and other resource usage",
+      "quality_outcomes": "quality metrics and quality gate success rates",
+      "user_satisfaction": "stakeholder satisfaction with outcomes",
+      "error_rates": "frequency and severity of errors encountered",
+      "efficiency_ratios": "output quality per unit of resource input"
+    },
+    "optimization_areas": {
+      "workflow_efficiency": "improvements in workflow execution patterns",
+      "resource_optimization": "better utilization of available resources",
+      "quality_enhancement": "improvements in outcome quality",
+      "speed_optimization": "reductions in task completion time",
+      "error_reduction": "decreases in error rates and improved reliability",
+      "coordination_improvement": "better agent and stakeholder coordination"
+    }
+  },
+
+  "baseline_establishment": {
+    "initial_measurement": {
+      "performance_baselines": {
+        "task_duration_baselines": "typical completion times by task type",
+        "resource_usage_baselines": "standard resource consumption patterns",
+        "quality_baselines": "standard quality outcome expectations",
+        "error_rate_baselines": "typical error frequencies by context",
+        "satisfaction_baselines": "standard user satisfaction levels"
+      },
+      "context_categorization": {
+        "task_complexity_categories": "simple, medium, complex task classifications",
+        "domain_categories": "different business or technical domains",
+        "constraint_categories": "different types of constraints and limitations",
+        "urgency_categories": "different priority and timeline categories",
+        "team_composition_categories": "different agent combination patterns"
+      }
+    },
+    "baseline_maintenance": {
+      "periodic_recalibration": "regularly update baselines based on recent performance",
+      "context_specific_baselines": "maintain separate baselines for different contexts",
+      "evolution_tracking": "track how baselines change over time",
+      "outlier_handling": "appropriate handling of exceptional performance cases",
+      "baseline_validation": "ensure baselines remain representative and useful"
+    }
+  },
+
+  "optimization_detection": {
+    "improvement_identification": {
+      "performance_trend_analysis": {
+        "speed_improvements": "identification of tasks completing faster over time",
+        "quality_improvements": "detection of improving quality outcomes",
+        "efficiency_gains": "identification of better resource utilization",
+        "error_reduction_trends": "detection of decreasing error rates",
+        "satisfaction_improvements": "identification of increasing user satisfaction"
+      },
+      "optimization_opportunity_detection": {
+        "bottleneck_identification": "systematic identification of workflow bottlenecks",
+        "resource_waste_detection": "identification of inefficient resource usage",
+        "quality_gap_analysis": "identification of quality improvement opportunities",
+        "coordination_inefficiencies": "detection of suboptimal agent coordination",
+        "process_redundancies": "identification of unnecessary process steps"
+      }
+    },
+    "causal_analysis": {
+      "improvement_attribution": {
+        "change_correlation": "correlate improvements with specific changes",
+        "pattern_effectiveness": "assess effectiveness of applied patterns",
+        "optimization_impact": "measure impact of specific optimizations",
+        "tool_effectiveness": "evaluate effectiveness of different tools and approaches",
+        "learning_impact": "measure impact of applied lessons and insights"
+      },
+      "context_dependency_analysis": {
+        "conditional_optimization": "identify optimizations that work in specific contexts",
+        "universal_improvements": "identify optimizations that work across contexts",
+        "constraint_impact": "understand how constraints affect optimization effectiveness",
+        "scaling_characteristics": "understand how optimizations scale with complexity",
+        "temporal_stability": "assess how optimization effectiveness changes over time"
+      }
+    }
+  },
+
+  "optimization_capture": {
+    "optimization_documentation": {
+      "optimization_description": {
+        "optimization_name": "clear, descriptive name for the optimization",
+        "optimization_type": "category of optimization (speed, quality, efficiency, etc.)",
+        "problem_addressed": "specific problem or inefficiency addressed",
+        "solution_approach": "detailed description of optimization approach",
+        "implementation_details": "specific steps for applying optimization"
+      },
+      "impact_measurement": {
+        "baseline_metrics": "performance metrics before optimization",
+        "improved_metrics": "performance metrics after optimization",
+        "improvement_magnitude": "quantitative measure of improvement",
+        "improvement_consistency": "how consistently optimization delivers benefits",
+        "side_effects": "any negative or unexpected consequences"
+      }
+    },
+    "optimization_validation": {
+      "effectiveness_verification": {
+        "statistical_significance": "ensure improvements are statistically significant",
+        "reproducibility": "verify optimization can be reliably reproduced",
+        "generalizability": "assess applicability across different contexts",
+        "sustainability": "verify optimization benefits persist over time",
+        "cost_benefit_analysis": "ensure optimization benefits justify costs"
+      },
+      "quality_assurance": {
+        "no_quality_degradation": "ensure optimization doesn't compromise quality",
+        "maintainability_preservation": "ensure optimization doesn't hurt maintainability",
+        "scalability_validation": "verify optimization works at different scales",
+        "robustness_testing": "ensure optimization works under various conditions",
+        "integration_compatibility": "verify optimization works with existing systems"
+      }
+    }
+  },
+
+  "optimization_application": {
+    "automatic_application": {
+      "pattern_based_optimization": {
+        "recognized_patterns": "automatically apply optimizations to recognized patterns",
+        "context_matching": "apply optimizations when context conditions are met",
+        "threshold_triggered": "apply optimizations when performance thresholds are crossed",
+        "proactive_application": "apply preventive optimizations before issues occur"
+      },
+      "adaptive_optimization": {
+        "performance_monitoring": "continuously monitor performance for optimization opportunities",
+        "dynamic_adjustment": "adjust optimizations based on real-time performance",
+        "context_adaptation": "adapt optimizations to changing contexts",
+        "feedback_integration": "integrate performance feedback to refine optimizations"
+      }
+    },
+    "guided_application": {
+      "optimization_recommendation": {
+        "suggestion_engine": "suggest relevant optimizations for current tasks",
+        "priority_ranking": "rank optimization opportunities by potential impact",
+        "implementation_guidance": "provide step-by-step optimization implementation",
+        "impact_prediction": "predict likely impact of proposed optimizations"
+      },
+      "manual_optimization": {
+        "expert_analysis": "support expert analysis of optimization opportunities",
+        "custom_optimization": "support development of custom optimizations",
+        "optimization_experimentation": "support safe experimentation with optimizations",
+        "optimization_validation": "support validation of new optimization approaches"
+      }
+    }
+  },
+
+  "optimization_evolution": {
+    "optimization_refinement": {
+      "effectiveness_tracking": "track effectiveness of optimizations over time",
+      "optimization_tuning": "refine optimizations based on performance data",
+      "context_specialization": "specialize optimizations for specific contexts",
+      "combination_optimization": "optimize combinations of multiple optimizations",
+      "obsolescence_detection": "detect when optimizations become obsolete"
+    },
+    "meta_optimization": {
+      "optimization_pattern_discovery": "discover patterns in effective optimizations",
+      "optimization_framework_improvement": "improve the optimization process itself",
+      "prediction_model_refinement": "improve optimization impact prediction models",
+      "optimization_automation": "automate increasingly sophisticated optimizations",
+      "learning_acceleration": "accelerate the rate of optimization discovery"
+    }
+  },
+
+  "integration": {
+    "agent_integration": {
+      "optimization_awareness": "agents aware of applicable optimizations",
+      "optimization_application": "agents apply optimizations during task execution",
+      "optimization_feedback": "agents provide feedback on optimization effectiveness",
+      "optimization_discovery": "agents contribute to optimization discovery"
+    },
+    "workflow_integration": {
+      "embedded_optimization": "optimizations built into standard workflows",
+      "adaptive_workflows": "workflows that adapt based on optimization opportunities",
+      "optimization_checkpoints": "systematic points for optimization application",
+      "continuous_optimization": "ongoing optimization throughout workflow execution"
+    },
+    "quality_integration": {
+      "quality_preserving_optimization": "ensure optimizations maintain quality standards",
+      "quality_enhancing_optimization": "optimizations that improve quality outcomes",
+      "optimization_quality_gates": "quality gates for optimization effectiveness",
+      "balanced_optimization": "balance multiple optimization objectives"
+    }
+  },
+
+  "metrics": {
+    "optimization_discovery": {
+      "discovery_rate": "rate of new optimization discovery",
+      "optimization_diversity": "variety of optimization types discovered",
+      "discovery_quality": "effectiveness of newly discovered optimizations",
+      "discovery_efficiency": "resource usage for optimization discovery process"
+    },
+    "optimization_effectiveness": {
+      "application_rate": "frequency of optimization application",
+      "success_rate": "success rate of applied optimizations",
+      "impact_magnitude": "average magnitude of optimization improvements",
+      "impact_sustainability": "how long optimization benefits persist"
+    },
+    "system_improvement": {
+      "overall_performance_trend": "overall system performance improvement over time",
+      "optimization_compound_effect": "cumulative effect of multiple optimizations",
+      "optimization_roi": "return on investment for optimization efforts",
+      "system_optimization_maturity": "sophistication of system optimization capabilities"
+    }
+  },
+
+  "reporting": {
+    "performance_dashboards": {
+      "real_time_metrics": "current performance metrics and trends",
+      "optimization_impact": "visual representation of optimization effects",
+      "improvement_trajectories": "historical trends in system performance",
+      "optimization_opportunities": "current optimization opportunities identified"
+    },
+    "optimization_reports": {
+      "periodic_summaries": "regular reports on optimization activities and results",
+      "impact_analysis": "detailed analysis of optimization impact",
+      "recommendation_reports": "reports on recommended optimization actions",
+      "trend_analysis": "analysis of long-term optimization trends"
+    }
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "name": "pattern-capture",
+  "description": "Automatically captures successful workflow patterns and stores them as reusable knowledge",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all"],
+  "triggers": [
+    "task_completion_success",
+    "workflow_sequence_success",
+    "quality_gate_passed",
+    "performance_target_exceeded",
+    "user_satisfaction_high",
+    "agent_handoff_smooth"
+  ],
+
+  "capture_conditions": {
+    "success_indicators": {
+      "task_completed": true,
+      "quality_gates_passed": true,
+      "efficiency_threshold_met": true,
+      "user_satisfaction": ">=4/5",
+      "error_rate": "<=5%"
+    },
+    "pattern_worth_capturing": {
+      "task_complexity": ">=medium",
+      "novel_approach_used": true,
+      "reusability_potential": "high",
+      "improvement_over_baseline": ">=10%",
+      "agent_coordination_effective": true
+    }
+  },
+
+  "capture_pipeline": {
+    "step_1_data_extraction": {
+      "workflow_metadata": {
+        "task_description": "extract task requirements and context",
+        "agent_sequence": "record order and coordination of agents",
+        "decision_points": "capture key decision moments",
+        "resource_usage": "track tokens, time, MCP activations",
+        "outcome_metrics": "measure success indicators"
+      },
+      "context_capture": {
+        "environmental_factors": "project type, technology stack, constraints",
+        "user_preferences": "coding standards, quality requirements",
+        "temporal_context": "deadlines, priority levels, dependencies",
+        "domain_context": "business domain, technical domain, complexity"
+      }
+    },
+
+    "step_2_pattern_analysis": {
+      "pattern_identification": {
+        "workflow_structure": "identify reusable workflow structure",
+        "decision_logic": "extract decision-making patterns",
+        "optimization_techniques": "capture efficiency improvements",
+        "quality_assurance": "identify quality-ensuring patterns",
+        "error_prevention": "extract error avoidance strategies"
+      },
+      "generalizability_assessment": {
+        "task_type_applicability": "determine applicable task categories",
+        "context_dependencies": "identify required contextual conditions",
+        "customization_points": "find adaptable aspects of pattern",
+        "constraint_requirements": "determine necessary constraints",
+        "scalability_factors": "assess pattern scaling characteristics"
+      }
+    },
+
+    "step_3_pattern_formalization": {
+      "pattern_structure_definition": {
+        "pattern_name": "generate descriptive, searchable name",
+        "pattern_description": "clear explanation of pattern purpose",
+        "applicability_conditions": "when to use this pattern",
+        "implementation_steps": "concrete execution instructions",
+        "customization_guidelines": "how to adapt pattern to variations",
+        "success_criteria": "how to measure pattern effectiveness"
+      },
+      "pattern_validation": {
+        "consistency_check": "ensure pattern is internally consistent",
+        "completeness_verification": "confirm all necessary elements included",
+        "conflict_detection": "identify conflicts with existing patterns",
+        "efficiency_analysis": "compare with alternative approaches",
+        "quality_validation": "ensure pattern maintains quality standards"
+      }
+    },
+
+    "step_4_knowledge_storage": {
+      "memory_creation": {
+        "pattern_memory": {
+          "memory_category": "workflow_patterns",
+          "memory_name": "pattern_{domain}_{task_type}_{approach}",
+          "memory_structure": {
+            "pattern_definition": "formal pattern specification",
+            "usage_examples": "concrete examples of pattern application",
+            "performance_metrics": "baseline performance expectations",
+            "adaptation_guides": "how to customize for different contexts",
+            "validation_methods": "how to verify successful application"
+          }
+        },
+        "cross_references": {
+          "related_patterns": "link to similar or complementary patterns",
+          "alternative_approaches": "link to different solutions for same problems",
+          "pattern_evolution": "track how pattern develops over time",
+          "usage_analytics": "track pattern application success rates"
+        }
+      }
+    }
+  },
+
+  "pattern_types": {
+    "workflow_patterns": {
+      "agent_coordination": "effective multi-agent collaboration patterns",
+      "sequential_workflows": "optimal agent sequencing for task types",
+      "parallel_workflows": "effective parallel execution patterns",
+      "error_recovery": "patterns for handling and recovering from errors",
+      "quality_assurance": "patterns that ensure quality outcomes"
+    },
+    "implementation_patterns": {
+      "code_generation": "effective code creation approaches",
+      "refactoring": "safe and effective refactoring strategies",
+      "testing": "comprehensive testing pattern applications",
+      "debugging": "systematic debugging and problem-solving approaches",
+      "optimization": "performance and efficiency improvement patterns"
+    },
+    "communication_patterns": {
+      "agent_handoffs": "smooth transition patterns between agents",
+      "context_sharing": "effective information sharing approaches",
+      "requirement_clarification": "patterns for understanding requirements",
+      "stakeholder_communication": "effective communication with users",
+      "documentation": "patterns for clear and useful documentation"
+    }
+  },
+
+  "quality_gates": {
+    "pattern_quality_validation": {
+      "completeness": "pattern includes all necessary elements",
+      "clarity": "pattern is clearly described and understandable",
+      "actionability": "pattern provides concrete, executable steps",
+      "generalizability": "pattern can be applied to multiple scenarios",
+      "effectiveness": "pattern demonstrates measurable improvement"
+    },
+    "knowledge_integration": {
+      "consistency": "pattern is consistent with existing knowledge",
+      "non_duplication": "pattern adds unique value, doesn't duplicate",
+      "cross_reference_quality": "links to related knowledge are accurate",
+      "evolution_tracking": "pattern evolution is properly documented",
+      "usage_guidance": "clear guidance on when and how to use pattern"
+    }
+  },
+
+  "pattern_lifecycle": {
+    "creation": {
+      "automatic_capture": "patterns captured automatically from successes",
+      "manual_annotation": "expert agents can manually create patterns",
+      "validation_process": "new patterns go through quality validation",
+      "integration_testing": "patterns tested for integration with existing knowledge"
+    },
+    "evolution": {
+      "usage_tracking": "monitor how patterns are used in practice",
+      "effectiveness_measurement": "track pattern success rates over time",
+      "refinement_process": "improve patterns based on usage experience",
+      "version_management": "maintain pattern evolution history"
+    },
+    "retirement": {
+      "obsolescence_detection": "identify patterns that are no longer effective",
+      "deprecation_process": "gracefully retire outdated patterns",
+      "migration_guidance": "guide transition to better alternatives",
+      "historical_preservation": "maintain historical record of retired patterns"
+    }
+  },
+
+  "integration": {
+    "agent_integration": {
+      "pattern_suggestion": "suggest relevant patterns before task execution",
+      "pattern_application": "guide agents in applying patterns effectively",
+      "pattern_feedback": "collect agent feedback on pattern effectiveness",
+      "pattern_adaptation": "support agent customization of patterns"
+    },
+    "workflow_integration": {
+      "routing_enhancement": "use patterns to improve task routing decisions",
+      "optimization_application": "automatically apply optimization patterns",
+      "quality_improvement": "integrate quality-ensuring patterns",
+      "efficiency_enhancement": "apply efficiency-improving patterns"
+    },
+    "learning_integration": {
+      "knowledge_synthesis": "integrate patterns into broader knowledge synthesis",
+      "meta_pattern_discovery": "identify patterns of pattern usage",
+      "framework_evolution": "use patterns to evolve the framework itself",
+      "continuous_improvement": "systematically improve pattern quality"
+    }
+  },
+
+  "metrics": {
+    "capture_metrics": {
+      "capture_rate": "frequency of successful pattern capture",
+      "pattern_quality": "quality scores of captured patterns",
+      "pattern_diversity": "variety of patterns being captured",
+      "capture_efficiency": "resource usage for pattern capture process"
+    },
+    "usage_metrics": {
+      "pattern_utilization": "how often patterns are applied",
+      "pattern_success_rate": "success rate when patterns are applied",
+      "pattern_adaptation_rate": "frequency of pattern customization",
+      "user_satisfaction": "satisfaction with pattern-guided outcomes"
+    },
+    "evolution_metrics": {
+      "pattern_improvement": "how patterns improve over time",
+      "pattern_consolidation": "rate of pattern merging or splitting",
+      "knowledge_growth": "expansion of pattern knowledge base",
+      "framework_maturity": "sophistication of pattern capture system"
+    }
+  }
+}

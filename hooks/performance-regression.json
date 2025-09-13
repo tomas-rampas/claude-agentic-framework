@@ -1,0 +1,208 @@
+{
+  "name": "performance-regression",
+  "description": "Block deployments on performance regressions >5% and enforce performance baselines",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["performance", "maker", "debug", "devops"],
+  "triggers": [
+    "code_change",
+    "pre_commit",
+    "pre_deploy",
+    "performance_test_completion",
+    "benchmark_execution"
+  ],
+
+  "performance_thresholds": {
+    "response_time_regression": {
+      "threshold": "5%",
+      "severity": "blocking",
+      "measurement_window": "10_minutes",
+      "baseline_comparison": "rolling_average_7_days"
+    },
+    "throughput_regression": {
+      "threshold": "5%",
+      "severity": "blocking",
+      "measurement_window": "10_minutes",
+      "baseline_comparison": "rolling_average_7_days"
+    },
+    "memory_usage_increase": {
+      "threshold": "10%",
+      "severity": "blocking",
+      "measurement_window": "sustained_5_minutes",
+      "baseline_comparison": "previous_release"
+    },
+    "cpu_utilization_increase": {
+      "threshold": "15%",
+      "severity": "warning",
+      "measurement_window": "sustained_3_minutes",
+      "baseline_comparison": "previous_release"
+    },
+    "database_query_performance": {
+      "threshold": "20%",
+      "severity": "blocking",
+      "measurement_window": "per_query_average",
+      "baseline_comparison": "previous_version"
+    }
+  },
+
+  "enforcement_rules": {
+    "pre_deployment": {
+      "run_performance_tests": true,
+      "compare_against_baseline": true,
+      "block_on_regression": true,
+      "require_approval_for_warnings": true
+    },
+    "continuous_monitoring": {
+      "real_time_monitoring": true,
+      "automatic_rollback_triggers": true,
+      "alert_on_degradation": true,
+      "performance_sla_validation": true
+    },
+    "baseline_management": {
+      "auto_update_baselines": false,
+      "manual_baseline_approval": true,
+      "version_controlled_baselines": true,
+      "baseline_drift_detection": true
+    }
+  },
+
+  "measurement_tools": {
+    "application_performance": {
+      "tools": ["Apache Bench", "wrk", "JMeter", "k6", "Artillery"],
+      "metrics": ["response_time", "throughput", "error_rate", "percentiles"],
+      "automation": "CI/CD_integrated"
+    },
+    "system_performance": {
+      "tools": ["htop", "iostat", "vmstat", "perf", "docker stats"],
+      "metrics": ["cpu_usage", "memory_usage", "disk_io", "network_io"],
+      "automation": "continuous_monitoring"
+    },
+    "database_performance": {
+      "tools": ["pg_stat_statements", "MySQL slow log", "MongoDB profiler"],
+      "metrics": ["query_time", "lock_contention", "index_usage", "connection_pool"],
+      "automation": "query_analysis_pipeline"
+    },
+    "custom_metrics": {
+      "business_metrics": ["user_session_duration", "transaction_completion_time"],
+      "technical_metrics": ["cache_hit_ratio", "queue_processing_time"],
+      "automation": "custom_prometheus_metrics"
+    }
+  },
+
+  "agent_responsibilities": {
+    "performance-agent": {
+      "primary_role": "performance_analysis_and_optimization",
+      "responsibilities": [
+        "baseline_establishment",
+        "regression_detection",
+        "performance_profiling",
+        "optimization_recommendations"
+      ],
+      "triggers": ["performance_regression_detected", "baseline_update_required"]
+    },
+    "maker-agent": {
+      "primary_role": "performance_issue_resolution",
+      "responsibilities": [
+        "performance_fix_implementation",
+        "optimization_code_changes",
+        "performance_test_integration"
+      ],
+      "triggers": ["performance_fix_required", "optimization_implementation"]
+    },
+    "debug-agent": {
+      "primary_role": "performance_root_cause_analysis",
+      "responsibilities": [
+        "bottleneck_identification",
+        "systematic_performance_debugging",
+        "resource_utilization_analysis"
+      ],
+      "triggers": ["complex_performance_issue", "multi_component_regression"]
+    },
+    "devops-agent": {
+      "primary_role": "infrastructure_performance_optimization",
+      "responsibilities": [
+        "infrastructure_scaling",
+        "resource_allocation_optimization",
+        "deployment_performance_validation"
+      ],
+      "triggers": ["infrastructure_performance_issue", "scaling_required"]
+    }
+  },
+
+  "escalation_procedures": {
+    "minor_regression_2_5_percent": {
+      "action": "WARNING_NOTIFICATION",
+      "responsible_agent": "performance-agent",
+      "timeline": "immediate",
+      "approval_required": false
+    },
+    "moderate_regression_5_10_percent": {
+      "action": "BLOCK_DEPLOYMENT",
+      "responsible_agent": "performance-agent",
+      "timeline": "within_30_minutes",
+      "approval_required": true
+    },
+    "major_regression_10_20_percent": {
+      "action": "BLOCK_AND_ROLLBACK",
+      "responsible_agent": "debug-agent",
+      "timeline": "immediate",
+      "approval_required": false
+    },
+    "critical_regression_over_20_percent": {
+      "action": "EMERGENCY_ROLLBACK",
+      "responsible_agent": "devops-agent",
+      "timeline": "immediate",
+      "approval_required": false
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "testing-workflow",
+      "development-standards",
+      "deployment-automation"
+    ],
+    "blocks_progression_until": [
+      "performance_regression_resolved",
+      "baseline_performance_restored",
+      "optimization_validated"
+    ],
+    "ci_cd_integration": {
+      "pipeline_gates": ["pre_merge", "pre_deploy", "post_deploy_validation"],
+      "automated_testing": ["load_testing", "stress_testing", "endurance_testing"],
+      "reporting": ["performance_dashboard", "trend_analysis", "regression_reports"]
+    }
+  },
+
+  "failure_handling": {
+    "performance_test_failures": {
+      "retry_strategy": "3_attempts_with_backoff",
+      "fallback_action": "manual_performance_validation",
+      "escalation": "performance-agent_investigation"
+    },
+    "monitoring_tool_unavailable": {
+      "fallback_tools": ["alternative_monitoring", "manual_validation"],
+      "degraded_mode": "reduced_performance_validation",
+      "restoration_priority": "high"
+    },
+    "baseline_unavailable": {
+      "fallback_strategy": "use_historical_average",
+      "establishment_required": "immediate_baseline_creation",
+      "responsible_agent": "performance-agent"
+    }
+  },
+
+  "reporting": {
+    "performance_dashboard": {
+      "real_time_metrics": ["current_performance", "trend_analysis", "SLA_status"],
+      "historical_analysis": ["performance_trends", "regression_history", "optimization_impact"],
+      "alerting": ["threshold_breaches", "trend_deviations", "SLA_violations"]
+    },
+    "regression_reports": {
+      "automated_generation": true,
+      "stakeholder_notifications": ["development_team", "operations_team", "management"],
+      "content": ["regression_details", "impact_analysis", "recommended_actions"]
+    }
+  }
+}

@@ -1,0 +1,309 @@
+{
+  "name": "code-review",
+  "description": "Automated code review with AI-powered analysis before merge, ensuring code quality and consistency",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["reader", "security", "maker", "test"],
+  "triggers": [
+    "pull_request_created",
+    "pull_request_updated",
+    "pre_merge",
+    "code_change_substantial",
+    "manual_review_request"
+  ],
+
+  "review_criteria": {
+    "code_quality": {
+      "complexity_analysis": {
+        "cyclomatic_complexity": "max_10_per_function",
+        "nesting_depth": "max_4_levels",
+        "function_length": "max_50_lines",
+        "class_size": "max_500_lines"
+      },
+      "maintainability": {
+        "code_duplication": "max_3_percent",
+        "naming_conventions": "enforce_standards",
+        "documentation_coverage": "min_80_percent_public_apis",
+        "test_coverage": "min_80_percent_new_code"
+      },
+      "performance_impact": {
+        "algorithmic_complexity": "identify_inefficient_algorithms",
+        "memory_usage": "flag_potential_memory_leaks",
+        "database_queries": "identify_n_plus_1_problems",
+        "resource_utilization": "assess_cpu_intensive_operations"
+      }
+    },
+    "security_analysis": {
+      "vulnerability_patterns": {
+        "injection_attacks": "sql_injection_xss_command_injection",
+        "authentication_issues": "weak_auth_session_management",
+        "authorization_flaws": "privilege_escalation_access_control",
+        "data_exposure": "sensitive_data_logging_transmission"
+      },
+      "secure_coding": {
+        "input_validation": "sanitization_and_validation_checks",
+        "output_encoding": "xss_prevention_encoding",
+        "cryptography": "strong_encryption_proper_key_management",
+        "error_handling": "secure_error_messages_no_information_disclosure"
+      },
+      "dependency_security": {
+        "vulnerable_dependencies": "known_cve_detection",
+        "license_compliance": "acceptable_license_validation",
+        "supply_chain": "dependency_integrity_verification",
+        "update_recommendations": "security_patch_suggestions"
+      }
+    },
+    "architectural_compliance": {
+      "design_patterns": {
+        "pattern_adherence": "established_architectural_patterns",
+        "separation_of_concerns": "single_responsibility_principle",
+        "dependency_injection": "proper_dependency_management",
+        "layered_architecture": "respect_architectural_boundaries"
+      },
+      "api_design": {
+        "restful_principles": "proper_http_method_usage",
+        "versioning_strategy": "consistent_api_versioning",
+        "error_responses": "standardized_error_format",
+        "documentation": "openapi_swagger_compliance"
+      },
+      "database_design": {
+        "schema_compliance": "follow_established_schema_patterns",
+        "migration_safety": "backward_compatible_migrations",
+        "query_efficiency": "optimal_query_patterns",
+        "data_integrity": "proper_constraints_and_relationships"
+      }
+    }
+  },
+
+  "automated_checks": {
+    "static_analysis": {
+      "linting": {
+        "javascript_typescript": ["eslint", "prettier", "tslint"],
+        "python": ["pylint", "black", "flake8", "mypy"],
+        "java": ["checkstyle", "spotbugs", "pmd"],
+        "go": ["golangci-lint", "gofmt", "go vet"],
+        "rust": ["clippy", "rustfmt", "cargo check"]
+      },
+      "security_scanning": {
+        "sast_tools": ["semgrep", "codeql", "sonarqube", "veracode"],
+        "secret_detection": ["trufflehog", "git-secrets", "detect-secrets"],
+        "dependency_analysis": ["snyk", "dependency-check", "safety"],
+        "configuration_scanning": ["checkov", "tfsec", "kics"]
+      },
+      "code_metrics": {
+        "complexity_analysis": ["radon", "lizard", "sonarqube"],
+        "duplication_detection": ["jscpd", "simian", "cpd"],
+        "test_coverage": ["jest", "pytest-cov", "jacoco", "gocov"],
+        "documentation_coverage": ["jsdoc", "sphinx", "rustdoc"]
+      }
+    },
+    "dynamic_analysis": {
+      "test_execution": {
+        "unit_tests": "automated_unit_test_execution",
+        "integration_tests": "relevant_integration_test_subset",
+        "performance_tests": "micro_benchmarks_for_critical_paths",
+        "security_tests": "automated_security_test_execution"
+      },
+      "behavior_analysis": {
+        "runtime_monitoring": "resource_usage_during_tests",
+        "memory_profiling": "memory_leak_detection",
+        "performance_profiling": "performance_regression_detection",
+        "dependency_analysis": "runtime_dependency_validation"
+      }
+    }
+  },
+
+  "agent_responsibilities": {
+    "reader-agent": {
+      "primary_role": "code_structure_and_pattern_analysis",
+      "responsibilities": [
+        "architectural_compliance_validation",
+        "code_pattern_recognition",
+        "dependency_relationship_analysis",
+        "documentation_completeness_assessment"
+      ],
+      "analysis_focus": [
+        "code_organization_and_structure",
+        "design_pattern_adherence",
+        "api_consistency_validation",
+        "cross_module_dependency_analysis"
+      ]
+    },
+    "security-agent": {
+      "primary_role": "security_vulnerability_assessment",
+      "responsibilities": [
+        "vulnerability_pattern_detection",
+        "secure_coding_practice_validation",
+        "dependency_security_analysis",
+        "compliance_framework_adherence"
+      ],
+      "analysis_focus": [
+        "owasp_top_10_vulnerability_scanning",
+        "authentication_authorization_review",
+        "data_protection_validation",
+        "supply_chain_security_assessment"
+      ]
+    },
+    "maker-agent": {
+      "primary_role": "code_quality_and_maintainability",
+      "responsibilities": [
+        "code_quality_metrics_analysis",
+        "refactoring_recommendations",
+        "performance_optimization_suggestions",
+        "maintainability_improvement_guidance"
+      ],
+      "analysis_focus": [
+        "code_complexity_reduction",
+        "duplication_elimination",
+        "performance_optimization_opportunities",
+        "maintainability_enhancement"
+      ]
+    },
+    "test-agent": {
+      "primary_role": "test_coverage_and_quality_validation",
+      "responsibilities": [
+        "test_coverage_analysis",
+        "test_quality_assessment",
+        "missing_test_identification",
+        "test_strategy_validation"
+      ],
+      "analysis_focus": [
+        "unit_test_coverage_completeness",
+        "integration_test_adequacy",
+        "edge_case_test_coverage",
+        "test_maintainability_and_clarity"
+      ]
+    }
+  },
+
+  "review_workflow": {
+    "automatic_review": {
+      "trigger_conditions": [
+        "pull_request_size_under_500_lines",
+        "routine_maintenance_changes",
+        "documentation_only_changes",
+        "test_only_changes"
+      ],
+      "analysis_depth": "comprehensive_automated_analysis",
+      "approval_criteria": "all_automated_checks_pass",
+      "escalation": "escalate_to_human_review_on_issues"
+    },
+    "enhanced_review": {
+      "trigger_conditions": [
+        "pull_request_size_over_500_lines",
+        "security_sensitive_changes",
+        "architectural_changes",
+        "performance_critical_modifications"
+      ],
+      "analysis_depth": "deep_multi_agent_analysis",
+      "approval_criteria": "comprehensive_validation_required",
+      "escalation": "mandatory_human_review_and_approval"
+    },
+    "critical_review": {
+      "trigger_conditions": [
+        "security_framework_changes",
+        "database_schema_modifications",
+        "authentication_authorization_changes",
+        "production_configuration_updates"
+      ],
+      "analysis_depth": "exhaustive_security_focused_analysis",
+      "approval_criteria": "multiple_stakeholder_approval",
+      "escalation": "senior_architect_and_security_team_review"
+    }
+  },
+
+  "quality_gates": {
+    "mandatory_gates": {
+      "compilation_success": "code_must_compile_without_errors",
+      "linting_compliance": "zero_linting_errors_warnings",
+      "test_passage": "all_relevant_tests_must_pass",
+      "security_clearance": "no_critical_high_security_issues",
+      "coverage_threshold": "maintain_or_improve_test_coverage"
+    },
+    "advisory_gates": {
+      "complexity_warnings": "flag_high_complexity_functions",
+      "duplication_warnings": "identify_code_duplication",
+      "performance_warnings": "highlight_potential_performance_issues",
+      "documentation_warnings": "flag_missing_documentation"
+    },
+    "blocking_conditions": {
+      "critical_security_vulnerabilities": "immediate_block",
+      "compilation_failures": "immediate_block",
+      "test_failures": "immediate_block",
+      "license_compliance_violations": "immediate_block",
+      "architectural_violations": "review_required_block"
+    }
+  },
+
+  "feedback_generation": {
+    "automated_comments": {
+      "inline_suggestions": "specific_line_level_recommendations",
+      "file_level_feedback": "overall_file_quality_assessment",
+      "pr_level_summary": "comprehensive_change_impact_analysis",
+      "architectural_feedback": "design_pattern_and_structure_guidance"
+    },
+    "improvement_suggestions": {
+      "refactoring_opportunities": "code_structure_improvement_suggestions",
+      "performance_optimizations": "efficiency_enhancement_recommendations",
+      "security_hardening": "security_improvement_suggestions",
+      "maintainability_enhancements": "long_term_maintainability_improvements"
+    },
+    "educational_content": {
+      "best_practice_links": "relevant_documentation_and_guidelines",
+      "example_implementations": "reference_implementations_for_patterns",
+      "learning_resources": "educational_content_for_improvement",
+      "style_guide_references": "coding_standards_and_conventions"
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "tdd-workflow",
+      "security-check",
+      "development-standards"
+    ],
+    "blocks_progression_until": [
+      "automated_review_completion",
+      "quality_gates_satisfaction",
+      "security_clearance_obtained",
+      "required_approvals_received"
+    ],
+    "version_control_integration": {
+      "github_integration": "github_checks_api_and_review_comments",
+      "gitlab_integration": "gitlab_merge_request_reviews",
+      "bitbucket_integration": "bitbucket_pull_request_comments",
+      "custom_webhook_support": "generic_webhook_based_integration"
+    }
+  },
+
+  "performance_optimization": {
+    "review_efficiency": {
+      "incremental_analysis": "analyze_only_changed_files_and_dependencies",
+      "parallel_processing": "concurrent_multi_agent_analysis",
+      "caching_strategy": "cache_analysis_results_for_unchanged_code",
+      "smart_prioritization": "focus_on_high_impact_changes_first"
+    },
+    "resource_management": {
+      "analysis_batching": "batch_multiple_small_changes",
+      "timeout_management": "reasonable_analysis_time_limits",
+      "resource_allocation": "appropriate_compute_resource_allocation",
+      "queue_management": "fair_and_efficient_review_queue_processing"
+    }
+  },
+
+  "reporting_and_metrics": {
+    "review_metrics": {
+      "review_completion_time": "time_from_pr_creation_to_review_completion",
+      "issue_detection_rate": "percentage_of_issues_caught_in_review",
+      "false_positive_rate": "accuracy_of_automated_issue_detection",
+      "developer_satisfaction": "feedback_on_review_quality_and_usefulness"
+    },
+    "quality_trends": {
+      "code_quality_improvement": "trend_analysis_of_code_quality_metrics",
+      "security_issue_reduction": "tracking_security_vulnerability_trends",
+      "review_effectiveness": "correlation_between_reviews_and_production_issues",
+      "developer_learning": "improvement_in_code_quality_over_time"
+    }
+  }
+}

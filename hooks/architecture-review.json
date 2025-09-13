@@ -1,0 +1,316 @@
+{
+  "name": "architecture-review",
+  "description": "Automated technical architecture review and validation ensuring design patterns, SOLID principles, and architectural standards compliance",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["architect", "maker", "security", "performance"],
+  "triggers": [
+    "architecture_change",
+    "system_design_modification",
+    "technology_stack_change",
+    "design_pattern_implementation",
+    "major_refactoring",
+    "new_component_creation",
+    "integration_pattern_change",
+    "pre_implementation_review"
+  ],
+  
+  "enforcement_levels": {
+    "solid_violations": "BLOCKING_WITH_TIMEOUT",
+    "design_pattern_misuse": "BLOCKING_WITH_TIMEOUT",
+    "architecture_inconsistency": "BLOCKING_WITH_TIMEOUT",
+    "coupling_violations": "WARNING_WITH_APPROVAL",
+    "performance_anti_patterns": "BLOCKING_WITH_TIMEOUT",
+    "security_architecture_gaps": "BLOCKING_IMMEDIATELY",
+    "scalability_concerns": "WARNING_WITH_APPROVAL",
+    "maintainability_issues": "WARNING_WITH_APPROVAL"
+  },
+  
+  "timeout_settings": {
+    "architecture_analysis_timeout": 180000,
+    "design_validation_timeout": 120000,
+    "pattern_compliance_timeout": 90000,
+    "integration_review_timeout": 150000,
+    "security_architecture_timeout": 240000,
+    "fallback_activation_delay": 30000
+  },
+  
+  "fallback_strategies": {
+    "analysis_timeout": "DELEGATE_TO_ARCHITECT_AGENT",
+    "validation_failure": "EXPERT_REVIEW_REQUIRED",
+    "pattern_conflict": "ARCHITECT_AGENT_DECISION",
+    "security_concern": "SECURITY_AGENT_ESCALATION",
+    "performance_risk": "PERFORMANCE_AGENT_CONSULTATION"
+  },
+  
+  "review_criteria": {
+    "solid_principles": {
+      "single_responsibility": {
+        "description": "Each class/component should have only one reason to change",
+        "validation_method": "Component responsibility analysis",
+        "failure_action": "BLOCK_WITH_REFACTORING_SUGGESTION",
+        "auto_fix_available": false
+      },
+      "open_closed": {
+        "description": "Software entities should be open for extension, closed for modification",
+        "validation_method": "Extension point analysis",
+        "failure_action": "BLOCK_WITH_PATTERN_SUGGESTION",
+        "auto_fix_available": false
+      },
+      "liskov_substitution": {
+        "description": "Objects should be replaceable with instances of their subtypes",
+        "validation_method": "Interface contract validation",
+        "failure_action": "BLOCK_WITH_INTERFACE_CORRECTION",
+        "auto_fix_available": false
+      },
+      "interface_segregation": {
+        "description": "Clients should not be forced to depend on unused interfaces",
+        "validation_method": "Interface dependency analysis",
+        "failure_action": "BLOCK_WITH_INTERFACE_SPLIT_SUGGESTION",
+        "auto_fix_available": false
+      },
+      "dependency_inversion": {
+        "description": "Depend on abstractions, not concretions",
+        "validation_method": "Dependency graph analysis",
+        "failure_action": "BLOCK_WITH_ABSTRACTION_SUGGESTION",
+        "auto_fix_available": false
+      }
+    },
+    
+    "design_patterns": {
+      "pattern_appropriateness": {
+        "description": "Verify design patterns are used correctly for the problem domain",
+        "validation_criteria": ["Problem-pattern fit", "Implementation correctness", "Performance implications"],
+        "failure_action": "BLOCK_WITH_PATTERN_ALTERNATIVES"
+      },
+      "pattern_consistency": {
+        "description": "Ensure consistent pattern usage across similar scenarios",
+        "validation_method": "Cross-component pattern analysis",
+        "failure_action": "WARNING_WITH_CONSISTENCY_SUGGESTION"
+      },
+      "anti_pattern_detection": {
+        "description": "Identify and prevent common anti-patterns",
+        "monitored_anti_patterns": [
+          "God Object",
+          "Spaghetti Code",
+          "Golden Hammer",
+          "Circular Dependencies",
+          "Feature Envy",
+          "Data Clumps"
+        ],
+        "failure_action": "BLOCK_WITH_REFACTORING_GUIDANCE"
+      }
+    },
+    
+    "architectural_quality": {
+      "coupling_analysis": {
+        "description": "Measure and validate component coupling levels",
+        "thresholds": {
+          "low_coupling": "Preferred - Independent components",
+          "medium_coupling": "Acceptable - Well-defined interfaces",
+          "high_coupling": "Warning - Review dependencies",
+          "very_high_coupling": "Block - Requires refactoring"
+        },
+        "measurement_method": "Dependency graph analysis"
+      },
+      "cohesion_analysis": {
+        "description": "Ensure high cohesion within components",
+        "validation_method": "Component responsibility clustering",
+        "target_cohesion": "high",
+        "failure_action": "WARNING_WITH_REFACTORING_SUGGESTION"
+      },
+      "separation_of_concerns": {
+        "description": "Validate clear separation between different responsibilities",
+        "validation_areas": [
+          "Business logic separation",
+          "Data access isolation",
+          "UI logic boundaries",
+          "Cross-cutting concerns"
+        ],
+        "failure_action": "BLOCK_WITH_LAYERING_SUGGESTION"
+      }
+    },
+    
+    "scalability_assessment": {
+      "horizontal_scalability": {
+        "description": "Assess ability to scale by adding more instances",
+        "validation_criteria": ["Stateless design", "Shared state management", "Load distribution"],
+        "failure_action": "WARNING_WITH_SCALABILITY_GUIDANCE"
+      },
+      "vertical_scalability": {
+        "description": "Assess ability to scale by adding more resources",
+        "validation_criteria": ["Resource utilization", "Memory management", "CPU efficiency"],
+        "failure_action": "WARNING_WITH_OPTIMIZATION_SUGGESTION"
+      },
+      "data_scalability": {
+        "description": "Validate data layer scalability patterns",
+        "validation_areas": ["Database design", "Caching strategy", "Data partitioning"],
+        "failure_action": "WARNING_WITH_DATA_STRATEGY_SUGGESTION"
+      }
+    }
+  },
+  
+  "integration_validation": {
+    "api_design": {
+      "rest_compliance": "Validate RESTful API design principles",
+      "versioning_strategy": "Ensure proper API versioning approach",
+      "error_handling": "Validate consistent error response patterns",
+      "security_integration": "Ensure security is built into API design"
+    },
+    "data_flow": {
+      "data_consistency": "Validate data consistency across components",
+      "transaction_boundaries": "Ensure proper transaction management",
+      "event_handling": "Validate event-driven patterns where applicable"
+    },
+    "external_dependencies": {
+      "dependency_isolation": "Ensure external dependencies are properly isolated",
+      "fallback_strategies": "Validate fallback mechanisms for external service failures",
+      "monitoring_integration": "Ensure observability for external interactions"
+    }
+  },
+  
+  "agent_responsibilities": {
+    "architect-agent": {
+      "primary_role": "Technical architecture validation and design review",
+      "responsibilities": [
+        "Overall system design validation",
+        "Technology stack appropriateness review",
+        "Integration pattern validation",
+        "Architectural decision record creation"
+      ],
+      "escalation_triggers": [
+        "Major architectural changes",
+        "Cross-system integration patterns",
+        "Technology stack modifications"
+      ]
+    },
+    "maker-agent": {
+      "collaboration_role": "Implementation validation against architectural standards",
+      "responsibilities": [
+        "Code structure compliance validation",
+        "Design pattern implementation review",
+        "SOLID principles adherence verification"
+      ],
+      "coordination_required": "Must coordinate with architect-agent for architectural changes"
+    },
+    "security-agent": {
+      "security_architecture_role": "Security implications of architectural decisions",
+      "responsibilities": [
+        "Security pattern validation",
+        "Threat model verification",
+        "Security boundary validation"
+      ],
+      "blocking_conditions": ["Security architecture gaps", "Insecure design patterns"]
+    },
+    "performance-agent": {
+      "performance_architecture_role": "Performance implications of architectural choices",
+      "responsibilities": [
+        "Performance pattern validation",
+        "Scalability bottleneck identification",
+        "Resource utilization assessment"
+      ],
+      "optimization_focus": ["Response time", "Throughput", "Resource efficiency"]
+    }
+  },
+  
+  "quality_gates": {
+    "pre_implementation": {
+      "gate_name": "Architecture Design Approval",
+      "validation_steps": [
+        "SOLID principles compliance check",
+        "Design pattern appropriateness validation",
+        "Integration strategy review",
+        "Security architecture validation"
+      ],
+      "success_criteria": "All architectural standards met",
+      "failure_action": "BLOCK_IMPLEMENTATION_UNTIL_RESOLVED"
+    },
+    "during_implementation": {
+      "gate_name": "Implementation Architecture Compliance",
+      "validation_steps": [
+        "Code structure validation",
+        "Pattern implementation verification",
+        "Coupling and cohesion analysis"
+      ],
+      "success_criteria": "Implementation follows architectural design",
+      "failure_action": "PROVIDE_ARCHITECTURAL_GUIDANCE"
+    },
+    "post_implementation": {
+      "gate_name": "Architecture Validation",
+      "validation_steps": [
+        "Final architecture compliance check",
+        "Integration pattern validation",
+        "Performance architecture review",
+        "Security architecture verification"
+      ],
+      "success_criteria": "Delivered solution meets all architectural standards",
+      "failure_action": "REQUIRE_ARCHITECTURAL_REMEDIATION"
+    }
+  },
+  
+  "documentation_requirements": {
+    "architecture_decision_records": {
+      "required_for": ["Major architectural changes", "Technology selections", "Pattern adoptions"],
+      "format": "ADR (Architecture Decision Record)",
+      "content_requirements": [
+        "Context and problem statement",
+        "Decision made and rationale",
+        "Consequences and trade-offs",
+        "Alternative options considered"
+      ]
+    },
+    "design_documentation": {
+      "system_architecture": "High-level system design and component relationships",
+      "component_specifications": "Detailed component designs and interfaces",
+      "integration_patterns": "Inter-component and external integration patterns",
+      "deployment_architecture": "Infrastructure and deployment considerations"
+    }
+  },
+  
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "tdd-workflow",
+      "security-compliance",
+      "performance-standards"
+    ],
+    "triggers_other_hooks": [
+      "security-review on security architecture changes",
+      "performance-validation on scalability modifications",
+      "code-quality-review on implementation patterns"
+    ],
+    "quality_enforcement": {
+      "architecture_standards": "Enforce consistent architectural patterns",
+      "design_quality": "Ensure high-quality system design",
+      "maintainability": "Optimize for long-term maintainability"
+    }
+  },
+  
+  "reporting": {
+    "architecture_metrics": [
+      "Coupling measurements",
+      "Cohesion scores",
+      "Pattern compliance rates",
+      "SOLID principles adherence"
+    ],
+    "quality_indicators": [
+      "Architecture review pass rates",
+      "Design pattern usage consistency",
+      "Architectural debt accumulation",
+      "Integration complexity trends"
+    ],
+    "decision_tracking": [
+      "Architecture decisions made",
+      "Technology choices and rationale",
+      "Pattern adoptions and outcomes",
+      "Trade-off decisions and impacts"
+    ]
+  },
+  
+  "continuous_improvement": {
+    "pattern_evolution": "Track effectiveness of design patterns over time",
+    "architecture_refinement": "Continuously improve architectural standards",
+    "best_practice_updates": "Incorporate new architectural best practices",
+    "team_learning": "Capture and share architectural knowledge across team"
+  }
+}

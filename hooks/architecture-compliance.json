@@ -1,0 +1,334 @@
+{
+  "name": "architecture-compliance",
+  "description": "Enforce architectural patterns, design principles, and system boundaries across all code changes",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["plan", "reader", "maker", "security"],
+  "triggers": [
+    "code_change_substantial",
+    "new_module_creation",
+    "dependency_change",
+    "api_endpoint_creation",
+    "database_schema_change",
+    "configuration_change"
+  ],
+
+  "architectural_principles": {
+    "solid_principles": {
+      "single_responsibility": {
+        "validation": "class_and_function_single_purpose_validation",
+        "enforcement": "block_on_multiple_responsibilities",
+        "guidance": "provide_refactoring_suggestions"
+      },
+      "open_closed": {
+        "validation": "extension_without_modification_principle",
+        "enforcement": "encourage_inheritance_and_composition",
+        "guidance": "plugin_and_extension_point_suggestions"
+      },
+      "liskov_substitution": {
+        "validation": "subtype_substitutability_validation",
+        "enforcement": "interface_contract_adherence",
+        "guidance": "proper_inheritance_hierarchy_design"
+      },
+      "interface_segregation": {
+        "validation": "interface_size_and_cohesion_analysis",
+        "enforcement": "prevent_fat_interfaces",
+        "guidance": "interface_splitting_recommendations"
+      },
+      "dependency_inversion": {
+        "validation": "abstraction_dependency_validation",
+        "enforcement": "depend_on_abstractions_not_concretions",
+        "guidance": "dependency_injection_pattern_suggestions"
+      }
+    },
+    "clean_architecture": {
+      "layered_structure": {
+        "presentation_layer": "ui_controllers_views_separation",
+        "application_layer": "business_logic_orchestration",
+        "domain_layer": "core_business_rules_and_entities",
+        "infrastructure_layer": "external_dependencies_and_frameworks"
+      },
+      "dependency_flow": {
+        "inward_dependencies": "dependencies_point_toward_core",
+        "no_circular_dependencies": "prevent_circular_reference_patterns",
+        "stable_abstractions": "stable_components_should_be_abstract",
+        "interface_boundaries": "clear_interface_definitions_between_layers"
+      }
+    },
+    "microservices_patterns": {
+      "service_boundaries": {
+        "domain_driven_design": "bounded_context_respect",
+        "data_ownership": "service_owns_its_data",
+        "loose_coupling": "minimize_inter_service_dependencies",
+        "high_cohesion": "related_functionality_within_service"
+      },
+      "communication_patterns": {
+        "async_messaging": "prefer_asynchronous_communication",
+        "api_versioning": "backward_compatible_api_evolution",
+        "circuit_breaker": "resilience_patterns_implementation",
+        "saga_pattern": "distributed_transaction_management"
+      }
+    }
+  },
+
+  "system_boundaries": {
+    "module_boundaries": {
+      "package_structure": {
+        "logical_grouping": "related_functionality_grouped_together",
+        "clear_interfaces": "well_defined_public_apis",
+        "minimal_coupling": "reduce_inter_module_dependencies",
+        "internal_encapsulation": "hide_implementation_details"
+      },
+      "dependency_rules": {
+        "allowed_dependencies": "whitelist_of_acceptable_dependencies",
+        "forbidden_dependencies": "blacklist_of_prohibited_dependencies",
+        "circular_dependency_detection": "prevent_circular_references",
+        "dependency_depth_limits": "maximum_dependency_chain_length"
+      }
+    },
+    "data_boundaries": {
+      "database_access": {
+        "repository_pattern": "data_access_layer_abstraction",
+        "single_source_of_truth": "avoid_data_duplication",
+        "transaction_boundaries": "proper_transaction_scope_management",
+        "data_consistency": "maintain_referential_integrity"
+      },
+      "api_boundaries": {
+        "rest_principles": "proper_http_method_usage",
+        "graphql_schema": "consistent_schema_design",
+        "versioning_strategy": "backward_compatible_api_evolution",
+        "error_handling": "consistent_error_response_format"
+      }
+    },
+    "security_boundaries": {
+      "authentication_boundaries": {
+        "centralized_authentication": "single_authentication_mechanism",
+        "token_management": "secure_token_handling",
+        "session_management": "proper_session_lifecycle",
+        "multi_factor_authentication": "where_security_requires"
+      },
+      "authorization_boundaries": {
+        "role_based_access": "rbac_implementation_consistency",
+        "attribute_based_access": "abac_where_appropriate",
+        "resource_level_authorization": "fine_grained_access_control",
+        "policy_centralization": "centralized_authorization_policies"
+      }
+    }
+  },
+
+  "design_patterns": {
+    "required_patterns": {
+      "repository_pattern": {
+        "scope": "data_access_layer",
+        "enforcement": "mandatory_for_database_operations",
+        "validation": "interface_based_data_access_abstraction"
+      },
+      "factory_pattern": {
+        "scope": "object_creation",
+        "enforcement": "complex_object_instantiation",
+        "validation": "creation_logic_encapsulation"
+      },
+      "observer_pattern": {
+        "scope": "event_handling",
+        "enforcement": "decoupled_event_communication",
+        "validation": "publisher_subscriber_implementation"
+      },
+      "strategy_pattern": {
+        "scope": "algorithm_selection",
+        "enforcement": "interchangeable_algorithm_implementations",
+        "validation": "runtime_behavior_selection"
+      }
+    },
+    "discouraged_patterns": {
+      "singleton_pattern": {
+        "reason": "global_state_and_testing_difficulties",
+        "alternatives": ["dependency_injection", "factory_pattern"],
+        "exceptions": "logging_and_configuration_only"
+      },
+      "god_object": {
+        "reason": "violation_of_single_responsibility",
+        "detection": "class_size_and_method_count_analysis",
+        "refactoring": "class_decomposition_suggestions"
+      },
+      "anemic_domain_model": {
+        "reason": "business_logic_scattered_across_layers",
+        "detection": "data_only_entities_with_external_logic",
+        "improvement": "rich_domain_model_recommendations"
+      }
+    }
+  },
+
+  "compliance_validation": {
+    "static_analysis": {
+      "architecture_rules": {
+        "dependency_analysis": "analyze_import_and_reference_patterns",
+        "layer_violation_detection": "identify_cross_layer_violations",
+        "circular_dependency_detection": "prevent_circular_references",
+        "naming_convention_compliance": "consistent_naming_patterns"
+      },
+      "code_metrics": {
+        "coupling_metrics": "afferent_and_efferent_coupling_analysis",
+        "cohesion_metrics": "lack_of_cohesion_in_methods",
+        "complexity_metrics": "cyclomatic_and_cognitive_complexity",
+        "maintainability_index": "overall_code_maintainability_score"
+      }
+    },
+    "dynamic_analysis": {
+      "runtime_validation": {
+        "contract_adherence": "interface_contract_compliance",
+        "performance_characteristics": "expected_performance_profile_validation",
+        "resource_utilization": "memory_and_cpu_usage_patterns",
+        "error_handling": "exception_handling_pattern_compliance"
+      }
+    }
+  },
+
+  "agent_responsibilities": {
+    "plan-agent": {
+      "primary_role": "architectural_strategy_and_compliance_oversight",
+      "responsibilities": [
+        "architectural_decision_validation",
+        "system_design_pattern_enforcement",
+        "technology_choice_architectural_impact",
+        "long_term_architectural_evolution_planning"
+      ],
+      "validation_focus": [
+        "high_level_system_architecture_compliance",
+        "cross_cutting_concern_consistency",
+        "architectural_principle_adherence",
+        "future_scalability_considerations"
+      ]
+    },
+    "reader-agent": {
+      "primary_role": "code_structure_and_dependency_analysis",
+      "responsibilities": [
+        "module_boundary_validation",
+        "dependency_relationship_analysis",
+        "package_structure_compliance",
+        "interface_design_validation"
+      ],
+      "validation_focus": [
+        "code_organization_architectural_alignment",
+        "dependency_flow_validation",
+        "encapsulation_boundary_respect",
+        "api_design_consistency"
+      ]
+    },
+    "maker-agent": {
+      "primary_role": "architectural_pattern_implementation",
+      "responsibilities": [
+        "design_pattern_implementation_guidance",
+        "refactoring_for_architectural_compliance",
+        "code_structure_improvement",
+        "architectural_debt_reduction"
+      ],
+      "validation_focus": [
+        "pattern_implementation_correctness",
+        "code_quality_architectural_alignment",
+        "refactoring_architectural_improvement",
+        "technical_debt_architectural_impact"
+      ]
+    },
+    "security-agent": {
+      "primary_role": "security_architecture_compliance",
+      "responsibilities": [
+        "security_boundary_enforcement",
+        "authentication_authorization_pattern_validation",
+        "secure_communication_pattern_compliance",
+        "data_protection_architectural_adherence"
+      ],
+      "validation_focus": [
+        "security_pattern_implementation",
+        "trust_boundary_definition_and_enforcement",
+        "secure_coding_architectural_practices",
+        "compliance_framework_architectural_requirements"
+      ]
+    }
+  },
+
+  "violation_handling": {
+    "severity_levels": {
+      "critical_violations": {
+        "examples": ["security_boundary_breach", "data_integrity_violation", "fundamental_principle_violation"],
+        "action": "immediate_block_with_mandatory_fix",
+        "timeline": "must_fix_before_merge",
+        "escalation": "architectural_review_board"
+      },
+      "major_violations": {
+        "examples": ["layer_boundary_violation", "dependency_rule_breach", "required_pattern_missing"],
+        "action": "block_with_architectural_guidance",
+        "timeline": "fix_within_current_iteration",
+        "escalation": "senior_developer_review"
+      },
+      "minor_violations": {
+        "examples": ["naming_convention_deviation", "optional_pattern_not_used", "minor_coupling_increase"],
+        "action": "warning_with_improvement_suggestion",
+        "timeline": "address_in_future_iteration",
+        "escalation": "team_discussion_and_agreement"
+      }
+    },
+    "remediation_guidance": {
+      "violation_explanation": "clear_description_of_architectural_violation",
+      "impact_analysis": "explanation_of_violation_consequences",
+      "remediation_options": "multiple_approaches_to_fix_violation",
+      "best_practice_references": "links_to_architectural_guidelines_and_examples"
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "code-review",
+      "development-standards",
+      "security-check",
+      "zero-tolerance-quality"
+    ],
+    "blocks_progression_until": [
+      "architectural_compliance_validated",
+      "critical_violations_resolved",
+      "design_pattern_adherence_confirmed",
+      "system_boundary_respect_verified"
+    ],
+    "architectural_governance": {
+      "decision_documentation": "architectural_decision_records_adr",
+      "pattern_library": "approved_patterns_and_anti_patterns",
+      "guidelines_enforcement": "automated_guideline_compliance_checking",
+      "exception_management": "architectural_exception_approval_process"
+    }
+  },
+
+  "reporting_and_metrics": {
+    "compliance_dashboard": {
+      "overall_compliance_score": "percentage_of_architectural_compliance",
+      "violation_trends": "tracking_violation_frequency_over_time",
+      "pattern_adoption": "usage_rate_of_recommended_patterns",
+      "architectural_debt": "accumulated_architectural_violations"
+    },
+    "architectural_health": {
+      "coupling_metrics": "system_wide_coupling_analysis",
+      "cohesion_metrics": "module_and_component_cohesion_assessment",
+      "complexity_trends": "architectural_complexity_evolution",
+      "maintainability_index": "overall_system_maintainability_score"
+    },
+    "improvement_tracking": {
+      "refactoring_impact": "architectural_improvement_from_refactoring",
+      "pattern_effectiveness": "success_rate_of_pattern_implementations",
+      "violation_resolution": "time_to_resolve_architectural_violations",
+      "developer_education": "architectural_knowledge_improvement_tracking"
+    }
+  },
+
+  "continuous_improvement": {
+    "pattern_evolution": {
+      "pattern_effectiveness_analysis": "evaluate_success_of_architectural_patterns",
+      "new_pattern_introduction": "process_for_adopting_new_architectural_patterns",
+      "anti_pattern_identification": "identify_and_discourage_problematic_patterns",
+      "pattern_retirement": "phase_out_outdated_or_ineffective_patterns"
+    },
+    "architectural_learning": {
+      "violation_root_cause_analysis": "understand_why_violations_occur",
+      "developer_education_program": "improve_architectural_understanding",
+      "best_practice_sharing": "share_successful_architectural_implementations",
+      "architectural_review_feedback": "learn_from_architectural_review_outcomes"
+    }
+  }
+}

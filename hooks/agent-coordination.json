@@ -1,0 +1,269 @@
+{
+  "name": "agent-coordination",
+  "description": "Orchestrate multi-agent workflows with intelligent routing and context sharing",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all"],
+  "triggers": [
+    "multi_agent_workflow",
+    "agent_handoff_required",
+    "workflow_optimization_needed",
+    "context_sharing_required",
+    "load_balancing_needed"
+  ],
+
+  "coordination_rules": {
+    "workflow_orchestration": {
+      "single_agent_threshold": {
+        "token_usage": "under_500_tokens",
+        "complexity": "low_single_domain",
+        "time_estimate": "under_5_minutes",
+        "quality_gates": "minimal_validation_required"
+      },
+      "multi_agent_threshold": {
+        "token_usage": "over_500_tokens",
+        "complexity": "medium_to_high_multi_domain",
+        "time_estimate": "over_5_minutes",
+        "quality_gates": "comprehensive_validation_required"
+      },
+      "parallel_execution_criteria": {
+        "independent_tasks": "no_interdependencies",
+        "resource_availability": "multiple_agents_available",
+        "time_optimization": "parallelization_beneficial",
+        "token_efficiency": "parallel_execution_more_efficient"
+      }
+    },
+    "intelligent_routing": {
+      "capability_matching": {
+        "exact_match": "route_to_agent_with_exact_specialization",
+        "best_fit": "route_to_agent_with_closest_capabilities",
+        "load_balanced": "consider_current_agent_workload",
+        "cost_optimized": "consider_token_and_time_costs"
+      },
+      "context_preservation": {
+        "handoff_context": "preserve_all_relevant_context_during_handoffs",
+        "shared_knowledge": "maintain_shared_context_store",
+        "workflow_state": "track_workflow_progress_and_state",
+        "quality_continuity": "maintain_quality_standards_across_agents"
+      }
+    }
+  },
+
+  "workflow_patterns": {
+    "analysis_implementation": {
+      "pattern": "reader-agent → maker-agent",
+      "trigger_conditions": ["code_analysis_before_implementation"],
+      "optimization": "parallel_security_scan_during_analysis",
+      "quality_gates": ["analysis_completeness", "implementation_quality"],
+      "typical_duration": "10_15_minutes",
+      "success_rate": "95_percent"
+    },
+    "debug_fix_validate": {
+      "pattern": "debug-agent → maker-agent → test-agent",
+      "trigger_conditions": ["bug_investigation_required"],
+      "optimization": "performance_analysis_if_performance_related",
+      "quality_gates": ["root_cause_identified", "fix_implemented", "regression_tests_pass"],
+      "typical_duration": "20_30_minutes",
+      "success_rate": "90_percent"
+    },
+    "full_feature_development": {
+      "pattern": "plan-agent → reader-agent → test-agent → maker-agent → security-agent → docs-agent",
+      "trigger_conditions": ["new_feature_comprehensive_development"],
+      "optimization": "parallel_security_and_performance_analysis",
+      "quality_gates": ["architecture_approved", "tests_implemented", "security_validated"],
+      "typical_duration": "45_60_minutes",
+      "success_rate": "85_percent"
+    },
+    "infrastructure_deployment": {
+      "pattern": "devops-agent → security-agent → performance-agent → devops-agent",
+      "trigger_conditions": ["infrastructure_changes_or_deployment"],
+      "optimization": "parallel_security_and_performance_validation",
+      "quality_gates": ["security_compliance", "performance_benchmarks", "deployment_success"],
+      "typical_duration": "25_40_minutes",
+      "success_rate": "92_percent"
+    }
+  },
+
+  "context_management": {
+    "shared_context_store": {
+      "location": "/home/mcquak/.claude/context/agent-context-store.json",
+      "update_frequency": "real_time_on_agent_completion",
+      "persistence": "session_and_cross_session",
+      "access_pattern": "read_write_for_all_agents"
+    },
+    "context_elements": {
+      "project_context": {
+        "technology_stack": "current_languages_frameworks_tools",
+        "architecture_patterns": "established_design_patterns",
+        "coding_standards": "team_coding_conventions",
+        "quality_requirements": "project_specific_quality_gates"
+      },
+      "workflow_context": {
+        "current_task": "active_task_description_and_requirements",
+        "completed_steps": "already_completed_workflow_steps",
+        "pending_steps": "remaining_workflow_steps",
+        "identified_blockers": "known_issues_or_blockers"
+      },
+      "agent_context": {
+        "agent_capabilities": "current_agent_specializations_and_limits",
+        "agent_workloads": "current_agent_utilization_levels",
+        "agent_performance": "recent_agent_performance_metrics",
+        "mcp_availability": "current_mcp_server_status"
+      }
+    },
+    "context_synchronization": {
+      "real_time_updates": "immediate_context_updates_on_state_change",
+      "conflict_resolution": "last_writer_wins_with_audit_trail",
+      "backup_and_recovery": "context_store_backup_and_recovery",
+      "cleanup_policies": "automatic_cleanup_of_stale_context"
+    }
+  },
+
+  "load_balancing": {
+    "agent_utilization_monitoring": {
+      "current_workload": "active_tasks_per_agent",
+      "token_usage_tracking": "current_token_consumption_per_agent",
+      "performance_metrics": "response_time_and_success_rate_per_agent",
+      "capacity_planning": "predicted_capacity_requirements"
+    },
+    "intelligent_distribution": {
+      "workload_balancing": "distribute_tasks_based_on_current_utilization",
+      "capability_optimization": "match_tasks_to_best_suited_agents",
+      "resource_optimization": "optimize_token_usage_across_agents",
+      "parallel_execution": "maximize_parallel_execution_opportunities"
+    },
+    "adaptive_scaling": {
+      "demand_prediction": "predict_agent_demand_based_on_patterns",
+      "capacity_adjustment": "adjust_agent_allocation_based_on_demand",
+      "performance_optimization": "optimize_workflow_patterns_based_on_performance",
+      "cost_optimization": "minimize_token_costs_while_maintaining_quality"
+    }
+  },
+
+  "quality_orchestration": {
+    "cross_agent_validation": {
+      "security_integration": {
+        "trigger": "all_code_implementations_and_infrastructure_changes",
+        "responsible_agent": "security-agent",
+        "validation_criteria": ["vulnerability_scan", "compliance_check", "secure_coding_practices"],
+        "blocking": true
+      },
+      "test_integration": {
+        "trigger": "all_code_implementations",
+        "responsible_agent": "test-agent",
+        "validation_criteria": ["test_coverage", "test_quality", "tdd_compliance"],
+        "blocking": true
+      },
+      "performance_integration": {
+        "trigger": "performance_critical_changes",
+        "responsible_agent": "performance-agent",
+        "validation_criteria": ["performance_benchmarks", "resource_usage", "scalability"],
+        "blocking": "conditional_on_performance_requirements"
+      },
+      "architecture_integration": {
+        "trigger": "architectural_changes",
+        "responsible_agent": "plan-agent",
+        "validation_criteria": ["architectural_compliance", "design_pattern_adherence"],
+        "blocking": true
+      }
+    },
+    "quality_gates": {
+      "pre_handoff_validation": "validate_agent_output_before_handoff",
+      "cross_agent_consistency": "ensure_consistent_quality_across_agents",
+      "workflow_completion_validation": "comprehensive_validation_before_workflow_completion",
+      "continuous_quality_monitoring": "monitor_quality_metrics_throughout_workflow"
+    }
+  },
+
+  "error_handling_and_recovery": {
+    "agent_failure_recovery": {
+      "timeout_handling": {
+        "agent_timeout_threshold": "5_minutes_per_agent",
+        "escalation_procedure": "escalate_to_more_capable_agent",
+        "fallback_strategy": "break_task_into_smaller_chunks",
+        "recovery_actions": "preserve_context_and_retry_with_different_approach"
+      },
+      "capability_mismatch": {
+        "detection": "agent_reports_capability_limitation",
+        "resolution": "route_to_appropriate_agent_with_context_preservation",
+        "learning": "update_agent_capability_mapping",
+        "prevention": "improve_initial_routing_accuracy"
+      },
+      "resource_exhaustion": {
+        "token_limit_reached": "graceful_handoff_to_fresh_agent_instance",
+        "mcp_server_unavailable": "fallback_to_native_tools_with_degraded_functionality",
+        "system_overload": "queue_management_and_load_balancing",
+        "recovery_monitoring": "monitor_resource_recovery_and_resume_operations"
+      }
+    },
+    "workflow_resilience": {
+      "checkpoint_management": "create_checkpoints_at_major_workflow_milestones",
+      "partial_completion_handling": "handle_workflows_that_complete_partially",
+      "state_recovery": "recover_workflow_state_from_checkpoints",
+      "graceful_degradation": "continue_with_reduced_functionality_when_necessary"
+    }
+  },
+
+  "performance_optimization": {
+    "workflow_efficiency": {
+      "pattern_optimization": "continuously_optimize_successful_workflow_patterns",
+      "bottleneck_identification": "identify_and_address_workflow_bottlenecks",
+      "parallel_execution_maximization": "maximize_opportunities_for_parallel_execution",
+      "resource_utilization_optimization": "optimize_token_and_time_usage"
+    },
+    "predictive_optimization": {
+      "demand_forecasting": "predict_agent_demand_based_on_historical_patterns",
+      "capacity_planning": "plan_agent_capacity_based_on_predicted_demand",
+      "preemptive_scaling": "scale_agent_capacity_before_demand_peaks",
+      "cost_optimization": "minimize_costs_while_maintaining_performance"
+    },
+    "continuous_learning": {
+      "pattern_recognition": "identify_successful_workflow_patterns_for_reuse",
+      "failure_analysis": "analyze_workflow_failures_for_improvement",
+      "performance_trending": "track_performance_trends_over_time",
+      "optimization_feedback_loop": "continuously_improve_based_on_performance_data"
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "all_existing_hooks",
+      "quality_gates",
+      "workflow_coordination",
+      "performance_monitoring"
+    ],
+    "enhances": [
+      "multi_agent_workflow_efficiency",
+      "context_preservation_across_agents",
+      "quality_consistency_across_workflows",
+      "resource_optimization_and_load_balancing"
+    ],
+    "monitoring_integration": {
+      "real_time_dashboard": "workflow_status_and_agent_utilization",
+      "performance_metrics": "workflow_efficiency_and_success_rates",
+      "alerting": "workflow_failures_and_performance_degradation",
+      "reporting": "periodic_reports_on_coordination_effectiveness"
+    }
+  },
+
+  "success_metrics": {
+    "workflow_effectiveness": {
+      "completion_rate": "percentage_of_workflows_completed_successfully",
+      "time_to_completion": "average_time_for_workflow_completion",
+      "quality_gate_pass_rate": "percentage_of_workflows_passing_quality_gates",
+      "agent_utilization_efficiency": "optimal_use_of_agent_capabilities"
+    },
+    "resource_optimization": {
+      "token_efficiency": "tokens_used_per_completed_workflow",
+      "parallelization_rate": "percentage_of_workflows_using_parallel_execution",
+      "load_balancing_effectiveness": "even_distribution_of_work_across_agents",
+      "mcp_utilization_optimization": "efficient_use_of_mcp_server_resources"
+    },
+    "continuous_improvement": {
+      "pattern_reuse_rate": "percentage_of_workflows_using_proven_patterns",
+      "failure_reduction_rate": "reduction_in_workflow_failures_over_time",
+      "performance_improvement_rate": "improvement_in_workflow_performance_over_time",
+      "agent_learning_effectiveness": "improvement_in_agent_coordination_over_time"
+    }
+  }
+}

@@ -2,8 +2,7 @@
   "name": "tdd-workflow",
   "description": "Enforce Test-Driven Development workflow with Red-Green-Refactor cycle",
   "version": "1.0",
-  "disabled": true,
-  "disable_reason": "Temporarily disabled during agent debugging - will re-enable after basic functionality is restored",
+  "disabled": false,
   "agents": ["maker", "test", "plan"],
   "triggers": [
     "code_creation",
