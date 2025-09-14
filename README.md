@@ -1,14 +1,14 @@
 # Claude Agentic Framework v2.3
 
-**Elite-tier multi-agent system with self-learning capabilities and 10 specialized agents.**
+**Elite-tier multi-agent system with self-learning capabilities and 11 specialized agents.**
 
 ## 🎯 Overview
 
-This repository contains a production-ready multi-agent framework with self-learning capabilities, 10 specialized agents, and intelligent knowledge management. The system features automated pattern capture, continuous optimization, and institutional memory that improves over time.
+This repository contains a production-ready multi-agent framework with self-learning capabilities, 11 specialized agents, and intelligent knowledge management. The system features automated pattern capture, continuous optimization, and institutional memory that improves over time.
 
 **Current Status (September 2025):**
 - ✅ **Elite-Tier Framework** - Advanced agent system with pattern capture capabilities
-- ✅ **10 Specialized Agents** - Complete coverage from product strategy to deployment
+- ✅ **11 Specialized Agents** - Complete coverage from product strategy to deployment
 - ✅ **Institutional Memory** - Automated capture and reuse of successful patterns
 - ✅ **Pattern Recognition** - Semantic search, workflow capture, and optimization tracking
 - ✅ **MCP-First Architecture** - Advanced integration with 4 MCP servers
@@ -70,7 +70,7 @@ The framework captures and organizes successful workflows:
 
 | Metric | Current Status | Performance |
 |--------|----------------|-------------|
-| **Active Agents** | 10 specialized agents | Complete development lifecycle coverage |
+| **Active Agents** | 11 specialized agents | Complete development lifecycle coverage |
 | **Learning System** | 8 memory categories | Institutional knowledge accumulation |
 | **Pattern Success Rate** | 94%+ average | High-quality automated playbooks |
 | **Knowledge Base** | Semantic search enabled | Intelligent knowledge retrieval |
@@ -88,6 +88,7 @@ The framework captures and organizes successful workflows:
 ### **Core Development Agents**
 | Agent | Model | Focus | Key Capabilities |
 |-------|-------|--------|------------------|
+| **reader-agent** | Haiku | Fast analysis, information extraction | Codebase exploration, pattern recognition, read-only operations |
 | **maker-agent** | Sonnet | Code implementation, refactoring | Full development toolset, symbol operations, TDD implementation |
 | **test-agent** | Haiku | Quality assurance, TDD leadership | Test creation, coverage analysis, quality gate validation |
 | **debug-agent** | Sonnet | Systematic debugging, root cause analysis | Error investigation, performance analysis, systematic troubleshooting |
@@ -138,9 +139,10 @@ The framework captures and organizes successful workflows:
 ```
 claude-agentic-framework/
 ├── CLAUDE.md                         # Main orchestrator configuration with delegation rules
-├── agents/                           # Agent definitions (10 total)
+├── agents/                           # Agent definitions (11 total)
 │   ├── product-agent.md             # Product ownership (.md with YAML frontmatter)
 │   ├── architect-agent.md           # Technical architecture (.md with YAML frontmatter)
+│   ├── reader-agent.md              # Fast analysis and exploration (.md with YAML frontmatter)
 │   ├── maker-agent.md              # Code implementation (.md with YAML frontmatter)
 │   ├── debug-agent.md              # Debugging and troubleshooting (.md with YAML frontmatter)
 │   ├── test-agent.md               # Quality assurance and TDD (.md with YAML frontmatter)
@@ -150,7 +152,7 @@ claude-agentic-framework/
 │   ├── data-agent.md               # Database and ETL operations (.md with YAML frontmatter)
 │   └── docs-agent.md               # Documentation (.md with YAML frontmatter)
 ├── commands/                         # Smart routing and delegation
-│   └── delegate.md                   # Task routing with 10-agent ecosystem
+│   └── delegate.md                   # Task routing with 11-agent ecosystem
 ├── hooks/                            # Quality gates and learning automation
 │   ├── zero-tolerance-quality.json  # Zero-tolerance quality policy
 │   ├── architecture-review.json     # Technical architecture validation
@@ -202,7 +204,7 @@ claude-agentic-framework/
 **First Time Feature Development:**
 ```
 User: "Build a user authentication system"
-→ Standard workflow: product-agent → architect-agent → test-agent → maker-agent → docs-agent
+→ Standard workflow: product-agent → architect-agent → reader-agent → test-agent → maker-agent → docs-agent
 → Framework captures: successful patterns, technology choices, implementation approaches
 → Stores: workflow_patterns memory, solution_patterns memory, code_patterns memory
 ```
@@ -301,7 +303,7 @@ The framework automatically tracks learning effectiveness:
 - 📋 **Product/Architect Separation**: Clear business vs. technical decision boundaries
 - 🔍 **Semantic Search**: Intelligent knowledge retrieval system
 - 📚 **Automated Playbooks**: Step-by-step guides from successful patterns
-- 🎯 **10 Specialized Agents**: Complete development lifecycle coverage
+- 🎯 **11 Specialized Agents**: Complete development lifecycle coverage
 - ⚡ **Performance Intelligence**: Automated optimization discovery and application
 
 ### 🔄 **Ongoing Evolution**

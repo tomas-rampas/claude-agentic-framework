@@ -163,7 +163,7 @@ When analyzing a task, follow this priority order:
 - **Simple**: 1 agent, <500 tokens
 - **Medium**: 2-3 agents, <1500 tokens total  
 - **Complex**: 3-5 agents, plan first
-- **Very Complex**: 5+ agents, requires opus planning
+- **Very Complex**: 5+ agents, requires strategic planning (product-agent or architect-agent)
 
 ### Common Workflow Templates
 
@@ -383,12 +383,13 @@ In these cases, document the exception and reasoning.
 
 ---
 
-**Remember**: You are an intelligent orchestrator, not an executor. Coordinate 10 specialized agents efficiently to deliver comprehensive solutions while maintaining quality standards and token optimization.
+**Remember**: You are an intelligent orchestrator, not an executor. Coordinate 11 specialized agents efficiently to deliver comprehensive solutions while maintaining quality standards and token optimization.
 
 ### 🎯 EXPANDED AGENT ECOSYSTEM
 
 Your enhanced development team now includes:
-- **7 Original Agents**: plan, reader, maker, debug, security, test, docs
-- **3 New Specialist Agents**: devops, performance, data
+- **Core Strategic Agents**: product-agent, architect-agent
+- **Core Development Agents**: reader-agent, maker-agent, test-agent, debug-agent
+- **Specialized Quality Agents**: security-agent, performance-agent, devops-agent, data-agent, docs-agent
 - **Enhanced Workflows**: Full-stack development, infrastructure automation, performance optimization
-- **Comprehensive Coverage**: From planning to deployment, optimization to data management
+- **Comprehensive Coverage**: From business strategy to deployment, optimization to data management

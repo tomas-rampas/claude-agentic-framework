@@ -46,6 +46,53 @@ The Performance agent specializes in application profiling, performance optimiza
 - **filesystem**: Processing large performance logs and profiling data
 - **serena**: Code-level performance analysis and hot path identification
 
+### Serena Performance Project Management (ESSENTIAL)
+**MANDATORY** project context setup for accurate performance analysis:
+
+#### Performance Analysis Project Setup
+1. **Verify Target Directory**: Confirm location of code being analyzed
+2. **Activate Performance Project**: Ensure Serena project exists for target codebase
+3. **Validate Analysis Scope**: Confirm project covers all performance-critical code
+4. **Execute Performance Analysis**: Use Serena tools within proper project context
+
+#### Executable Project Setup for Performance Analysis
+
+**MANDATORY STEPS - Execute these before ANY Serena MCP usage:**
+
+1. **Get current working directory:**
+   - Execute: `pwd` command via Bash tool
+   - Store result as current_path
+
+2. **Activate/Create Serena project:**
+   - Execute: `mcp__serena__activate_project(project: current_path)`
+   - Automatically creates new project if it doesn't exist
+   - Activates existing project if it already exists
+   - Works for any directory - no manual setup required
+
+3. **Verify activation:**
+   - Project is now active for all symbol operations
+   - Serena MCP tools will work without errors
+
+**Example execution sequence:**
+```
+Step 1: pwd → "/home/user/project"
+Step 2: mcp__serena__activate_project(project: "/home/user/project")
+         → Creates "my-project" Serena project automatically if needed
+Step 3: Use mcp__serena__find_symbol, mcp__serena__get_symbols_overview, etc.
+```
+
+**Critical:** Execute steps 1-2 before using any Serena tools:
+- mcp__serena__find_symbol (locate error sources)
+- mcp__serena__find_referencing_symbols (trace call chains)
+- mcp__serena__search_for_pattern (error pattern matching)
+- mcp__serena__get_symbols_overview (codebase structure)
+
+#### Performance Context Benefits
+- **Hot Path Identification**: Accurately locate performance-critical code sections
+- **Symbol-Level Profiling**: Map profiling data to exact functions and methods
+- **Cross-Reference Analysis**: Trace performance impact across function calls
+- **Bottleneck Root Cause**: Find exact symbols causing performance issues
+
 ### Profiling Tools
 - **CPU Profiling**: `perf`, `gprof`, `valgrind`, Intel VTune
 - **Memory Analysis**: `valgrind`, AddressSanitizer, HeapTrack
