@@ -1,6 +1,6 @@
 {
   "name": "code-analysis",
-  "agents": ["reader", "security"],
+  "roles": ["analysis-expert", "quality-expert"],
   "triggers": ["file_analysis", "pattern_search"],
   "actions": {
     "extract_symbols": "Extract code symbols and structure",

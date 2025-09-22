@@ -28,12 +28,12 @@ execution_blocks:
     conditions:
       - "not_delegated_agent"
       - "technical_operation"
-    block_message: "🚫 DELEGATION REQUIRED: Direct bash execution blocked. Delegate to appropriate agent:"
-    suggested_agents:
-      - "maker-agent: For code compilation, build operations, installation"
-      - "debug-agent: For troubleshooting, log analysis, system diagnosis"
-      - "security-agent: For security scans, vulnerability checks"
-      - "test-agent: For running tests, validation scripts"
+    block_message: "🚫 DELEGATION REQUIRED: Direct bash execution blocked. Delegate to appropriate role-based agent:"
+    suggested_roles:
+      - "implementation-expert: For code compilation, build operations, installation"
+      - "analysis-expert: For troubleshooting, log analysis, system diagnosis"
+      - "quality-expert: For security scans, vulnerability checks, testing"
+      - "infrastructure-expert: For deployment, system operations"
     
   direct_file_operations:
     tools: ["Read", "Write", "Edit", "MultiEdit", "mcp__filesystem__write_file", "mcp__filesystem__edit_file", "mcp__filesystem__read_text_file"]
@@ -41,11 +41,11 @@ execution_blocks:
       - "not_delegated_agent"
       - "code_modification"
       - "large_file_operation"
-    block_message: "🚫 DELEGATION REQUIRED: Direct file operations blocked. Delegate to appropriate agent:"
-    suggested_agents:
-      - "maker-agent: For code implementation, refactoring, configuration"
-      - "reader-agent: For code analysis, file exploration, documentation review"
-      - "docs-agent: For documentation creation, maintenance, updates"
+    block_message: "🚫 DELEGATION REQUIRED: Direct file operations blocked. Delegate to appropriate role-based agent:"
+    suggested_roles:
+      - "implementation-expert: For code implementation, refactoring, configuration"
+      - "analysis-expert: For code analysis, file exploration, investigation"
+      - "documentation-expert: For documentation creation, maintenance, updates"
       
   direct_code_implementation:
     tools: ["Write", "Edit", "MultiEdit", "mcp__serena__replace_symbol_body", "mcp__serena__insert_after_symbol", "mcp__serena__insert_before_symbol"]
@@ -55,32 +55,32 @@ execution_blocks:
       - "symbol_modification"
     block_message: "🚫 DELEGATION REQUIRED: Direct code implementation blocked. TDD workflow required:"
     suggested_workflow:
-      - "1. test-agent: Create failing test first (TDD RED phase)"
-      - "2. maker-agent: Implement minimal passing code (TDD GREEN phase)"
-      - "3. maker-agent: Refactor while maintaining tests (TDD REFACTOR phase)"
-      - "4. test-agent: Validate all tests pass"
+      - "1. quality-expert: Create failing test first (TDD RED phase)"
+      - "2. implementation-expert: Implement minimal passing code (TDD GREEN phase)"
+      - "3. implementation-expert: Refactor while maintaining tests (TDD REFACTOR phase)"
+      - "4. quality-expert: Validate all tests pass"
       
   direct_search_operations:
     tools: ["Grep", "Glob", "WebSearch", "WebFetch"]
     conditions:
       - "not_delegated_agent"
       - "analysis_required"
-    block_message: "🚫 DELEGATION REQUIRED: Direct search/analysis blocked. Delegate to appropriate agent:"
-    suggested_agents:
-      - "reader-agent: For code analysis, pattern search, file exploration"
-      - "plan-agent: For architecture analysis, requirement gathering"
-      - "debug-agent: For error investigation, root cause analysis"
+    block_message: "🚫 DELEGATION REQUIRED: Direct search/analysis blocked. Delegate to appropriate role-based agent:"
+    suggested_roles:
+      - "analysis-expert: For code analysis, pattern search, file exploration, investigation"
+      - "architecture-expert: For architecture analysis, requirement gathering, system design"
+      - "quality-expert: For error investigation, validation, compliance checks"
       
   direct_mcp_operations:
     tools: ["mcp__context7__get-library-docs", "mcp__context7__resolve-library-id", "mcp__sequential-thinking__sequentialthinking_tools"]
     conditions:
       - "not_delegated_agent"
       - "complex_operation"
-    block_message: "🚫 DELEGATION REQUIRED: Direct MCP operations blocked. Smart MCP activation through agents:"
-    suggested_agents:
-      - "plan-agent: For complex reasoning, architecture decisions (sequential-thinking MCP)"
-      - "maker-agent: For implementation patterns (context7 MCP)"
-      - "reader-agent: For semantic analysis (serena MCP)"
+    block_message: "🚫 DELEGATION REQUIRED: Direct MCP operations blocked. Smart MCP activation through role-based agents:"
+    suggested_roles:
+      - "architecture-expert: For complex reasoning, architecture decisions (sequential-thinking MCP)"
+      - "implementation-expert: For implementation patterns (context7 MCP)"
+      - "analysis-expert: For semantic analysis (serena MCP)"
 
 # Agent identification patterns
 agent_detection:
@@ -155,12 +155,12 @@ guidance:
     - "📊 Performance monitoring: Token efficiency and intelligent routing"
     
   workflow_examples:
-    simple_analysis: "reader-agent"
-    code_implementation: "test-agent → maker-agent (TDD workflow)"
-    bug_investigation: "debug-agent → maker-agent"
-    architecture_design: "plan-agent → maker-agent"
-    security_review: "security-agent → maker-agent"
-    documentation: "docs-agent"
+    simple_analysis: "analysis-expert"
+    code_implementation: "quality-expert → implementation-expert (TDD workflow)"
+    bug_investigation: "analysis-expert → implementation-expert"
+    architecture_design: "architecture-expert → implementation-expert"
+    security_review: "quality-expert → implementation-expert"
+    documentation: "documentation-expert"
     
   emergency_procedures:
     - "For critical system issues, contact system administrator"

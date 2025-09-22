@@ -3,7 +3,7 @@
   "description": "Automated code review with AI-powered analysis before merge, ensuring code quality and consistency",
   "version": "1.0",
   "disabled": false,
-  "agents": ["reader", "security", "maker", "test"],
+  "roles": ["analysis-expert", "quality-expert", "implementation-expert"],
   "triggers": [
     "pull_request_created",
     "pull_request_updated",
@@ -113,8 +113,8 @@
     }
   },
 
-  "agent_responsibilities": {
-    "reader-agent": {
+  "role_responsibilities": {
+    "analysis-expert": {
       "primary_role": "code_structure_and_pattern_analysis",
       "responsibilities": [
         "architectural_compliance_validation",
@@ -129,22 +129,24 @@
         "cross_module_dependency_analysis"
       ]
     },
-    "security-agent": {
-      "primary_role": "security_vulnerability_assessment",
+    "quality-expert": {
+      "primary_role": "security_vulnerability_assessment_and_testing",
       "responsibilities": [
         "vulnerability_pattern_detection",
         "secure_coding_practice_validation",
         "dependency_security_analysis",
-        "compliance_framework_adherence"
+        "test_coverage_analysis",
+        "test_quality_assessment"
       ],
       "analysis_focus": [
         "owasp_top_10_vulnerability_scanning",
         "authentication_authorization_review",
         "data_protection_validation",
-        "supply_chain_security_assessment"
+        "unit_test_coverage_completeness",
+        "integration_test_adequacy"
       ]
     },
-    "maker-agent": {
+    "implementation-expert": {
       "primary_role": "code_quality_and_maintainability",
       "responsibilities": [
         "code_quality_metrics_analysis",
@@ -157,21 +159,6 @@
         "duplication_elimination",
         "performance_optimization_opportunities",
         "maintainability_enhancement"
-      ]
-    },
-    "test-agent": {
-      "primary_role": "test_coverage_and_quality_validation",
-      "responsibilities": [
-        "test_coverage_analysis",
-        "test_quality_assessment",
-        "missing_test_identification",
-        "test_strategy_validation"
-      ],
-      "analysis_focus": [
-        "unit_test_coverage_completeness",
-        "integration_test_adequacy",
-        "edge_case_test_coverage",
-        "test_maintainability_and_clarity"
       ]
     }
   },

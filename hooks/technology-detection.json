@@ -1,0 +1,216 @@
+{
+  "name": "technology-detection",
+  "description": "Automatically detect technology stack from project context and route to appropriate experts",
+  "version": "1.0",
+  "disabled": false,
+  "priority": 1,
+  "agents": ["all"],
+  "triggers": [
+    "implementation_request",
+    "code_creation",
+    "development_task",
+    "tech_specific_operation",
+    "agent_routing_needed"
+  ],
+
+  "technology_patterns": {
+    "rust": {
+      "file_extensions": ["*.rs", "*.toml"],
+      "config_files": ["Cargo.toml", "Cargo.lock", "rust-toolchain", "rustfmt.toml"],
+      "keywords": ["cargo", "rustc", "memory safety", "borrow checker", "async rust", "tokio", "serde"],
+      "directories": ["src/", "examples/", "benches/", "tests/"],
+      "package_indicators": ["crates.io", "lib.rs", "main.rs"]
+    },
+    "javascript": {
+      "file_extensions": ["*.js", "*.ts", "*.jsx", "*.tsx"],
+      "config_files": ["package.json", "package-lock.json", "yarn.lock", "tsconfig.json", ".babelrc", "webpack.config.js"],
+      "keywords": ["npm", "node", "react", "vue", "angular", "typescript", "javascript", "express", "next.js"],
+      "directories": ["node_modules/", "src/", "public/", "components/"],
+      "package_indicators": ["@types/", "react", "vue", "angular"]
+    },
+    "python": {
+      "file_extensions": ["*.py", "*.pyw", "*.pyx"],
+      "config_files": ["requirements.txt", "pyproject.toml", "setup.py", "Pipfile", "poetry.lock", "environment.yml"],
+      "keywords": ["pip", "python", "django", "flask", "fastapi", "pandas", "numpy", "pytest"],
+      "directories": ["venv/", "__pycache__/", "tests/", "src/"],
+      "package_indicators": ["__init__.py", "setup.py", "requirements.txt"]
+    },
+    "csharp": {
+      "file_extensions": ["*.cs", "*.csx", "*.vb"],
+      "config_files": ["*.csproj", "*.sln", "*.vbproj", "packages.config", "Directory.Build.props"],
+      "keywords": ["dotnet", "csharp", "aspnet", "mvc", "webapi", "entity framework", "nuget", "blazor"],
+      "directories": ["bin/", "obj/", "Properties/", "Controllers/", "Models/", "Views/"],
+      "package_indicators": ["Program.cs", "Startup.cs", "appsettings.json"]
+    },
+    "go": {
+      "file_extensions": ["*.go"],
+      "config_files": ["go.mod", "go.sum", "go.work"],
+      "keywords": ["golang", "go", "goroutine", "gin", "fiber", "gorm", "cobra"],
+      "directories": ["cmd/", "pkg/", "internal/", "vendor/"],
+      "package_indicators": ["main.go", "go.mod"]
+    },
+    "java": {
+      "file_extensions": ["*.java", "*.class", "*.jar"],
+      "config_files": ["pom.xml", "build.gradle", "gradle.properties", "maven.properties"],
+      "keywords": ["java", "spring", "maven", "gradle", "junit", "hibernate"],
+      "directories": ["src/main/java/", "src/test/java/", "target/", "build/"],
+      "package_indicators": ["pom.xml", "build.gradle", "Application.java"]
+    }
+  },
+
+  "detection_strategies": {
+    "file_analysis": {
+      "priority": 1,
+      "method": "analyze_file_extensions_and_config",
+      "confidence_threshold": 0.8,
+      "description": "Primary detection through file extensions and project configuration"
+    },
+    "keyword_analysis": {
+      "priority": 2,
+      "method": "analyze_user_request_keywords",
+      "confidence_threshold": 0.6,
+      "description": "Secondary detection through keywords in user requests"
+    },
+    "directory_structure": {
+      "priority": 3,
+      "method": "analyze_project_directory_patterns",
+      "confidence_threshold": 0.7,
+      "description": "Tertiary detection through typical project structures"
+    },
+    "recent_context": {
+      "priority": 4,
+      "method": "analyze_recent_file_operations",
+      "confidence_threshold": 0.5,
+      "description": "Context-based detection from recent operations"
+    }
+  },
+
+  "multi_technology_handling": {
+    "primary_selection": {
+      "strategy": "highest_confidence_score",
+      "fallback": "most_recent_activity",
+      "minimum_confidence": 0.6
+    },
+    "secondary_technologies": {
+      "track": true,
+      "max_tracked": 3,
+      "use_for_integration_tasks": true
+    },
+    "explicit_override": {
+      "allow_user_specification": true,
+      "override_keywords": ["use", "with", "for", "in"],
+      "examples": ["implement in rust", "use python for", "with javascript"]
+    }
+  },
+
+  "confidence_scoring": {
+    "file_extensions": {
+      "weight": 0.4,
+      "calculation": "percentage_of_relevant_files"
+    },
+    "config_files": {
+      "weight": 0.3,
+      "calculation": "presence_of_key_config_files"
+    },
+    "keywords": {
+      "weight": 0.2,
+      "calculation": "keyword_match_density"
+    },
+    "directory_structure": {
+      "weight": 0.1,
+      "calculation": "typical_directory_pattern_match"
+    }
+  },
+
+  "detection_context": {
+    "project_root_scan": {
+      "enabled": true,
+      "max_depth": 3,
+      "ignore_patterns": ["node_modules/", ".git/", "target/", "build/", "__pycache__/"]
+    },
+    "recent_files_analysis": {
+      "enabled": true,
+      "look_back_operations": 10,
+      "weight_recent_more": true
+    },
+    "user_request_parsing": {
+      "enabled": true,
+      "extract_technology_mentions": true,
+      "extract_file_references": true
+    }
+  },
+
+  "output_format": {
+    "detected_technology": {
+      "primary": "highest_confidence_technology",
+      "confidence": "detection_confidence_score",
+      "alternatives": "other_detected_technologies",
+      "reasoning": "detection_reasoning_summary"
+    },
+    "routing_recommendation": {
+      "suggested_agent_role": "implementation-expert",
+      "specific_agent": "resolved_agent_name",
+      "fallback_agent": "comprehensive-analyst",
+      "multi_tech_coordination": "coordination_strategy_if_multiple"
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "role-resolution",
+      "delegation-enforcement",
+      "agent-coordination",
+      "tdd-workflow"
+    ],
+    "provides_context_to": [
+      "all_implementation_hooks",
+      "quality_gates",
+      "workflow_coordination"
+    ],
+    "updates_shared_context": {
+      "technology_stack": "current_detected_technology",
+      "confidence_level": "detection_confidence",
+      "multi_tech_status": "multiple_technologies_detected"
+    }
+  },
+
+  "fallback_strategies": {
+    "no_technology_detected": {
+      "action": "route_to_comprehensive_analyst",
+      "request_user_clarification": true,
+      "log_detection_failure": true
+    },
+    "low_confidence_detection": {
+      "threshold": 0.5,
+      "action": "present_options_to_user",
+      "include_alternatives": true
+    },
+    "conflicting_technologies": {
+      "action": "analyze_primary_focus",
+      "consider_user_intent": true,
+      "default_to_project_majority": true
+    }
+  },
+
+  "learning_and_adaptation": {
+    "track_detection_accuracy": true,
+    "learn_from_user_corrections": true,
+    "adapt_confidence_thresholds": true,
+    "improve_keyword_patterns": true
+  },
+
+  "validation": {
+    "test_scenarios": [
+      "rust_project_detection",
+      "javascript_typescript_detection",
+      "python_project_detection",
+      "multi_language_project_handling",
+      "ambiguous_context_resolution"
+    ],
+    "performance_requirements": {
+      "detection_time": "under_100ms",
+      "accuracy_target": "above_90_percent",
+      "false_positive_rate": "under_5_percent"
+    }
+  }
+}

@@ -1,0 +1,329 @@
+{
+  "name": "role-resolution",
+  "description": "Dynamic role-to-agent mapping system for technology-agnostic orchestration",
+  "version": "1.0",
+  "disabled": false,
+  "priority": 2,
+  "agents": ["all"],
+  "triggers": [
+    "agent_routing_needed",
+    "role_based_delegation",
+    "technology_specific_routing",
+    "workflow_orchestration"
+  ],
+
+  "role_definitions": {
+    "implementation-expert": {
+      "description": "Technology-specific code implementation and development",
+      "responsibilities": [
+        "code_writing_and_modification",
+        "feature_implementation",
+        "bug_fixing_and_debugging",
+        "performance_optimization",
+        "technology_specific_best_practices"
+      ],
+      "technology_specific": true,
+      "critical_for_development": true
+    },
+    "analysis-expert": {
+      "description": "Deep analysis, investigation, and research across all domains",
+      "responsibilities": [
+        "code_analysis_and_review",
+        "performance_investigation",
+        "security_analysis",
+        "root_cause_investigation",
+        "technical_research"
+      ],
+      "technology_specific": false,
+      "universal_capability": true
+    },
+    "quality-expert": {
+      "description": "Quality enforcement, testing, and compliance validation",
+      "responsibilities": [
+        "code_review_and_validation",
+        "test_creation_and_execution",
+        "quality_gate_enforcement",
+        "security_compliance_check",
+        "standards_enforcement"
+      ],
+      "technology_specific": false,
+      "blocking_authority": true
+    },
+    "architecture-expert": {
+      "description": "System design, architectural patterns, and technical planning",
+      "responsibilities": [
+        "system_architecture_design",
+        "technical_specification_creation",
+        "design_pattern_application",
+        "integration_planning",
+        "technical_decision_making"
+      ],
+      "technology_specific": false,
+      "strategic_role": true
+    },
+    "infrastructure-expert": {
+      "description": "DevOps, deployment, and infrastructure management",
+      "responsibilities": [
+        "deployment_automation",
+        "infrastructure_configuration",
+        "ci_cd_pipeline_management",
+        "monitoring_and_alerting",
+        "containerization_and_orchestration"
+      ],
+      "technology_specific": false,
+      "operational_focus": true
+    },
+    "documentation-expert": {
+      "description": "Technical documentation and knowledge management",
+      "responsibilities": [
+        "api_documentation_creation",
+        "user_guide_development",
+        "technical_specification_writing",
+        "knowledge_base_management",
+        "onboarding_material_creation"
+      ],
+      "technology_specific": false,
+      "knowledge_management": true
+    },
+    "product-expert": {
+      "description": "Product management, requirements, and business alignment",
+      "responsibilities": [
+        "requirements_analysis",
+        "user_story_creation",
+        "business_logic_definition",
+        "stakeholder_communication",
+        "feature_prioritization"
+      ],
+      "technology_specific": false,
+      "business_focused": true
+    }
+  },
+
+  "agent_mappings": {
+    "current_agents": {
+      "implementation-expert": {
+        "rust": "rust-systems-expert",
+        "javascript": null,
+        "python": null,
+        "csharp": null,
+        "go": null,
+        "java": null,
+        "default_pattern": "{technology}-expert",
+        "fallback": "comprehensive-analyst"
+      },
+      "analysis-expert": {
+        "all_technologies": "comprehensive-analyst",
+        "universal": true
+      },
+      "quality-expert": {
+        "all_technologies": "code-review-gatekeeper",
+        "universal": true
+      },
+      "architecture-expert": {
+        "all_technologies": "system-architect",
+        "universal": true
+      },
+      "infrastructure-expert": {
+        "all_technologies": "devops-orchestrator",
+        "universal": true
+      },
+      "documentation-expert": {
+        "all_technologies": "technical-docs-writer",
+        "universal": true
+      },
+      "product-expert": {
+        "all_technologies": "product-owner",
+        "universal": true
+      }
+    },
+
+    "future_expansion": {
+      "implementation-expert": {
+        "javascript": "javascript-expert",
+        "typescript": "javascript-expert",
+        "python": "python-expert",
+        "csharp": "csharp-expert",
+        "dotnet": "csharp-expert",
+        "go": "go-expert",
+        "golang": "go-expert",
+        "java": "java-expert",
+        "kotlin": "kotlin-expert",
+        "swift": "swift-expert",
+        "cpp": "cpp-expert",
+        "php": "php-expert",
+        "ruby": "ruby-expert"
+      }
+    }
+  },
+
+  "resolution_strategies": {
+    "direct_mapping": {
+      "priority": 1,
+      "description": "Direct role-to-agent mapping for universal roles",
+      "applies_to": ["analysis-expert", "quality-expert", "architecture-expert", "infrastructure-expert", "documentation-expert", "product-expert"]
+    },
+    "technology_based_routing": {
+      "priority": 2,
+      "description": "Technology-specific routing for implementation roles",
+      "applies_to": ["implementation-expert"],
+      "requires_technology_detection": true
+    },
+    "pattern_based_resolution": {
+      "priority": 3,
+      "description": "Generate agent name from technology pattern",
+      "pattern": "{technology}-expert",
+      "validation": "check_agent_exists_before_routing"
+    },
+    "fallback_resolution": {
+      "priority": 4,
+      "description": "Fallback to universal agents when specific agent unavailable",
+      "fallback_chain": [
+        "comprehensive-analyst",
+        "system-architect",
+        "code-review-gatekeeper"
+      ]
+    }
+  },
+
+  "resolution_algorithm": {
+    "step_1_validate_role": {
+      "action": "verify_role_exists_in_definitions",
+      "on_failure": "return_error_invalid_role"
+    },
+    "step_2_check_universal": {
+      "action": "check_if_role_is_universal",
+      "on_universal": "return_direct_mapping",
+      "on_tech_specific": "proceed_to_step_3"
+    },
+    "step_3_detect_technology": {
+      "action": "invoke_technology_detection",
+      "on_detection_success": "proceed_to_step_4",
+      "on_detection_failure": "use_fallback_strategy"
+    },
+    "step_4_resolve_tech_specific": {
+      "action": "lookup_technology_specific_agent",
+      "on_agent_exists": "return_specific_agent",
+      "on_agent_missing": "proceed_to_step_5"
+    },
+    "step_5_pattern_generation": {
+      "action": "generate_agent_name_from_pattern",
+      "validate_existence": true,
+      "on_exists": "return_generated_agent",
+      "on_missing": "proceed_to_step_6"
+    },
+    "step_6_fallback": {
+      "action": "use_fallback_agent",
+      "log_missing_agent": true,
+      "suggest_agent_creation": true
+    }
+  },
+
+  "context_integration": {
+    "technology_context": {
+      "source": "technology-detection hook",
+      "required_fields": ["primary_technology", "confidence_level"],
+      "optional_fields": ["secondary_technologies", "multi_tech_project"]
+    },
+    "user_preference": {
+      "explicit_agent_request": "override_role_resolution",
+      "technology_specification": "override_detected_technology",
+      "preference_learning": "track_user_corrections"
+    },
+    "project_context": {
+      "recent_agent_usage": "prefer_recent_successful_agents",
+      "project_patterns": "learn_project_specific_preferences",
+      "team_preferences": "respect_team_agent_preferences"
+    }
+  },
+
+  "multi_agent_coordination": {
+    "sequential_workflows": {
+      "preserve_technology_context": true,
+      "use_same_implementation_expert": true,
+      "coordinate_handoffs": "maintain_context_between_phases"
+    },
+    "parallel_workflows": {
+      "coordinate_cross_technology": true,
+      "manage_integration_points": true,
+      "ensure_consistent_standards": "use_same_quality_expert"
+    },
+    "complex_projects": {
+      "primary_technology_lead": "route_main_implementation_to_primary_expert",
+      "integration_coordination": "use_architecture_expert_for_integration",
+      "quality_consistency": "use_single_quality_expert_across_technologies"
+    }
+  },
+
+  "error_handling": {
+    "role_not_found": {
+      "action": "log_error_and_suggest_valid_roles",
+      "fallback": "route_to_comprehensive_analyst"
+    },
+    "agent_not_available": {
+      "action": "log_missing_agent_and_use_fallback",
+      "suggestion": "create_or_configure_missing_agent"
+    },
+    "technology_detection_failed": {
+      "action": "request_user_clarification",
+      "fallback": "use_universal_agents_only"
+    },
+    "ambiguous_routing": {
+      "action": "present_options_to_user",
+      "default": "choose_highest_confidence_option"
+    }
+  },
+
+  "monitoring_and_learning": {
+    "track_resolution_success": {
+      "successful_resolutions": "track_for_pattern_improvement",
+      "failed_resolutions": "analyze_for_system_improvement",
+      "user_corrections": "learn_and_adapt_future_routing"
+    },
+    "agent_performance": {
+      "track_agent_success_by_technology": true,
+      "identify_optimal_agent_combinations": true,
+      "suggest_workflow_improvements": true
+    },
+    "missing_agent_identification": {
+      "track_fallback_usage": true,
+      "identify_high_demand_missing_agents": true,
+      "prioritize_agent_creation_suggestions": true
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "technology-detection",
+      "delegation-enforcement",
+      "agent-coordination",
+      "tdd-workflow",
+      "workflow-coordination"
+    ],
+    "provides_services_to": [
+      "all_role_based_hooks",
+      "workflow_orchestration_systems",
+      "agent_delegation_mechanisms"
+    ],
+    "updates_shared_context": {
+      "resolved_agents": "current_agent_assignments_by_role",
+      "technology_agent_mapping": "active_technology_to_agent_mappings",
+      "resolution_history": "recent_resolution_decisions"
+    }
+  },
+
+  "validation": {
+    "test_scenarios": [
+      "universal_role_resolution",
+      "technology_specific_routing_with_existing_agent",
+      "technology_specific_routing_with_missing_agent",
+      "fallback_chain_execution",
+      "multi_technology_project_coordination",
+      "user_preference_override"
+    ],
+    "performance_requirements": {
+      "resolution_time": "under_50ms",
+      "accuracy_rate": "above_95_percent",
+      "fallback_success_rate": "100_percent"
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "description": "Automated technical architecture review and validation ensuring design patterns, SOLID principles, and architectural standards compliance",
   "version": "1.0",
   "disabled": false,
-  "agents": ["architect", "maker", "security", "performance"],
+  "roles": ["architecture-expert", "implementation-expert", "quality-expert"],
   "triggers": [
     "architecture_change",
     "system_design_modification",
@@ -169,8 +169,8 @@
     }
   },
   
-  "agent_responsibilities": {
-    "architect-agent": {
+  "role_responsibilities": {
+    "architecture-expert": {
       "primary_role": "Technical architecture validation and design review",
       "responsibilities": [
         "Overall system design validation",
@@ -184,32 +184,25 @@
         "Technology stack modifications"
       ]
     },
-    "maker-agent": {
+    "implementation-expert": {
       "collaboration_role": "Implementation validation against architectural standards",
       "responsibilities": [
         "Code structure compliance validation",
         "Design pattern implementation review",
         "SOLID principles adherence verification"
       ],
-      "coordination_required": "Must coordinate with architect-agent for architectural changes"
+      "coordination_required": "Must coordinate with architecture-expert for architectural changes"
     },
-    "security-agent": {
-      "security_architecture_role": "Security implications of architectural decisions",
+    "quality-expert": {
+      "security_and_performance_role": "Security and performance implications of architectural decisions",
       "responsibilities": [
         "Security pattern validation",
         "Threat model verification",
-        "Security boundary validation"
-      ],
-      "blocking_conditions": ["Security architecture gaps", "Insecure design patterns"]
-    },
-    "performance-agent": {
-      "performance_architecture_role": "Performance implications of architectural choices",
-      "responsibilities": [
+        "Security boundary validation",
         "Performance pattern validation",
-        "Scalability bottleneck identification",
-        "Resource utilization assessment"
+        "Scalability bottleneck identification"
       ],
-      "optimization_focus": ["Response time", "Throughput", "Resource efficiency"]
+      "blocking_conditions": ["Security architecture gaps", "Insecure design patterns", "Performance risks"]
     }
   },
   

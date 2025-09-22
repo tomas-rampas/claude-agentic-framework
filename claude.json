@@ -55,9 +55,65 @@
       "enabled": true,
       "path": "~/.claude/agents/debug-agent",
       "config_file": "~/.claude/agents/debug-agent/agent.json",
-      "prompt_file": "~/.claude/agents/debug-agent/agent.md", 
+      "prompt_file": "~/.claude/agents/debug-agent/agent.md",
       "model": "claude-sonnet-4-20250514",
       "specialization": "systematic_debugging_analysis"
+    },
+    "rust-systems-expert": {
+      "enabled": true,
+      "path": "~/.claude/agents/rust-systems-expert",
+      "config_file": "~/.claude/agents/rust-systems-expert/agent.json",
+      "prompt_file": "~/.claude/agents/rust-systems-expert.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "rust_code_implementation"
+    },
+    "code-review-gatekeeper": {
+      "enabled": true,
+      "path": "~/.claude/agents/code-review-gatekeeper",
+      "config_file": "~/.claude/agents/code-review-gatekeeper/agent.json",
+      "prompt_file": "~/.claude/agents/code-review-gatekeeper.md",
+      "model": "claude-opus-4-1-20250805",
+      "specialization": "quality_enforcement_review"
+    },
+    "comprehensive-analyst": {
+      "enabled": true,
+      "path": "~/.claude/agents/comprehensive-analyst",
+      "config_file": "~/.claude/agents/comprehensive-analyst/agent.json",
+      "prompt_file": "~/.claude/agents/comprehensive-analyst.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "deep_analysis_investigation"
+    },
+    "system-architect": {
+      "enabled": true,
+      "path": "~/.claude/agents/system-architect",
+      "config_file": "~/.claude/agents/system-architect/agent.json",
+      "prompt_file": "~/.claude/agents/system-architect.md",
+      "model": "claude-opus-4-1-20250805",
+      "specialization": "system_design_architecture"
+    },
+    "devops-orchestrator": {
+      "enabled": true,
+      "path": "~/.claude/agents/devops-orchestrator",
+      "config_file": "~/.claude/agents/devops-orchestrator/agent.json",
+      "prompt_file": "~/.claude/agents/devops-orchestrator.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "infrastructure_deployment"
+    },
+    "technical-docs-writer": {
+      "enabled": true,
+      "path": "~/.claude/agents/technical-docs-writer",
+      "config_file": "~/.claude/agents/technical-docs-writer/agent.json",
+      "prompt_file": "~/.claude/agents/technical-docs-writer.md",
+      "model": "claude-haiku-3-20241201",
+      "specialization": "documentation_writing"
+    },
+    "product-owner": {
+      "enabled": true,
+      "path": "~/.claude/agents/product-owner",
+      "config_file": "~/.claude/agents/product-owner/agent.json",
+      "prompt_file": "~/.claude/agents/product-owner.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "product_management_planning"
     }
   }, 
   "global_settings": {

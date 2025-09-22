@@ -3,7 +3,7 @@
   "description": "Enforce Test-Driven Development workflow with Red-Green-Refactor cycle",
   "version": "1.0",
   "disabled": false,
-  "agents": ["maker", "test", "plan"],
+  "roles": ["implementation-expert", "quality-expert", "architecture-expert"],
   "triggers": [
     "code_creation",
     "new_feature", 
@@ -21,7 +21,7 @@
         "test_fails_initially",
         "test_covers_expected_behavior"
       ],
-      "responsible_agent": "test-agent",
+      "responsible_role": "quality-expert",
       "blocking": true
     },
     "green_phase": {
@@ -31,7 +31,7 @@
         "test_passes",
         "no_additional_functionality"
       ],
-      "responsible_agent": "maker-agent",
+      "responsible_role": "implementation-expert",
       "depends_on": "red_phase"
     },
     "refactor_phase": {
@@ -41,7 +41,7 @@
         "all_tests_still_pass",
         "no_behavior_changes"
       ],
-      "responsible_agent": "maker-agent",
+      "responsible_role": "implementation-expert",
       "depends_on": "green_phase",
       "optional": false
     }

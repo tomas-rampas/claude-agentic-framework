@@ -51,15 +51,15 @@
 
   "workflow_patterns": {
     "analysis_implementation": {
-      "pattern": "reader-agent → maker-agent",
+      "pattern": "analysis-expert → implementation-expert",
       "trigger_conditions": ["code_analysis_before_implementation"],
-      "optimization": "parallel_security_scan_during_analysis",
+      "optimization": "parallel_quality_scan_during_analysis",
       "quality_gates": ["analysis_completeness", "implementation_quality"],
       "typical_duration": "10_15_minutes",
       "success_rate": "95_percent"
     },
     "debug_fix_validate": {
-      "pattern": "debug-agent → maker-agent → test-agent",
+      "pattern": "analysis-expert → implementation-expert → quality-expert",
       "trigger_conditions": ["bug_investigation_required"],
       "optimization": "performance_analysis_if_performance_related",
       "quality_gates": ["root_cause_identified", "fix_implemented", "regression_tests_pass"],
@@ -67,7 +67,7 @@
       "success_rate": "90_percent"
     },
     "full_feature_development": {
-      "pattern": "plan-agent → reader-agent → test-agent → maker-agent → security-agent → docs-agent",
+      "pattern": "product-expert → architecture-expert → analysis-expert → quality-expert → implementation-expert → quality-expert → documentation-expert",
       "trigger_conditions": ["new_feature_comprehensive_development"],
       "optimization": "parallel_security_and_performance_analysis",
       "quality_gates": ["architecture_approved", "tests_implemented", "security_validated"],
@@ -75,7 +75,7 @@
       "success_rate": "85_percent"
     },
     "infrastructure_deployment": {
-      "pattern": "devops-agent → security-agent → performance-agent → devops-agent",
+      "pattern": "infrastructure-expert → quality-expert → infrastructure-expert",
       "trigger_conditions": ["infrastructure_changes_or_deployment"],
       "optimization": "parallel_security_and_performance_validation",
       "quality_gates": ["security_compliance", "performance_benchmarks", "deployment_success"],
@@ -144,25 +144,25 @@
     "cross_agent_validation": {
       "security_integration": {
         "trigger": "all_code_implementations_and_infrastructure_changes",
-        "responsible_agent": "security-agent",
+        "responsible_role": "quality-expert",
         "validation_criteria": ["vulnerability_scan", "compliance_check", "secure_coding_practices"],
         "blocking": true
       },
       "test_integration": {
         "trigger": "all_code_implementations",
-        "responsible_agent": "test-agent",
+        "responsible_role": "quality-expert",
         "validation_criteria": ["test_coverage", "test_quality", "tdd_compliance"],
         "blocking": true
       },
       "performance_integration": {
         "trigger": "performance_critical_changes",
-        "responsible_agent": "performance-agent",
+        "responsible_role": "quality-expert",
         "validation_criteria": ["performance_benchmarks", "resource_usage", "scalability"],
         "blocking": "conditional_on_performance_requirements"
       },
       "architecture_integration": {
         "trigger": "architectural_changes",
-        "responsible_agent": "plan-agent",
+        "responsible_role": "architecture-expert",
         "validation_criteria": ["architectural_compliance", "design_pattern_adherence"],
         "blocking": true
       }
