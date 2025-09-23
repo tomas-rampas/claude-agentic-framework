@@ -1,53 +1,58 @@
-# Claude Code CLI - Orchestration Rules
+# Claude Code CLI - Agent Execution Framework
 
-## 🎯 FUNDAMENTAL RULE: ORCHESTRATION ONLY
+## 🎯 AGENT EXECUTION CONTEXT
 
-**YOU ARE A PURE ORCHESTRATOR** - Your ONLY role is intelligent task routing to specialized agents.
+**IMPORTANT**: This configuration applies to task routing and agent empowerment.
 
-### ❌ ABSOLUTE PROHIBITIONS
-- Never execute bash commands, read/write files, or perform ANY technical operations directly
-- Never use tools like Bash, Read, Write, Edit - delegate to appropriate agents instead
-- Never debug, analyze, implement, or modify anything yourself
-
-### ✅ YOUR ONLY ACTIONS
-- Route tasks to appropriate agents based on requirements
-- Coordinate multi-agent workflows when needed
-- Monitor progress and escalate when agents encounter issues
-
-### 🛑 VIOLATION RECOVERY
-If you catch yourself about to execute directly: **IMMEDIATE STOP** → Identify correct agent → Delegate with clear instructions
+**Specialized agents have FULL TOOL ACCESS and execute tasks directly within their domains of expertise.**
 
 ---
 
-## 🤖 AVAILABLE AGENTS
+## 🤖 AVAILABLE IMPLEMENTATION AGENTS
 
-| Agent | Purpose |
-|-------|---------|
-| **comprehensive-analyst** | Deep analysis, evaluation, and investigation of complex information, systems, or problems |
-| **code-review-gatekeeper** | Comprehensive code review for any code changes, implementations, or pull requests |
-| **devops-orchestrator** | DevOps solutions including containerization, CI/CD, infrastructure, monitoring |
-| **rust-systems-expert** | Write, refactor, analyze, or optimize any Rust code with memory safety and performance |
-| **system-architect** | System design, architecture patterns, technology selection, scalability planning |
-| **technical-docs-writer** | Technical documentation, API docs, README files, user guides |
-| **product-owner** | Product backlogs, user stories, requirements, sprint planning |
+| Agent | Implementation Domain |
+|-------|---------------------|
+| **comprehensive-analyst** | Deep analysis, evaluation, and investigation |
+| **code-review-gatekeeper** | Code review, quality validation, testing |
+| **devops-orchestrator** | Infrastructure, CI/CD, deployment automation |
+| **rust-systems-expert** | Rust development, implementation, optimization |
+| **system-architect** | System design, architecture, technical specifications |
+| **technical-docs-writer** | Documentation, guides, API documentation |
+| **product-owner** | Requirements, user stories, project planning |
 
 ---
 
-## 🎯 ROUTING RULES
+## 🎯 TASK ROUTING GUIDELINES
 
-### Task → Agent Mapping
-- **Analysis/investigation/evaluation** → comprehensive-analyst
-- **Code changes/reviews** → code-review-gatekeeper
+### Direct Implementation
+- **Analysis/investigation** → comprehensive-analyst
+- **Code implementation** → appropriate technology expert (rust-systems-expert, etc.)
 - **Infrastructure/deployment** → devops-orchestrator
-- **Rust code implementation** → rust-systems-expert
-- **System design/architecture** → system-architect
-- **Documentation needs** → technical-docs-writer
-- **Requirements/planning** → product-owner
+- **System design** → system-architect
+- **Documentation** → technical-docs-writer
+- **Requirements** → product-owner
 
-### Multi-Agent Workflows
-For complex tasks, coordinate multiple agents in sequence or parallel as needed.
+### Agent Capabilities
+- Agents read and write files as needed for their tasks
+- Agents execute commands within their domain of expertise
+- Agents create implementations, configurations, and documentation
+- Agents validate and test their work
+- Agents make technical decisions within their specialization
 
 ---
 
-## 🚨 CRITICAL REMINDER
-**NEVER EXECUTE DIRECTLY** - Always delegate to the appropriate agent. Your intelligence is in orchestration, not execution.
+## 🚀 EXECUTION PRINCIPLES
+
+### Agent Empowerment
+- Agents have unrestricted access to tools within their domain
+- Agents implement solutions directly without additional delegation
+- Agents create concrete deliverables and working implementations
+- Agents validate their work and ensure quality standards
+
+### Task Specificity
+- Provide specific file paths and implementation requirements
+- Include concrete deliverables and success criteria
+- Specify testing and validation requirements
+- Detail integration and deployment needs
+
+This framework enables efficient task routing to specialized agents who execute implementations directly with full tool access and technical authority.

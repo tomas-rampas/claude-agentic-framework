@@ -1,0 +1,181 @@
+{
+  "name": "orchestration-scope-limiter",
+  "description": "Prevents inheritance of orchestration mandates to delegated agents",
+  "version": "1.0",
+  "disabled": false,
+  "priority": 0,
+  "hook_type": "pre_execution",
+  "agents": ["all"],
+  "triggers": [
+    "agent_delegation",
+    "context_inheritance",
+    "orchestration_rule_propagation"
+  ],
+
+  "scope_limitation": {
+    "orchestration_inheritance_prevention": {
+      "enabled": true,
+      "description": "Prevent orchestration rules from bleeding into agent contexts",
+      "block_inheritance_patterns": [
+        "YOU ARE A PURE ORCHESTRATOR",
+        "PURE ORCHESTRATION ONLY",
+        "Never execute.*directly",
+        "delegate.*to.*appropriate.*agent",
+        "NEVER.*implement.*directly",
+        "route.*tasks.*to.*specialized.*agents"
+      ]
+    },
+
+    "agent_context_protection": {
+      "enabled": true,
+      "description": "Protect agent execution contexts from orchestration mandates",
+      "protected_agents": [
+        "rust-systems-expert",
+        "comprehensive-analyst",
+        "code-review-gatekeeper",
+        "system-architect",
+        "devops-orchestrator",
+        "technical-docs-writer",
+        "product-owner"
+      ]
+    }
+  },
+
+  "context_filtering": {
+    "claude_md_filtering": {
+      "enabled": true,
+      "description": "Filter orchestration rules from CLAUDE.md when passed to agents",
+      "filtered_sections": [
+        "ORCHESTRATOR MANDATE",
+        "PURE ORCHESTRATION ONLY",
+        "FUNDAMENTAL RULE",
+        "ABSOLUTE PROHIBITIONS",
+        "ORCHESTRATION PRINCIPLES"
+      ],
+      "replacement_text": "AGENT EXECUTION CONTEXT: Full tool access granted for specialized tasks"
+    },
+
+    "command_context_filtering": {
+      "enabled": true,
+      "description": "Filter orchestration rules from command contexts",
+      "filtered_commands": [
+        "delegate",
+        "orchestrate",
+        "coordinate"
+      ],
+      "clean_agent_context": true
+    }
+  },
+
+  "agent_empowerment": {
+    "force_tool_access": {
+      "enabled": true,
+      "description": "Ensure agents always have tool access despite inherited restrictions",
+      "override_restrictions": [
+        "orchestration_only",
+        "no_direct_execution",
+        "delegation_required"
+      ]
+    },
+
+    "execution_context_override": {
+      "enabled": true,
+      "description": "Override inherited execution context for agents",
+      "agent_context_markers": {
+        "AGENT_EXECUTION_MODE": "direct_implementation",
+        "TOOL_ACCESS_GRANTED": "true",
+        "ORCHESTRATION_EXEMPT": "true",
+        "DIRECT_EXECUTION_ALLOWED": "true"
+      }
+    }
+  },
+
+  "detection_patterns": {
+    "orchestration_inheritance_indicators": [
+      "agent receives orchestration mandate",
+      "delegation rules passed to agent",
+      "agent context contains 'PURE ORCHESTRATOR'",
+      "agent inherits 'never execute directly'"
+    ],
+
+    "agent_context_pollution": [
+      "orchestration rules in agent prompt",
+      "delegation mandate in agent instructions",
+      "tool access restrictions inherited",
+      "execution prohibitions propagated"
+    ]
+  },
+
+  "remediation_actions": {
+    "context_cleaning": {
+      "action": "remove_orchestration_mandates_from_agent_context",
+      "preserve_agent_instructions": true,
+      "restore_tool_access": true
+    },
+
+    "agent_empowerment": {
+      "action": "grant_full_tool_access",
+      "override_inherited_restrictions": true,
+      "set_execution_context": "specialized_agent"
+    },
+
+    "context_isolation": {
+      "action": "isolate_agent_context_from_orchestrator",
+      "prevent_rule_inheritance": true,
+      "maintain_clean_execution_environment": true
+    }
+  },
+
+  "monitoring": {
+    "track_inheritance_attempts": true,
+    "log_context_pollution": true,
+    "monitor_agent_tool_access": true,
+    "alert_on_orchestration_leakage": true
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "agent-context-marker",
+      "delegation-enforcement",
+      "role-resolution"
+    ],
+    "provides_services_to": [
+      "all_agent_delegation_mechanisms",
+      "task_routing_systems",
+      "agent_execution_contexts"
+    ],
+    "overrides": [
+      "inherited_orchestration_rules",
+      "delegation_mandates_to_agents",
+      "tool_access_restrictions_from_inheritance"
+    ]
+  },
+
+  "validation": {
+    "test_scenarios": [
+      "project_claude_md_inheritance_blocked",
+      "delegate_command_context_cleaned",
+      "agent_receives_clean_execution_context",
+      "tool_access_preserved_despite_inheritance"
+    ],
+    "success_criteria": {
+      "no_orchestration_inheritance": "agents never receive orchestration mandates",
+      "clean_agent_contexts": "agents execute with unrestricted tool access",
+      "context_isolation": "orchestrator rules don't affect agent execution"
+    }
+  },
+
+  "debugging": {
+    "context_tracing": {
+      "enabled": true,
+      "log_file": "/home/mcquak/.claude/logs/orchestration-scope.log",
+      "trace_inheritance_attempts": true,
+      "log_context_filtering": true
+    },
+    "agent_context_validation": {
+      "verify_clean_context": true,
+      "check_tool_access": true,
+      "validate_execution_permissions": true
+    }
+  }
+}

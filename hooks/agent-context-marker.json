@@ -1,0 +1,154 @@
+{
+  "name": "agent-context-marker",
+  "description": "Marks agent execution contexts to exempt delegated agents from orchestration restrictions",
+  "version": "1.0",
+  "disabled": false,
+  "priority": 0,
+  "hook_type": "pre_execution",
+  "agents": ["all"],
+  "triggers": [
+    "agent_initialization",
+    "tool_execution_request",
+    "agent_context_setup"
+  ],
+
+  "context_detection": {
+    "agent_indicators": {
+      "environment_variables": [
+        "DELEGATED_AGENT_CONTEXT",
+        "AGENT_NAME",
+        "AGENT_EXECUTION_MODE",
+        "SUB_AGENT_ACTIVE"
+      ],
+      "agent_names": [
+        "rust-systems-expert",
+        "comprehensive-analyst",
+        "code-review-gatekeeper",
+        "system-architect",
+        "devops-orchestrator",
+        "technical-docs-writer",
+        "product-owner"
+      ],
+      "execution_context_markers": [
+        "specialized_agent_execution",
+        "delegated_agent_active",
+        "agent_tool_access_required"
+      ]
+    },
+    "orchestrator_indicators": [
+      "main_claude_instance",
+      "orchestration_mode_active",
+      "no_agent_delegation_context"
+    ],
+    "project_context_detection": {
+      "project_claude_md_active": "/home/mcquak/projs/rust/kaelix-streamer/CLAUDE.md",
+      "multiple_claude_md_files": ["global", "project"],
+      "project_orchestration_override": "exempt_delegated_agents"
+    }
+  },
+
+  "context_marking": {
+    "agent_context_detected": {
+      "action": "set_agent_execution_context",
+      "markers": {
+        "AGENT_EXECUTION_CONTEXT": "true",
+        "DELEGATED_AGENT_ACTIVE": "true",
+        "TOOL_ACCESS_EXEMPT": "true"
+      },
+      "exemptions": [
+        "delegation_enforcement_bypass",
+        "full_tool_access_granted",
+        "orchestration_rules_exempt"
+      ]
+    },
+    "orchestrator_context_detected": {
+      "action": "set_orchestrator_context",
+      "markers": {
+        "ORCHESTRATOR_MODE": "true",
+        "DELEGATION_REQUIRED": "true",
+        "TOOL_ACCESS_RESTRICTED": "true"
+      },
+      "restrictions": [
+        "delegation_enforcement_active",
+        "tool_access_limited",
+        "orchestration_rules_apply"
+      ]
+    }
+  },
+
+  "exemption_logic": {
+    "tool_access_rules": {
+      "agent_context": {
+        "exempt_tools": [
+          "Bash", "Read", "Write", "Edit", "MultiEdit",
+          "Glob", "Grep", "WebFetch", "BashOutput", "KillShell",
+          "mcp__filesystem__*", "mcp__serena__*", "mcp__context7__*"
+        ],
+        "access_level": "full_unrestricted",
+        "rationale": "Agents need full tool access for specialized tasks"
+      },
+      "orchestrator_context": {
+        "restricted_tools": [
+          "Bash", "Read", "Write", "Edit", "MultiEdit",
+          "direct_implementation_tools", "mcp_servers"
+        ],
+        "access_level": "coordination_only",
+        "rationale": "Orchestrator should delegate, not execute directly"
+      }
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "delegation-enforcement",
+      "role-resolution",
+      "technology-detection",
+      "agent-coordination"
+    ],
+    "provides_context_to": [
+      "all_enforcement_hooks",
+      "quality_gates",
+      "workflow_coordination"
+    ],
+    "context_sharing": {
+      "shared_context_store": "/home/mcquak/.claude/context/agent-context.json",
+      "real_time_updates": true,
+      "cross_hook_communication": true
+    }
+  },
+
+  "validation": {
+    "context_detection_accuracy": {
+      "agent_detection_rate": "target_99_percent",
+      "false_positive_rate": "under_1_percent",
+      "context_switching_latency": "under_10ms"
+    },
+    "test_scenarios": [
+      "rust_systems_expert_context_detection",
+      "orchestrator_context_detection",
+      "context_switching_validation",
+      "tool_exemption_verification"
+    ]
+  },
+
+  "monitoring": {
+    "track_context_switches": true,
+    "log_exemption_grants": true,
+    "monitor_tool_access_patterns": true,
+    "alert_on_context_confusion": true
+  },
+
+  "debugging": {
+    "context_logging": {
+      "enabled": true,
+      "log_file": "/home/mcquak/.claude/logs/agent-context.log",
+      "log_level": "info",
+      "include_stack_trace": false
+    },
+    "validation_checks": {
+      "verify_agent_name_match": true,
+      "validate_context_markers": true,
+      "check_tool_access_permissions": true
+    }
+  }
+}

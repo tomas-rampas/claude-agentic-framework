@@ -20,8 +20,14 @@ config:
   log_violations: true
   provide_guidance: true
   emergency_bypass: false  # Set to true only for critical system operations
+  apply_to_orchestrator_only: true  # Only apply delegation enforcement to main orchestrator
   
 # Tool execution monitoring and blocking
+exemption_check:
+  enabled: true
+  exempt_if_agent_context: true
+  exempt_agents: ["rust-systems-expert", "comprehensive-analyst", "code-review-gatekeeper", "system-architect", "devops-orchestrator", "technical-docs-writer", "product-owner"]
+
 execution_blocks:
   direct_bash:
     tools: ["Bash"]
@@ -88,11 +94,33 @@ agent_detection:
     - "not in delegated context"
     - "direct tool execution from orchestrator"
     - "no agent handoff initiated"
-    
+    - "main claude instance"
+
   delegated_patterns:
     - "agent context active"
     - "proper delegation workflow"
     - "agent-specific operation"
+    - "DELEGATED_AGENT_CONTEXT set"
+    - "agent execution context"
+
+  exempted_agents:
+    - "rust-systems-expert"
+    - "comprehensive-analyst"
+    - "code-review-gatekeeper"
+    - "system-architect"
+    - "devops-orchestrator"
+    - "technical-docs-writer"
+    - "product-owner"
+
+  agent_context_detection:
+    environment_variables:
+      - "DELEGATED_AGENT_CONTEXT"
+      - "AGENT_NAME"
+      - "AGENT_EXECUTION_MODE"
+    agent_markers:
+      - "agent_instance_active"
+      - "specialized_agent_execution"
+      - "sub_agent_context"
 
 # Violation logging
 logging:
