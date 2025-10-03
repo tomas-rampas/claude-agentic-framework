@@ -33,6 +33,10 @@ This command routes development tasks to specialized implementation agents for d
 | Agent | Implementation Domain | Direct Capabilities |
 |-------|---------------------|-------------------|
 | **rust-systems-expert** | Rust Development | Writes Rust code, creates modules, implements features, optimizes performance |
+| **csharp-expert** | C#/.NET Development | Writes C# code, ASP.NET Core services, Entity Framework integrations, Azure solutions |
+| **go-expert** | Go Development | Writes Go code, microservices, gRPC services, Kubernetes operators, concurrent systems |
+| **powershell-expert** | PowerShell Automation | Writes automation scripts, system administration tools, Azure/AWS cloud scripts, DSC configurations |
+| **bash-expert** | Bash/Shell Scripting | Writes shell scripts, Linux automation, build scripts, deployment pipelines, Unix system administration |
 | **code-review-gatekeeper** | Quality Assurance | Reviews code, validates quality, enforces standards, runs tests |
 
 ### 🚀 INFRASTRUCTURE & DOCS
@@ -66,11 +70,31 @@ This command routes development tasks to specialized implementation agents for d
   TASK: "Analyze {target_system} and provide detailed findings with actionable recommendations"
 ```
 
-### Rust Implementation
+### Language-Specific Implementation
 ```yaml
-"rust|implement|develop|create.*code|build.*feature|write.*module":
+"rust":
   → rust-systems-expert
   TASK: "Implement {feature_description} with complete Rust code and comprehensive tests"
+
+"c#|csharp|\.net|dotnet|asp\.net":
+  → csharp-expert
+  TASK: "Implement {feature_description} with complete C# code and comprehensive tests"
+
+"go|golang|goroutine|channel":
+  → go-expert
+  TASK: "Implement {feature_description} with complete Go code and comprehensive tests"
+
+"powershell|ps1|automation|windows.*admin":
+  → powershell-expert
+  TASK: "Implement {automation_description} with complete PowerShell script and Pester tests"
+
+"bash|shell|sh|linux.*automation|unix.*script":
+  → bash-expert
+  TASK: "Implement {automation_description} with complete Bash script and bats/shunit2 tests"
+
+"implement|develop|create.*code|build.*feature|write.*module":
+  → {language}-expert (auto-detect from project context)
+  TASK: "Implement {feature_description} with complete code and comprehensive tests"
 ```
 
 ### Quality & Review
@@ -109,10 +133,10 @@ PROJECT_CONTEXT:
   {deploy_dir}: Deployment configs (deploy/, k8s/, docker/)
 
 TECHNOLOGY_CONTEXT:
-  {tech_stack}: Primary technology (rust, javascript, python, java)
-  {framework}: Detected framework (axum, react, fastapi, spring)
-  {package_manager}: Package manager (cargo, npm, pip, maven)
-  {test_framework}: Testing framework (cargo-test, jest, pytest)
+  {tech_stack}: Primary technology (rust, csharp, go, powershell, bash, javascript, python, java)
+  {framework}: Detected framework (axum, asp.net-core, gin/echo/fiber, azure-functions, systemd, react, fastapi, spring)
+  {package_manager}: Package manager (cargo, dotnet, go-modules, powershell-gallery, apt/yum, npm, pip, maven)
+  {test_framework}: Testing framework (cargo-test, xunit, go-test, pester, bats/shunit2, jest, pytest)
 ```
 
 ### Technology Detection Patterns
@@ -122,18 +146,49 @@ Rust Projects:
   Keywords: "rust", "cargo", "async", "tokio"
   Source: "src/"
   Tests: "tests/"
+  Agent: rust-systems-expert
+
+C#/.NET Projects:
+  Files: "*.cs", "*.csproj", "*.sln", "*.cshtml"
+  Keywords: "csharp", "c#", "dotnet", ".net", "asp.net", "entity framework"
+  Source: "src/", "Controllers/", "Services/"
+  Tests: "tests/", "*.Tests/"
+  Agent: csharp-expert
+
+Go Projects:
+  Files: "*.go", "go.mod", "go.sum"
+  Keywords: "go", "golang", "goroutine", "channel", "grpc", "kubernetes"
+  Source: "cmd/", "internal/", "pkg/"
+  Tests: "*_test.go"
+  Agent: go-expert
+
+PowerShell Projects:
+  Files: "*.ps1", "*.psm1", "*.psd1", "*.ps1xml"
+  Keywords: "powershell", "automation", "azure", "active directory", "dsc"
+  Source: "Scripts/", "Modules/", "Functions/"
+  Tests: "Tests/", "*.Tests.ps1"
+  Agent: powershell-expert
+
+Bash/Shell Projects:
+  Files: "*.sh", "*.bash", "Makefile", "*.bats"
+  Keywords: "bash", "shell", "linux", "unix", "automation", "deployment"
+  Source: "scripts/", "bin/", "tools/"
+  Tests: "test/", "tests/", "*.bats"
+  Agent: bash-expert
 
 JavaScript/TypeScript:
   Files: "*.js", "*.ts", "package.json"
   Keywords: "javascript", "typescript", "node", "react"
   Source: "src/"
   Tests: "__tests__/", "test/"
+  Agent: javascript-expert (when available)
 
 Python:
   Files: "*.py", "requirements.txt", "pyproject.toml"
   Keywords: "python", "django", "fastapi", "flask"
   Source: "src/", "lib/"
   Tests: "tests/"
+  Agent: python-expert (when available)
 ```
 
 ---
@@ -144,19 +199,38 @@ Python:
 Transform vague requests into specific implementation tasks:
 
 **Vague**: "Implement authentication"
-**Concrete**: "Create authentication module in src/auth.rs with JWT token handling, user validation, and comprehensive tests in tests/auth_tests.rs"
+**Concrete (Rust)**: "Create authentication module in src/auth.rs with JWT token handling, user validation, and comprehensive tests in tests/auth_tests.rs"
+**Concrete (C#)**: "Create authentication module in src/Auth/AuthService.cs with JWT token handling, ASP.NET Core identity integration, and comprehensive tests in tests/Auth.Tests/AuthServiceTests.cs"
+**Concrete (Go)**: "Create authentication package in internal/auth/auth.go with JWT token handling using golang-jwt, context-based middleware, and table-driven tests in auth_test.go"
+**Concrete (PowerShell)**: "Create authentication module in Modules/Authentication/Authenticate-User.ps1 with Azure AD integration, secure credential handling, and Pester tests in Tests/Authentication.Tests.ps1"
+**Concrete (Bash)**: "Create authentication script in scripts/auth/authenticate.sh with PAM integration, secure credential handling with gpg, and bats tests in tests/auth.bats"
 
 **Vague**: "Add Protocol Buffer support"
-**Concrete**: "Create Protocol Buffer definitions in proto/messages.proto and implement Rust bindings in src/proto.rs with serialization benchmarks"
+**Concrete (Rust)**: "Create Protocol Buffer definitions in proto/messages.proto and implement Rust bindings in src/proto.rs with serialization benchmarks"
+**Concrete (C#)**: "Create Protocol Buffer definitions in proto/messages.proto and implement C# bindings in src/Proto/Messages.cs with serialization benchmarks"
+**Concrete (Go)**: "Create Protocol Buffer definitions in proto/messages.proto and implement Go bindings in internal/proto/messages.pb.go with gRPC service definitions and benchmarks"
 
 **Vague**: "Improve performance"
-**Concrete**: "Profile existing code in src/core.rs and implement specific optimizations with before/after benchmarks in benches/performance.rs"
+**Concrete (Rust)**: "Profile existing code in src/core.rs and implement specific optimizations with before/after benchmarks in benches/performance.rs"
+**Concrete (C#)**: "Profile existing code in src/Core/Engine.cs using BenchmarkDotNet and implement specific optimizations with before/after benchmarks"
+**Concrete (Go)**: "Profile existing code in internal/processor/processor.go using pprof (CPU, memory, goroutine) and implement optimizations with worker pools, sync.Pool, and benchmarks"
+**Concrete (PowerShell)**: "Profile existing script in Scripts/Process-Data.ps1 using Measure-Command and implement optimizations with ForEach-Object -Parallel and runspaces"
+
+**Vague**: "Automate deployment"
+**Concrete (PowerShell)**: "Create deployment automation script in Scripts/Deploy-Application.ps1 with Azure resource provisioning, environment validation, rollback capabilities, and comprehensive logging"
+**Concrete (Bash)**: "Create deployment automation script in scripts/deploy.sh with set -euo pipefail, trap cleanup, environment validation, rollback capabilities, and comprehensive logging to /var/log/deploy.log"
+
+**Vague**: "Build automation"
+**Concrete (Bash)**: "Create build script in scripts/build.sh with dependency checking, parallel compilation, error handling with trap, build artifact validation, and integration with CI/CD pipelines"
+
+**Vague**: "Create microservice"
+**Concrete (Go)**: "Create microservice in cmd/service/main.go with HTTP/gRPC endpoints, graceful shutdown with context, health checks, structured logging with slog, and comprehensive tests including integration tests"
 
 ### Specific File and Path Instructions
 Always provide exact file paths and implementation details:
-- Source file locations: "Create in src/modules/feature.rs"
-- Test file locations: "Add tests to tests/integration/feature_test.rs"
-- Configuration files: "Update config/settings.toml with new parameters"
+- Source file locations: "Create in src/modules/feature.{ext}" (use language-appropriate extension)
+- Test file locations: "Add tests to tests/integration/feature_test.{ext}"
+- Configuration files: "Update config/settings.{format}" (toml, json, xml based on tech stack)
 - Documentation files: "Document in docs/api/feature.md with examples"
 
 ---

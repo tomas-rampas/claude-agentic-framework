@@ -16,6 +16,10 @@
 | **code-review-gatekeeper** | Code review, quality validation, testing |
 | **devops-orchestrator** | Infrastructure, CI/CD, deployment automation |
 | **rust-systems-expert** | Rust development, implementation, optimization |
+| **csharp-expert** | C#/.NET development, ASP.NET Core, Azure solutions |
+| **go-expert** | Go development, microservices, cloud-native applications |
+| **powershell-expert** | PowerShell automation, Windows administration, cloud scripting |
+| **bash-expert** | Bash/shell scripting, Linux automation, Unix system administration |
 | **system-architect** | System design, architecture, technical specifications |
 | **technical-docs-writer** | Documentation, guides, API documentation |
 | **product-owner** | Requirements, user stories, project planning |
@@ -26,7 +30,8 @@
 
 ### Direct Implementation
 - **Analysis/investigation** → comprehensive-analyst
-- **Code implementation** → appropriate technology expert (rust-systems-expert, etc.)
+- **Code implementation** → appropriate technology expert (rust-systems-expert, csharp-expert, go-expert, etc.)
+- **Automation/scripting** → bash-expert (Linux/Unix), powershell-expert (Windows/Azure), devops-orchestrator (infrastructure)
 - **Infrastructure/deployment** → devops-orchestrator
 - **System design** → system-architect
 - **Documentation** → technical-docs-writer
