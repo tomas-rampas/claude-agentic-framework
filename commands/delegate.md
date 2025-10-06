@@ -32,7 +32,7 @@ This command routes development tasks to specialized implementation agents for d
 ### 💻 DEVELOPMENT & QUALITY
 | Agent | Implementation Domain | Direct Capabilities |
 |-------|---------------------|-------------------|
-| **rust-systems-expert** | Rust Development | Writes Rust code, creates modules, implements features, optimizes performance |
+| **rust-expert** | Rust Development | Writes Rust code, creates modules, implements features, optimizes performance |
 | **csharp-expert** | C#/.NET Development | Writes C# code, ASP.NET Core services, Entity Framework integrations, Azure solutions |
 | **go-expert** | Go Development | Writes Go code, microservices, gRPC services, Kubernetes operators, concurrent systems |
 | **powershell-expert** | PowerShell Automation | Writes automation scripts, system administration tools, Azure/AWS cloud scripts, DSC configurations |
@@ -73,7 +73,7 @@ This command routes development tasks to specialized implementation agents for d
 ### Language-Specific Implementation
 ```yaml
 "rust":
-  → rust-systems-expert
+  → rust-expert
   TASK: "Implement {feature_description} with complete Rust code and comprehensive tests"
 
 "c#|csharp|\.net|dotnet|asp\.net":
@@ -91,6 +91,14 @@ This command routes development tasks to specialized implementation agents for d
 "bash|shell|sh|linux.*automation|unix.*script":
   → bash-expert
   TASK: "Implement {automation_description} with complete Bash script and bats/shunit2 tests"
+
+"python|py|django|flask|fastapi|pandas|asyncio":
+  → python-expert
+  TASK: "Implement {feature_description} with complete Python code and comprehensive pytest tests"
+
+"typescript|ts|javascript|js|react|next\.js|node\.js|express":
+  → typescript-expert
+  TASK: "Implement {feature_description} with complete TypeScript code and comprehensive Jest/Vitest tests"
 
 "implement|develop|create.*code|build.*feature|write.*module":
   → {language}-expert (auto-detect from project context)
@@ -146,7 +154,7 @@ Rust Projects:
   Keywords: "rust", "cargo", "async", "tokio"
   Source: "src/"
   Tests: "tests/"
-  Agent: rust-systems-expert
+  Agent: rust-expert
 
 C#/.NET Projects:
   Files: "*.cs", "*.csproj", "*.sln", "*.cshtml"
@@ -176,19 +184,19 @@ Bash/Shell Projects:
   Tests: "test/", "tests/", "*.bats"
   Agent: bash-expert
 
-JavaScript/TypeScript:
-  Files: "*.js", "*.ts", "package.json"
-  Keywords: "javascript", "typescript", "node", "react"
-  Source: "src/"
-  Tests: "__tests__/", "test/"
-  Agent: javascript-expert (when available)
+TypeScript/JavaScript:
+  Files: "*.ts", "*.tsx", "*.js", "*.jsx", "package.json", "tsconfig.json"
+  Keywords: "typescript", "javascript", "node", "react", "next.js", "express"
+  Source: "src/", "app/", "lib/"
+  Tests: "__tests__/", "test/", "*.test.ts", "*.spec.ts"
+  Agent: typescript-expert
 
 Python:
-  Files: "*.py", "requirements.txt", "pyproject.toml"
-  Keywords: "python", "django", "fastapi", "flask"
-  Source: "src/", "lib/"
-  Tests: "tests/"
-  Agent: python-expert (when available)
+  Files: "*.py", "requirements.txt", "pyproject.toml", "setup.py"
+  Keywords: "python", "django", "fastapi", "flask", "pandas", "pytest"
+  Source: "src/", "lib/", "app/"
+  Tests: "tests/", "test/"
+  Agent: python-expert
 ```
 
 ---
@@ -202,6 +210,8 @@ Transform vague requests into specific implementation tasks:
 **Concrete (Rust)**: "Create authentication module in src/auth.rs with JWT token handling, user validation, and comprehensive tests in tests/auth_tests.rs"
 **Concrete (C#)**: "Create authentication module in src/Auth/AuthService.cs with JWT token handling, ASP.NET Core identity integration, and comprehensive tests in tests/Auth.Tests/AuthServiceTests.cs"
 **Concrete (Go)**: "Create authentication package in internal/auth/auth.go with JWT token handling using golang-jwt, context-based middleware, and table-driven tests in auth_test.go"
+**Concrete (Python)**: "Create authentication module in src/auth/auth.py with JWT token handling using PyJWT, FastAPI dependency injection, type hints, and comprehensive pytest tests in tests/test_auth.py"
+**Concrete (TypeScript)**: "Create authentication module in src/auth/auth.ts with JWT token handling, type-safe middleware, proper error types, and comprehensive Jest tests in src/auth/auth.test.ts"
 **Concrete (PowerShell)**: "Create authentication module in Modules/Authentication/Authenticate-User.ps1 with Azure AD integration, secure credential handling, and Pester tests in Tests/Authentication.Tests.ps1"
 **Concrete (Bash)**: "Create authentication script in scripts/auth/authenticate.sh with PAM integration, secure credential handling with gpg, and bats tests in tests/auth.bats"
 
@@ -214,6 +224,8 @@ Transform vague requests into specific implementation tasks:
 **Concrete (Rust)**: "Profile existing code in src/core.rs and implement specific optimizations with before/after benchmarks in benches/performance.rs"
 **Concrete (C#)**: "Profile existing code in src/Core/Engine.cs using BenchmarkDotNet and implement specific optimizations with before/after benchmarks"
 **Concrete (Go)**: "Profile existing code in internal/processor/processor.go using pprof (CPU, memory, goroutine) and implement optimizations with worker pools, sync.Pool, and benchmarks"
+**Concrete (Python)**: "Profile existing code in src/processor.py using cProfile/line_profiler and implement optimizations with NumPy vectorization, appropriate data structures, and pytest benchmarks"
+**Concrete (TypeScript)**: "Profile existing code in src/processor.ts using Chrome DevTools/clinic.js and implement optimizations with proper type narrowing, memoization, and Jest benchmarks"
 **Concrete (PowerShell)**: "Profile existing script in Scripts/Process-Data.ps1 using Measure-Command and implement optimizations with ForEach-Object -Parallel and runspaces"
 
 **Vague**: "Automate deployment"

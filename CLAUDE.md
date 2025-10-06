@@ -15,9 +15,11 @@
 | **comprehensive-analyst** | Deep analysis, evaluation, and investigation |
 | **code-review-gatekeeper** | Code review, quality validation, testing |
 | **devops-orchestrator** | Infrastructure, CI/CD, deployment automation |
-| **rust-systems-expert** | Rust development, implementation, optimization |
+| **rust-expert** | Rust development, implementation, optimization |
 | **csharp-expert** | C#/.NET development, ASP.NET Core, Azure solutions |
 | **go-expert** | Go development, microservices, cloud-native applications |
+| **python-expert** | Python development, web frameworks, data science, automation |
+| **typescript-expert** | TypeScript/JavaScript development, React/Next.js, Node.js backends |
 | **powershell-expert** | PowerShell automation, Windows administration, cloud scripting |
 | **bash-expert** | Bash/shell scripting, Linux automation, Unix system administration |
 | **system-architect** | System design, architecture, technical specifications |
