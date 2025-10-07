@@ -1,0 +1,537 @@
+{
+  "name": "agent-performance-sla",
+  "description": "Monitor agent performance against SLA targets with comprehensive tracking and alerting",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all"],
+  "triggers": [
+    "agent_task_completion",
+    "agent_task_failure",
+    "performance_threshold_breach",
+    "sla_violation_detected",
+    "performance_degradation",
+    "quality_gate_failure",
+    "periodic_performance_review"
+  ],
+
+  "sla_policy": {
+    "enforcement_level": "strict",
+    "monitoring_enabled": true,
+    "real_time_tracking": true,
+    "automatic_alerting": true,
+    "performance_trending": true,
+    "continuous_improvement_focus": true
+  },
+
+  "sla_metrics": {
+    "response_time": {
+      "metric_name": "agent_response_time",
+      "description": "Time from task delegation to first response",
+      "target": 30,
+      "warning_threshold": 25,
+      "critical_threshold": 40,
+      "unit": "seconds",
+      "measurement_method": "timestamp_delta_delegation_to_first_response",
+      "violation_severity": "high",
+      "violation_action": "alert_and_investigate"
+    },
+    "success_rate": {
+      "metric_name": "agent_task_success_rate",
+      "description": "Percentage of tasks completed successfully",
+      "target": 95,
+      "warning_threshold": 92,
+      "critical_threshold": 90,
+      "unit": "percentage",
+      "measurement_method": "successful_tasks_divided_by_total_tasks",
+      "calculation_window": "rolling_100_tasks",
+      "violation_severity": "critical",
+      "violation_action": "immediate_alert_and_analysis"
+    },
+    "quality_score": {
+      "metric_name": "agent_quality_gate_compliance",
+      "description": "Quality score based on quality gate passage rate",
+      "target": 4.5,
+      "warning_threshold": 4.0,
+      "critical_threshold": 3.5,
+      "unit": "score_out_of_5",
+      "measurement_method": "weighted_quality_gate_compliance_score",
+      "quality_dimensions": [
+        "code_quality",
+        "test_coverage",
+        "security_compliance",
+        "performance_standards",
+        "documentation_quality"
+      ],
+      "violation_severity": "high",
+      "violation_action": "quality_review_and_remediation"
+    },
+    "token_efficiency": {
+      "metric_name": "agent_token_efficiency",
+      "description": "Token usage optimization relative to task complexity",
+      "target": "optimized",
+      "warning_threshold": "moderate",
+      "critical_threshold": "inefficient",
+      "unit": "efficiency_rating",
+      "measurement_method": "tokens_per_successful_task_vs_complexity_baseline",
+      "efficiency_levels": {
+        "highly_optimized": "tokens_under_80_percent_of_baseline",
+        "optimized": "tokens_80_to_100_percent_of_baseline",
+        "moderate": "tokens_100_to_120_percent_of_baseline",
+        "inefficient": "tokens_over_120_percent_of_baseline"
+      },
+      "violation_severity": "medium",
+      "violation_action": "optimization_review"
+    },
+    "completion_time": {
+      "metric_name": "agent_task_completion_time",
+      "description": "Total time from task delegation to task completion",
+      "target_by_complexity": {
+        "simple_tasks": 180,
+        "medium_tasks": 600,
+        "complex_tasks": 1800,
+        "very_complex_tasks": 3600
+      },
+      "warning_threshold_multiplier": 1.2,
+      "critical_threshold_multiplier": 1.5,
+      "unit": "seconds",
+      "measurement_method": "timestamp_delta_delegation_to_completion",
+      "violation_severity": "medium",
+      "violation_action": "performance_analysis"
+    },
+    "error_rate": {
+      "metric_name": "agent_error_rate",
+      "description": "Percentage of tasks resulting in errors",
+      "target": 2,
+      "warning_threshold": 5,
+      "critical_threshold": 10,
+      "unit": "percentage",
+      "measurement_method": "error_tasks_divided_by_total_tasks",
+      "calculation_window": "rolling_100_tasks",
+      "violation_severity": "high",
+      "violation_action": "error_pattern_analysis_and_remediation"
+    },
+    "first_time_right_rate": {
+      "metric_name": "agent_first_time_right_rate",
+      "description": "Percentage of tasks completed correctly on first attempt",
+      "target": 90,
+      "warning_threshold": 85,
+      "critical_threshold": 80,
+      "unit": "percentage",
+      "measurement_method": "tasks_passed_all_quality_gates_first_attempt",
+      "calculation_window": "rolling_50_tasks",
+      "violation_severity": "medium",
+      "violation_action": "quality_improvement_initiative"
+    }
+  },
+
+  "per_agent_tracking": {
+    "rust-expert": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 95,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "memory_safety_score": "percentage_of_code_passing_borrow_checker_first_time",
+        "performance_optimization_effectiveness": "percentage_improvement_in_benchmarks",
+        "unsafe_code_review_pass_rate": "unsafe_code_blocks_passing_review"
+      }
+    },
+    "typescript-expert": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 94,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "type_safety_score": "percentage_of_code_with_proper_typing",
+        "react_best_practices_compliance": "adherence_to_react_patterns",
+        "bundle_size_optimization": "percentage_reduction_in_bundle_size"
+      }
+    },
+    "python-expert": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 93,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "pythonic_code_score": "adherence_to_python_idioms_and_pep8",
+        "data_processing_efficiency": "performance_of_data_pipelines",
+        "test_coverage_achievement": "percentage_achieving_target_coverage"
+      }
+    },
+    "csharp-expert": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 94,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "dotnet_best_practices_score": "adherence_to_dotnet_guidelines",
+        "async_await_pattern_compliance": "proper_async_implementation_rate",
+        "entity_framework_optimization": "query_performance_optimization_rate"
+      }
+    },
+    "go-expert": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 93,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "go_idioms_compliance": "adherence_to_go_best_practices",
+        "concurrency_correctness": "goroutine_and_channel_usage_correctness",
+        "performance_benchmarks": "benchmark_performance_vs_targets"
+      }
+    },
+    "bash-expert": {
+      "sla_adjustments": {
+        "response_time_target": 20,
+        "success_rate_target": 95,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "highly_optimized"
+      },
+      "specialization_metrics": {
+        "shellcheck_compliance": "shellcheck_validation_pass_rate",
+        "posix_compliance_score": "posix_compatibility_where_required",
+        "error_handling_completeness": "comprehensive_error_handling_rate"
+      }
+    },
+    "powershell-expert": {
+      "sla_adjustments": {
+        "response_time_target": 20,
+        "success_rate_target": 94,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "psscriptanalyzer_compliance": "psscriptanalyzer_pass_rate",
+        "powershell_best_practices": "adherence_to_powershell_guidelines",
+        "azure_integration_success": "azure_automation_success_rate"
+      }
+    },
+    "comprehensive-analyst": {
+      "sla_adjustments": {
+        "response_time_target": 40,
+        "success_rate_target": 92,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "moderate"
+      },
+      "specialization_metrics": {
+        "analysis_depth_score": "comprehensiveness_of_analysis",
+        "insight_quality_score": "actionable_insights_provided",
+        "recommendation_effectiveness": "percentage_of_recommendations_implemented_successfully"
+      }
+    },
+    "code-review-gatekeeper": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 96,
+        "quality_score_target": 4.8,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "defect_detection_rate": "percentage_of_defects_caught_in_review",
+        "false_positive_rate": "percentage_of_invalid_quality_gate_failures",
+        "quality_improvement_rate": "improvement_in_code_quality_post_review"
+      }
+    },
+    "devops-orchestrator": {
+      "sla_adjustments": {
+        "response_time_target": 40,
+        "success_rate_target": 91,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "moderate"
+      },
+      "specialization_metrics": {
+        "deployment_success_rate": "percentage_of_successful_deployments",
+        "infrastructure_stability_score": "infrastructure_uptime_and_reliability",
+        "automation_effectiveness": "percentage_of_manual_tasks_automated"
+      }
+    },
+    "system-architect": {
+      "sla_adjustments": {
+        "response_time_target": 45,
+        "success_rate_target": 90,
+        "quality_score_target": 4.7,
+        "token_efficiency_target": "moderate"
+      },
+      "specialization_metrics": {
+        "architecture_quality_score": "architectural_decision_quality_rating",
+        "scalability_score": "designs_meeting_scalability_requirements",
+        "design_pattern_appropriateness": "appropriate_pattern_selection_rate"
+      }
+    },
+    "technical-docs-writer": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 95,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "documentation_completeness": "percentage_of_complete_documentation",
+        "documentation_accuracy": "percentage_of_accurate_documentation",
+        "documentation_clarity": "readability_and_clarity_score"
+      }
+    },
+    "product-owner": {
+      "sla_adjustments": {
+        "response_time_target": 35,
+        "success_rate_target": 93,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "moderate"
+      },
+      "specialization_metrics": {
+        "requirements_clarity_score": "percentage_of_clear_unambiguous_requirements",
+        "acceptance_criteria_quality": "testable_acceptance_criteria_rate",
+        "stakeholder_satisfaction": "stakeholder_approval_rate_of_requirements"
+      }
+    }
+  },
+
+  "alerting_thresholds": {
+    "warning_level": {
+      "trigger_condition": "any_metric_at_warning_threshold",
+      "alert_priority": "P2_high",
+      "notification_channels": ["console_log", "performance_dashboard"],
+      "notification_recipients": ["agent_owner", "performance_monitoring_team"],
+      "action_required": "investigation_within_4_hours",
+      "escalation_if_unresolved": "escalate_to_critical_after_24_hours"
+    },
+    "critical_level": {
+      "trigger_condition": "any_metric_at_critical_threshold_or_multiple_warnings",
+      "alert_priority": "P1_critical",
+      "notification_channels": ["console_log", "performance_dashboard", "immediate_notification"],
+      "notification_recipients": ["agent_owner", "performance_monitoring_team", "engineering_lead"],
+      "action_required": "immediate_investigation_and_remediation",
+      "escalation_if_unresolved": "escalate_to_incident_after_2_hours"
+    },
+    "sla_violation": {
+      "trigger_condition": "metric_exceeds_critical_threshold_for_sustained_period",
+      "alert_priority": "P0_sla_breach",
+      "notification_channels": ["all_channels"],
+      "notification_recipients": ["all_stakeholders"],
+      "action_required": "immediate_remediation_plan_required",
+      "escalation_if_unresolved": "executive_escalation_after_4_hours"
+    }
+  },
+
+  "performance_trending": {
+    "trend_analysis": {
+      "analysis_frequency": "hourly_for_real_time_daily_for_trends",
+      "trend_metrics": [
+        "response_time_trend",
+        "success_rate_trend",
+        "quality_score_trend",
+        "token_efficiency_trend",
+        "error_rate_trend"
+      ],
+      "trend_detection": {
+        "improvement_trend": "metric_improving_over_7_day_window",
+        "degradation_trend": "metric_degrading_over_7_day_window",
+        "stable_trend": "metric_stable_within_5_percent_variance",
+        "volatile_trend": "metric_varying_more_than_20_percent"
+      },
+      "trend_actions": {
+        "degradation_detected": "investigate_root_cause_and_remediate",
+        "improvement_detected": "analyze_success_factors_and_replicate",
+        "volatile_detected": "identify_stability_issues_and_address",
+        "stable_detected": "maintain_current_practices"
+      }
+    },
+    "predictive_analytics": {
+      "enabled": true,
+      "prediction_models": {
+        "performance_degradation_prediction": "predict_likely_degradation_based_on_patterns",
+        "sla_violation_prediction": "predict_potential_sla_violations_before_occurrence",
+        "capacity_prediction": "predict_agent_capacity_needs"
+      },
+      "prediction_horizon": "24_to_72_hours",
+      "prediction_confidence_threshold": "70_percent_confidence_minimum",
+      "proactive_actions": {
+        "predicted_degradation": "preemptive_optimization_and_monitoring",
+        "predicted_sla_violation": "proactive_intervention_and_load_balancing",
+        "predicted_capacity_shortage": "preemptive_capacity_planning"
+      }
+    }
+  },
+
+  "degradation_detection": {
+    "detection_methods": {
+      "threshold_based": "metric_exceeds_threshold",
+      "trend_based": "negative_trend_over_time_window",
+      "anomaly_based": "statistical_anomaly_detection",
+      "pattern_based": "known_degradation_pattern_match"
+    },
+    "detection_sensitivity": {
+      "high_sensitivity": "detect_small_deviations_for_critical_agents",
+      "medium_sensitivity": "detect_moderate_deviations_for_standard_agents",
+      "low_sensitivity": "detect_significant_deviations_only"
+    },
+    "degradation_response": {
+      "immediate_investigation": true,
+      "root_cause_analysis": "mandatory_for_sustained_degradation",
+      "remediation_planning": "required_within_24_hours",
+      "monitoring_intensification": "increase_monitoring_during_degradation"
+    }
+  },
+
+  "escalation_procedures": {
+    "tier_1_warning": {
+      "trigger": "warning_threshold_breach",
+      "notification": "agent_owner_and_monitoring_team",
+      "response_time": "4_hours",
+      "actions": [
+        "investigate_warning_cause",
+        "document_findings",
+        "implement_corrective_actions_if_needed"
+      ]
+    },
+    "tier_2_critical": {
+      "trigger": "critical_threshold_breach_or_multiple_warnings",
+      "notification": "agent_owner_monitoring_team_engineering_lead",
+      "response_time": "1_hour",
+      "actions": [
+        "immediate_investigation",
+        "root_cause_analysis",
+        "remediation_plan_development",
+        "implementation_of_fixes"
+      ]
+    },
+    "tier_3_sla_breach": {
+      "trigger": "sustained_critical_threshold_breach_or_sla_violation",
+      "notification": "all_stakeholders_including_executive_team",
+      "response_time": "immediate",
+      "actions": [
+        "incident_declaration",
+        "emergency_remediation",
+        "stakeholder_communication",
+        "post_incident_review"
+      ]
+    }
+  },
+
+  "performance_optimization": {
+    "continuous_improvement": {
+      "enabled": true,
+      "improvement_cycles": "monthly_performance_review_and_optimization",
+      "optimization_focus_areas": [
+        "response_time_optimization",
+        "success_rate_improvement",
+        "quality_score_enhancement",
+        "token_efficiency_optimization",
+        "error_reduction"
+      ],
+      "optimization_methods": {
+        "process_optimization": "streamline_agent_workflows",
+        "capability_enhancement": "improve_agent_capabilities_through_learning",
+        "automation_improvement": "automate_repetitive_tasks",
+        "quality_gate_tuning": "optimize_quality_gate_effectiveness"
+      }
+    },
+    "benchmarking": {
+      "enabled": true,
+      "benchmark_against": [
+        "historical_performance",
+        "peer_agents",
+        "industry_standards",
+        "target_sla_metrics"
+      ],
+      "benchmark_frequency": "monthly",
+      "benchmark_reporting": "comprehensive_benchmark_report_with_recommendations"
+    },
+    "best_practices_identification": {
+      "enabled": true,
+      "identify_high_performers": "agents_consistently_exceeding_sla_targets",
+      "analyze_success_factors": "determine_what_makes_high_performers_successful",
+      "share_best_practices": "distribute_best_practices_to_all_agents",
+      "implement_improvements": "apply_successful_practices_across_all_agents"
+    }
+  },
+
+  "reporting_and_dashboards": {
+    "real_time_dashboard": {
+      "enabled": true,
+      "refresh_frequency": "every_60_seconds",
+      "dashboard_metrics": [
+        "current_sla_compliance_status",
+        "active_alerts",
+        "performance_trends",
+        "agent_utilization",
+        "quality_gate_compliance"
+      ],
+      "visualization_types": [
+        "metric_gauges",
+        "trend_charts",
+        "alert_status_indicators",
+        "performance_heatmaps"
+      ]
+    },
+    "periodic_reports": {
+      "daily_summary": {
+        "frequency": "daily",
+        "content": [
+          "sla_compliance_summary",
+          "alerts_generated",
+          "performance_highlights",
+          "issues_identified"
+        ]
+      },
+      "weekly_detailed_report": {
+        "frequency": "weekly",
+        "content": [
+          "detailed_sla_metrics_by_agent",
+          "trend_analysis",
+          "performance_comparison",
+          "improvement_recommendations"
+        ]
+      },
+      "monthly_executive_summary": {
+        "frequency": "monthly",
+        "content": [
+          "overall_sla_compliance_status",
+          "key_performance_trends",
+          "major_incidents_and_resolutions",
+          "strategic_recommendations"
+        ]
+      }
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "agent-capability-registry",
+      "agent-coordination",
+      "agent-health-monitor",
+      "optimization-tracker",
+      "lesson-learned"
+    ],
+    "enhances": [
+      "agent_performance_monitoring",
+      "sla_compliance_tracking",
+      "performance_optimization",
+      "quality_assurance"
+    ],
+    "provides_data_to": [
+      "optimization-tracker",
+      "agent-capability-registry",
+      "lesson-learned",
+      "performance-regression"
+    ]
+  },
+
+  "success_metrics": {
+    "sla_compliance_rate": "percentage_of_time_all_agents_meet_sla_targets_over_95_percent",
+    "alert_resolution_rate": "percentage_of_alerts_resolved_within_sla_over_95_percent",
+    "performance_improvement_trend": "positive_trend_in_key_metrics_over_time",
+    "early_detection_rate": "percentage_of_issues_detected_before_sla_violation_over_90_percent",
+    "agent_optimization_effectiveness": "measurable_improvement_from_optimization_initiatives_over_20_percent"
+  }
+}

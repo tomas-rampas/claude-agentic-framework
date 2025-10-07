@@ -1,0 +1,510 @@
+{
+  "name": "emergency-rollback",
+  "description": "Quick rollback mechanism for critical failures with comprehensive recovery capabilities",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all"],
+  "triggers": [
+    "security_breach",
+    "data_loss_risk",
+    "corruption_detected",
+    "quality_gate_catastrophic_failure",
+    "system_instability_detected",
+    "critical_error_cascade",
+    "deployment_failure_critical",
+    "integrity_violation"
+  ],
+
+  "emergency_policy": {
+    "automatic_rollback": true,
+    "confirmation_required": false,
+    "rollback_speed_priority": "immediate",
+    "safety_first_approach": true,
+    "comprehensive_logging": true,
+    "post_rollback_analysis": "mandatory"
+  },
+
+  "critical_failure_triggers": {
+    "security_breach": {
+      "severity": "critical",
+      "detection_criteria": [
+        "unauthorized_access_detected",
+        "security_vulnerability_exploited",
+        "data_breach_indicators",
+        "malicious_code_injection",
+        "authentication_bypass_detected"
+      ],
+      "immediate_action": "ROLLBACK_AND_LOCKDOWN",
+      "notification_level": "immediate_alert_to_all_stakeholders",
+      "recovery_priority": "highest",
+      "investigation_required": true
+    },
+    "data_loss_risk": {
+      "severity": "critical",
+      "detection_criteria": [
+        "data_deletion_without_backup",
+        "database_corruption_detected",
+        "filesystem_integrity_failure",
+        "critical_data_modification_error",
+        "backup_verification_failure"
+      ],
+      "immediate_action": "ROLLBACK_AND_RESTORE_FROM_BACKUP",
+      "notification_level": "immediate_alert",
+      "recovery_priority": "highest",
+      "data_validation_required": true
+    },
+    "corruption_detected": {
+      "severity": "critical",
+      "detection_criteria": [
+        "code_corruption",
+        "configuration_corruption",
+        "state_inconsistency",
+        "checksum_mismatch",
+        "invalid_data_structure"
+      ],
+      "immediate_action": "ROLLBACK_TO_LAST_VALID_STATE",
+      "notification_level": "immediate_alert",
+      "recovery_priority": "high",
+      "integrity_check_required": true
+    },
+    "quality_gate_catastrophic_failure": {
+      "severity": "high",
+      "detection_criteria": [
+        "all_quality_gates_failing",
+        "zero_tolerance_violations_exceeding_threshold",
+        "critical_test_failures_cascade",
+        "compilation_errors_blocking_all_progress",
+        "security_validation_complete_failure"
+      ],
+      "immediate_action": "ROLLBACK_TO_LAST_PASSING_STATE",
+      "notification_level": "high_priority_alert",
+      "recovery_priority": "high",
+      "quality_revalidation_required": true
+    },
+    "system_instability_detected": {
+      "severity": "high",
+      "detection_criteria": [
+        "repeated_crash_or_hang",
+        "memory_leak_critical",
+        "resource_exhaustion",
+        "infinite_loop_detected",
+        "deadlock_detected"
+      ],
+      "immediate_action": "ROLLBACK_AND_RESTART",
+      "notification_level": "high_priority_alert",
+      "recovery_priority": "high",
+      "stability_testing_required": true
+    },
+    "critical_error_cascade": {
+      "severity": "high",
+      "detection_criteria": [
+        "multiple_critical_errors_in_sequence",
+        "error_propagation_across_components",
+        "recovery_attempts_failing",
+        "system_degradation_accelerating"
+      ],
+      "immediate_action": "EMERGENCY_ROLLBACK_AND_RESET",
+      "notification_level": "immediate_alert",
+      "recovery_priority": "highest",
+      "root_cause_analysis_required": true
+    },
+    "deployment_failure_critical": {
+      "severity": "high",
+      "detection_criteria": [
+        "deployment_cannot_complete",
+        "deployment_broke_production",
+        "deployment_rollback_also_failed",
+        "production_system_unreachable_after_deployment"
+      ],
+      "immediate_action": "EMERGENCY_RESTORE_TO_LAST_KNOWN_GOOD",
+      "notification_level": "immediate_alert_with_incident_escalation",
+      "recovery_priority": "critical",
+      "incident_response_required": true
+    },
+    "integrity_violation": {
+      "severity": "critical",
+      "detection_criteria": [
+        "data_integrity_constraint_violation",
+        "referential_integrity_failure",
+        "business_rule_violation_critical",
+        "audit_trail_tampering_detected"
+      ],
+      "immediate_action": "ROLLBACK_AND_INVESTIGATE",
+      "notification_level": "immediate_alert",
+      "recovery_priority": "highest",
+      "forensic_analysis_required": true
+    }
+  },
+
+  "rollback_actions": {
+    "snapshot_restore": {
+      "action_type": "state_restoration",
+      "description": "Restore system state from last valid snapshot",
+      "execution_steps": [
+        "identify_last_valid_snapshot",
+        "validate_snapshot_integrity",
+        "stop_current_operations",
+        "restore_snapshot_atomically",
+        "verify_restoration_success",
+        "restart_operations_in_safe_mode"
+      ],
+      "prerequisites": [
+        "valid_snapshot_available",
+        "snapshot_integrity_verified",
+        "sufficient_permissions"
+      ],
+      "validation_required": true,
+      "rollback_if_fails": "escalate_to_manual_recovery"
+    },
+    "agent_reset": {
+      "action_type": "agent_state_reset",
+      "description": "Reset agent state to clean initialization",
+      "execution_steps": [
+        "backup_current_agent_state",
+        "clear_corrupted_state",
+        "reinitialize_agent_with_clean_state",
+        "restore_critical_context_only",
+        "validate_agent_functionality",
+        "resume_operations_cautiously"
+      ],
+      "preserve_elements": [
+        "quality_gates",
+        "security_context",
+        "audit_trail"
+      ],
+      "validation_required": true
+    },
+    "quality_gate_reinforce": {
+      "action_type": "quality_enforcement_restoration",
+      "description": "Restore and reinforce quality gate configurations",
+      "execution_steps": [
+        "backup_current_quality_configuration",
+        "load_default_quality_gates",
+        "apply_strictest_quality_standards",
+        "validate_quality_gate_functionality",
+        "re_run_all_quality_validations",
+        "confirm_quality_enforcement_active"
+      ],
+      "enforcement_level": "maximum_strictness",
+      "validation_required": true
+    },
+    "workflow_restart": {
+      "action_type": "workflow_clean_restart",
+      "description": "Restart workflow from last stable checkpoint",
+      "execution_steps": [
+        "identify_last_stable_checkpoint",
+        "save_current_partial_progress_if_safe",
+        "rollback_to_checkpoint_state",
+        "validate_workflow_state_consistency",
+        "resume_workflow_from_checkpoint",
+        "monitor_workflow_health_closely"
+      ],
+      "checkpoint_validation": "mandatory",
+      "monitoring_level": "intensive"
+    },
+    "emergency_restore_to_last_known_good": {
+      "action_type": "full_system_restoration",
+      "description": "Complete restoration to last known good state",
+      "execution_steps": [
+        "identify_last_known_good_state",
+        "create_backup_of_current_state_for_forensics",
+        "stop_all_operations",
+        "restore_codebase_to_last_known_good",
+        "restore_configuration_to_last_known_good",
+        "restore_data_to_last_known_good_if_applicable",
+        "validate_complete_system_integrity",
+        "perform_comprehensive_testing",
+        "resume_operations_with_monitoring"
+      ],
+      "scope": "comprehensive",
+      "validation_required": "extensive",
+      "testing_required": "comprehensive"
+    }
+  },
+
+  "checkpoint_management": {
+    "checkpoint_creation": {
+      "automatic_checkpoints": true,
+      "checkpoint_frequency": "every_major_workflow_milestone",
+      "checkpoint_triggers": [
+        "successful_quality_gate_passage",
+        "workflow_phase_completion",
+        "critical_operation_completion",
+        "pre_deployment",
+        "manual_checkpoint_request"
+      ],
+      "checkpoint_content": [
+        "complete_system_state",
+        "agent_state_snapshot",
+        "workflow_progress_state",
+        "quality_gate_status",
+        "configuration_snapshot",
+        "critical_data_snapshot"
+      ]
+    },
+    "checkpoint_storage": {
+      "storage_location": "/home/mcquak/.claude/checkpoints/",
+      "storage_format": "compressed_json_with_metadata",
+      "encryption": "enabled_for_sensitive_data",
+      "retention_policy": {
+        "keep_last_10_checkpoints": true,
+        "keep_daily_checkpoints_for_7_days": true,
+        "keep_weekly_checkpoints_for_30_days": true,
+        "keep_monthly_checkpoints_for_1_year": true
+      },
+      "storage_limit": "1GB_total_checkpoint_storage",
+      "cleanup_policy": "delete_oldest_when_limit_reached"
+    },
+    "checkpoint_validation": {
+      "validation_on_creation": true,
+      "validation_criteria": [
+        "checkpoint_completeness",
+        "checkpoint_integrity",
+        "checkpoint_consistency",
+        "checkpoint_recoverability"
+      ],
+      "validation_method": "checksum_and_test_restore",
+      "invalid_checkpoint_handling": "reject_and_alert"
+    },
+    "checkpoint_restoration": {
+      "restoration_validation": "mandatory",
+      "integrity_check": "comprehensive",
+      "incremental_restoration": "support_for_partial_restoration",
+      "restoration_testing": "validate_restoration_before_committing"
+    }
+  },
+
+  "notification_system": {
+    "immediate_alert": {
+      "priority": "P0_critical",
+      "notification_channels": [
+        "console_output",
+        "log_file_emergency",
+        "system_notification",
+        "webhook_if_configured"
+      ],
+      "notification_content": [
+        "failure_type",
+        "severity_level",
+        "affected_components",
+        "rollback_actions_taken",
+        "current_system_status",
+        "required_manual_actions"
+      ],
+      "notification_frequency": "immediate_then_every_5_minutes_until_resolved"
+    },
+    "stakeholder_notification": {
+      "notify_on_critical_failures": true,
+      "notification_recipients": [
+        "development_team",
+        "operations_team",
+        "security_team_if_security_related",
+        "management_if_business_impact"
+      ],
+      "notification_template": "incident_report_with_status",
+      "escalation_rules": {
+        "escalate_after_15_minutes_unresolved": true,
+        "escalate_to_senior_leadership_if_critical_and_unresolved_30_minutes": true
+      }
+    },
+    "status_updates": {
+      "update_frequency": "every_5_minutes_during_recovery",
+      "update_content": [
+        "recovery_progress",
+        "steps_completed",
+        "steps_remaining",
+        "estimated_recovery_time",
+        "current_system_status"
+      ]
+    }
+  },
+
+  "recovery_validation": {
+    "validation_phases": {
+      "phase_1_integrity_check": {
+        "step": 1,
+        "name": "system_integrity_validation",
+        "description": "Validate system integrity after rollback",
+        "validations": [
+          "codebase_integrity",
+          "configuration_integrity",
+          "data_integrity",
+          "state_consistency"
+        ],
+        "blocking": true
+      },
+      "phase_2_functionality_test": {
+        "step": 2,
+        "name": "functionality_validation",
+        "description": "Validate core functionality is operational",
+        "tests": [
+          "critical_path_testing",
+          "smoke_testing",
+          "integration_testing",
+          "api_endpoint_validation"
+        ],
+        "blocking": true
+      },
+      "phase_3_quality_gates": {
+        "step": 3,
+        "name": "quality_gate_validation",
+        "description": "Validate all quality gates pass",
+        "quality_checks": [
+          "compilation_success",
+          "linting_pass",
+          "test_suite_pass",
+          "security_validation_pass"
+        ],
+        "blocking": true
+      },
+      "phase_4_monitoring": {
+        "step": 4,
+        "name": "post_recovery_monitoring",
+        "description": "Monitor system for stability after recovery",
+        "monitoring_duration": "30_minutes_intensive_monitoring",
+        "monitoring_metrics": [
+          "error_rate",
+          "performance_metrics",
+          "resource_utilization",
+          "quality_gate_compliance"
+        ],
+        "abort_recovery_if": "metrics_show_instability"
+      }
+    },
+    "validation_failure_handling": {
+      "validation_fails": "attempt_alternative_recovery_method",
+      "all_recovery_attempts_fail": "escalate_to_manual_recovery_with_incident_management",
+      "partial_recovery": "assess_if_partial_recovery_acceptable_or_full_rollback_needed"
+    }
+  },
+
+  "audit_logging": {
+    "comprehensive_logging": true,
+    "log_location": "/home/mcquak/.claude/logs/emergency-rollback/",
+    "log_retention": "retain_all_emergency_logs_indefinitely",
+    "log_content": {
+      "pre_rollback_state": "complete_state_before_rollback",
+      "failure_details": "comprehensive_failure_information",
+      "rollback_actions": "all_actions_taken_during_rollback",
+      "validation_results": "all_validation_results",
+      "post_rollback_state": "complete_state_after_rollback",
+      "timeline": "complete_timeline_of_events"
+    },
+    "log_format": "structured_json_for_analysis",
+    "log_analysis": {
+      "automatic_analysis": true,
+      "pattern_detection": "identify_common_failure_patterns",
+      "root_cause_suggestions": "suggest_likely_root_causes",
+      "prevention_recommendations": "recommend_preventive_measures"
+    }
+  },
+
+  "post_rollback_analysis": {
+    "mandatory_analysis": true,
+    "analysis_components": {
+      "root_cause_analysis": {
+        "required": true,
+        "methodology": "5_whys_and_fishbone_analysis",
+        "responsible_agents": ["comprehensive-analyst", "system-architect"],
+        "deliverables": [
+          "root_cause_identification",
+          "contributing_factors",
+          "failure_timeline",
+          "impact_assessment"
+        ]
+      },
+      "prevention_planning": {
+        "required": true,
+        "components": [
+          "preventive_measures_identification",
+          "quality_gate_enhancements",
+          "monitoring_improvements",
+          "process_improvements"
+        ],
+        "implementation_tracking": "track_prevention_measure_implementation"
+      },
+      "lessons_learned": {
+        "required": true,
+        "integration_with": "lesson-learned hook",
+        "documentation": "comprehensive_incident_report",
+        "knowledge_sharing": "share_with_all_stakeholders"
+      },
+      "recovery_effectiveness": {
+        "required": true,
+        "metrics": [
+          "time_to_detect_failure",
+          "time_to_initiate_rollback",
+          "time_to_complete_rollback",
+          "time_to_full_recovery",
+          "rollback_success_rate",
+          "validation_pass_rate"
+        ],
+        "improvement_opportunities": "identify_recovery_process_improvements"
+      }
+    },
+    "follow_up_actions": {
+      "implement_preventive_measures": "priority_implementation",
+      "update_quality_gates": "strengthen_based_on_findings",
+      "update_monitoring": "enhance_early_detection",
+      "update_documentation": "document_incident_and_recovery"
+    }
+  },
+
+  "testing_and_drills": {
+    "recovery_drills": {
+      "frequency": "quarterly_recovery_drills",
+      "drill_scenarios": [
+        "simulated_security_breach",
+        "simulated_data_corruption",
+        "simulated_deployment_failure",
+        "simulated_quality_gate_cascade_failure"
+      ],
+      "drill_objectives": [
+        "validate_rollback_procedures",
+        "train_team_on_emergency_response",
+        "identify_process_weaknesses",
+        "improve_recovery_time"
+      ],
+      "drill_evaluation": "assess_recovery_effectiveness_and_identify_improvements"
+    },
+    "rollback_testing": {
+      "test_frequency": "monthly_rollback_mechanism_testing",
+      "test_scope": [
+        "checkpoint_creation_and_restoration",
+        "rollback_action_execution",
+        "validation_procedures",
+        "notification_system"
+      ],
+      "test_validation": "ensure_all_rollback_mechanisms_functional"
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "agent-coordination",
+      "quality-gates",
+      "lesson-learned",
+      "agent-health-monitor"
+    ],
+    "enhances": [
+      "system_reliability",
+      "failure_recovery_capability",
+      "incident_response",
+      "quality_enforcement"
+    ],
+    "triggers_on_failure": [
+      "immediate_rollback_on_critical_failure",
+      "comprehensive_validation_post_recovery",
+      "mandatory_post_incident_analysis"
+    ]
+  },
+
+  "success_metrics": {
+    "recovery_time": "average_time_to_full_recovery_under_10_minutes",
+    "recovery_success_rate": "rollback_success_rate_over_99_percent",
+    "false_positive_rate": "unnecessary_rollbacks_under_1_percent",
+    "detection_accuracy": "critical_failure_detection_rate_over_99_percent",
+    "prevention_effectiveness": "reduction_in_recurring_failures_over_80_percent"
+  }
+}

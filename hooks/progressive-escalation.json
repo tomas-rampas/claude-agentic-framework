@@ -2,8 +2,7 @@
   "name": "progressive-escalation",
   "description": "Progressive escalation system to prevent orchestrator takeover and maintain proper delegation",
   "version": "1.0",
-  "
-escalation_levels": [
+  "escalation_levels": [
     {
       "level": 1,
       "name": "AGENT_RETRY",

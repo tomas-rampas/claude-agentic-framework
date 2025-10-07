@@ -135,7 +135,6 @@
 
   "integration": {
     "coordinates_with": [
-      "agent-context-marker",
       "delegation-enforcement",
       "role-resolution"
     ],

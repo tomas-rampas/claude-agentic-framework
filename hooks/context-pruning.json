@@ -1,0 +1,432 @@
+{
+  "name": "context-pruning",
+  "description": "Intelligent context cleanup and token usage optimization with preservation of critical elements",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all"],
+  "triggers": [
+    "token_threshold_70_percent",
+    "stale_context_detected",
+    "context_bloat",
+    "session_optimization_required",
+    "memory_pressure",
+    "performance_degradation",
+    "agent_handoff_preparation"
+  ],
+
+  "pruning_policy": {
+    "automatic_pruning": true,
+    "pruning_aggressiveness": "balanced",
+    "confirmation_required": false,
+    "emergency_pruning_enabled": true,
+    "audit_logging": true
+  },
+
+  "trigger_thresholds": {
+    "token_usage_threshold": {
+      "warning_level": 70,
+      "action_level": 80,
+      "critical_level": 90,
+      "emergency_level": 95,
+      "measurement": "percentage_of_token_budget",
+      "action": "initiate_pruning_sequence"
+    },
+    "context_age_threshold": {
+      "stale_warning": 3600000,
+      "stale_action": 7200000,
+      "ancient_threshold": 14400000,
+      "measurement": "milliseconds_since_last_access",
+      "action": "mark_for_age_based_pruning"
+    },
+    "context_bloat_threshold": {
+      "size_warning": 50000,
+      "size_action": 100000,
+      "size_critical": 150000,
+      "measurement": "characters_in_context_store",
+      "action": "initiate_bloat_reduction"
+    },
+    "relevance_threshold": {
+      "minimum_relevance_score": 0.3,
+      "keep_high_relevance": 0.7,
+      "preserve_critical": 1.0,
+      "measurement": "calculated_relevance_score",
+      "action": "prune_low_relevance_context"
+    }
+  },
+
+  "critical_elements_preservation": {
+    "always_preserve": [
+      "quality_gates",
+      "agent_state",
+      "workflow_context",
+      "security_context",
+      "active_task_context",
+      "error_handling_state",
+      "performance_metrics",
+      "integration_points",
+      "delegation_history",
+      "quality_validation_results"
+    ],
+    "quality_gates": {
+      "preservation_priority": "highest",
+      "elements": [
+        "current_quality_standards",
+        "active_validations",
+        "blocking_conditions",
+        "threshold_configurations",
+        "compliance_requirements"
+      ],
+      "pruning_allowed": false,
+      "backup_required": true
+    },
+    "agent_state": {
+      "preservation_priority": "highest",
+      "elements": [
+        "current_agent_capabilities",
+        "agent_performance_metrics",
+        "agent_workload_status",
+        "agent_availability",
+        "active_delegations"
+      ],
+      "pruning_allowed": false,
+      "compression_allowed": true
+    },
+    "workflow_context": {
+      "preservation_priority": "highest",
+      "elements": [
+        "current_task_requirements",
+        "workflow_state",
+        "completed_steps",
+        "pending_steps",
+        "identified_blockers",
+        "dependencies"
+      ],
+      "pruning_allowed": "minimal",
+      "archival_allowed": true
+    },
+    "security_context": {
+      "preservation_priority": "critical",
+      "elements": [
+        "security_requirements",
+        "vulnerability_tracking",
+        "compliance_status",
+        "security_validations",
+        "audit_trail"
+      ],
+      "pruning_allowed": false,
+      "encryption_required": true
+    },
+    "active_task_context": {
+      "preservation_priority": "high",
+      "elements": [
+        "task_description",
+        "acceptance_criteria",
+        "technical_constraints",
+        "deliverables",
+        "deadlines"
+      ],
+      "pruning_allowed": false,
+      "summarization_allowed": true
+    }
+  },
+
+  "prunable_elements": {
+    "low_priority_pruning": [
+      "historical_context_over_4_hours_old",
+      "completed_task_details",
+      "verbose_logging_output",
+      "redundant_information",
+      "cached_data_available_elsewhere",
+      "deprecated_configurations"
+    ],
+    "medium_priority_pruning": [
+      "intermediate_analysis_results",
+      "temporary_state_information",
+      "non_critical_metrics",
+      "debug_information_from_successful_operations",
+      "archived_workflow_states"
+    ],
+    "aggressive_pruning": [
+      "all_non_critical_historical_data",
+      "verbose_logs_and_traces",
+      "redundant_context_copies",
+      "expired_temporary_data",
+      "non_essential_metadata"
+    ]
+  },
+
+  "pruning_strategies": {
+    "age_based_pruning": {
+      "enabled": true,
+      "strategy_description": "Remove context based on age and access patterns",
+      "rules": {
+        "never_accessed_in_1_hour": "mark_for_archival",
+        "never_accessed_in_2_hours": "compress_and_store",
+        "never_accessed_in_4_hours": "prune_if_not_critical",
+        "accessed_recently": "keep_in_active_context"
+      },
+      "exceptions": "always_preserve_critical_elements",
+      "archival_location": "/home/mcquak/.claude/context/archived/"
+    },
+    "relevance_based_pruning": {
+      "enabled": true,
+      "strategy_description": "Remove context based on relevance to current task",
+      "scoring_algorithm": {
+        "keyword_matching": 0.3,
+        "semantic_similarity": 0.4,
+        "recency": 0.2,
+        "criticality": 0.1
+      },
+      "pruning_rules": {
+        "relevance_score_below_30_percent": "prune_immediately",
+        "relevance_score_30_to_70_percent": "compress_or_summarize",
+        "relevance_score_above_70_percent": "keep_in_active_context",
+        "critical_elements": "always_keep_regardless_of_score"
+      }
+    },
+    "size_based_pruning": {
+      "enabled": true,
+      "strategy_description": "Remove or compress large context elements",
+      "rules": {
+        "element_over_10000_chars": "evaluate_for_summarization",
+        "element_over_20000_chars": "aggressive_summarization_or_archival",
+        "element_over_50000_chars": "archive_and_reference",
+        "critical_large_elements": "compress_but_maintain_accessibility"
+      },
+      "compression_methods": [
+        "summarization",
+        "key_points_extraction",
+        "reference_based_storage",
+        "diff_based_storage"
+      ]
+    },
+    "redundancy_elimination": {
+      "enabled": true,
+      "strategy_description": "Identify and remove duplicate or redundant context",
+      "detection_methods": {
+        "exact_duplicate_detection": "hash_based_comparison",
+        "semantic_duplicate_detection": "similarity_threshold_95_percent",
+        "partial_redundancy_detection": "overlap_analysis"
+      },
+      "resolution_rules": {
+        "exact_duplicates": "keep_most_recent_remove_others",
+        "semantic_duplicates": "merge_and_consolidate",
+        "partial_redundancy": "deduplicate_shared_portions",
+        "critical_duplicates": "keep_all_for_safety"
+      }
+    },
+    "hierarchical_pruning": {
+      "enabled": true,
+      "strategy_description": "Prune based on context hierarchy and dependencies",
+      "hierarchy_levels": {
+        "level_1_critical": "never_prune",
+        "level_2_important": "prune_only_if_necessary",
+        "level_3_useful": "prune_based_on_age_and_relevance",
+        "level_4_optional": "prune_aggressively"
+      },
+      "dependency_preservation": "maintain_dependencies_of_preserved_elements"
+    }
+  },
+
+  "token_efficiency_optimization": {
+    "token_budgeting": {
+      "total_budget": 200000,
+      "critical_reserve": 20000,
+      "active_context_budget": 50000,
+      "workflow_budget": 30000,
+      "agent_coordination_budget": 20000,
+      "quality_gates_budget": 15000,
+      "flexible_budget": 65000
+    },
+    "token_tracking": {
+      "real_time_monitoring": true,
+      "per_element_tracking": true,
+      "per_category_tracking": true,
+      "prediction_enabled": true,
+      "alert_thresholds": [70, 80, 90, 95]
+    },
+    "optimization_techniques": {
+      "context_compression": {
+        "enabled": true,
+        "compression_ratio_target": 0.5,
+        "methods": [
+          "summarization",
+          "key_information_extraction",
+          "reference_replacement",
+          "abbreviation_and_shorthand"
+        ]
+      },
+      "lazy_loading": {
+        "enabled": true,
+        "description": "Load full context only when needed",
+        "implementation": "maintain_references_load_on_demand"
+      },
+      "incremental_pruning": {
+        "enabled": true,
+        "description": "Prune gradually as token usage increases",
+        "strategy": "prune_least_critical_first_progressively"
+      }
+    }
+  },
+
+  "context_lifecycle_management": {
+    "context_creation": {
+      "initial_classification": "classify_context_as_critical_or_prunable_on_creation",
+      "metadata_tagging": "tag_with_creation_time_relevance_criticality",
+      "size_estimation": "estimate_token_impact_on_creation",
+      "retention_policy_assignment": "assign_retention_policy_based_on_classification"
+    },
+    "context_maintenance": {
+      "periodic_review": "review_all_context_every_30_minutes",
+      "access_tracking": "track_context_access_patterns",
+      "relevance_recalculation": "recalculate_relevance_scores_periodically",
+      "aging_update": "update_age_metadata_continuously"
+    },
+    "context_archival": {
+      "archival_trigger": "context_marked_for_archival_or_stale",
+      "archival_location": "/home/mcquak/.claude/context/archived/",
+      "archival_format": "compressed_json_with_metadata",
+      "retrieval_capability": "full_retrieval_available_on_demand",
+      "retention_in_archive": "30_days_then_permanent_deletion"
+    },
+    "context_restoration": {
+      "restoration_trigger": "archived_context_needed_for_current_task",
+      "restoration_method": "load_from_archive_into_active_context",
+      "validation": "verify_context_integrity_on_restoration",
+      "re_classification": "re_classify_restored_context_for_retention"
+    }
+  },
+
+  "pruning_execution": {
+    "pruning_phases": {
+      "phase_1_analysis": {
+        "step": 1,
+        "name": "context_analysis",
+        "description": "Analyze current context state and identify pruning candidates",
+        "actions": [
+          "calculate_current_token_usage",
+          "identify_stale_context",
+          "score_context_relevance",
+          "detect_redundancies",
+          "classify_critical_vs_prunable"
+        ]
+      },
+      "phase_2_planning": {
+        "step": 2,
+        "name": "pruning_plan_generation",
+        "description": "Generate optimal pruning plan to achieve targets",
+        "actions": [
+          "determine_pruning_targets",
+          "select_pruning_strategies",
+          "order_pruning_operations",
+          "estimate_token_savings",
+          "validate_critical_preservation"
+        ]
+      },
+      "phase_3_execution": {
+        "step": 3,
+        "name": "pruning_execution",
+        "description": "Execute pruning plan with safeguards",
+        "actions": [
+          "backup_context_before_pruning",
+          "execute_pruning_operations",
+          "archive_pruned_content",
+          "verify_critical_preservation",
+          "validate_token_reduction"
+        ]
+      },
+      "phase_4_validation": {
+        "step": 4,
+        "name": "post_pruning_validation",
+        "description": "Validate pruning success and context integrity",
+        "actions": [
+          "verify_token_usage_reduction",
+          "validate_critical_elements_intact",
+          "check_workflow_continuity",
+          "test_agent_state_consistency",
+          "confirm_quality_gates_preserved"
+        ]
+      }
+    },
+    "safeguards": {
+      "backup_before_pruning": true,
+      "critical_element_verification": true,
+      "rollback_capability": true,
+      "audit_logging": true,
+      "validation_checks": true
+    }
+  },
+
+  "emergency_pruning": {
+    "trigger_condition": "token_usage_over_95_percent_or_critical_memory_pressure",
+    "immediate_actions": [
+      "backup_entire_context_immediately",
+      "prune_all_non_critical_elements_aggressively",
+      "archive_all_historical_data",
+      "compress_all_compressible_elements",
+      "maintain_only_absolute_critical_context"
+    ],
+    "critical_preservation": [
+      "current_task_context",
+      "active_quality_gates",
+      "agent_state",
+      "security_context",
+      "workflow_state"
+    ],
+    "recovery_plan": {
+      "restore_from_backup_if_needed": true,
+      "gradual_context_restoration": "restore_context_as_needed_from_archive",
+      "notify_agents": "inform_all_agents_of_emergency_pruning_event"
+    }
+  },
+
+  "monitoring_and_reporting": {
+    "real_time_metrics": {
+      "current_token_usage": "percentage_of_budget_used",
+      "context_size": "total_characters_in_active_context",
+      "pruning_frequency": "pruning_operations_per_hour",
+      "token_efficiency": "tokens_saved_through_pruning",
+      "critical_context_ratio": "percentage_of_context_that_is_critical"
+    },
+    "pruning_reports": {
+      "pruning_summary": "what_was_pruned_and_why",
+      "token_savings": "tokens_saved_by_pruning_operation",
+      "context_health": "overall_context_health_score",
+      "recommendations": "suggestions_for_context_optimization"
+    },
+    "trend_analysis": {
+      "token_usage_trends": "track_token_usage_over_time",
+      "pruning_effectiveness": "measure_pruning_impact_on_performance",
+      "context_growth_patterns": "identify_context_growth_trends",
+      "optimization_opportunities": "identify_areas_for_improvement"
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "agent-coordination",
+      "agent-capability-registry",
+      "quality-gates",
+      "workflow-coordination"
+    ],
+    "enhances": [
+      "token_efficiency",
+      "performance_optimization",
+      "context_management",
+      "session_longevity"
+    ],
+    "provides_data_to": [
+      "optimization-tracker",
+      "performance-regression",
+      "agent-health-monitor"
+    ]
+  },
+
+  "success_metrics": {
+    "token_efficiency": "maintain_token_usage_below_80_percent_consistently",
+    "context_health": "context_health_score_above_85_percent",
+    "pruning_effectiveness": "average_token_savings_per_pruning_over_20_percent",
+    "critical_preservation": "zero_critical_context_lost_to_pruning",
+    "performance_impact": "pruning_operations_complete_in_under_5_seconds"
+  }
+}

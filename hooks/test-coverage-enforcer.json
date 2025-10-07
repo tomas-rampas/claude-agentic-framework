@@ -1,0 +1,436 @@
+{
+  "name": "test-coverage-enforcer",
+  "description": "Enforce minimum test coverage thresholds with TDD compliance and comprehensive quality validation",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all_implementation_agents", "code-review-gatekeeper", "quality-expert"],
+  "triggers": [
+    "code_implementation_complete",
+    "pre_commit",
+    "pull_request_validation",
+    "quality_gate_enforcement",
+    "tdd_workflow_completion",
+    "feature_completion",
+    "critical_path_implementation"
+  ],
+
+  "enforcement_policy": {
+    "blocking_enforcement": true,
+    "enforcement_level": "STRICT",
+    "bypass_allowed": false,
+    "override_authority": "code-review-gatekeeper",
+    "grace_period": "none",
+    "retroactive_enforcement": true
+  },
+
+  "coverage_thresholds": {
+    "global_thresholds": {
+      "line_coverage": {
+        "minimum": 80,
+        "target": 85,
+        "excellence": 90,
+        "measurement": "percentage_of_executable_lines",
+        "blocking": true,
+        "failure_action": "BLOCK_COMMIT_AND_DEPLOYMENT"
+      },
+      "branch_coverage": {
+        "minimum": 75,
+        "target": 80,
+        "excellence": 85,
+        "measurement": "percentage_of_conditional_branches",
+        "blocking": true,
+        "failure_action": "BLOCK_COMMIT_AND_DEPLOYMENT"
+      },
+      "function_coverage": {
+        "minimum": 85,
+        "target": 90,
+        "excellence": 95,
+        "measurement": "percentage_of_functions_tested",
+        "blocking": true,
+        "failure_action": "BLOCK_COMMIT"
+      },
+      "statement_coverage": {
+        "minimum": 80,
+        "target": 85,
+        "excellence": 90,
+        "measurement": "percentage_of_statements_executed",
+        "blocking": true,
+        "failure_action": "BLOCK_COMMIT"
+      }
+    },
+    "critical_path_thresholds": {
+      "critical_paths": {
+        "minimum": 100,
+        "target": 100,
+        "excellence": 100,
+        "measurement": "percentage_of_critical_execution_paths",
+        "blocking": true,
+        "failure_action": "BLOCK_IMMEDIATELY_WITH_ESCALATION",
+        "definition": "security_authentication_payment_data_integrity_paths"
+      },
+      "error_handling": {
+        "minimum": 95,
+        "target": 100,
+        "excellence": 100,
+        "measurement": "percentage_of_error_handling_paths_tested",
+        "blocking": true,
+        "failure_action": "BLOCK_COMMIT"
+      },
+      "edge_cases": {
+        "minimum": 85,
+        "target": 90,
+        "excellence": 95,
+        "measurement": "percentage_of_edge_cases_covered",
+        "blocking": true,
+        "failure_action": "WARNING_WITH_REVIEW_REQUIRED"
+      }
+    },
+    "component_specific_thresholds": {
+      "api_endpoints": {
+        "line_coverage": 90,
+        "branch_coverage": 85,
+        "critical_path_coverage": 100,
+        "blocking": true
+      },
+      "business_logic": {
+        "line_coverage": 95,
+        "branch_coverage": 90,
+        "critical_path_coverage": 100,
+        "blocking": true
+      },
+      "data_access_layer": {
+        "line_coverage": 85,
+        "branch_coverage": 80,
+        "critical_path_coverage": 100,
+        "blocking": true
+      },
+      "utility_functions": {
+        "line_coverage": 80,
+        "branch_coverage": 75,
+        "critical_path_coverage": 90,
+        "blocking": false
+      }
+    }
+  },
+
+  "language_specific_tools": {
+    "rust": {
+      "coverage_tool": "cargo-tarpaulin",
+      "command": "cargo tarpaulin --out Xml --output-dir coverage --exclude-files 'tests/*'",
+      "threshold_flags": "--fail-under 80",
+      "report_format": "cobertura_xml",
+      "integration": "cargo_test_framework",
+      "additional_tools": ["cargo-llvm-cov", "kcov"],
+      "configuration_file": "tarpaulin.toml"
+    },
+    "csharp_dotnet": {
+      "coverage_tool": "dotnet-test-coverage",
+      "command": "dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Threshold=80",
+      "threshold_flags": "/p:ThresholdType=line,branch /p:ThresholdStat=total",
+      "report_format": "cobertura_xml",
+      "integration": "xunit_nunit_mstest",
+      "additional_tools": ["coverlet", "fine-code-coverage"],
+      "configuration_file": "coverlet.runsettings"
+    },
+    "go": {
+      "coverage_tool": "go-test-coverage",
+      "command": "go test -coverprofile=coverage.out -covermode=atomic ./...",
+      "threshold_flags": "-coverpkg=./...",
+      "report_format": "go_coverage_profile",
+      "integration": "go_test_framework",
+      "additional_tools": ["gocov", "go-cover"],
+      "post_processing": "go tool cover -html=coverage.out -o coverage.html",
+      "threshold_validation": "go tool cover -func=coverage.out"
+    },
+    "python": {
+      "coverage_tool": "pytest-cov",
+      "command": "pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=80",
+      "threshold_flags": "--cov-fail-under=80 --cov-branch",
+      "report_format": "cobertura_xml",
+      "integration": "pytest_unittest",
+      "additional_tools": ["coverage.py", "pytest-coverage"],
+      "configuration_file": ".coveragerc"
+    },
+    "typescript_javascript": {
+      "coverage_tool": "jest-coverage",
+      "command": "jest --coverage --coverageThreshold='{\"global\":{\"lines\":80,\"branches\":75}}'",
+      "threshold_flags": "--coverageThreshold",
+      "report_format": "lcov_json",
+      "integration": "jest_vitest",
+      "additional_tools": ["nyc", "istanbul", "c8"],
+      "configuration_file": "jest.config.js"
+    },
+    "bash": {
+      "coverage_tool": "kcov",
+      "command": "kcov --exclude-pattern=/usr coverage ./script.sh",
+      "threshold_flags": "--coverage-threshold=80",
+      "report_format": "cobertura_xml",
+      "integration": "bats_shunit2",
+      "additional_tools": ["bashcov"],
+      "configuration_file": ".kcov.conf"
+    },
+    "powershell": {
+      "coverage_tool": "pester-coverage",
+      "command": "Invoke-Pester -CodeCoverage -CodeCoverageOutputFile coverage.xml -CodeCoverageOutputFileFormat JaCoCo",
+      "threshold_flags": "-CodeCoverageThreshold 80",
+      "report_format": "jacoco_xml",
+      "integration": "pester_framework",
+      "additional_tools": ["PSCodeCoverage"],
+      "configuration_file": "PesterConfiguration.psd1"
+    }
+  },
+
+  "validation_sequence": {
+    "phase_1_pre_execution": {
+      "step": 1,
+      "name": "test_existence_validation",
+      "description": "Verify tests exist for all code changes",
+      "validation_criteria": [
+        "test_files_exist_for_all_source_files",
+        "test_to_code_ratio_minimum_1_to_3",
+        "tdd_compliance_verified"
+      ],
+      "blocking": true,
+      "failure_action": "BLOCK_WITH_TDD_GUIDANCE"
+    },
+    "phase_2_test_execution": {
+      "step": 2,
+      "name": "comprehensive_test_suite_execution",
+      "description": "Execute full test suite with coverage collection",
+      "execution_parameters": {
+        "parallel_execution": true,
+        "timeout": 300000,
+        "retry_on_flake": 2,
+        "coverage_enabled": true
+      },
+      "blocking": true,
+      "failure_action": "BLOCK_WITH_TEST_FAILURE_DETAILS"
+    },
+    "phase_3_coverage_calculation": {
+      "step": 3,
+      "name": "coverage_metrics_calculation",
+      "description": "Calculate coverage metrics across all dimensions",
+      "metrics_collected": [
+        "line_coverage",
+        "branch_coverage",
+        "function_coverage",
+        "statement_coverage",
+        "critical_path_coverage"
+      ],
+      "blocking": true,
+      "failure_action": "GENERATE_COVERAGE_REPORT"
+    },
+    "phase_4_threshold_validation": {
+      "step": 4,
+      "name": "threshold_compliance_validation",
+      "description": "Validate all coverage thresholds are met",
+      "validation_checks": [
+        "global_thresholds_met",
+        "critical_path_thresholds_met",
+        "component_specific_thresholds_met",
+        "regression_prevention_validated"
+      ],
+      "blocking": true,
+      "failure_action": "BLOCK_WITH_COVERAGE_GAP_REPORT"
+    },
+    "phase_5_quality_validation": {
+      "step": 5,
+      "name": "test_quality_validation",
+      "description": "Validate quality of tests themselves",
+      "quality_checks": [
+        "no_empty_tests",
+        "meaningful_assertions",
+        "no_commented_tests",
+        "no_skipped_critical_tests",
+        "test_isolation_verified"
+      ],
+      "blocking": true,
+      "failure_action": "BLOCK_WITH_TEST_QUALITY_ISSUES"
+    }
+  },
+
+  "tdd_integration": {
+    "coordinates_with": "tdd-workflow",
+    "enforcement_rules": {
+      "red_phase_validation": {
+        "require_failing_test_first": true,
+        "validate_test_failure_reason": true,
+        "ensure_test_covers_requirement": true
+      },
+      "green_phase_validation": {
+        "require_test_passes": true,
+        "validate_minimal_implementation": true,
+        "check_coverage_improvement": true
+      },
+      "refactor_phase_validation": {
+        "maintain_test_passage": true,
+        "maintain_or_improve_coverage": true,
+        "no_coverage_regression": true
+      }
+    },
+    "tdd_compliance_metrics": {
+      "test_first_rate": "percentage_of_code_with_test_written_first",
+      "red_green_refactor_adherence": "percentage_following_tdd_cycle",
+      "coverage_by_tdd": "coverage_achieved_through_tdd_vs_retrofitted"
+    }
+  },
+
+  "zero_tolerance_integration": {
+    "coordinates_with": "zero-tolerance-quality",
+    "enforcement_alignment": {
+      "coverage_failure_is_quality_failure": true,
+      "blocking_behavior_consistent": true,
+      "timeout_settings_aligned": true,
+      "escalation_procedures_coordinated": true
+    },
+    "quality_gate_integration": {
+      "coverage_as_quality_gate": true,
+      "fail_quality_gates_on_coverage_miss": true,
+      "include_in_compilation_linting_test_sequence": true,
+      "coordinate_with_regression_validation": true
+    }
+  },
+
+  "failure_handling": {
+    "insufficient_line_coverage": {
+      "detection": "line_coverage_below_minimum_threshold",
+      "immediate_action": "BLOCK_COMMIT_AND_DEPLOYMENT",
+      "remediation_guidance": {
+        "identify_uncovered_lines": "generate_report_of_uncovered_lines_by_file",
+        "prioritize_critical_gaps": "highlight_uncovered_critical_paths",
+        "provide_test_templates": "suggest_test_cases_for_uncovered_code",
+        "estimate_effort": "calculate_tests_needed_to_reach_threshold"
+      },
+      "escalation": "notify_code_review_gatekeeper_if_not_resolved_in_30_minutes"
+    },
+    "insufficient_branch_coverage": {
+      "detection": "branch_coverage_below_minimum_threshold",
+      "immediate_action": "BLOCK_COMMIT_AND_DEPLOYMENT",
+      "remediation_guidance": {
+        "identify_uncovered_branches": "list_all_conditional_branches_not_tested",
+        "highlight_edge_cases": "identify_missing_edge_case_coverage",
+        "suggest_test_scenarios": "provide_test_scenarios_for_each_branch",
+        "visualize_coverage": "generate_branch_coverage_visualization"
+      },
+      "escalation": "notify_code_review_gatekeeper_if_not_resolved_in_30_minutes"
+    },
+    "critical_path_not_covered": {
+      "detection": "critical_path_coverage_below_100_percent",
+      "immediate_action": "BLOCK_IMMEDIATELY_WITH_ESCALATION",
+      "remediation_guidance": {
+        "identify_critical_gaps": "list_all_uncovered_critical_paths",
+        "assess_risk": "evaluate_risk_level_of_uncovered_paths",
+        "require_immediate_tests": "mandate_immediate_test_creation",
+        "prevent_deployment": "absolutely_block_deployment_until_resolved"
+      },
+      "escalation": "immediate_escalation_to_code_review_gatekeeper_and_system_architect"
+    },
+    "coverage_regression_detected": {
+      "detection": "coverage_decreased_compared_to_previous_commit",
+      "immediate_action": "BLOCK_COMMIT",
+      "remediation_guidance": {
+        "identify_regression_source": "determine_which_changes_caused_regression",
+        "calculate_regression_amount": "quantify_coverage_decrease",
+        "require_restoration": "mandate_coverage_restoration_to_previous_level",
+        "investigate_root_cause": "analyze_why_coverage_decreased"
+      },
+      "escalation": "notify_code_review_gatekeeper_of_regression"
+    },
+    "test_quality_issues": {
+      "detection": "test_quality_validation_failures",
+      "immediate_action": "BLOCK_COMMIT",
+      "remediation_guidance": {
+        "identify_quality_issues": "list_specific_test_quality_problems",
+        "provide_best_practices": "suggest_test_quality_improvements",
+        "require_test_refactoring": "mandate_test_quality_fixes",
+        "validate_improvements": "re_run_quality_validation_after_fixes"
+      },
+      "escalation": "escalate_to_code_review_gatekeeper_for_persistent_issues"
+    }
+  },
+
+  "reporting_and_analytics": {
+    "coverage_reports": {
+      "formats": ["html", "xml", "json", "console"],
+      "detail_levels": ["summary", "detailed", "per_file", "per_function"],
+      "distribution_channels": ["console_output", "file_system", "ci_cd_integration", "code_review_tools"],
+      "retention_policy": "retain_last_30_reports_per_branch"
+    },
+    "trend_analysis": {
+      "coverage_over_time": "track_coverage_metrics_across_commits",
+      "coverage_by_component": "analyze_coverage_distribution_by_module",
+      "critical_path_trends": "monitor_critical_path_coverage_trends",
+      "team_performance": "track_team_tdd_compliance_and_coverage"
+    },
+    "gap_analysis": {
+      "uncovered_code_report": "comprehensive_report_of_all_uncovered_code",
+      "risk_assessment": "evaluate_risk_of_uncovered_code_paths",
+      "prioritization": "prioritize_coverage_gaps_by_criticality",
+      "remediation_roadmap": "generate_plan_to_achieve_target_coverage"
+    },
+    "quality_dashboard": {
+      "real_time_metrics": [
+        "current_coverage_percentages",
+        "coverage_trend_direction",
+        "critical_path_status",
+        "tdd_compliance_rate"
+      ],
+      "alerts": [
+        "coverage_threshold_violations",
+        "coverage_regressions",
+        "critical_path_gaps",
+        "test_quality_issues"
+      ]
+    }
+  },
+
+  "continuous_improvement": {
+    "coverage_optimization": {
+      "identify_redundant_tests": "detect_tests_not_increasing_coverage",
+      "suggest_test_consolidation": "recommend_test_merging_opportunities",
+      "optimize_test_execution": "identify_slow_tests_for_optimization",
+      "improve_test_quality": "continuously_enhance_test_effectiveness"
+    },
+    "threshold_adaptation": {
+      "auto_increase_thresholds": "gradually_increase_thresholds_as_coverage_improves",
+      "component_specific_tuning": "adjust_component_thresholds_based_on_criticality",
+      "track_threshold_evolution": "monitor_threshold_changes_over_time",
+      "validate_threshold_appropriateness": "ensure_thresholds_align_with_quality_goals"
+    },
+    "best_practices_promotion": {
+      "identify_coverage_champions": "recognize_developers_with_excellent_coverage",
+      "share_coverage_patterns": "promote_effective_test_coverage_patterns",
+      "educate_on_gaps": "provide_guidance_on_common_coverage_gaps",
+      "celebrate_milestones": "acknowledge_coverage_achievements"
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "tdd-workflow",
+      "zero-tolerance-quality",
+      "code-review",
+      "agent-capability-registry"
+    ],
+    "enhances": [
+      "test_coverage_quality",
+      "tdd_compliance",
+      "quality_gate_enforcement",
+      "critical_path_protection"
+    ],
+    "blocks_progression_until": [
+      "minimum_coverage_thresholds_met",
+      "critical_paths_fully_covered",
+      "test_quality_validated",
+      "no_coverage_regressions"
+    ]
+  },
+
+  "success_metrics": {
+    "coverage_compliance": "percentage_of_commits_meeting_all_thresholds_over_95_percent",
+    "critical_path_protection": "critical_path_coverage_at_100_percent_consistently",
+    "tdd_adoption": "percentage_of_code_following_tdd_workflow_over_90_percent",
+    "coverage_trend": "coverage_metrics_improving_or_stable_over_time",
+    "quality_correlation": "correlation_between_high_coverage_and_low_defects_over_80_percent"
+  }
+}

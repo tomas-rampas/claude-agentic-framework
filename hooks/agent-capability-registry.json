@@ -1,0 +1,511 @@
+{
+  "name": "agent-capability-registry",
+  "description": "Dynamic agent capability tracking and routing optimization for intelligent task delegation",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["all"],
+  "triggers": [
+    "agent_delegation_required",
+    "capability_matching_needed",
+    "routing_optimization_triggered",
+    "agent_discovery_requested",
+    "performance_based_routing",
+    "multi_technology_task"
+  ],
+
+  "agent_capabilities": {
+    "rust-expert": {
+      "primary_domain": "rust_development",
+      "skill_categories": [
+        "systems_programming",
+        "concurrent_programming",
+        "memory_safety_optimization",
+        "cargo_toolchain_mastery",
+        "unsafe_rust_expertise",
+        "async_await_patterns",
+        "embedded_systems",
+        "webassembly_compilation",
+        "performance_optimization",
+        "ownership_borrow_checker_resolution"
+      ],
+      "technology_stack": ["rust", "cargo", "tokio", "async-std", "serde", "diesel", "actix-web"],
+      "testing_frameworks": ["cargo-test", "proptest", "criterion", "tarpaulin"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "95_percent",
+      "token_efficiency": "high"
+    },
+    "typescript-expert": {
+      "primary_domain": "typescript_javascript_development",
+      "skill_categories": [
+        "frontend_development",
+        "backend_nodejs_development",
+        "react_ecosystem_mastery",
+        "nextjs_framework_expertise",
+        "type_system_architecture",
+        "async_programming_patterns",
+        "state_management",
+        "api_integration",
+        "build_toolchain_optimization",
+        "modern_javascript_features"
+      ],
+      "technology_stack": ["typescript", "javascript", "react", "nextjs", "nodejs", "express", "nestjs", "prisma"],
+      "testing_frameworks": ["jest", "vitest", "testing-library", "playwright", "cypress"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "94_percent",
+      "token_efficiency": "high"
+    },
+    "python-expert": {
+      "primary_domain": "python_development",
+      "skill_categories": [
+        "web_framework_development",
+        "data_science_and_ml",
+        "automation_scripting",
+        "api_development",
+        "django_flask_fastapi_expertise",
+        "async_programming",
+        "data_processing_pipelines",
+        "scientific_computing",
+        "package_management",
+        "performance_optimization"
+      ],
+      "technology_stack": ["python", "django", "flask", "fastapi", "pandas", "numpy", "pytest", "sqlalchemy"],
+      "testing_frameworks": ["pytest", "unittest", "pytest-cov", "hypothesis", "tox"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "93_percent",
+      "token_efficiency": "high"
+    },
+    "csharp-expert": {
+      "primary_domain": "csharp_dotnet_development",
+      "skill_categories": [
+        "aspnet_core_development",
+        "enterprise_application_architecture",
+        "azure_cloud_integration",
+        "entity_framework_mastery",
+        "dependency_injection_patterns",
+        "microservices_architecture",
+        "blazor_development",
+        "xamarin_mobile_development",
+        "performance_optimization",
+        "async_await_patterns"
+      ],
+      "technology_stack": ["csharp", "dotnet", "aspnet-core", "entity-framework", "azure", "blazor", "xamarin"],
+      "testing_frameworks": ["xunit", "nunit", "mstest", "moq", "coverlet"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "94_percent",
+      "token_efficiency": "high"
+    },
+    "go-expert": {
+      "primary_domain": "go_development",
+      "skill_categories": [
+        "microservices_development",
+        "cloud_native_applications",
+        "concurrent_programming",
+        "api_development",
+        "container_orchestration",
+        "distributed_systems",
+        "performance_optimization",
+        "grpc_implementation",
+        "cli_tool_development",
+        "kubernetes_integration"
+      ],
+      "technology_stack": ["go", "gorilla", "gin", "grpc", "kubernetes", "docker", "protobuf"],
+      "testing_frameworks": ["go-test", "testify", "gomock", "ginkgo"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "93_percent",
+      "token_efficiency": "high"
+    },
+    "bash-expert": {
+      "primary_domain": "bash_shell_scripting",
+      "skill_categories": [
+        "linux_system_administration",
+        "automation_scripting",
+        "devops_pipeline_scripting",
+        "text_processing",
+        "process_management",
+        "file_operations",
+        "security_best_practices",
+        "error_handling",
+        "performance_optimization",
+        "posix_compliance"
+      ],
+      "technology_stack": ["bash", "sh", "awk", "sed", "grep", "find", "jq", "shellcheck"],
+      "testing_frameworks": ["bats", "shunit2", "shellspec"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "medium_to_high_complexity",
+      "typical_response_time": "10_20_seconds",
+      "success_rate": "95_percent",
+      "token_efficiency": "very_high"
+    },
+    "powershell-expert": {
+      "primary_domain": "powershell_automation",
+      "skill_categories": [
+        "windows_administration",
+        "azure_cloud_automation",
+        "configuration_management",
+        "active_directory_management",
+        "exchange_automation",
+        "desired_state_configuration",
+        "pipeline_scripting",
+        "module_development",
+        "security_automation",
+        "cross_platform_powershell"
+      ],
+      "technology_stack": ["powershell", "powershell-core", "azure-powershell", "dsc", "pester"],
+      "testing_frameworks": ["pester", "psscriptanalyzer"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "medium_to_high_complexity",
+      "typical_response_time": "10_20_seconds",
+      "success_rate": "94_percent",
+      "token_efficiency": "high"
+    },
+    "comprehensive-analyst": {
+      "primary_domain": "analysis_and_investigation",
+      "skill_categories": [
+        "codebase_analysis",
+        "architecture_evaluation",
+        "performance_investigation",
+        "security_assessment",
+        "dependency_analysis",
+        "pattern_recognition",
+        "root_cause_analysis",
+        "technical_debt_evaluation",
+        "complexity_analysis",
+        "quality_assessment"
+      ],
+      "technology_stack": ["all_languages", "analysis_tools", "profilers", "static_analyzers"],
+      "testing_frameworks": ["language_agnostic"],
+      "performance_tier": "generalist_tier_1",
+      "complexity_rating": "very_high_complexity_capable",
+      "typical_response_time": "20_40_seconds",
+      "success_rate": "92_percent",
+      "token_efficiency": "medium"
+    },
+    "code-review-gatekeeper": {
+      "primary_domain": "quality_validation_and_review",
+      "skill_categories": [
+        "code_review",
+        "quality_gate_enforcement",
+        "test_coverage_validation",
+        "security_vulnerability_detection",
+        "performance_regression_detection",
+        "coding_standards_enforcement",
+        "architecture_compliance",
+        "best_practices_validation",
+        "regression_prevention",
+        "compliance_checking"
+      ],
+      "technology_stack": ["all_languages", "linters", "static_analyzers", "security_scanners"],
+      "testing_frameworks": ["language_agnostic"],
+      "performance_tier": "generalist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "96_percent",
+      "token_efficiency": "high"
+    },
+    "devops-orchestrator": {
+      "primary_domain": "infrastructure_and_deployment",
+      "skill_categories": [
+        "ci_cd_pipeline_design",
+        "infrastructure_as_code",
+        "container_orchestration",
+        "cloud_platform_automation",
+        "deployment_automation",
+        "monitoring_and_observability",
+        "security_automation",
+        "disaster_recovery",
+        "performance_optimization",
+        "cost_optimization"
+      ],
+      "technology_stack": ["terraform", "kubernetes", "docker", "jenkins", "github-actions", "aws", "azure", "gcp"],
+      "testing_frameworks": ["terratest", "kitchen", "inspec"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "very_high_complexity_capable",
+      "typical_response_time": "20_40_seconds",
+      "success_rate": "91_percent",
+      "token_efficiency": "medium"
+    },
+    "system-architect": {
+      "primary_domain": "system_design_and_architecture",
+      "skill_categories": [
+        "architectural_design",
+        "design_pattern_application",
+        "system_scalability_design",
+        "microservices_architecture",
+        "distributed_systems_design",
+        "api_design",
+        "database_architecture",
+        "security_architecture",
+        "performance_architecture",
+        "cloud_architecture"
+      ],
+      "technology_stack": ["architecture_tools", "uml", "design_patterns", "all_platforms"],
+      "testing_frameworks": ["architecture_validation_tools"],
+      "performance_tier": "generalist_tier_1",
+      "complexity_rating": "very_high_complexity_capable",
+      "typical_response_time": "25_45_seconds",
+      "success_rate": "90_percent",
+      "token_efficiency": "medium"
+    },
+    "technical-docs-writer": {
+      "primary_domain": "technical_documentation",
+      "skill_categories": [
+        "api_documentation",
+        "user_guide_creation",
+        "technical_specification_writing",
+        "code_documentation",
+        "architecture_documentation",
+        "runbook_creation",
+        "tutorial_development",
+        "markdown_mastery",
+        "documentation_toolchain",
+        "documentation_standards"
+      ],
+      "technology_stack": ["markdown", "asciidoc", "swagger", "jsdoc", "sphinx", "docusaurus"],
+      "testing_frameworks": ["documentation_linters", "link_checkers"],
+      "performance_tier": "specialist_tier_2",
+      "complexity_rating": "medium_complexity",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "95_percent",
+      "token_efficiency": "high"
+    },
+    "product-owner": {
+      "primary_domain": "requirements_and_planning",
+      "skill_categories": [
+        "user_story_creation",
+        "requirements_gathering",
+        "acceptance_criteria_definition",
+        "backlog_management",
+        "sprint_planning",
+        "stakeholder_communication",
+        "prioritization",
+        "roadmap_planning",
+        "feature_specification",
+        "business_analysis"
+      ],
+      "technology_stack": ["jira", "confluence", "user_story_tools"],
+      "testing_frameworks": ["acceptance_testing_frameworks"],
+      "performance_tier": "specialist_tier_2",
+      "complexity_rating": "medium_complexity",
+      "typical_response_time": "20_35_seconds",
+      "success_rate": "93_percent",
+      "token_efficiency": "medium_high"
+    }
+  },
+
+  "routing_optimization": {
+    "capability_matching_algorithm": {
+      "exact_match_priority": {
+        "score_weight": 100,
+        "description": "Route to agent with exact technology stack match",
+        "criteria": [
+          "technology_stack_exact_match",
+          "skill_category_direct_match",
+          "complexity_level_appropriate"
+        ]
+      },
+      "best_fit_priority": {
+        "score_weight": 80,
+        "description": "Route to agent with closest capabilities",
+        "criteria": [
+          "technology_stack_overlap",
+          "skill_category_similarity",
+          "domain_relevance"
+        ]
+      },
+      "performance_optimization": {
+        "score_weight": 60,
+        "description": "Consider agent performance metrics",
+        "criteria": [
+          "success_rate_threshold",
+          "response_time_optimization",
+          "token_efficiency_consideration"
+        ]
+      },
+      "load_balancing": {
+        "score_weight": 40,
+        "description": "Balance workload across agents",
+        "criteria": [
+          "current_agent_utilization",
+          "queue_depth",
+          "resource_availability"
+        ]
+      },
+      "cost_optimization": {
+        "score_weight": 30,
+        "description": "Optimize token usage and time costs",
+        "criteria": [
+          "token_efficiency_rating",
+          "estimated_completion_time",
+          "complexity_to_capability_ratio"
+        ]
+      }
+    },
+    "routing_rules": {
+      "single_technology_task": "route_to_exact_match_specialist",
+      "multi_technology_task": "route_to_system_architect_for_coordination",
+      "analysis_required": "route_to_comprehensive_analyst_first",
+      "quality_validation": "route_to_code_review_gatekeeper",
+      "infrastructure_deployment": "route_to_devops_orchestrator",
+      "documentation_needed": "route_to_technical_docs_writer",
+      "requirements_definition": "route_to_product_owner"
+    },
+    "fallback_strategies": {
+      "no_exact_match": "route_to_best_fit_agent",
+      "agent_unavailable": "queue_task_with_priority",
+      "agent_overloaded": "route_to_secondary_capable_agent",
+      "capability_mismatch_detected": "escalate_to_system_architect",
+      "unknown_technology": "route_to_comprehensive_analyst_for_discovery"
+    }
+  },
+
+  "dynamic_updates": {
+    "capability_learning": {
+      "update_frequency": "after_each_task_completion",
+      "learning_criteria": [
+        "task_success_rate",
+        "completion_time_actual_vs_estimated",
+        "quality_gate_pass_rate",
+        "token_efficiency_actual"
+      ],
+      "adaptation_rules": {
+        "success_pattern_detected": "strengthen_capability_mapping",
+        "failure_pattern_detected": "weaken_capability_mapping",
+        "new_skill_demonstrated": "add_to_skill_categories",
+        "performance_improvement": "update_performance_tier"
+      }
+    },
+    "performance_tracking": {
+      "metrics_collection": {
+        "response_time": "track_per_agent_per_task_type",
+        "success_rate": "rolling_average_last_100_tasks",
+        "token_efficiency": "tokens_per_successful_completion",
+        "quality_score": "quality_gate_compliance_rate"
+      },
+      "trending_analysis": {
+        "performance_improvement_detection": "identify_agents_improving_over_time",
+        "performance_degradation_detection": "identify_agents_needing_support",
+        "capability_expansion_detection": "identify_new_capabilities_demonstrated",
+        "specialization_refinement": "identify_core_vs_peripheral_capabilities"
+      }
+    },
+    "registry_maintenance": {
+      "validation_schedule": "weekly_capability_validation",
+      "cleanup_policies": {
+        "remove_unused_capabilities": "capabilities_not_used_in_90_days",
+        "archive_deprecated_agents": "agents_with_zero_utilization_60_days",
+        "merge_similar_capabilities": "consolidate_overlapping_skill_categories"
+      },
+      "versioning": {
+        "registry_version_tracking": "semantic_versioning",
+        "capability_schema_versioning": "maintain_backward_compatibility",
+        "migration_support": "automatic_schema_migration_on_updates"
+      }
+    }
+  },
+
+  "delegation_integration": {
+    "pre_delegation_analysis": {
+      "task_complexity_assessment": "analyze_task_to_determine_required_capabilities",
+      "technology_detection": "identify_all_technologies_involved_in_task",
+      "skill_requirement_extraction": "extract_specific_skills_needed_from_task_description",
+      "capability_gap_detection": "identify_if_required_capabilities_exist_in_registry"
+    },
+    "delegation_workflow": {
+      "step_1_task_analysis": "parse_task_requirements_and_constraints",
+      "step_2_capability_matching": "score_all_agents_against_requirements",
+      "step_3_agent_selection": "select_highest_scoring_agent_or_agent_team",
+      "step_4_context_preparation": "prepare_agent_specific_context_and_instructions",
+      "step_5_delegation_execution": "delegate_to_selected_agent_with_full_context",
+      "step_6_performance_tracking": "monitor_delegation_and_track_performance"
+    },
+    "multi_agent_coordination": {
+      "agent_team_assembly": "assemble_team_for_multi_technology_tasks",
+      "workflow_sequencing": "determine_optimal_agent_execution_sequence",
+      "context_sharing": "share_context_between_agents_in_workflow",
+      "quality_gate_coordination": "coordinate_quality_validation_across_agents"
+    }
+  },
+
+  "quality_integration": {
+    "capability_validation": {
+      "pre_task_validation": "validate_agent_has_required_capabilities_before_delegation",
+      "post_task_validation": "validate_agent_performed_within_capability_expectations",
+      "capability_mismatch_handling": "escalate_if_agent_lacks_required_capability"
+    },
+    "performance_sla_enforcement": {
+      "response_time_monitoring": "alert_if_agent_exceeds_typical_response_time_by_50_percent",
+      "success_rate_monitoring": "alert_if_agent_success_rate_drops_below_threshold",
+      "token_efficiency_monitoring": "alert_if_agent_token_usage_exceeds_budget",
+      "quality_score_monitoring": "alert_if_agent_quality_gate_compliance_drops"
+    }
+  },
+
+  "reporting_and_analytics": {
+    "capability_coverage_report": {
+      "frequency": "weekly",
+      "metrics": [
+        "technology_stack_coverage",
+        "skill_category_coverage",
+        "capability_gaps_identified",
+        "agent_utilization_by_capability"
+      ]
+    },
+    "routing_effectiveness_report": {
+      "frequency": "weekly",
+      "metrics": [
+        "routing_accuracy_rate",
+        "first_time_right_delegation_rate",
+        "capability_mismatch_incidents",
+        "routing_optimization_opportunities"
+      ]
+    },
+    "agent_performance_dashboard": {
+      "real_time_metrics": [
+        "current_agent_utilization",
+        "agent_performance_by_capability",
+        "agent_queue_depth",
+        "agent_success_rate_trends"
+      ]
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "delegation-enforcement",
+      "agent-coordination",
+      "agent-performance-sla",
+      "technology-detection",
+      "role-resolution"
+    ],
+    "enhances": [
+      "intelligent_agent_routing",
+      "capability_based_delegation",
+      "performance_optimized_task_assignment",
+      "dynamic_capability_tracking"
+    ],
+    "provides_data_to": [
+      "agent-coordination",
+      "agent-performance-sla",
+      "optimization-tracker",
+      "lesson-learned"
+    ]
+  },
+
+  "success_metrics": {
+    "routing_accuracy": "first_time_correct_agent_selection_rate_over_90_percent",
+    "capability_coverage": "all_common_tasks_have_capable_agent_over_95_percent",
+    "performance_optimization": "average_task_completion_time_improvement_over_20_percent",
+    "agent_utilization": "balanced_workload_distribution_variance_under_15_percent",
+    "continuous_learning": "capability_registry_accuracy_improvement_over_time"
+  }
+}
