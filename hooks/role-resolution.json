@@ -102,11 +102,17 @@
   "agent_mappings": {
     "current_agents": {
       "implementation-expert": {
-        "rust": "rust-systems-expert",
-        "javascript": null,
-        "python": null,
-        "csharp": null,
-        "go": null,
+        "rust": "rust-expert",
+        "javascript": "typescript-expert",
+        "typescript": "typescript-expert",
+        "python": "python-expert",
+        "csharp": "csharp-expert",
+        "dotnet": "csharp-expert",
+        "go": "go-expert",
+        "golang": "go-expert",
+        "bash": "bash-expert",
+        "shell": "bash-expert",
+        "powershell": "powershell-expert",
         "java": null,
         "default_pattern": "{technology}-expert",
         "fallback": "comprehensive-analyst"

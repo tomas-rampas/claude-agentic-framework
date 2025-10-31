@@ -32,7 +32,7 @@
 
 ### Direct Implementation
 - **Analysis/investigation** → comprehensive-analyst
-- **Code implementation** → appropriate technology expert (rust-systems-expert, csharp-expert, go-expert, etc.)
+- **Code implementation** → appropriate technology expert (rust-expert, csharp-expert, go-expert, python-expert, typescript-expert, bash-expert, powershell-expert, etc.)
 - **Automation/scripting** → bash-expert (Linux/Unix), powershell-expert (Windows/Azure), devops-orchestrator (infrastructure)
 - **Infrastructure/deployment** → devops-orchestrator
 - **System design** → system-architect

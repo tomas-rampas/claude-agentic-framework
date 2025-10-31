@@ -26,7 +26,7 @@ config:
 exemption_check:
   enabled: true
   exempt_if_agent_context: true
-  exempt_agents: ["rust-systems-expert", "comprehensive-analyst", "code-review-gatekeeper", "system-architect", "devops-orchestrator", "technical-docs-writer", "product-owner"]
+  exempt_agents: ["rust-expert", "python-expert", "typescript-expert", "csharp-expert", "go-expert", "bash-expert", "powershell-expert", "comprehensive-analyst", "code-review-gatekeeper", "system-architect", "devops-orchestrator", "technical-docs-writer", "product-owner"]
 
 execution_blocks:
   direct_bash:
@@ -104,7 +104,13 @@ agent_detection:
     - "agent execution context"
 
   exempted_agents:
-    - "rust-systems-expert"
+    - "rust-expert"
+    - "python-expert"
+    - "typescript-expert"
+    - "csharp-expert"
+    - "go-expert"
+    - "bash-expert"
+    - "powershell-expert"
     - "comprehensive-analyst"
     - "code-review-gatekeeper"
     - "system-architect"
