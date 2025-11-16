@@ -1,9 +1,28 @@
 {
   "name": "agent-health-monitor",
   "description": "Monitor agent health and implement automatic recovery mechanisms",
-  "version": "1.0",
-  "monitors": ["maker", "test", "debug", "plan", "reader", "security", "docs"],
-  
+  "version": "2.0",
+  "monitors": [
+    "rust-expert",
+    "csharp-expert",
+    "go-expert",
+    "java-expert",
+    "python-expert",
+    "typescript-expert",
+    "bash-expert",
+    "powershell-expert",
+    "database-specialist",
+    "frontend-specialist",
+    "security-specialist",
+    "uiux-specialist",
+    "devops-orchestrator",
+    "system-architect",
+    "comprehensive-analyst",
+    "code-review-gatekeeper",
+    "technical-docs-writer",
+    "product-owner"
+  ],
+
   "health_checks": {
     "activity_monitoring": {
       "check_interval": 30000,
@@ -12,14 +31,14 @@
       "token_usage_monitoring": true,
       "tool_usage_tracking": true
     },
-    
+
     "performance_monitoring": {
       "response_time_threshold": 120000,
       "memory_usage_threshold": "80%",
       "token_efficiency_threshold": 0.1,
       "task_completion_rate_threshold": 0.8
     },
-    
+
     "quality_monitoring": {
       "error_rate_threshold": 0.05,
       "timeout_rate_threshold": 0.1,
@@ -27,7 +46,7 @@
       "coordination_failure_threshold": 0.15
     }
   },
-  
+
   "health_states": {
     "HEALTHY": {
       "description": "Agent operating normally",
@@ -50,7 +69,7 @@
       "escalation_level": 3
     }
   },
-  
+
   "recovery_strategies": {
     "STUCK_AGENT_RECOVERY": {
       "step_1": "SEND_HEALTH_CHECK_PING",
@@ -59,7 +78,7 @@
       "step_4": "PROGRESSIVE_ESCALATION",
       "timeout_per_step": 60000
     },
-    
+
     "PERFORMANCE_DEGRADATION": {
       "step_1": "REDUCE_TASK_COMPLEXITY",
       "step_2": "ALLOCATE_ADDITIONAL_RESOURCES",
@@ -67,7 +86,7 @@
       "step_4": "AGENT_REPLACEMENT",
       "adaptive_scaling": true
     },
-    
+
     "COORDINATION_FAILURE": {
       "step_1": "RESTART_COORDINATION_PROTOCOL",
       "step_2": "SIMPLIFY_WORKFLOW",
@@ -76,7 +95,7 @@
       "maintain_consistency": true
     }
   },
-  
+
   "escalation_matrix": {
     "level_0": {
       "action": "LOG_AND_CONTINUE",
@@ -99,28 +118,118 @@
       "intervention": "ORCHESTRATOR_TAKEOVER"
     }
   },
-  
+
   "backup_strategies": {
-    "maker-agent": {
-      "primary_backup": "debug-agent",
-      "secondary_backup": "orchestrator_direct",
-      "capability_overlap": ["code_creation", "file_modification"],
+    "rust-expert": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "code-review-gatekeeper",
+      "capability_overlap": ["code_creation", "performance_optimization"],
       "handover_protocol": "PRESERVE_CONTEXT"
     },
-    "test-agent": {
-      "primary_backup": "maker-agent",
-      "secondary_backup": "debug-agent", 
-      "capability_overlap": ["test_execution", "validation"],
-      "handover_protocol": "MAINTAIN_TEST_STATE"
+    "csharp-expert": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "code-review-gatekeeper",
+      "capability_overlap": ["code_creation", "azure_integration"],
+      "handover_protocol": "PRESERVE_CONTEXT"
     },
-    "debug-agent": {
-      "primary_backup": "maker-agent",
+    "go-expert": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "code-review-gatekeeper",
+      "capability_overlap": ["code_creation", "microservices"],
+      "handover_protocol": "PRESERVE_CONTEXT"
+    },
+    "java-expert": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "code-review-gatekeeper",
+      "capability_overlap": ["code_creation", "spring_boot"],
+      "handover_protocol": "PRESERVE_CONTEXT"
+    },
+    "python-expert": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "code-review-gatekeeper",
+      "capability_overlap": ["code_creation", "data_processing"],
+      "handover_protocol": "PRESERVE_CONTEXT"
+    },
+    "typescript-expert": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "code-review-gatekeeper",
+      "capability_overlap": ["code_creation", "frontend_backend"],
+      "handover_protocol": "PRESERVE_CONTEXT"
+    },
+    "bash-expert": {
+      "primary_backup": "devops-orchestrator",
+      "secondary_backup": "comprehensive-analyst",
+      "capability_overlap": ["automation", "scripting"],
+      "handover_protocol": "PRESERVE_CONTEXT"
+    },
+    "powershell-expert": {
+      "primary_backup": "devops-orchestrator",
+      "secondary_backup": "comprehensive-analyst",
+      "capability_overlap": ["automation", "windows_admin"],
+      "handover_protocol": "PRESERVE_CONTEXT"
+    },
+    "database-specialist": {
+      "primary_backup": "system-architect",
+      "secondary_backup": "comprehensive-analyst",
+      "capability_overlap": ["schema_design", "query_optimization"],
+      "handover_protocol": "PRESERVE_DATA_STATE"
+    },
+    "frontend-specialist": {
+      "primary_backup": "typescript-expert",
+      "secondary_backup": "uiux-specialist",
+      "capability_overlap": ["ui_components", "responsive_design"],
+      "handover_protocol": "PRESERVE_UI_STATE"
+    },
+    "security-specialist": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "code-review-gatekeeper",
+      "capability_overlap": ["security_audit", "vulnerability_assessment"],
+      "handover_protocol": "PRESERVE_SECURITY_CONTEXT"
+    },
+    "uiux-specialist": {
+      "primary_backup": "frontend-specialist",
+      "secondary_backup": "system-architect",
+      "capability_overlap": ["design_systems", "accessibility"],
+      "handover_protocol": "PRESERVE_DESIGN_STATE"
+    },
+    "devops-orchestrator": {
+      "primary_backup": "bash-expert",
+      "secondary_backup": "system-architect",
+      "capability_overlap": ["infrastructure", "ci_cd"],
+      "handover_protocol": "PRESERVE_INFRASTRUCTURE_STATE"
+    },
+    "system-architect": {
+      "primary_backup": "comprehensive-analyst",
       "secondary_backup": "orchestrator_direct",
-      "capability_overlap": ["error_investigation", "problem_solving"],
-      "handover_protocol": "TRANSFER_INVESTIGATION_STATE"
+      "capability_overlap": ["architecture_design", "technical_specifications"],
+      "handover_protocol": "PRESERVE_DESIGN_CONTEXT"
+    },
+    "comprehensive-analyst": {
+      "primary_backup": "code-review-gatekeeper",
+      "secondary_backup": "orchestrator_direct",
+      "capability_overlap": ["analysis", "investigation"],
+      "handover_protocol": "PRESERVE_ANALYSIS_STATE"
+    },
+    "code-review-gatekeeper": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "orchestrator_direct",
+      "capability_overlap": ["quality_validation", "code_review"],
+      "handover_protocol": "PRESERVE_REVIEW_STATE"
+    },
+    "technical-docs-writer": {
+      "primary_backup": "comprehensive-analyst",
+      "secondary_backup": "orchestrator_direct",
+      "capability_overlap": ["documentation", "guides"],
+      "handover_protocol": "PRESERVE_DOC_STATE"
+    },
+    "product-owner": {
+      "primary_backup": "system-architect",
+      "secondary_backup": "orchestrator_direct",
+      "capability_overlap": ["requirements", "user_stories"],
+      "handover_protocol": "PRESERVE_REQUIREMENTS_STATE"
     }
   },
-  
+
   "prevention_mechanisms": {
     "proactive_timeout_management": {
       "early_warning_threshold": 0.8,
@@ -128,14 +237,14 @@
       "automatic_extension": true,
       "graceful_degradation": true
     },
-    
+
     "resource_optimization": {
       "memory_management": "AUTOMATIC",
       "token_budgeting": "ADAPTIVE",
       "task_prioritization": "DYNAMIC",
       "load_balancing": "ENABLED"
     },
-    
+
     "coordination_improvement": {
       "communication_protocol": "OPTIMIZED",
       "state_synchronization": "CONTINUOUS",
@@ -143,20 +252,20 @@
       "workflow_adaptation": "REAL_TIME"
     }
   },
-  
+
   "recovery_success_metrics": {
     "recovery_time": "< 60 seconds",
     "data_loss": "ZERO",
     "workflow_continuity": "> 95%",
     "user_experience_impact": "MINIMAL"
   },
-  
+
   "integration": {
     "coordinates_with": [
       "zero-tolerance-quality",
-      "tdd-workflow", 
-      "development-standards",
-      "error-handling"
+      "tdd-workflow",
+      "agent-coordination",
+      "agent-performance-sla"
     ],
     "monitors_hooks": "ALL",
     "provides_feedback_to": "ORCHESTRATOR",

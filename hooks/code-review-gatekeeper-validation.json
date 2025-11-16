@@ -1,0 +1,187 @@
+{
+  "name": "code-review-gatekeeper-validation",
+  "version": "1.0.0",
+  "description": "Quality gates for code review process and standards enforcement",
+  "priority": "critical",
+  "agents": [
+    "code-review-gatekeeper",
+    "security-specialist",
+    "system-architect"
+  ],
+  "triggers": [
+    "pull_request_review",
+    "code_review_submission",
+    "pre_merge"
+  ],
+  "validation_sequence": {
+    "phase_1_review_completeness": {
+      "description": "Code review thoroughness",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "review_checklist",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Code correctness verified",
+            "Test coverage adequate",
+            "Error handling comprehensive",
+            "Performance considerations reviewed",
+            "Security vulnerabilities checked",
+            "Code style and formatting consistent",
+            "Documentation updated",
+            "Breaking changes identified",
+            "Migration path for changes",
+            "Backward compatibility maintained"
+          ]
+        }
+      ]
+    },
+    "phase_2_automated_checks": {
+      "description": "Automated quality checks passed",
+      "blocking": true,
+      "timeout_seconds": 300,
+      "checks": [
+        {
+          "name": "ci_pipeline_passed",
+          "validation": "automatic",
+          "required": true,
+          "description": "All CI/CD checks passed",
+          "includes": [
+            "Build successful",
+            "All tests passing",
+            "Linting passed",
+            "Static analysis clean",
+            "Security scans passed",
+            "Code coverage threshold met"
+          ]
+        },
+        {
+          "name": "no_merge_conflicts",
+          "validation": "automatic",
+          "required": true,
+          "description": "No merge conflicts with base branch"
+        },
+        {
+          "name": "branch_up_to_date",
+          "validation": "automatic",
+          "required": true,
+          "description": "Branch up to date with main/master"
+        }
+      ]
+    },
+    "phase_3_code_quality_standards": {
+      "description": "Code quality and maintainability",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "code_complexity",
+          "validation": "automatic",
+          "required": true,
+          "description": "Cyclomatic complexity within acceptable limits",
+          "thresholds": {
+            "function_complexity": 10,
+            "class_complexity": 50,
+            "file_complexity": 100
+          }
+        },
+        {
+          "name": "code_duplication",
+          "validation": "automatic",
+          "required": true,
+          "description": "No excessive code duplication",
+          "max_duplication_percent": 5
+        },
+        {
+          "name": "maintainability_index",
+          "validation": "automatic",
+          "required": false,
+          "description": "Maintainability index above threshold",
+          "min_score": 60
+        }
+      ]
+    },
+    "phase_4_review_feedback": {
+      "description": "Review feedback quality",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "feedback_quality",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Feedback is constructive and specific",
+            "Rationale provided for requested changes",
+            "Examples or suggestions given",
+            "Critical issues clearly marked",
+            "Approval/rejection reasoning documented"
+          ]
+        }
+      ]
+    },
+    "phase_5_approval_criteria": {
+      "description": "Merge approval requirements",
+      "blocking": true,
+      "timeout_seconds": 15,
+      "checks": [
+        {
+          "name": "required_approvals",
+          "validation": "automatic",
+          "required": true,
+          "description": "Required number of approvals obtained",
+          "min_approvals": 1,
+          "require_codeowner_approval": true
+        },
+        {
+          "name": "all_comments_resolved",
+          "validation": "automatic",
+          "required": true,
+          "description": "All review comments addressed and resolved"
+        },
+        {
+          "name": "no_requested_changes",
+          "validation": "automatic",
+          "required": true,
+          "description": "No active change requests blocking merge"
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_merge": {
+      "required_phases": [
+        "phase_1_review_completeness",
+        "phase_2_automated_checks",
+        "phase_3_code_quality_standards",
+        "phase_5_approval_criteria"
+      ]
+    }
+  },
+  "review_standards": {
+    "response_time_sla": "24 hours for initial review",
+    "approval_requirements": {
+      "minor_changes": "1 approval",
+      "major_changes": "2 approvals",
+      "breaking_changes": "2 approvals + architect review",
+      "security_changes": "1 approval + security specialist review"
+    },
+    "change_size_limits": {
+      "small": "< 200 lines",
+      "medium": "200-500 lines",
+      "large": "> 500 lines (consider breaking down)"
+    }
+  },
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "require_manual_review": true,
+    "escalation": {
+      "critical_security_issue": "blocking + immediate notification",
+      "breaking_change": "blocking + architect review",
+      "test_failure": "blocking",
+      "code_quality_violation": "warning with review required"
+    }
+  }
+}

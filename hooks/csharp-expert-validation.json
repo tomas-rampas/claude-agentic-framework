@@ -1,0 +1,411 @@
+{
+  "name": "csharp-expert-validation",
+  "version": "1.0.0",
+  "description": "Comprehensive quality gates and validation standards for C#/.NET development",
+  "priority": "high",
+  "agents": [
+    "csharp-expert",
+    "code-review-gatekeeper",
+    "comprehensive-analyst",
+    "security-specialist"
+  ],
+  "triggers": [
+    "csharp_code_change",
+    "dotnet_project_modification",
+    "pre_commit",
+    "csharp_file_save",
+    "nuget_package_update"
+  ],
+  "validation_sequence": {
+    "phase_1_compilation": {
+      "description": ".NET compilation and build verification",
+      "blocking": true,
+      "timeout_seconds": 300,
+      "checks": [
+        {
+          "name": "dotnet_restore",
+          "command": "dotnet restore",
+          "required": true,
+          "description": "Restore NuGet packages"
+        },
+        {
+          "name": "dotnet_build",
+          "command": "dotnet build --no-restore --configuration Debug",
+          "required": true,
+          "error_on_warning": false,
+          "description": "Debug build compilation"
+        },
+        {
+          "name": "dotnet_build_release",
+          "command": "dotnet build --no-restore --configuration Release",
+          "required": true,
+          "error_on_warning": false,
+          "description": "Release build with optimizations"
+        },
+        {
+          "name": "treat_warnings_as_errors",
+          "command": "dotnet build --no-restore /p:TreatWarningsAsErrors=true",
+          "required": false,
+          "error_on_warning": true,
+          "description": "Enforce warning-free code"
+        }
+      ]
+    },
+    "phase_2_code_analysis": {
+      "description": "Static code analysis and linting",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "roslyn_analyzers",
+          "command": "dotnet build /p:RunAnalyzers=true /p:EnforceCodeStyleInBuild=true",
+          "required": true,
+          "description": "Roslyn code analyzers",
+          "analyzers": [
+            "Microsoft.CodeAnalysis.NetAnalyzers",
+            "StyleCop.Analyzers",
+            "Roslynator.Analyzers"
+          ]
+        },
+        {
+          "name": "code_formatting",
+          "command": "dotnet format --verify-no-changes --verbosity diagnostic",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "dotnet format",
+          "description": ".NET code formatting verification"
+        },
+        {
+          "name": "fxcop_analysis",
+          "validation": "automatic",
+          "required": true,
+          "description": "FxCop code quality rules",
+          "rule_categories": [
+            "Design",
+            "Globalization",
+            "Interoperability",
+            "Maintainability",
+            "Naming",
+            "Performance",
+            "Reliability",
+            "Security",
+            "Usage"
+          ]
+        }
+      ]
+    },
+    "phase_3_testing": {
+      "description": ".NET testing and coverage requirements",
+      "blocking": true,
+      "timeout_seconds": 600,
+      "checks": [
+        {
+          "name": "unit_tests",
+          "command": "dotnet test --no-build --configuration Debug --filter Category=Unit",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Unit tests execution with xUnit/NUnit/MSTest"
+        },
+        {
+          "name": "integration_tests",
+          "command": "dotnet test --no-build --configuration Debug --filter Category=Integration",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Integration tests execution"
+        },
+        {
+          "name": "all_tests",
+          "command": "dotnet test --no-build --configuration Debug",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Complete test suite execution"
+        },
+        {
+          "name": "code_coverage",
+          "command": "dotnet test --collect:\"XPlat Code Coverage\" --results-directory ./coverage",
+          "required": true,
+          "min_coverage_percent": 70,
+          "description": "Code coverage with coverlet",
+          "coverage_tools": [
+            "coverlet",
+            "dotCover",
+            "OpenCover"
+          ]
+        },
+        {
+          "name": "mutation_testing",
+          "command": "dotnet stryker",
+          "required": false,
+          "min_mutation_score": 60,
+          "description": "Mutation testing with Stryker.NET",
+          "note": "Requires dotnet-stryker tool"
+        }
+      ]
+    },
+    "phase_4_security_scan": {
+      "description": ".NET security and vulnerability scanning",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "nuget_audit",
+          "command": "dotnet list package --vulnerable --include-transitive",
+          "required": true,
+          "description": "Scan for vulnerable NuGet packages"
+        },
+        {
+          "name": "security_code_scan",
+          "validation": "automatic",
+          "required": true,
+          "description": "Security vulnerability detection",
+          "note": "Requires SecurityCodeScan.VS2019 NuGet package",
+          "scans_for": [
+            "SQL Injection",
+            "XSS vulnerabilities",
+            "CSRF issues",
+            "Insecure deserialization",
+            "Weak cryptography",
+            "Path traversal"
+          ]
+        },
+        {
+          "name": "dependency_check",
+          "command": "dotnet dependency-check",
+          "required": false,
+          "description": "OWASP dependency check for .NET",
+          "note": "Requires OWASP Dependency Check CLI"
+        }
+      ]
+    },
+    "phase_5_aspnet_validation": {
+      "description": "ASP.NET Core specific validation",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "condition": "project_type == aspnet_core",
+      "checks": [
+        {
+          "name": "middleware_order",
+          "validation": "manual",
+          "required": true,
+          "description": "Validate middleware pipeline order",
+          "checklist": [
+            "UseExceptionHandler before other middleware",
+            "UseHsts before UseHttpsRedirection",
+            "UseAuthentication before UseAuthorization",
+            "CORS configured correctly if needed"
+          ]
+        },
+        {
+          "name": "api_versioning",
+          "validation": "manual",
+          "required": false,
+          "description": "API versioning strategy implemented",
+          "strategies": [
+            "URL versioning",
+            "Header versioning",
+            "Query string versioning"
+          ]
+        },
+        {
+          "name": "health_checks",
+          "validation": "manual",
+          "required": true,
+          "description": "Health check endpoints configured",
+          "checklist": [
+            "/health endpoint configured",
+            "Database health checks",
+            "External service health checks"
+          ]
+        }
+      ]
+    },
+    "phase_6_azure_compliance": {
+      "description": "Azure-specific validation and best practices",
+      "blocking": false,
+      "timeout_seconds": 120,
+      "condition": "uses_azure == true",
+      "checks": [
+        {
+          "name": "azure_sdk_version",
+          "validation": "automatic",
+          "required": true,
+          "description": "Azure SDK packages up to date"
+        },
+        {
+          "name": "managed_identity",
+          "validation": "manual",
+          "required": false,
+          "description": "Managed Identity used instead of connection strings",
+          "checklist": [
+            "DefaultAzureCredential configured",
+            "No connection strings in code",
+            "KeyVault integration for secrets"
+          ]
+        },
+        {
+          "name": "application_insights",
+          "validation": "manual",
+          "required": false,
+          "description": "Application Insights telemetry configured"
+        }
+      ]
+    },
+    "phase_7_documentation": {
+      "description": ".NET documentation standards",
+      "blocking": false,
+      "timeout_seconds": 90,
+      "checks": [
+        {
+          "name": "xml_documentation",
+          "command": "dotnet build /p:GenerateDocumentationFile=true /p:TreatWarningsAsErrors=true",
+          "required": true,
+          "description": "XML documentation comments required"
+        },
+        {
+          "name": "swagger_openapi",
+          "validation": "manual",
+          "required": false,
+          "condition": "project_type == aspnet_webapi",
+          "description": "Swagger/OpenAPI documentation generated",
+          "checklist": [
+            "Swashbuckle.AspNetCore installed",
+            "API endpoints documented",
+            "Response types specified",
+            "Example requests/responses provided"
+          ]
+        }
+      ]
+    },
+    "phase_8_best_practices": {
+      "description": "C#/.NET idioms and best practices",
+      "blocking": false,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "nullable_reference_types",
+          "validation": "automatic",
+          "required": true,
+          "description": "Nullable reference types enabled",
+          "note": "Check <Nullable>enable</Nullable> in .csproj"
+        },
+        {
+          "name": "async_naming",
+          "validation": "automatic",
+          "required": true,
+          "description": "Async methods named with 'Async' suffix"
+        },
+        {
+          "name": "dispose_pattern",
+          "validation": "manual",
+          "required": true,
+          "description": "IDisposable implemented correctly",
+          "checklist": [
+            "Dispose pattern with suppressor",
+            "Using statements used appropriately",
+            "Async disposal (IAsyncDisposable) when needed"
+          ]
+        },
+        {
+          "name": "dependency_injection",
+          "validation": "manual",
+          "required": true,
+          "description": "Dependency injection best practices",
+          "checklist": [
+            "Constructor injection preferred",
+            "Service lifetimes appropriate (Singleton/Scoped/Transient)",
+            "No service locator anti-pattern"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_code_analysis",
+        "phase_3_testing"
+      ]
+    },
+    "pre_push": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_code_analysis",
+        "phase_3_testing",
+        "phase_4_security_scan"
+      ]
+    },
+    "pre_release": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_code_analysis",
+        "phase_3_testing",
+        "phase_4_security_scan",
+        "phase_5_aspnet_validation",
+        "phase_7_documentation",
+        "phase_8_best_practices"
+      ]
+    }
+  },
+  "tools_required": {
+    "essential": [
+      "dotnet-sdk",
+      "dotnet-format"
+    ],
+    "recommended": [
+      "coverlet.collector",
+      "Microsoft.CodeAnalysis.NetAnalyzers",
+      "StyleCop.Analyzers",
+      "SecurityCodeScan.VS2019"
+    ],
+    "advanced": [
+      "dotnet-stryker",
+      "Roslynator.Analyzers",
+      "SonarAnalyzer.CSharp"
+    ]
+  },
+  "frameworks_supported": [
+    ".NET 6",
+    ".NET 7",
+    ".NET 8",
+    ".NET Framework 4.8",
+    "ASP.NET Core",
+    "Blazor",
+    "MAUI",
+    "WPF",
+    "WinForms"
+  ],
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "require_review_on_failure": true,
+    "auto_fix_when_possible": true,
+    "escalation": {
+      "compilation_failure": "blocking",
+      "test_failure": "blocking",
+      "code_analysis_warning": "warning",
+      "security_vulnerability": "blocking",
+      "missing_documentation": "warning"
+    }
+  },
+  "integration": {
+    "ci_cd_compatible": true,
+    "azure_devops": true,
+    "github_actions": true,
+    "ide_integration": [
+      "Visual Studio",
+      "Visual Studio Code",
+      "Rider"
+    ],
+    "git_hooks": [
+      "pre-commit",
+      "pre-push"
+    ]
+  },
+  "metrics": {
+    "track_build_time": true,
+    "track_test_time": true,
+    "track_coverage": true,
+    "track_package_count": true,
+    "track_code_complexity": true
+  }
+}

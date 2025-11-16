@@ -96,18 +96,72 @@
       ],
       "technology_specific": false,
       "business_focused": true
+    },
+    "database-expert": {
+      "description": "Database design, optimization, and data management",
+      "responsibilities": [
+        "schema_design_and_optimization",
+        "query_performance_tuning",
+        "data_migration_planning",
+        "indexing_strategies",
+        "database_security_and_compliance"
+      ],
+      "technology_specific": false,
+      "data_focused": true
+    },
+    "frontend-expert": {
+      "description": "Frontend UI development and component creation",
+      "responsibilities": [
+        "ui_component_development",
+        "responsive_design_implementation",
+        "state_management",
+        "frontend_performance_optimization",
+        "accessibility_implementation"
+      ],
+      "technology_specific": true,
+      "ui_focused": true
+    },
+    "security-expert": {
+      "description": "Security audits, vulnerability assessment, and compliance",
+      "responsibilities": [
+        "security_audit_and_assessment",
+        "vulnerability_identification",
+        "authentication_and_authorization",
+        "threat_modeling",
+        "compliance_validation"
+      ],
+      "technology_specific": false,
+      "security_focused": true
+    },
+    "uiux-expert": {
+      "description": "UI/UX design, accessibility, and user experience",
+      "responsibilities": [
+        "user_interface_design",
+        "user_experience_optimization",
+        "accessibility_compliance",
+        "design_system_creation",
+        "user_flow_design"
+      ],
+      "technology_specific": false,
+      "design_focused": true
     }
   },
 
   "agent_mappings": {
     "current_agents": {
       "implementation-expert": {
-        "rust": "rust-systems-expert",
-        "javascript": null,
-        "python": null,
-        "csharp": null,
-        "go": null,
-        "java": null,
+        "rust": "rust-expert",
+        "javascript": "typescript-expert",
+        "typescript": "typescript-expert",
+        "python": "python-expert",
+        "csharp": "csharp-expert",
+        "dotnet": "csharp-expert",
+        "go": "go-expert",
+        "golang": "go-expert",
+        "java": "java-expert",
+        "bash": "bash-expert",
+        "shell": "bash-expert",
+        "powershell": "powershell-expert",
         "default_pattern": "{technology}-expert",
         "fallback": "comprehensive-analyst"
       },
@@ -133,6 +187,22 @@
       },
       "product-expert": {
         "all_technologies": "product-owner",
+        "universal": true
+      },
+      "database-expert": {
+        "all_technologies": "database-specialist",
+        "universal": true
+      },
+      "frontend-expert": {
+        "all_technologies": "frontend-specialist",
+        "universal": true
+      },
+      "security-expert": {
+        "all_technologies": "security-specialist",
+        "universal": true
+      },
+      "uiux-expert": {
+        "all_technologies": "uiux-specialist",
         "universal": true
       }
     },

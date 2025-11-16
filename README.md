@@ -1,19 +1,19 @@
 # Claude Code CLI - Agent Execution Framework
 
-**A Claude Code CLI Configuration Framework featuring an elite-tier multi-agent system with self-learning capabilities and 11 specialized agents for complete software development lifecycle coverage.**
+**A Claude Code CLI Configuration Framework featuring an elite-tier multi-agent system with self-learning capabilities and 18 specialized agents for complete software development lifecycle coverage.**
 
 ---
 
 ## 🎯 Overview
 
-This repository provides a **production-ready configuration framework built specifically for Claude Code CLI**, Anthropic's official command-line interface for Claude AI. The framework extends Claude Code CLI with 11 specialized agents, automated pattern capture, institutional memory, and intelligent knowledge management that improves over time.
+This repository provides a **production-ready configuration framework built specifically for Claude Code CLI**, Anthropic's official command-line interface for Claude AI. The framework extends Claude Code CLI with 18 specialized agents, automated pattern capture, institutional memory, and intelligent knowledge management that improves over time.
 
 **This is NOT a standalone tool** - it's a powerful configuration layer that **requires and extends Claude Code CLI** to enable advanced development workflows through natural language task routing and agent-based execution.
 
 **Current Status (October 2025):**
 - ✅ **Claude Code CLI Framework** - Built on Anthropic's official CLI platform
 - ✅ **Elite-Tier Agent System** - Advanced multi-agent orchestration with pattern capture
-- ✅ **11 Specialized Agents** - Complete coverage from product strategy to deployment
+- ✅ **18 Specialized Agents** - Complete coverage from product strategy to deployment
 - ✅ **Institutional Memory** - Automated capture and reuse of successful patterns
 - ✅ **Pattern Recognition** - Semantic search, workflow capture, and optimization tracking
 - ✅ **MCP-First Architecture** - Advanced integration with 4 MCP servers
@@ -23,7 +23,7 @@ This repository provides a **production-ready configuration framework built spec
 
 ## 🔍 How This Framework Works
 
-This framework **extends Claude Code CLI** with a specialized 11-agent ecosystem:
+This framework **extends Claude Code CLI** with a specialized 18-agent ecosystem:
 
 **🏗️ Claude Code CLI (Platform)**
 - Provides the agent execution environment
@@ -34,10 +34,10 @@ This framework **extends Claude Code CLI** with a specialized 11-agent ecosystem
 
 **⚙️ This Framework (Configuration)**
 - **CLAUDE.md**: Agent execution rules and task routing logic
-- **agents/**: 11 specialized agent definitions with YAML frontmatter
+- **agents/**: 18 specialized agent definitions with YAML frontmatter
 - **commands/**: Custom commands like `/delegate` for intelligent task routing
-- **hooks/**: Quality gates and automated learning hooks
-- **workflows/**: Pattern capture and optimization workflows
+- **hooks/**: Quality gates and automated validation hooks
+- **skills/**: Framework enhancement and maintenance capabilities
 
 **🔌 MCP Servers (Enhanced Capabilities)**
 - **serena**: Semantic code intelligence + institutional memory system
@@ -129,7 +129,7 @@ This framework leverages Claude Code CLI's core capabilities:
 1. **Agent Execution Environment**: Provides the foundation for running specialized agents
 2. **MCP Server Integration**: Enables enhanced capabilities through Model Context Protocol servers
 3. **Natural Language Interface**: Allows intuitive task specification and routing
-4. **Custom Agent Support**: Enables loading and execution of the 11 specialized agents
+4. **Custom Agent Support**: Enables loading and execution of the 18 specialized agents
 5. **Conversation Context**: Maintains state and learning across complex multi-step tasks
 6. **Tool Access Management**: Controls agent permissions and capabilities
 7. **Learning System Foundation**: Supports institutional memory and pattern recognition
@@ -259,21 +259,23 @@ cd ~/.claude
 #### Step 2: Validate Framework Integrity
 
 ```bash
-# Run validation script to ensure all components are properly configured
-./scripts/validate-mcp-integration.sh
+# Verify all framework components are present
+ls -la CLAUDE.md claude.json agents/ commands/ hooks/ shared/ skills/
 
-# Expected output:
-# ✅ CLAUDE.md configuration found
-# ✅ All 11 agents present
-# ✅ Delegate command configured
-# ✅ MCP servers configured
-# ✅ Learning system initialized
+# Expected: All directories and key files should exist
+# ✅ CLAUDE.md (agent execution rules)
+# ✅ claude.json (agent configuration)
+# ✅ agents/ (18 agent definitions)
+# ✅ commands/ (delegate command)
+# ✅ hooks/ (quality gates)
+# ✅ shared/ (shared configurations)
+# ✅ skills/ (framework tools)
 ```
 
 #### Step 3: Verify Agent Configuration
 
 ```bash
-# Check that all 11 agents are present
+# Check that all 18 agents are present
 ls -1 agents/*.md
 
 # Should show:
@@ -281,13 +283,20 @@ ls -1 agents/*.md
 # agents/code-review-gatekeeper.md
 # agents/comprehensive-analyst.md
 # agents/csharp-expert.md
+# agents/database-specialist.md
 # agents/devops-orchestrator.md
+# agents/frontend-specialist.md
 # agents/go-expert.md
+# agents/java-expert.md
 # agents/powershell-expert.md
 # agents/product-owner.md
-# agents/rust-systems-expert.md
+# agents/python-expert.md
+# agents/rust-expert.md
+# agents/security-specialist.md
 # agents/system-architect.md
 # agents/technical-docs-writer.md
+# agents/typescript-expert.md
+# agents/uiux-specialist.md
 ```
 
 #### Step 4: Verify Delegation Command
@@ -308,7 +317,7 @@ claude
 # Test delegation system
 User: "Explain the agent system"
 
-# The framework should recognize the request and explain the 11-agent architecture
+# The framework should recognize the request and explain the 18-agent architecture
 ```
 
 ---
@@ -322,15 +331,12 @@ User: "Explain the agent system"
 cd ~/.claude
 
 # 2. Verify all components
-ls -la CLAUDE.md agents/ commands/ hooks/
+ls -la CLAUDE.md claude.json agents/ commands/ hooks/ shared/ skills/
 
-# 3. Check MCP integration
-cat .mcp.json
+# 3. Verify agent configuration
+cat claude.json | grep -A 2 "sub_agents"
 
-# 4. Validate complete framework integrity
-./scripts/validate-mcp-integration.sh
-
-# 5. Optional: Run security check
+# 4. Optional: Run security check
 ./security-check.sh
 ```
 
@@ -502,7 +508,7 @@ The framework learns from every interaction:
 | Metric | Current Status | Performance |
 |--------|----------------|-------------|
 | **Platform** | Claude Code CLI | Official Anthropic CLI integration |
-| **Active Agents** | 11 specialized agents | Complete development lifecycle coverage |
+| **Active Agents** | 18 specialized agents | Complete development lifecycle coverage |
 | **Learning System** | 8 memory categories | Institutional knowledge accumulation |
 | **Pattern Success Rate** | 94%+ average | High-quality automated playbooks |
 | **Knowledge Base** | Semantic search enabled | Intelligent knowledge retrieval |
@@ -518,21 +524,36 @@ The framework learns from every interaction:
 |-------|-------|------------------|
 | **product-owner** | Product ownership, user stories, business value | Backlog management, stakeholder communication, feature prioritization, acceptance criteria |
 
-### Architecture & Analysis (2 Agents)
+### Architecture & Analysis (3 Agents)
 | Agent | Focus | Key Capabilities |
 |-------|-------|------------------|
 | **system-architect** | Technical architecture, system design, technology selection | SOLID principles, design patterns, architecture decisions, scalability planning |
 | **comprehensive-analyst** | Deep analysis, evaluation, investigation | Security audits, performance profiling, code analysis, technical research |
+| **code-review-gatekeeper** | Code review, quality validation, testing | Quality gates, test enforcement, standards compliance, code analysis |
 
-### Development & Quality (6 Agents)
+### Language-Specific Development (6 Agents)
 | Agent | Focus | Key Capabilities |
 |-------|-------|------------------|
-| **rust-systems-expert** | Rust development, implementation, optimization | Systems programming, memory safety, performance optimization, async/await |
+| **rust-expert** | Rust development, implementation, optimization | Systems programming, memory safety, performance optimization, async/await |
 | **csharp-expert** | C#/.NET development, ASP.NET Core, Azure solutions | Enterprise applications, microservices, Entity Framework, Azure integration |
 | **go-expert** | Go development, microservices, cloud-native | Concurrent programming, gRPC, Kubernetes operators, distributed systems |
-| **powershell-expert** | PowerShell automation, Windows administration | Azure/AWS automation, DSC, system administration, cloud scripting |
+| **java-expert** | Java/Spring Boot development, enterprise applications | Spring ecosystem, Maven/Gradle, JUnit testing, Android development |
+| **python-expert** | Python development, web frameworks, data science | Django/Flask, data processing, automation, machine learning |
+| **typescript-expert** | TypeScript/JavaScript development, React/Next.js | Frontend/backend TypeScript, React/Vue/Angular, Node.js, testing |
+
+### Scripting & Automation (2 Agents)
+| Agent | Focus | Key Capabilities |
+|-------|-------|------------------|
 | **bash-expert** | Bash/shell scripting, Linux automation | Unix system administration, build scripts, deployment pipelines, CLI tools |
-| **code-review-gatekeeper** | Code review, quality validation, testing | Quality gates, test enforcement, standards compliance, code analysis |
+| **powershell-expert** | PowerShell automation, Windows administration | Azure/AWS automation, DSC, system administration, cloud scripting |
+
+### Specialized Domains (4 Agents)
+| Agent | Focus | Key Capabilities |
+|-------|-------|------------------|
+| **database-specialist** | Database design, schema optimization, query optimization | SQL/NoSQL, schema design, indexing, migrations, performance tuning |
+| **frontend-specialist** | Frontend UI development, responsive design | React/Vue/Angular, responsive design, state management, accessibility |
+| **security-specialist** | Security audits, vulnerability assessment | Authentication, authorization, compliance, penetration testing, security reviews |
+| **uiux-specialist** | UI/UX design, accessibility, design systems | User flows, design systems, accessibility, wireframing, prototyping |
 
 ### Infrastructure & Documentation (2 Agents)
 | Agent | Focus | Key Capabilities |
@@ -582,20 +603,27 @@ Located in `/hooks/` directory:
 ```
 ~/.claude/                             # Claude Code CLI configuration directory
 ├── CLAUDE.md                         # Main orchestrator configuration with delegation rules
-├── agents/                           # Agent definitions (11 total)
+├── agents/                           # Agent definitions (18 total)
 │   ├── product-owner.md             # Product ownership and requirements
 │   ├── system-architect.md          # Technical architecture and design
 │   ├── comprehensive-analyst.md     # Deep analysis and investigation
-│   ├── rust-systems-expert.md       # Rust development and implementation
+│   ├── code-review-gatekeeper.md    # Code review and quality validation
+│   ├── rust-expert.md               # Rust development and implementation
 │   ├── csharp-expert.md             # C#/.NET development and Azure
 │   ├── go-expert.md                 # Go development and microservices
-│   ├── powershell-expert.md         # PowerShell automation and Windows
+│   ├── java-expert.md               # Java/Spring Boot development
+│   ├── python-expert.md             # Python development and data science
+│   ├── typescript-expert.md         # TypeScript/JavaScript development
 │   ├── bash-expert.md               # Bash scripting and Linux automation
-│   ├── code-review-gatekeeper.md    # Quality assurance and validation
+│   ├── powershell-expert.md         # PowerShell automation and Windows
+│   ├── database-specialist.md       # Database design and optimization
+│   ├── frontend-specialist.md       # Frontend UI development
+│   ├── security-specialist.md       # Security audits and compliance
+│   ├── uiux-specialist.md           # UI/UX design and accessibility
 │   ├── devops-orchestrator.md       # Infrastructure and CI/CD
 │   └── technical-docs-writer.md     # Documentation and technical writing
 ├── commands/                         # Smart routing and delegation
-│   └── delegate.md                   # Task routing with 11-agent ecosystem
+│   └── delegate.md                   # Task routing with 18-agent ecosystem
 ├── hooks/                            # Quality gates and learning automation
 │   ├── zero-tolerance-quality.json  # Zero-tolerance quality policy
 │   ├── architecture-review.json     # Technical architecture validation
@@ -606,21 +634,19 @@ Located in `/hooks/` directory:
 │   ├── code-review.json             # Code review standards
 │   └── delegation-enforcement.yaml  # Agent delegation rules
 ├── shared/                           # Shared configurations
-│   └── memory-categories.json        # Learning system structure
-├── context/                          # Agent coordination and context
-│   └── agent-coordination.json      # Enhanced with learning capabilities
-├── workflows/                        # Learning workflow definitions
-│   └── learning-workflows.json      # Post-task analysis and pattern recognition
-├── knowledge/                        # Knowledge base integration
-│   └── knowledge-base-integration.json  # Semantic search and curation
-├── playbooks/                        # Automated playbooks
-│   └── workflow-playbooks.json      # Generated from successful patterns
-├── scripts/                          # Validation and setup scripts
-│   ├── validate-mcp-integration.sh  # MCP server validation
-│   ├── setup-delegation.sh          # Delegation system setup
-│   └── delegation-check.sh          # Delegation verification
+│   ├── agent-patterns.md            # Common agent patterns
+│   ├── base-config.json             # Base configuration
+│   ├── mcp-config.json              # MCP server configuration
+│   └── memory-categories.json       # Learning system structure
+├── skills/                           # Framework enhancement capabilities
+│   ├── framework-validator.md       # Framework health validation
+│   ├── agent-routing-advisor.md     # Task routing assistance
+│   ├── hook-config-generator.md     # Hook generation tools
+│   ├── workflow-visualizer.md       # Workflow diagram generation
+│   ├── performance-analytics.md     # Performance tracking
+│   └── migration-assistant.md       # Framework migration tools
 ├── .env.example                      # Environment template
-├── .mcp.json                         # MCP server configuration
+├── claude.json                       # Agent configuration
 ├── security-check.sh                 # Security validation script
 └── README.md                         # This file
 ```
@@ -784,19 +810,17 @@ The framework automatically tracks learning effectiveness:
 
 ### Core Framework Documentation
 - **CLAUDE.md** - Main orchestrator with agent execution rules
-- **agents/*.md** - Individual agent definitions with YAML frontmatter and learning integration
+- **claude.json** - Agent configuration with all 18 specialized agents
+- **agents/*.md** - Individual agent definitions with YAML frontmatter
 - **shared/memory-categories.json** - Learning system structure and categories
-- **workflows/learning-workflows.json** - Automated learning process definitions
+- **skills/*.md** - Framework enhancement and maintenance tools
 
-### Learning System
-- **hooks/pattern-capture.json** - Automatic pattern learning configuration
-- **knowledge/knowledge-base-integration.json** - Semantic search and playbooks
-- **playbooks/workflow-playbooks.json** - Generated step-by-step guides
-
-### Quality Assurance
+### Quality Assurance System
 - **hooks/zero-tolerance-quality.json** - Quality enforcement standards
 - **hooks/architecture-review.json** - Technical design validation
 - **hooks/code-review.json** - Code review standards and practices
+- **hooks/pattern-capture.json** - Automatic pattern learning configuration
+- **hooks/agent-capability-registry.json** - Agent routing and capabilities
 
 ---
 
@@ -810,7 +834,7 @@ The framework automatically tracks learning effectiveness:
 - 📋 **Product/Architect Separation**: Clear business vs. technical decision boundaries
 - 🔍 **Semantic Search**: Intelligent knowledge retrieval system
 - 📚 **Automated Playbooks**: Step-by-step guides from successful patterns
-- 🎯 **11 Specialized Agents**: Complete development lifecycle coverage
+- 🎯 **18 Specialized Agents**: Complete development lifecycle coverage
 - ⚡ **Performance Intelligence**: Automated optimization discovery and application
 
 ### 🔄 Ongoing Evolution
@@ -901,13 +925,13 @@ claude "Test MCP server connection"
 
 ```bash
 # Verify all agents exist
-ls -1 agents/*.md | wc -l  # Should show 11
+ls -1 agents/*.md | wc -l  # Should show 18
 
 # Check agent file integrity
-cat agents/rust-systems-expert.md | head -10
+cat agents/rust-expert.md | head -10
 
 # Verify agent YAML frontmatter
-grep -A 5 "^---$" agents/rust-systems-expert.md
+grep -A 5 "^---$" agents/rust-expert.md
 ```
 
 ### Delegation Not Working
@@ -961,7 +985,7 @@ When reporting issues, include:
 
 **🧠 Advanced multi-agent development framework built on Claude Code CLI with pattern capture, workflow optimization, and language-specific expertise.**
 
-**Built for Claude Code CLI • Powered by 11 Specialized Agents • Enhanced by MCP Integration • Continuously Learning and Evolving**
+**Built for Claude Code CLI • Powered by 18 Specialized Agents • Enhanced by MCP Integration • Continuously Learning and Evolving**
 
 ---
 

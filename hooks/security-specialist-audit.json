@@ -1,0 +1,320 @@
+{
+  "name": "security-specialist-audit",
+  "description": "Security audit, vulnerability assessment, and compliance validation",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["security-specialist", "code-review-gatekeeper", "comprehensive-analyst"],
+  "triggers": [
+    "authentication_change",
+    "authorization_change",
+    "security_config_change",
+    "cryptography_implementation",
+    "pre_deploy_security_check",
+    "dependency_change"
+  ],
+
+  "security_assessment": {
+    "owasp_top_10": {
+      "a01_broken_access_control": {
+        "checks": ["authorization_on_all_endpoints", "privilege_escalation_prevention", "cors_configuration"],
+        "severity": "critical",
+        "blocking": true
+      },
+      "a02_cryptographic_failures": {
+        "checks": ["sensitive_data_encryption", "secure_protocol_usage", "key_management"],
+        "severity": "critical",
+        "blocking": true
+      },
+      "a03_injection": {
+        "checks": ["sql_injection", "command_injection", "ldap_injection", "xss_prevention"],
+        "severity": "critical",
+        "blocking": true
+      },
+      "a04_insecure_design": {
+        "checks": ["threat_modeling", "secure_design_patterns", "defense_in_depth"],
+        "severity": "high",
+        "blocking": true
+      },
+      "a05_security_misconfiguration": {
+        "checks": ["secure_defaults", "unnecessary_features_disabled", "security_headers"],
+        "severity": "high",
+        "blocking": true
+      },
+      "a06_vulnerable_components": {
+        "checks": ["dependency_scanning", "cve_monitoring", "supply_chain_security"],
+        "severity": "critical",
+        "blocking": true
+      },
+      "a07_authentication_failures": {
+        "checks": ["password_policy", "mfa_support", "session_management", "credential_stuffing_prevention"],
+        "severity": "critical",
+        "blocking": true
+      },
+      "a08_data_integrity_failures": {
+        "checks": ["digital_signatures", "ci_cd_pipeline_security", "deserialization_protection"],
+        "severity": "high",
+        "blocking": true
+      },
+      "a09_logging_monitoring_failures": {
+        "checks": ["security_event_logging", "log_protection", "anomaly_detection"],
+        "severity": "medium",
+        "blocking": false
+      },
+      "a10_ssrf": {
+        "checks": ["url_validation", "network_segmentation", "deny_by_default"],
+        "severity": "high",
+        "blocking": true
+      }
+    }
+  },
+
+  "authentication_standards": {
+    "password_requirements": {
+      "minimum_length": 12,
+      "complexity": "upper_lower_number_special",
+      "hashing": "bcrypt_argon2_or_scrypt",
+      "salt": "unique_per_user",
+      "iterations": "minimum_10000_for_pbkdf2"
+    },
+    "session_management": {
+      "session_id": "cryptographically_random",
+      "session_timeout": "15_minutes_inactivity",
+      "absolute_timeout": "8_hours",
+      "logout": "complete_session_invalidation",
+      "concurrent_sessions": "limit_or_track"
+    },
+    "multi_factor_authentication": {
+      "requirement": "mandatory_for_admin_recommended_for_all",
+      "methods": ["totp", "sms_with_caution", "hardware_keys", "biometric"],
+      "backup_codes": "provide_recovery_codes"
+    },
+    "oauth_openid": {
+      "pkce": "required_for_public_clients",
+      "state_parameter": "csrf_protection",
+      "token_storage": "httponly_secure_cookies",
+      "refresh_tokens": "rotation_on_use"
+    }
+  },
+
+  "authorization_standards": {
+    "access_control": {
+      "model": "rbac_or_abac",
+      "default": "deny_by_default",
+      "principle": "least_privilege",
+      "validation": "on_every_request"
+    },
+    "rbac": {
+      "roles": "clearly_defined_roles",
+      "permissions": "granular_permissions",
+      "assignment": "role_to_user_mapping",
+      "hierarchical": "support_role_hierarchy"
+    },
+    "abac": {
+      "attributes": "user_resource_environment_attributes",
+      "policies": "centralized_policy_definitions",
+      "evaluation": "real_time_policy_evaluation"
+    }
+  },
+
+  "data_protection": {
+    "encryption": {
+      "at_rest": {
+        "algorithm": "AES_256",
+        "key_management": "kms_or_vault",
+        "key_rotation": "annual_minimum",
+        "scope": "all_sensitive_data"
+      },
+      "in_transit": {
+        "protocol": "TLS_1_3_preferred_1_2_minimum",
+        "certificate": "valid_from_trusted_ca",
+        "cipher_suites": "strong_ciphers_only",
+        "hsts": "enable_http_strict_transport_security"
+      }
+    },
+    "pii_handling": {
+      "identification": "classify_all_pii",
+      "minimization": "collect_only_necessary_data",
+      "retention": "defined_retention_policy",
+      "deletion": "secure_data_deletion",
+      "consent": "explicit_user_consent"
+    },
+    "gdpr_compliance": {
+      "data_mapping": "know_where_data_resides",
+      "right_to_access": "provide_data_export",
+      "right_to_erasure": "implement_data_deletion",
+      "data_portability": "standard_export_formats",
+      "breach_notification": "72_hour_notification_process"
+    }
+  },
+
+  "secure_coding_practices": {
+    "input_validation": {
+      "whitelist": "prefer_whitelisting_over_blacklisting",
+      "sanitization": "context_appropriate_sanitization",
+      "type_checking": "strong_type_validation",
+      "length_limits": "enforce_maximum_lengths"
+    },
+    "output_encoding": {
+      "html_encoding": "prevent_xss",
+      "url_encoding": "prevent_url_manipulation",
+      "json_encoding": "prevent_json_injection",
+      "context_aware": "encode_based_on_output_context"
+    },
+    "error_handling": {
+      "generic_messages": "no_sensitive_info_in_errors",
+      "logging": "log_detailed_errors_securely",
+      "stack_traces": "never_expose_to_users",
+      "status_codes": "appropriate_http_status"
+    }
+  },
+
+  "cryptography_standards": {
+    "algorithms": {
+      "symmetric": "AES_256",
+      "asymmetric": "RSA_4096_or_ECC_P384",
+      "hashing": "SHA_256_or_SHA_3",
+      "avoid": ["MD5", "SHA1", "DES", "3DES"]
+    },
+    "key_management": {
+      "generation": "cryptographically_secure_random",
+      "storage": "hardware_security_module_or_key_vault",
+      "rotation": "regular_key_rotation",
+      "lifecycle": "defined_key_lifecycle_policy"
+    },
+    "random_number_generation": {
+      "source": "cryptographically_secure_prng",
+      "avoid": "Math.random_or_time_based_seeds"
+    }
+  },
+
+  "security_headers": {
+    "required_headers": {
+      "content_security_policy": "strict_csp_with_nonces",
+      "x_frame_options": "DENY_or_SAMEORIGIN",
+      "x_content_type_options": "nosniff",
+      "strict_transport_security": "max_age_31536000_includeSubDomains",
+      "referrer_policy": "no_referrer_or_strict_origin",
+      "permissions_policy": "restrictive_feature_policy"
+    }
+  },
+
+  "security_testing": {
+    "sast": {
+      "tools": ["sonarqube", "semgrep", "checkmarx", "veracode"],
+      "frequency": "on_every_commit",
+      "threshold": "zero_critical_high"
+    },
+    "dast": {
+      "tools": ["owasp_zap", "burp_suite", "acunetix"],
+      "frequency": "pre_deployment",
+      "scope": "all_endpoints_and_workflows"
+    },
+    "dependency_scanning": {
+      "tools": ["snyk", "owasp_dependency_check", "npm_audit"],
+      "frequency": "daily",
+      "threshold": "zero_critical_high"
+    },
+    "penetration_testing": {
+      "frequency": "quarterly",
+      "scope": "full_application_and_infrastructure",
+      "report": "remediation_tracking"
+    }
+  },
+
+  "compliance_frameworks": {
+    "gdpr": {
+      "data_protection": "privacy_by_design",
+      "consent_management": "explicit_opt_in",
+      "data_breach": "notification_procedures"
+    },
+    "hipaa": {
+      "phi_protection": "encrypt_all_phi",
+      "access_controls": "role_based_access",
+      "audit_logs": "comprehensive_logging"
+    },
+    "pci_dss": {
+      "cardholder_data": "never_store_cvv",
+      "encryption": "encrypt_cardholder_data",
+      "network_segmentation": "isolate_cardholder_environment"
+    },
+    "sox": {
+      "access_controls": "segregation_of_duties",
+      "audit_trail": "comprehensive_audit_logs",
+      "change_management": "controlled_change_process"
+    }
+  },
+
+  "incident_response": {
+    "preparation": {
+      "playbooks": "incident_response_procedures",
+      "contacts": "security_team_contact_list",
+      "tools": "incident_response_tools_ready"
+    },
+    "detection": {
+      "monitoring": "real_time_security_monitoring",
+      "alerting": "automated_alert_system",
+      "analysis": "security_event_analysis"
+    },
+    "response": {
+      "containment": "isolate_affected_systems",
+      "eradication": "remove_threat_completely",
+      "recovery": "restore_to_normal_operations"
+    },
+    "post_incident": {
+      "lessons_learned": "post_incident_review",
+      "improvements": "update_security_measures",
+      "documentation": "incident_report_and_timeline"
+    }
+  },
+
+  "validation_sequence": {
+    "phase_1_static_security": {
+      "sast_scan": "run_static_analysis_tools",
+      "code_review": "security_focused_code_review",
+      "success_criteria": "zero_critical_high_vulnerabilities",
+      "blocking": true
+    },
+    "phase_2_dependency_scan": {
+      "vulnerability_check": "scan_all_dependencies",
+      "license_check": "validate_license_compliance",
+      "success_criteria": "zero_critical_high_vulnerabilities",
+      "blocking": true
+    },
+    "phase_3_configuration_review": {
+      "security_headers": "validate_all_headers_present",
+      "tls_configuration": "verify_secure_protocols",
+      "cors_settings": "validate_cors_configuration",
+      "success_criteria": "all_security_configs_correct",
+      "blocking": true
+    },
+    "phase_4_authentication_authorization": {
+      "auth_implementation": "verify_secure_authentication",
+      "access_control": "validate_authorization_checks",
+      "session_management": "verify_secure_sessions",
+      "success_criteria": "authentication_authorization_secure",
+      "blocking": true
+    },
+    "phase_5_data_protection": {
+      "encryption_check": "verify_data_encryption",
+      "pii_handling": "validate_pii_protection",
+      "secrets_management": "ensure_no_hardcoded_secrets",
+      "success_criteria": "data_protection_compliant",
+      "blocking": true
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "dependency-security",
+      "code-review",
+      "architecture-compliance"
+    ],
+    "blocks_progression_until": [
+      "security_scan_clean",
+      "vulnerabilities_remediated",
+      "compliance_validated",
+      "security_review_approved"
+    ]
+  }
+}

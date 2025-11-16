@@ -3,7 +3,7 @@
   "description": "Enforce architectural patterns, design principles, and system boundaries across all code changes",
   "version": "1.0",
   "disabled": false,
-  "agents": ["plan", "reader", "maker", "security"],
+  "agents": ["system-architect", "comprehensive-analyst", "rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert", "security-specialist"],
   "triggers": [
     "code_change_substantial",
     "new_module_creation",
@@ -184,7 +184,7 @@
   },
 
   "agent_responsibilities": {
-    "plan-agent": {
+    "system-architect": {
       "primary_role": "architectural_strategy_and_compliance_oversight",
       "responsibilities": [
         "architectural_decision_validation",
@@ -199,7 +199,7 @@
         "future_scalability_considerations"
       ]
     },
-    "reader-agent": {
+    "comprehensive-analyst": {
       "primary_role": "code_structure_and_dependency_analysis",
       "responsibilities": [
         "module_boundary_validation",
@@ -214,8 +214,9 @@
         "api_design_consistency"
       ]
     },
-    "maker-agent": {
+    "implementation-experts": {
       "primary_role": "architectural_pattern_implementation",
+      "agents": ["rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert"],
       "responsibilities": [
         "design_pattern_implementation_guidance",
         "refactoring_for_architectural_compliance",
@@ -229,7 +230,7 @@
         "technical_debt_architectural_impact"
       ]
     },
-    "security-agent": {
+    "security-specialist": {
       "primary_role": "security_architecture_compliance",
       "responsibilities": [
         "security_boundary_enforcement",

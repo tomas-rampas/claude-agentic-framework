@@ -3,7 +3,7 @@
   "description": "Block deployments on performance regressions >5% and enforce performance baselines",
   "version": "1.0",
   "disabled": false,
-  "agents": ["performance", "maker", "debug", "devops"],
+  "agents": ["comprehensive-analyst", "rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert", "devops-orchestrator"],
   "triggers": [
     "code_change",
     "pre_commit",
@@ -90,18 +90,23 @@
   },
 
   "agent_responsibilities": {
-    "performance-agent": {
+    "comprehensive-analyst": {
       "primary_role": "performance_analysis_and_optimization",
       "responsibilities": [
         "baseline_establishment",
         "regression_detection",
         "performance_profiling",
-        "optimization_recommendations"
+        "optimization_recommendations",
+        "performance_root_cause_analysis",
+        "bottleneck_identification",
+        "systematic_performance_debugging",
+        "resource_utilization_analysis"
       ],
-      "triggers": ["performance_regression_detected", "baseline_update_required"]
+      "triggers": ["performance_regression_detected", "baseline_update_required", "complex_performance_issue", "multi_component_regression"]
     },
-    "maker-agent": {
+    "implementation-experts": {
       "primary_role": "performance_issue_resolution",
+      "agents": ["rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert"],
       "responsibilities": [
         "performance_fix_implementation",
         "optimization_code_changes",
@@ -109,16 +114,7 @@
       ],
       "triggers": ["performance_fix_required", "optimization_implementation"]
     },
-    "debug-agent": {
-      "primary_role": "performance_root_cause_analysis",
-      "responsibilities": [
-        "bottleneck_identification",
-        "systematic_performance_debugging",
-        "resource_utilization_analysis"
-      ],
-      "triggers": ["complex_performance_issue", "multi_component_regression"]
-    },
-    "devops-agent": {
+    "devops-orchestrator": {
       "primary_role": "infrastructure_performance_optimization",
       "responsibilities": [
         "infrastructure_scaling",
@@ -132,25 +128,25 @@
   "escalation_procedures": {
     "minor_regression_2_5_percent": {
       "action": "WARNING_NOTIFICATION",
-      "responsible_agent": "performance-agent",
+      "responsible_agent": "comprehensive-analyst",
       "timeline": "immediate",
       "approval_required": false
     },
     "moderate_regression_5_10_percent": {
       "action": "BLOCK_DEPLOYMENT",
-      "responsible_agent": "performance-agent",
+      "responsible_agent": "comprehensive-analyst",
       "timeline": "within_30_minutes",
       "approval_required": true
     },
     "major_regression_10_20_percent": {
       "action": "BLOCK_AND_ROLLBACK",
-      "responsible_agent": "debug-agent",
+      "responsible_agent": "comprehensive-analyst",
       "timeline": "immediate",
       "approval_required": false
     },
     "critical_regression_over_20_percent": {
       "action": "EMERGENCY_ROLLBACK",
-      "responsible_agent": "devops-agent",
+      "responsible_agent": "devops-orchestrator",
       "timeline": "immediate",
       "approval_required": false
     }
@@ -179,7 +175,7 @@
     "performance_test_failures": {
       "retry_strategy": "3_attempts_with_backoff",
       "fallback_action": "manual_performance_validation",
-      "escalation": "performance-agent_investigation"
+      "escalation": "comprehensive-analyst_investigation"
     },
     "monitoring_tool_unavailable": {
       "fallback_tools": ["alternative_monitoring", "manual_validation"],
@@ -189,7 +185,7 @@
     "baseline_unavailable": {
       "fallback_strategy": "use_historical_average",
       "establishment_required": "immediate_baseline_creation",
-      "responsible_agent": "performance-agent"
+      "responsible_agent": "comprehensive-analyst"
     }
   },
 

@@ -1,0 +1,285 @@
+{
+  "name": "uiux-specialist-validation",
+  "description": "UI/UX design standards, accessibility validation, and user experience quality",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["uiux-specialist", "frontend-specialist", "code-review-gatekeeper"],
+  "triggers": [
+    "ui_component_creation",
+    "design_system_change",
+    "user_flow_modification",
+    "accessibility_update",
+    "responsive_layout_change"
+  ],
+
+  "design_principles": {
+    "consistency": {
+      "visual_consistency": "uniform_colors_typography_spacing",
+      "behavioral_consistency": "predictable_interactions",
+      "terminology_consistency": "consistent_naming_and_labels"
+    },
+    "hierarchy": {
+      "visual_hierarchy": "clear_importance_through_size_color_position",
+      "information_hierarchy": "logical_content_organization",
+      "navigation_hierarchy": "clear_site_structure"
+    },
+    "feedback": {
+      "immediate_feedback": "instant_response_to_user_actions",
+      "progress_indicators": "for_long_running_operations",
+      "error_messages": "clear_actionable_error_messages",
+      "success_confirmations": "positive_feedback_for_completions"
+    },
+    "affordance": {
+      "visual_affordance": "elements_look_like_their_function",
+      "signifiers": "clear_indicators_of_functionality",
+      "constraints": "limit_possible_actions_appropriately"
+    }
+  },
+
+  "design_system": {
+    "color_palette": {
+      "primary_colors": "1_to_2_primary_brand_colors",
+      "secondary_colors": "2_to_3_supporting_colors",
+      "neutral_colors": "grayscale_palette",
+      "semantic_colors": "success_warning_error_info",
+      "contrast_ratios": "wcag_aa_minimum_4_5_1"
+    },
+    "typography": {
+      "font_families": "1_to_2_font_families_maximum",
+      "font_scale": "modular_scale_or_defined_sizes",
+      "line_height": "1_4_to_1_6_for_body_text",
+      "font_weights": "400_normal_600_semibold_700_bold",
+      "web_fonts": "optimize_loading_and_fallbacks"
+    },
+    "spacing_system": {
+      "base_unit": "4px_or_8px_base",
+      "scale": "multiples_of_base_unit",
+      "consistent_application": "padding_margin_gaps",
+      "responsive_spacing": "scale_appropriately_by_viewport"
+    },
+    "component_library": {
+      "documentation": "storybook_or_similar",
+      "props_interface": "well_defined_component_apis",
+      "variants": "support_common_use_cases",
+      "examples": "usage_examples_and_guidelines"
+    }
+  },
+
+  "accessibility_standards": {
+    "wcag_compliance": {
+      "level": "AA_minimum",
+      "perceivable": {
+        "text_alternatives": "alt_text_for_all_images",
+        "captions_transcripts": "for_audio_video_content",
+        "adaptable_content": "semantic_html_structure",
+        "distinguishable": "color_contrast_and_text_resize"
+      },
+      "operable": {
+        "keyboard_accessible": "all_functionality_via_keyboard",
+        "enough_time": "adjustable_time_limits",
+        "seizures": "no_flashing_content_over_3_per_second",
+        "navigable": "skip_links_and_clear_focus"
+      },
+      "understandable": {
+        "readable": "clear_language_and_consistent_labels",
+        "predictable": "consistent_navigation_and_behavior",
+        "input_assistance": "error_identification_and_help"
+      },
+      "robust": {
+        "compatible": "valid_html_and_aria",
+        "future_proof": "standards_compliant_code"
+      }
+    },
+    "aria": {
+      "landmarks": "use_aria_landmarks_appropriately",
+      "labels": "aria_label_and_aria_labelledby",
+      "states": "aria_expanded_pressed_selected",
+      "live_regions": "aria_live_for_dynamic_updates",
+      "best_practices": "prefer_semantic_html_over_aria"
+    },
+    "keyboard_navigation": {
+      "tab_order": "logical_and_intuitive",
+      "focus_indicators": "clearly_visible_focus_styles",
+      "shortcuts": "avoid_conflicts_document_shortcuts",
+      "skip_navigation": "skip_to_main_content_link"
+    },
+    "screen_reader": {
+      "testing": "test_with_nvda_jaws_voiceover",
+      "page_structure": "clear_heading_hierarchy",
+      "form_labels": "associate_labels_with_inputs",
+      "dynamic_content": "announce_important_changes"
+    }
+  },
+
+  "responsive_design": {
+    "breakpoints": {
+      "mobile_small": "320px_to_374px",
+      "mobile": "375px_to_767px",
+      "tablet": "768px_to_1023px",
+      "desktop": "1024px_to_1439px",
+      "desktop_large": "1440px_and_above"
+    },
+    "mobile_first": {
+      "approach": "design_for_mobile_enhance_for_desktop",
+      "progressive_enhancement": "core_functionality_works_everywhere",
+      "graceful_degradation": "enhanced_features_for_capable_devices"
+    },
+    "flexible_layouts": {
+      "grid_systems": "css_grid_or_flexbox",
+      "fluid_widths": "percentage_based_or_viewport_units",
+      "flexible_images": "max_width_100_percent",
+      "media_queries": "breakpoint_specific_styles"
+    },
+    "touch_targets": {
+      "minimum_size": "44x44_pixels",
+      "spacing": "adequate_spacing_between_targets",
+      "feedback": "visual_feedback_on_tap"
+    }
+  },
+
+  "interaction_design": {
+    "user_flows": {
+      "simplicity": "minimize_steps_to_completion",
+      "clarity": "clear_next_steps",
+      "flexibility": "support_multiple_paths",
+      "error_recovery": "easy_to_undo_or_correct"
+    },
+    "animations": {
+      "purpose": "enhance_understanding_not_decoration",
+      "duration": "200ms_to_500ms_for_most_transitions",
+      "easing": "natural_easing_functions",
+      "reduced_motion": "respect_prefers_reduced_motion"
+    },
+    "loading_states": {
+      "skeleton_screens": "for_content_loading",
+      "spinners": "for_short_operations",
+      "progress_bars": "for_deterministic_progress",
+      "optimistic_ui": "instant_feedback_for_actions"
+    },
+    "form_design": {
+      "label_placement": "top_aligned_for_scannability",
+      "input_types": "appropriate_html5_input_types",
+      "validation": "inline_real_time_validation",
+      "error_messages": "specific_and_actionable",
+      "success_states": "clear_completion_feedback"
+    }
+  },
+
+  "usability_testing": {
+    "user_research": {
+      "personas": "develop_user_personas",
+      "user_journeys": "map_user_journeys",
+      "pain_points": "identify_friction_points",
+      "opportunities": "discover_improvement_areas"
+    },
+    "usability_metrics": {
+      "task_completion_rate": "percentage_of_successful_completions",
+      "time_on_task": "time_to_complete_key_tasks",
+      "error_rate": "frequency_of_user_errors",
+      "satisfaction": "sus_score_or_nps"
+    },
+    "testing_methods": {
+      "moderated_testing": "facilitate_user_sessions",
+      "unmoderated_testing": "remote_testing_platforms",
+      "a_b_testing": "compare_design_variations",
+      "heatmaps": "analyze_user_behavior"
+    }
+  },
+
+  "performance_and_ux": {
+    "perceived_performance": {
+      "first_contentful_paint": "under_1_5_seconds",
+      "time_to_interactive": "under_3_5_seconds",
+      "progressive_rendering": "show_content_incrementally",
+      "skeleton_screens": "immediate_visual_feedback"
+    },
+    "optimization": {
+      "image_optimization": "webp_format_lazy_loading",
+      "font_loading": "font_display_swap",
+      "critical_css": "inline_above_fold_styles",
+      "code_splitting": "load_only_necessary_code"
+    }
+  },
+
+  "content_strategy": {
+    "microcopy": {
+      "clarity": "clear_concise_labels_and_messages",
+      "tone": "consistent_brand_voice",
+      "guidance": "helpful_instructional_text",
+      "error_messages": "empathetic_and_actionable"
+    },
+    "information_architecture": {
+      "organization": "logical_content_grouping",
+      "navigation": "clear_findable_structure",
+      "search": "effective_search_functionality",
+      "breadcrumbs": "show_user_location"
+    }
+  },
+
+  "design_handoff": {
+    "documentation": {
+      "design_specs": "detailed_measurements_and_styles",
+      "component_states": "all_states_documented",
+      "interactions": "animation_and_behavior_specs",
+      "responsive_behavior": "breakpoint_specific_layouts"
+    },
+    "tools": {
+      "figma_integration": "dev_mode_or_inspect",
+      "zeplin_abstract": "design_handoff_platforms",
+      "storybook": "live_component_documentation"
+    }
+  },
+
+  "validation_sequence": {
+    "phase_1_design_system_compliance": {
+      "color_usage": "verify_design_system_colors",
+      "typography": "check_font_sizes_and_weights",
+      "spacing": "validate_spacing_system_usage",
+      "success_criteria": "design_system_adherence",
+      "blocking": true
+    },
+    "phase_2_accessibility_audit": {
+      "automated_testing": "axe_lighthouse_pa11y",
+      "keyboard_navigation": "manual_keyboard_testing",
+      "screen_reader": "test_with_screen_readers",
+      "success_criteria": "wcag_aa_compliance",
+      "blocking": true
+    },
+    "phase_3_responsive_validation": {
+      "breakpoint_testing": "test_all_breakpoints",
+      "touch_targets": "verify_minimum_44x44",
+      "layout_integrity": "no_broken_layouts",
+      "success_criteria": "responsive_across_devices",
+      "blocking": true
+    },
+    "phase_4_interaction_quality": {
+      "animations": "smooth_purposeful_animations",
+      "loading_states": "appropriate_loading_indicators",
+      "form_validation": "clear_helpful_validation",
+      "success_criteria": "positive_user_experience",
+      "blocking": false
+    },
+    "phase_5_usability_validation": {
+      "user_flows": "test_critical_user_paths",
+      "cognitive_load": "assess_complexity",
+      "feedback_mechanisms": "verify_clear_feedback",
+      "success_criteria": "intuitive_usable_interface",
+      "blocking": false
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "frontend-specialist",
+      "accessibility_standards",
+      "design_system_guidelines",
+      "user_research_insights"
+    ],
+    "blocks_progression_until": [
+      "design_system_compliant",
+      "accessibility_validated",
+      "responsive_verified",
+      "usability_acceptable"
+    ]
+  }
+}

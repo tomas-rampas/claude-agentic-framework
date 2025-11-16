@@ -1,0 +1,478 @@
+{
+  "name": "typescript-expert-validation",
+  "version": "1.0.0",
+  "description": "Comprehensive quality gates and validation standards for TypeScript/JavaScript development",
+  "priority": "high",
+  "agents": [
+    "typescript-expert",
+    "code-review-gatekeeper",
+    "comprehensive-analyst",
+    "security-specialist",
+    "frontend-specialist"
+  ],
+  "triggers": [
+    "typescript_code_change",
+    "javascript_code_change",
+    "package_json_update",
+    "pre_commit",
+    "ts_js_file_save"
+  ],
+  "validation_sequence": {
+    "phase_1_compilation": {
+      "description": "TypeScript compilation and JavaScript syntax",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "typescript_compilation",
+          "command": "tsc --noEmit",
+          "required": true,
+          "description": "Type-check without emitting files"
+        },
+        {
+          "name": "typescript_build",
+          "command": "tsc --build",
+          "required": true,
+          "description": "Full TypeScript compilation"
+        },
+        {
+          "name": "javascript_syntax",
+          "command": "node --check **/*.js",
+          "required": false,
+          "description": "JavaScript syntax validation"
+        }
+      ]
+    },
+    "phase_2_linting": {
+      "description": "ESLint and code quality rules",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "eslint_check",
+          "command": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+          "description": "Comprehensive linting with ESLint",
+          "recommended_plugins": [
+            "@typescript-eslint/eslint-plugin",
+            "eslint-plugin-react",
+            "eslint-plugin-react-hooks",
+            "eslint-plugin-import",
+            "eslint-plugin-jsx-a11y",
+            "eslint-plugin-prettier"
+          ],
+          "recommended_configs": [
+            "eslint:recommended",
+            "plugin:@typescript-eslint/recommended",
+            "plugin:@typescript-eslint/strict",
+            "plugin:react/recommended",
+            "plugin:react-hooks/recommended"
+          ]
+        },
+        {
+          "name": "tslint_check",
+          "command": "tslint -p tsconfig.json",
+          "required": false,
+          "description": "TSLint static analysis (deprecated, use ESLint)",
+          "note": "TSLint is deprecated in favor of ESLint + @typescript-eslint"
+        }
+      ]
+    },
+    "phase_3_formatting": {
+      "description": "Code formatting standards",
+      "blocking": true,
+      "timeout_seconds": 90,
+      "checks": [
+        {
+          "name": "prettier_check",
+          "command": "prettier --check '**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "prettier --write '**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
+          "description": "Opinionated code formatter"
+        },
+        {
+          "name": "editorconfig_check",
+          "validation": "automatic",
+          "required": false,
+          "description": "EditorConfig compliance"
+        }
+      ]
+    },
+    "phase_4_type_safety": {
+      "description": "TypeScript type safety and strictness",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "strict_mode_enabled",
+          "validation": "automatic",
+          "required": true,
+          "description": "TypeScript strict mode enabled in tsconfig.json",
+          "strict_flags": [
+            "strict: true",
+            "noImplicitAny: true",
+            "strictNullChecks: true",
+            "strictFunctionTypes: true",
+            "strictBindCallApply: true",
+            "strictPropertyInitialization: true",
+            "noImplicitThis: true",
+            "alwaysStrict: true"
+          ]
+        },
+        {
+          "name": "no_any_types",
+          "command": "eslint . --ext .ts,.tsx --rule '{\"@typescript-eslint/no-explicit-any\": \"error\"}'",
+          "required": false,
+          "description": "Prevent usage of 'any' type"
+        },
+        {
+          "name": "type_coverage",
+          "command": "type-coverage --at-least 95",
+          "required": false,
+          "min_type_coverage": 95,
+          "description": "Type coverage percentage",
+          "note": "Install: npm install -D type-coverage"
+        }
+      ]
+    },
+    "phase_5_testing": {
+      "description": "Testing requirements with Jest/Vitest",
+      "blocking": true,
+      "timeout_seconds": 600,
+      "checks": [
+        {
+          "name": "jest_tests",
+          "command": "jest --coverage --ci",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Run tests with Jest"
+        },
+        {
+          "name": "vitest_tests",
+          "command": "vitest run --coverage",
+          "required": false,
+          "alternative_to": "jest_tests",
+          "description": "Run tests with Vitest (modern alternative)"
+        },
+        {
+          "name": "test_coverage",
+          "command": "jest --coverage --coverageThreshold='{\"global\":{\"lines\":70,\"branches\":70,\"functions\":70,\"statements\":70}}'",
+          "required": true,
+          "min_coverage_percent": 70,
+          "description": "Enforce minimum code coverage"
+        },
+        {
+          "name": "react_testing_library",
+          "validation": "automatic",
+          "required": false,
+          "condition": "uses_react == true",
+          "description": "React component tests with Testing Library",
+          "best_practices": [
+            "Query by accessibility roles",
+            "Test user interactions",
+            "Avoid implementation details"
+          ]
+        }
+      ]
+    },
+    "phase_6_security_scan": {
+      "description": "Security vulnerability scanning",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "npm_audit",
+          "command": "npm audit --audit-level=moderate",
+          "required": true,
+          "description": "Scan npm dependencies for vulnerabilities"
+        },
+        {
+          "name": "yarn_audit",
+          "command": "yarn audit --level moderate",
+          "required": false,
+          "alternative_to": "npm_audit",
+          "description": "Scan yarn dependencies for vulnerabilities"
+        },
+        {
+          "name": "pnpm_audit",
+          "command": "pnpm audit --audit-level moderate",
+          "required": false,
+          "alternative_to": "npm_audit",
+          "description": "Scan pnpm dependencies for vulnerabilities"
+        },
+        {
+          "name": "snyk_scan",
+          "command": "snyk test",
+          "required": false,
+          "description": "Comprehensive security scanning with Snyk",
+          "note": "Install: npm install -g snyk && snyk auth"
+        },
+        {
+          "name": "eslint_security",
+          "validation": "automatic",
+          "required": true,
+          "description": "Security-focused ESLint rules",
+          "plugins": [
+            "eslint-plugin-security",
+            "eslint-plugin-no-secrets"
+          ]
+        }
+      ]
+    },
+    "phase_7_bundle_optimization": {
+      "description": "Build optimization and bundle analysis",
+      "blocking": false,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "webpack_build",
+          "command": "webpack --mode production",
+          "required": false,
+          "condition": "uses_webpack == true",
+          "description": "Production build with Webpack"
+        },
+        {
+          "name": "vite_build",
+          "command": "vite build",
+          "required": false,
+          "condition": "uses_vite == true",
+          "description": "Production build with Vite"
+        },
+        {
+          "name": "bundle_size_check",
+          "command": "bundlesize",
+          "required": false,
+          "description": "Enforce bundle size limits",
+          "note": "Install: npm install -D bundlesize"
+        },
+        {
+          "name": "webpack_bundle_analyzer",
+          "command": "webpack-bundle-analyzer stats.json",
+          "required": false,
+          "description": "Analyze bundle composition"
+        },
+        {
+          "name": "tree_shaking_validation",
+          "validation": "manual",
+          "required": false,
+          "description": "Verify dead code elimination",
+          "checklist": [
+            "ES modules used (not CommonJS)",
+            "Side effects properly marked in package.json",
+            "Unused exports eliminated"
+          ]
+        }
+      ]
+    },
+    "phase_8_react_validation": {
+      "description": "React-specific validation",
+      "blocking": false,
+      "timeout_seconds": 90,
+      "condition": "uses_react == true",
+      "checks": [
+        {
+          "name": "react_hooks_rules",
+          "validation": "automatic",
+          "required": true,
+          "description": "React Hooks rules enforcement",
+          "rules": [
+            "Only call hooks at top level",
+            "Only call hooks from React functions",
+            "Hooks dependency arrays correct"
+          ]
+        },
+        {
+          "name": "react_accessibility",
+          "validation": "automatic",
+          "required": true,
+          "description": "Accessibility checks with eslint-plugin-jsx-a11y",
+          "wcag_level": "AA"
+        },
+        {
+          "name": "react_performance",
+          "validation": "manual",
+          "required": false,
+          "description": "React performance best practices",
+          "checklist": [
+            "Memoization used appropriately (useMemo, useCallback)",
+            "Code splitting implemented (React.lazy)",
+            "Virtual scrolling for long lists",
+            "Avoid inline function definitions in JSX"
+          ]
+        }
+      ]
+    },
+    "phase_9_nodejs_validation": {
+      "description": "Node.js backend validation",
+      "blocking": false,
+      "timeout_seconds": 90,
+      "condition": "is_nodejs_backend == true",
+      "checks": [
+        {
+          "name": "express_security",
+          "validation": "manual",
+          "required": true,
+          "condition": "uses_express == true",
+          "description": "Express.js security best practices",
+          "checklist": [
+            "Helmet.js for security headers",
+            "CORS configured properly",
+            "Rate limiting implemented",
+            "Input validation/sanitization",
+            "SQL injection prevention",
+            "XSS protection"
+          ]
+        },
+        {
+          "name": "async_error_handling",
+          "validation": "manual",
+          "required": true,
+          "description": "Proper async/await error handling",
+          "checklist": [
+            "Try-catch blocks for async operations",
+            "Promise rejections handled",
+            "Express async error middleware"
+          ]
+        }
+      ]
+    },
+    "phase_10_documentation": {
+      "description": "Documentation standards",
+      "blocking": false,
+      "timeout_seconds": 90,
+      "checks": [
+        {
+          "name": "jsdoc_comments",
+          "validation": "automatic",
+          "required": false,
+          "description": "JSDoc comments for public APIs",
+          "note": "Use TSDoc for TypeScript"
+        },
+        {
+          "name": "typedoc_generation",
+          "command": "typedoc --out docs src",
+          "required": false,
+          "description": "Generate TypeScript documentation",
+          "note": "Install: npm install -D typedoc"
+        },
+        {
+          "name": "storybook_components",
+          "validation": "manual",
+          "required": false,
+          "condition": "is_component_library == true",
+          "description": "Storybook stories for components"
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_linting",
+        "phase_3_formatting",
+        "phase_5_testing"
+      ]
+    },
+    "pre_push": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_linting",
+        "phase_3_formatting",
+        "phase_4_type_safety",
+        "phase_5_testing",
+        "phase_6_security_scan"
+      ]
+    },
+    "pre_release": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_linting",
+        "phase_3_formatting",
+        "phase_4_type_safety",
+        "phase_5_testing",
+        "phase_6_security_scan",
+        "phase_7_bundle_optimization"
+      ]
+    }
+  },
+  "tools_required": {
+    "essential": [
+      "node",
+      "npm or yarn or pnpm",
+      "typescript",
+      "eslint",
+      "prettier"
+    ],
+    "recommended": [
+      "jest or vitest",
+      "@typescript-eslint/parser",
+      "@typescript-eslint/eslint-plugin",
+      "husky",
+      "lint-staged"
+    ],
+    "advanced": [
+      "snyk",
+      "type-coverage",
+      "webpack-bundle-analyzer",
+      "typedoc",
+      "storybook"
+    ]
+  },
+  "node_versions_supported": [
+    "18.x LTS",
+    "20.x LTS",
+    "21.x Current"
+  ],
+  "frameworks_supported": [
+    "React",
+    "Next.js",
+    "Vue",
+    "Nuxt",
+    "Angular",
+    "Express",
+    "NestJS",
+    "Fastify",
+    "Svelte",
+    "SvelteKit"
+  ],
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "require_review_on_failure": true,
+    "auto_fix_when_possible": true,
+    "escalation": {
+      "compilation_error": "blocking",
+      "type_error": "blocking",
+      "test_failure": "blocking",
+      "security_vulnerability": "blocking",
+      "linting_error": "blocking",
+      "formatting_issue": "auto_fix"
+    }
+  },
+  "integration": {
+    "ci_cd_compatible": true,
+    "github_actions": true,
+    "gitlab_ci": true,
+    "ide_integration": [
+      "VSCode",
+      "WebStorm",
+      "Sublime Text"
+    ],
+    "git_hooks": [
+      "pre-commit",
+      "pre-push"
+    ],
+    "husky_lint_staged": true
+  },
+  "metrics": {
+    "track_build_time": true,
+    "track_test_time": true,
+    "track_coverage": true,
+    "track_bundle_size": true,
+    "track_type_coverage": true,
+    "track_dependency_count": true
+  }
+}

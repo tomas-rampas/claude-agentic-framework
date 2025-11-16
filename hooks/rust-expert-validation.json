@@ -1,0 +1,343 @@
+{
+  "name": "rust-expert-validation",
+  "version": "1.0.0",
+  "description": "Comprehensive quality gates and validation standards for Rust development",
+  "priority": "high",
+  "agents": [
+    "rust-expert",
+    "code-review-gatekeeper",
+    "comprehensive-analyst",
+    "security-specialist"
+  ],
+  "triggers": [
+    "rust_code_change",
+    "cargo_project_modification",
+    "pre_commit",
+    "rust_file_save",
+    "dependency_update"
+  ],
+  "validation_sequence": {
+    "phase_1_compilation": {
+      "description": "Rust compilation and build verification",
+      "blocking": true,
+      "timeout_seconds": 300,
+      "checks": [
+        {
+          "name": "cargo_check",
+          "command": "cargo check --all-targets",
+          "required": true,
+          "error_on_warning": false,
+          "description": "Fast compilation check without code generation"
+        },
+        {
+          "name": "cargo_build",
+          "command": "cargo build --all-targets",
+          "required": true,
+          "error_on_warning": false,
+          "description": "Full compilation with all targets"
+        },
+        {
+          "name": "cargo_build_release",
+          "command": "cargo build --release",
+          "required": false,
+          "error_on_warning": false,
+          "description": "Release build optimization check"
+        }
+      ]
+    },
+    "phase_2_linting_formatting": {
+      "description": "Rust code quality and formatting standards",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "rustfmt_check",
+          "command": "cargo fmt -- --check",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "cargo fmt",
+          "description": "Rust code formatting verification"
+        },
+        {
+          "name": "clippy_lints",
+          "command": "cargo clippy --all-targets -- -D warnings",
+          "required": true,
+          "error_on_warning": true,
+          "description": "Comprehensive Rust linting with Clippy",
+          "lint_categories": [
+            "correctness",
+            "suspicious",
+            "complexity",
+            "perf",
+            "style",
+            "pedantic"
+          ]
+        },
+        {
+          "name": "clippy_pedantic",
+          "command": "cargo clippy --all-targets -- -W clippy::pedantic",
+          "required": false,
+          "error_on_warning": false,
+          "description": "Additional pedantic lints for code quality"
+        }
+      ]
+    },
+    "phase_3_testing": {
+      "description": "Rust testing and coverage requirements",
+      "blocking": true,
+      "timeout_seconds": 600,
+      "checks": [
+        {
+          "name": "unit_tests",
+          "command": "cargo test --lib",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Library unit tests execution"
+        },
+        {
+          "name": "integration_tests",
+          "command": "cargo test --tests",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Integration tests execution"
+        },
+        {
+          "name": "doc_tests",
+          "command": "cargo test --doc",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Documentation example tests"
+        },
+        {
+          "name": "all_tests",
+          "command": "cargo test --all-targets",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Complete test suite execution"
+        },
+        {
+          "name": "test_coverage",
+          "command": "cargo tarpaulin --out Xml --output-dir coverage",
+          "required": false,
+          "min_coverage_percent": 70,
+          "description": "Code coverage measurement with tarpaulin",
+          "note": "Requires cargo-tarpaulin: cargo install cargo-tarpaulin"
+        }
+      ]
+    },
+    "phase_4_ownership_safety": {
+      "description": "Rust ownership, lifetime, and safety validation",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "miri_unsafe_check",
+          "command": "cargo miri test",
+          "required": false,
+          "description": "Undefined behavior detection in unsafe code",
+          "note": "Only runs on code with unsafe blocks"
+        },
+        {
+          "name": "cargo_careful",
+          "command": "cargo careful test",
+          "required": false,
+          "description": "Runtime checks for correctness",
+          "note": "Requires cargo-careful: cargo install cargo-careful"
+        },
+        {
+          "name": "lifetime_verification",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "All lifetime parameters properly bounded",
+            "No unnecessary 'static lifetimes",
+            "Lifetime elision used where appropriate",
+            "Complex lifetimes well-documented"
+          ]
+        }
+      ]
+    },
+    "phase_5_security_audit": {
+      "description": "Rust security and dependency auditing",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "cargo_audit",
+          "command": "cargo audit",
+          "required": true,
+          "description": "Security vulnerability scanning in dependencies",
+          "note": "Requires cargo-audit: cargo install cargo-audit"
+        },
+        {
+          "name": "cargo_deny",
+          "command": "cargo deny check",
+          "required": false,
+          "description": "Comprehensive dependency policy enforcement",
+          "note": "Requires cargo-deny: cargo install cargo-deny"
+        },
+        {
+          "name": "unsafe_code_review",
+          "validation": "manual",
+          "required": true,
+          "description": "Manual review of all unsafe blocks",
+          "checklist": [
+            "Unsafe blocks minimized and justified",
+            "Safety invariants documented",
+            "Unsafe code reviewed by senior developer",
+            "Alternative safe approaches considered"
+          ]
+        }
+      ]
+    },
+    "phase_6_documentation": {
+      "description": "Rust documentation standards",
+      "blocking": false,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "cargo_doc",
+          "command": "cargo doc --no-deps --document-private-items",
+          "required": true,
+          "description": "Documentation generation verification"
+        },
+        {
+          "name": "missing_docs_check",
+          "command": "cargo rustdoc -- -D missing_docs",
+          "required": false,
+          "description": "Enforce documentation on public items"
+        },
+        {
+          "name": "doc_coverage",
+          "validation": "manual",
+          "required": false,
+          "checklist": [
+            "All public APIs documented",
+            "Module-level documentation present",
+            "Examples provided for complex APIs",
+            "Safety requirements documented for unsafe code"
+          ]
+        }
+      ]
+    },
+    "phase_7_best_practices": {
+      "description": "Rust idioms and best practices",
+      "blocking": false,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "cargo_machete",
+          "command": "cargo machete",
+          "required": false,
+          "description": "Detect unused dependencies",
+          "note": "Requires cargo-machete: cargo install cargo-machete"
+        },
+        {
+          "name": "cargo_outdated",
+          "command": "cargo outdated",
+          "required": false,
+          "description": "Check for outdated dependencies",
+          "note": "Requires cargo-outdated: cargo install cargo-outdated"
+        },
+        {
+          "name": "idiomatic_rust_review",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Iterator chains used instead of loops where appropriate",
+            "Error handling uses Result<T, E> appropriately",
+            "Type system leveraged for compile-time guarantees",
+            "Zero-cost abstractions utilized",
+            "Traits implemented for extensibility",
+            "Pattern matching used effectively"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_linting_formatting",
+        "phase_3_testing"
+      ],
+      "optional_phases": [
+        "phase_5_security_audit"
+      ]
+    },
+    "pre_push": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_linting_formatting",
+        "phase_3_testing",
+        "phase_5_security_audit"
+      ],
+      "optional_phases": [
+        "phase_4_ownership_safety",
+        "phase_6_documentation"
+      ]
+    },
+    "pre_release": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_linting_formatting",
+        "phase_3_testing",
+        "phase_4_ownership_safety",
+        "phase_5_security_audit",
+        "phase_6_documentation",
+        "phase_7_best_practices"
+      ]
+    }
+  },
+  "tools_required": {
+    "essential": [
+      "cargo",
+      "rustc",
+      "rustfmt",
+      "clippy"
+    ],
+    "recommended": [
+      "cargo-audit",
+      "cargo-tarpaulin",
+      "cargo-machete",
+      "cargo-outdated",
+      "cargo-deny"
+    ],
+    "advanced": [
+      "cargo-miri",
+      "cargo-careful"
+    ]
+  },
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "require_review_on_failure": true,
+    "auto_fix_when_possible": true,
+    "escalation": {
+      "compilation_failure": "blocking",
+      "test_failure": "blocking",
+      "lint_warning": "warning",
+      "security_vulnerability": "blocking",
+      "documentation_missing": "warning"
+    }
+  },
+  "integration": {
+    "ci_cd_compatible": true,
+    "ide_integration": [
+      "rust-analyzer",
+      "vscode-rust",
+      "intellij-rust"
+    ],
+    "git_hooks": [
+      "pre-commit",
+      "pre-push"
+    ]
+  },
+  "metrics": {
+    "track_build_time": true,
+    "track_test_time": true,
+    "track_coverage": true,
+    "track_dependency_count": true,
+    "track_unsafe_block_count": true
+  }
+}

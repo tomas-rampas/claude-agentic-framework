@@ -3,7 +3,7 @@
   "description": "Real-time CVE scanning and dependency vulnerability management with automatic blocking",
   "version": "1.0",
   "disabled": false,
-  "agents": ["security", "maker", "devops"],
+  "agents": ["security-specialist", "rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert", "devops-orchestrator"],
   "triggers": [
     "dependency_change",
     "package_install",
@@ -122,7 +122,7 @@
   },
 
   "agent_responsibilities": {
-    "security-agent": {
+    "security-specialist": {
       "primary_role": "vulnerability_scanning_and_analysis",
       "responsibilities": [
         "continuous_vulnerability_monitoring",
@@ -132,8 +132,9 @@
       ],
       "triggers": ["new_vulnerability_detected", "security_scan_required", "compliance_check"]
     },
-    "maker-agent": {
+    "implementation-experts": {
       "primary_role": "vulnerability_remediation_implementation",
+      "agents": ["rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert"],
       "responsibilities": [
         "dependency_updates_and_patches",
         "code_changes_for_security_fixes",
@@ -142,7 +143,7 @@
       ],
       "triggers": ["security_fix_required", "dependency_update_needed"]
     },
-    "devops-agent": {
+    "devops-orchestrator": {
       "primary_role": "infrastructure_security_and_deployment",
       "responsibilities": [
         "container_security_scanning",

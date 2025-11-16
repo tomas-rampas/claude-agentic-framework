@@ -293,6 +293,71 @@
         "acceptance_criteria_quality": "testable_acceptance_criteria_rate",
         "stakeholder_satisfaction": "stakeholder_approval_rate_of_requirements"
       }
+    },
+    "java-expert": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 94,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "spring_boot_best_practices": "adherence_to_spring_framework_patterns",
+        "jvm_optimization_score": "performance_optimization_effectiveness",
+        "junit_test_quality": "test_quality_and_coverage_rate"
+      }
+    },
+    "database-specialist": {
+      "sla_adjustments": {
+        "response_time_target": 35,
+        "success_rate_target": 92,
+        "quality_score_target": 4.6,
+        "token_efficiency_target": "moderate"
+      },
+      "specialization_metrics": {
+        "schema_optimization_score": "database_schema_quality_and_normalization",
+        "query_performance_improvement": "percentage_improvement_in_query_performance",
+        "migration_success_rate": "percentage_of_successful_migrations_without_data_loss"
+      }
+    },
+    "frontend-specialist": {
+      "sla_adjustments": {
+        "response_time_target": 30,
+        "success_rate_target": 93,
+        "quality_score_target": 4.5,
+        "token_efficiency_target": "optimized"
+      },
+      "specialization_metrics": {
+        "component_reusability_score": "percentage_of_reusable_components_created",
+        "accessibility_compliance": "wcag_compliance_rate",
+        "performance_metrics": "lighthouse_performance_score_improvements"
+      }
+    },
+    "security-specialist": {
+      "sla_adjustments": {
+        "response_time_target": 40,
+        "success_rate_target": 91,
+        "quality_score_target": 4.8,
+        "token_efficiency_target": "moderate"
+      },
+      "specialization_metrics": {
+        "vulnerability_detection_rate": "percentage_of_vulnerabilities_identified",
+        "owasp_compliance_score": "owasp_top_10_coverage_rate",
+        "security_improvement_effectiveness": "percentage_reduction_in_security_issues"
+      }
+    },
+    "uiux-specialist": {
+      "sla_adjustments": {
+        "response_time_target": 35,
+        "success_rate_target": 90,
+        "quality_score_target": 4.4,
+        "token_efficiency_target": "moderate"
+      },
+      "specialization_metrics": {
+        "design_system_consistency": "adherence_to_design_system_guidelines",
+        "accessibility_score": "wcag_compliance_and_aria_implementation_rate",
+        "user_flow_effectiveness": "user_testing_validation_success_rate"
+      }
     }
   },
 

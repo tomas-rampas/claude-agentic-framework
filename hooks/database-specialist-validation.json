@@ -1,0 +1,225 @@
+{
+  "name": "database-specialist-validation",
+  "description": "Database design, schema optimization, and query validation standards",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["database-specialist", "code-review-gatekeeper", "comprehensive-analyst"],
+  "triggers": [
+    "schema_change",
+    "migration_creation",
+    "query_modification",
+    "index_change",
+    "database_configuration_change"
+  ],
+
+  "schema_design_standards": {
+    "normalization": {
+      "minimum_level": "3NF",
+      "denormalization": "requires_justification",
+      "data_redundancy": "zero_tolerance",
+      "atomicity": "enforce_atomic_values"
+    },
+    "naming_conventions": {
+      "tables": "snake_case_plural",
+      "columns": "snake_case_singular",
+      "primary_keys": "id_or_table_name_id",
+      "foreign_keys": "referenced_table_id",
+      "indexes": "idx_table_name_columns",
+      "constraints": "constraint_type_table_column"
+    },
+    "data_types": {
+      "varchar_length": "appropriate_for_data",
+      "integer_types": "smallest_sufficient_type",
+      "decimal_precision": "explicit_precision_and_scale",
+      "timestamps": "timestamp_with_timezone",
+      "json_storage": "json_or_jsonb_for_postgresql"
+    }
+  },
+
+  "integrity_constraints": {
+    "primary_keys": {
+      "requirement": "every_table_must_have_primary_key",
+      "recommendation": "surrogate_keys_for_complex_natural_keys",
+      "uuid_vs_integer": "context_dependent"
+    },
+    "foreign_keys": {
+      "requirement": "define_all_relationships",
+      "on_delete": "explicit_cascade_or_restrict",
+      "on_update": "explicit_cascade_or_restrict",
+      "indexing": "foreign_keys_should_be_indexed"
+    },
+    "unique_constraints": {
+      "requirement": "enforce_uniqueness_at_database_level",
+      "composite_unique": "allowed_for_business_rules"
+    },
+    "check_constraints": {
+      "requirement": "enforce_data_validity",
+      "examples": ["positive_amounts", "valid_status_values", "date_ranges"]
+    },
+    "not_null_constraints": {
+      "requirement": "explicit_for_required_fields",
+      "default_values": "provide_sensible_defaults_where_appropriate"
+    }
+  },
+
+  "indexing_strategy": {
+    "primary_indexes": {
+      "requirement": "automatic_on_primary_keys",
+      "clustered_index": "one_per_table"
+    },
+    "foreign_key_indexes": {
+      "requirement": "index_all_foreign_keys",
+      "rationale": "performance_on_joins_and_cascades"
+    },
+    "query_optimization_indexes": {
+      "analysis": "identify_from_slow_query_log",
+      "composite_indexes": "order_by_selectivity",
+      "covering_indexes": "for_frequently_accessed_columns",
+      "partial_indexes": "for_filtered_queries"
+    },
+    "index_maintenance": {
+      "monitoring": "track_index_usage_statistics",
+      "cleanup": "remove_unused_indexes",
+      "rebuild": "periodic_index_rebuild_for_fragmentation"
+    }
+  },
+
+  "migration_standards": {
+    "version_control": {
+      "tool": "flyway_liquibase_or_alembic",
+      "naming": "V{timestamp}__{description}",
+      "rollback": "provide_down_migration",
+      "testing": "test_in_development_environment_first"
+    },
+    "backward_compatibility": {
+      "requirement": "migrations_must_be_backward_compatible",
+      "additive_changes": "add_columns_with_defaults",
+      "destructive_changes": "multi_phase_migration",
+      "data_migration": "separate_from_schema_migration"
+    },
+    "best_practices": {
+      "transactions": "wrap_in_transaction_when_possible",
+      "idempotency": "migrations_should_be_idempotent",
+      "data_preservation": "never_drop_without_backup",
+      "performance": "avoid_blocking_operations_on_large_tables"
+    }
+  },
+
+  "query_optimization": {
+    "query_analysis": {
+      "explain_plan": "review_execution_plan",
+      "query_cost": "analyze_query_cost",
+      "scan_types": "prefer_index_scans_over_table_scans",
+      "join_types": "optimize_join_order_and_type"
+    },
+    "anti_patterns": {
+      "n_plus_1": "detect_and_prevent_n_plus_1_queries",
+      "select_star": "discourage_select_all",
+      "missing_where": "warn_on_unfiltered_queries",
+      "implicit_conversions": "avoid_type_conversions_in_where_clause",
+      "correlated_subqueries": "replace_with_joins_when_possible"
+    },
+    "performance_targets": {
+      "simple_queries": "under_10ms",
+      "complex_queries": "under_100ms",
+      "reporting_queries": "under_1s",
+      "batch_operations": "context_dependent"
+    }
+  },
+
+  "database_security": {
+    "access_control": {
+      "principle": "least_privilege",
+      "application_user": "limited_to_application_schema",
+      "read_only_user": "for_reporting_and_analytics",
+      "admin_user": "restricted_to_dba_operations"
+    },
+    "data_protection": {
+      "encryption_at_rest": "required_for_sensitive_data",
+      "encryption_in_transit": "ssl_tls_required",
+      "pii_handling": "identify_and_protect_pii",
+      "data_masking": "for_non_production_environments"
+    },
+    "sql_injection": {
+      "parameterized_queries": "always_use_prepared_statements",
+      "orm_usage": "leverage_orm_protections",
+      "input_validation": "validate_and_sanitize_inputs"
+    }
+  },
+
+  "database_specific_standards": {
+    "postgresql": {
+      "features": ["jsonb", "full_text_search", "array_types", "table_partitioning"],
+      "extensions": ["uuid-ossp", "pg_stat_statements", "pg_trgm"],
+      "configuration": ["shared_buffers", "work_mem", "effective_cache_size"]
+    },
+    "mysql": {
+      "engine": "innodb_for_transactional_tables",
+      "charset": "utf8mb4",
+      "collation": "utf8mb4_unicode_ci",
+      "configuration": ["innodb_buffer_pool_size", "max_connections"]
+    },
+    "mongodb": {
+      "schema_design": "embed_vs_reference_based_on_access_pattern",
+      "indexing": "compound_indexes_for_query_patterns",
+      "aggregation": "pipeline_optimization",
+      "sharding": "for_horizontal_scaling"
+    }
+  },
+
+  "monitoring_and_maintenance": {
+    "performance_monitoring": {
+      "slow_query_log": "enable_and_review_regularly",
+      "query_statistics": "track_execution_counts_and_times",
+      "index_usage": "monitor_index_hit_ratios",
+      "connection_pooling": "monitor_pool_size_and_wait_times"
+    },
+    "maintenance_tasks": {
+      "vacuum_analyze": "postgresql_regular_vacuum",
+      "optimize_table": "mysql_periodic_optimization",
+      "statistics_update": "keep_statistics_current",
+      "backup_verification": "test_restore_procedures"
+    }
+  },
+
+  "validation_sequence": {
+    "phase_1_schema_validation": {
+      "check_naming": "validate_naming_conventions",
+      "check_constraints": "validate_all_constraints_defined",
+      "check_indexes": "validate_foreign_key_indexes",
+      "blocking": true
+    },
+    "phase_2_migration_validation": {
+      "syntax_check": "validate_sql_syntax",
+      "backward_compatibility": "verify_compatibility",
+      "rollback_script": "ensure_rollback_exists",
+      "blocking": true
+    },
+    "phase_3_query_analysis": {
+      "explain_plans": "analyze_query_execution_plans",
+      "identify_anti_patterns": "detect_n_plus_1_and_select_star",
+      "performance_check": "verify_query_performance_targets",
+      "blocking": true
+    },
+    "phase_4_security_validation": {
+      "access_control": "verify_principle_of_least_privilege",
+      "sql_injection": "ensure_parameterized_queries",
+      "data_protection": "validate_encryption_and_masking",
+      "blocking": true
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "architecture-compliance",
+      "security-specialist-audit"
+    ],
+    "blocks_progression_until": [
+      "schema_validation_passed",
+      "migration_tested",
+      "query_performance_acceptable",
+      "security_requirements_met"
+    ]
+  }
+}

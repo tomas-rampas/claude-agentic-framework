@@ -1,0 +1,100 @@
+{
+  "name": "comprehensive-analyst-validation",
+  "version": "1.0.0",
+  "description": "Quality gates for analysis deliverables and investigation reports",
+  "priority": "medium",
+  "agents": [
+    "comprehensive-analyst",
+    "code-review-gatekeeper"
+  ],
+  "triggers": [
+    "analysis_report_submission",
+    "investigation_complete",
+    "root_cause_analysis"
+  ],
+  "validation_sequence": {
+    "phase_1_completeness": {
+      "description": "Analysis completeness validation",
+      "blocking": true,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "analysis_structure",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Problem statement clearly defined",
+            "Scope and boundaries specified",
+            "Data sources identified and verified",
+            "Analysis methodology described",
+            "Findings presented with evidence",
+            "Conclusions drawn from findings",
+            "Recommendations with actionable steps"
+          ]
+        }
+      ]
+    },
+    "phase_2_evidence_quality": {
+      "description": "Evidence and data validation",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "evidence_validation",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Evidence is reproducible",
+            "Data sources are credible",
+            "Logs and traces properly captured",
+            "Metrics and measurements included",
+            "Screenshots/recordings where appropriate",
+            "Timeline of events documented"
+          ]
+        },
+        {
+          "name": "analysis_depth",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Root causes identified (5 Whys applied)",
+            "Contributing factors analyzed",
+            "Alternative hypotheses considered",
+            "Edge cases examined",
+            "Impact assessment performed"
+          ]
+        }
+      ]
+    },
+    "phase_3_recommendations": {
+      "description": "Recommendations quality",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "actionable_recommendations",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Recommendations are specific and actionable",
+            "Priority/severity assigned",
+            "Effort estimates provided",
+            "Risk assessment included",
+            "Success criteria defined",
+            "Follow-up plan specified"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "analysis_submission": {
+      "required_phases": ["phase_1_completeness", "phase_2_evidence_quality", "phase_3_recommendations"]
+    }
+  },
+  "deliverable_templates": {
+    "root_cause_analysis": "# RCA: [Title]\n## Problem Statement\n## Timeline\n## Root Cause\n## Contributing Factors\n## Impact\n## Remediation\n## Prevention",
+    "performance_analysis": "# Performance Analysis: [Title]\n## Baseline Metrics\n## Observations\n## Bottlenecks\n## Recommendations\n## Expected Improvements",
+    "security_investigation": "# Security Investigation: [Title]\n## Incident Summary\n## Attack Vector\n## Impact Assessment\n## Remediation Steps\n## Prevention Measures"
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "name": "system-architect-validation",
+  "version": "1.0.0",
+  "description": "Architecture design quality gates and validation standards",
+  "priority": "high",
+  "agents": [
+    "system-architect",
+    "code-review-gatekeeper",
+    "security-specialist",
+    "product-owner"
+  ],
+  "triggers": [
+    "architecture_document_change",
+    "design_decision_record",
+    "system_design_proposal"
+  ],
+  "validation_sequence": {
+    "phase_1_documentation": {
+      "description": "Architecture documentation completeness",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "architecture_decision_records",
+          "validation": "manual",
+          "required": true,
+          "description": "ADRs documented for major decisions",
+          "template": "docs/architecture/decisions/NNNN-title.md",
+          "checklist": [
+            "Context and problem statement",
+            "Decision drivers and constraints",
+            "Considered options with pros/cons",
+            "Decision outcome and justification",
+            "Consequences and trade-offs"
+          ]
+        },
+        {
+          "name": "c4_diagrams",
+          "validation": "manual",
+          "required": true,
+          "description": "C4 model diagrams present",
+          "levels": [
+            "Level 1: System Context",
+            "Level 2: Container",
+            "Level 3: Component",
+            "Level 4: Code (optional)"
+          ]
+        },
+        {
+          "name": "architecture_views",
+          "validation": "manual",
+          "required": true,
+          "description": "Multiple architectural views documented",
+          "views": [
+            "Logical view (components and relationships)",
+            "Development view (code organization)",
+            "Process view (runtime behavior)",
+            "Physical view (deployment topology)",
+            "Data view (data models and flows)"
+          ]
+        }
+      ]
+    },
+    "phase_2_design_principles": {
+      "description": "Architecture design principles validation",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "solid_principles",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Single Responsibility - Components have single, well-defined purpose",
+            "Open/Closed - Open for extension, closed for modification",
+            "Liskov Substitution - Subtypes substitutable for base types",
+            "Interface Segregation - No forced dependency on unused interfaces",
+            "Dependency Inversion - Depend on abstractions, not concretions"
+          ]
+        },
+        {
+          "name": "architectural_patterns",
+          "validation": "manual",
+          "required": true,
+          "description": "Appropriate architectural patterns used",
+          "common_patterns": [
+            "Layered Architecture",
+            "Microservices",
+            "Event-Driven",
+            "Domain-Driven Design",
+            "CQRS",
+            "Hexagonal/Clean Architecture"
+          ],
+          "validation": "Pattern choice justified in ADRs"
+        }
+      ]
+    },
+    "phase_3_quality_attributes": {
+      "description": "Non-functional requirements validation",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "scalability",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Horizontal scaling strategy defined",
+            "Stateless components where possible",
+            "Load balancing approach specified",
+            "Database sharding/partitioning if needed",
+            "Caching strategy documented"
+          ]
+        },
+        {
+          "name": "availability_resilience",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "SLA/SLO targets defined",
+            "Redundancy and failover strategy",
+            "Circuit breakers for external dependencies",
+            "Graceful degradation approach",
+            "Health check endpoints",
+            "Disaster recovery plan"
+          ]
+        },
+        {
+          "name": "security_architecture",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Authentication/authorization strategy",
+            "Data encryption (at rest and in transit)",
+            "Security zones and boundaries",
+            "Secrets management approach",
+            "Compliance requirements addressed"
+          ]
+        },
+        {
+          "name": "performance",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Performance budgets defined",
+            "Critical path identified and optimized",
+            "Caching layers specified",
+            "Database query optimization strategy",
+            "CDN usage for static assets"
+          ]
+        }
+      ]
+    },
+    "phase_4_integration_interfaces": {
+      "description": "Integration and API design validation",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "api_design",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "RESTful principles followed or GraphQL properly used",
+            "API versioning strategy defined",
+            "OpenAPI/Swagger specification provided",
+            "Error handling and status codes defined",
+            "Rate limiting and throttling approach",
+            "API authentication mechanism specified"
+          ]
+        },
+        {
+          "name": "integration_patterns",
+          "validation": "manual",
+          "required": false,
+          "description": "Integration patterns for external systems",
+          "patterns": [
+            "Synchronous vs Asynchronous communication",
+            "Message queues/event bus design",
+            "API gateway pattern",
+            "Service mesh considerations",
+            "Retry and timeout strategies"
+          ]
+        }
+      ]
+    },
+    "phase_5_data_architecture": {
+      "description": "Data architecture and modeling",
+      "blocking": false,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "data_modeling",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Entity-Relationship diagrams provided",
+            "Database selection justified (SQL vs NoSQL)",
+            "Data partitioning/sharding strategy",
+            "Data consistency requirements defined",
+            "Data migration strategy",
+            "Backup and recovery procedures"
+          ]
+        }
+      ]
+    },
+    "phase_6_technical_debt": {
+      "description": "Technical debt and evolution planning",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "technical_debt_tracking",
+          "validation": "manual",
+          "required": false,
+          "checklist": [
+            "Known technical debt documented",
+            "Debt repayment plan exists",
+            "Architecture evolution roadmap",
+            "Migration paths for breaking changes",
+            "Sunset plan for deprecated components"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "architecture_review": {
+      "required_phases": ["phase_1_documentation", "phase_2_design_principles", "phase_3_quality_attributes", "phase_4_integration_interfaces"]
+    },
+    "pre_implementation": {
+      "required_phases": ["phase_1_documentation", "phase_2_design_principles", "phase_3_quality_attributes", "phase_4_integration_interfaces", "phase_5_data_architecture"]
+    }
+  },
+  "deliverables": {
+    "required": [
+      "Architecture Decision Records (ADRs)",
+      "C4 Context and Container diagrams",
+      "System quality attributes specification",
+      "API contracts/specifications"
+    ],
+    "recommended": [
+      "Deployment architecture diagrams",
+      "Data flow diagrams",
+      "Sequence diagrams for critical flows",
+      "Technology stack documentation"
+    ]
+  },
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "require_review": true,
+    "reviewers": ["senior architect", "tech lead", "security specialist"],
+    "escalation": {
+      "missing_documentation": "blocking",
+      "unaddressed_quality_attributes": "blocking",
+      "security_concerns": "blocking"
+    }
+  }
+}

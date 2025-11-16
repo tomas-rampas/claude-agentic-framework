@@ -1,0 +1,397 @@
+{
+  "name": "go-expert-validation",
+  "version": "1.0.0",
+  "description": "Comprehensive quality gates and validation standards for Go development",
+  "priority": "high",
+  "agents": [
+    "go-expert",
+    "code-review-gatekeeper",
+    "comprehensive-analyst",
+    "security-specialist"
+  ],
+  "triggers": [
+    "go_code_change",
+    "go_mod_update",
+    "pre_commit",
+    "go_file_save",
+    "dependency_update"
+  ],
+  "validation_sequence": {
+    "phase_1_compilation": {
+      "description": "Go compilation and build verification",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "go_mod_tidy",
+          "command": "go mod tidy",
+          "required": true,
+          "description": "Clean up go.mod and go.sum files"
+        },
+        {
+          "name": "go_mod_verify",
+          "command": "go mod verify",
+          "required": true,
+          "description": "Verify dependencies checksums"
+        },
+        {
+          "name": "go_build",
+          "command": "go build ./...",
+          "required": true,
+          "description": "Build all packages"
+        },
+        {
+          "name": "go_build_race",
+          "command": "go build -race ./...",
+          "required": false,
+          "description": "Build with race detector"
+        }
+      ]
+    },
+    "phase_2_formatting_linting": {
+      "description": "Go code formatting and linting",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "gofmt_check",
+          "command": "test -z $(gofmt -l .)",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "gofmt -w .",
+          "description": "Standard Go formatting"
+        },
+        {
+          "name": "goimports_check",
+          "command": "test -z $(goimports -l .)",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "goimports -w .",
+          "description": "Import statements formatting"
+        },
+        {
+          "name": "go_vet",
+          "command": "go vet ./...",
+          "required": true,
+          "description": "Official Go static analyzer"
+        },
+        {
+          "name": "staticcheck",
+          "command": "staticcheck ./...",
+          "required": true,
+          "description": "Advanced static analysis with staticcheck",
+          "note": "Install: go install honnef.co/go/tools/cmd/staticcheck@latest"
+        },
+        {
+          "name": "golangci_lint",
+          "command": "golangci-lint run --enable-all",
+          "required": true,
+          "description": "Comprehensive linting with golangci-lint",
+          "enabled_linters": [
+            "errcheck",
+            "gosimple",
+            "govet",
+            "ineffassign",
+            "staticcheck",
+            "unused",
+            "gosec",
+            "gocyclo",
+            "gocognit",
+            "goconst",
+            "godot",
+            "gofmt",
+            "goimports"
+          ]
+        }
+      ]
+    },
+    "phase_3_testing": {
+      "description": "Go testing requirements",
+      "blocking": true,
+      "timeout_seconds": 300,
+      "checks": [
+        {
+          "name": "go_test",
+          "command": "go test ./... -v",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Run all tests with verbose output"
+        },
+        {
+          "name": "go_test_race",
+          "command": "go test -race ./...",
+          "required": true,
+          "description": "Run tests with race detector"
+        },
+        {
+          "name": "go_test_coverage",
+          "command": "go test ./... -coverprofile=coverage.out -covermode=atomic",
+          "required": true,
+          "min_coverage_percent": 70,
+          "description": "Code coverage measurement"
+        },
+        {
+          "name": "coverage_report",
+          "command": "go tool cover -html=coverage.out -o coverage.html",
+          "required": false,
+          "description": "Generate HTML coverage report"
+        },
+        {
+          "name": "benchmark_tests",
+          "command": "go test -bench=. -benchmem ./...",
+          "required": false,
+          "description": "Run benchmark tests"
+        }
+      ]
+    },
+    "phase_4_security_scan": {
+      "description": "Go security vulnerability scanning",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "gosec_scan",
+          "command": "gosec ./...",
+          "required": true,
+          "description": "Security vulnerability scanner",
+          "note": "Install: go install github.com/securego/gosec/v2/cmd/gosec@latest",
+          "scans_for": [
+            "SQL injection",
+            "Command injection",
+            "File inclusion",
+            "Weak cryptography",
+            "Unsafe TLS configuration",
+            "Memory safety issues"
+          ]
+        },
+        {
+          "name": "govulncheck",
+          "command": "govulncheck ./...",
+          "required": true,
+          "description": "Check for known vulnerabilities in dependencies",
+          "note": "Install: go install golang.org/x/vuln/cmd/govulncheck@latest"
+        },
+        {
+          "name": "nancy_scan",
+          "command": "nancy sleuth -p go.sum",
+          "required": false,
+          "description": "Sonatype Nancy dependency scanner",
+          "note": "Install: go install github.com/sonatype-nexus-community/nancy@latest"
+        }
+      ]
+    },
+    "phase_5_code_quality": {
+      "description": "Go code quality and complexity metrics",
+      "blocking": false,
+      "timeout_seconds": 90,
+      "checks": [
+        {
+          "name": "gocyclo",
+          "command": "gocyclo -over 15 .",
+          "required": false,
+          "max_complexity": 15,
+          "description": "Cyclomatic complexity check",
+          "note": "Install: go install github.com/fzipp/gocyclo/cmd/gocyclo@latest"
+        },
+        {
+          "name": "gocognit",
+          "command": "gocognit -over 20 .",
+          "required": false,
+          "max_cognitive_complexity": 20,
+          "description": "Cognitive complexity check",
+          "note": "Install: go install github.com/uudashr/gocognit/cmd/gocognit@latest"
+        },
+        {
+          "name": "ineffassign",
+          "command": "ineffassign ./...",
+          "required": true,
+          "description": "Detect ineffectual assignments",
+          "note": "Install: go install github.com/gordonklaus/ineffassign@latest"
+        },
+        {
+          "name": "goconst",
+          "command": "goconst ./...",
+          "required": false,
+          "description": "Find repeated strings that could be constants",
+          "note": "Install: go install github.com/jgautheron/goconst/cmd/goconst@latest"
+        }
+      ]
+    },
+    "phase_6_best_practices": {
+      "description": "Go idioms and best practices",
+      "blocking": false,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "error_handling",
+          "validation": "manual",
+          "required": true,
+          "description": "Proper error handling patterns",
+          "checklist": [
+            "Errors properly wrapped with context",
+            "Sentinel errors defined as package-level vars",
+            "Error types implement error interface",
+            "Errors not silently ignored",
+            "defer used for cleanup with error checking"
+          ]
+        },
+        {
+          "name": "concurrency_patterns",
+          "validation": "manual",
+          "required": true,
+          "description": "Safe concurrency patterns",
+          "checklist": [
+            "Channels closed by sender only",
+            "WaitGroups used correctly",
+            "Context for cancellation and timeouts",
+            "Mutex locks properly scoped",
+            "No goroutine leaks"
+          ]
+        },
+        {
+          "name": "interface_design",
+          "validation": "manual",
+          "required": false,
+          "description": "Interface best practices",
+          "checklist": [
+            "Interfaces small and focused",
+            "Accept interfaces, return structs",
+            "Interface segregation principle followed"
+          ]
+        },
+        {
+          "name": "package_structure",
+          "validation": "manual",
+          "required": true,
+          "description": "Package organization",
+          "checklist": [
+            "Package names lowercase, single word",
+            "Internal packages for private code",
+            "Circular dependencies avoided",
+            "cmd/ for executables, pkg/ for libraries"
+          ]
+        }
+      ]
+    },
+    "phase_7_documentation": {
+      "description": "Go documentation standards",
+      "blocking": false,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "godoc_comments",
+          "validation": "automatic",
+          "required": true,
+          "description": "Exported identifiers have doc comments",
+          "rules": [
+            "Comments start with name being documented",
+            "Package doc in doc.go or main file",
+            "Examples in _test.go files"
+          ]
+        },
+        {
+          "name": "golint",
+          "command": "golint -set_exit_status ./...",
+          "required": false,
+          "description": "Style mistakes checker",
+          "note": "Deprecated in favor of revive or staticcheck"
+        },
+        {
+          "name": "revive",
+          "command": "revive -formatter friendly -config revive.toml ./...",
+          "required": false,
+          "description": "Fast, configurable, extensible linter",
+          "note": "Install: go install github.com/mgechev/revive@latest"
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_formatting_linting",
+        "phase_3_testing"
+      ]
+    },
+    "pre_push": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_formatting_linting",
+        "phase_3_testing",
+        "phase_4_security_scan"
+      ]
+    },
+    "pre_release": {
+      "required_phases": [
+        "phase_1_compilation",
+        "phase_2_formatting_linting",
+        "phase_3_testing",
+        "phase_4_security_scan",
+        "phase_5_code_quality",
+        "phase_6_best_practices",
+        "phase_7_documentation"
+      ]
+    }
+  },
+  "tools_required": {
+    "essential": [
+      "go",
+      "gofmt",
+      "goimports",
+      "go vet"
+    ],
+    "recommended": [
+      "staticcheck",
+      "golangci-lint",
+      "gosec",
+      "govulncheck"
+    ],
+    "advanced": [
+      "gocyclo",
+      "gocognit",
+      "goconst",
+      "revive",
+      "nancy"
+    ]
+  },
+  "go_versions_supported": [
+    "1.21",
+    "1.22",
+    "1.23"
+  ],
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "require_review_on_failure": true,
+    "auto_fix_when_possible": true,
+    "escalation": {
+      "compilation_failure": "blocking",
+      "test_failure": "blocking",
+      "race_condition": "blocking",
+      "security_vulnerability": "blocking",
+      "linting_issue": "warning"
+    }
+  },
+  "integration": {
+    "ci_cd_compatible": true,
+    "github_actions": true,
+    "gitlab_ci": true,
+    "ide_integration": [
+      "VSCode with Go extension",
+      "GoLand",
+      "vim-go"
+    ],
+    "git_hooks": [
+      "pre-commit",
+      "pre-push"
+    ]
+  },
+  "metrics": {
+    "track_build_time": true,
+    "track_test_time": true,
+    "track_coverage": true,
+    "track_goroutine_count": true,
+    "track_dependency_count": true,
+    "track_code_complexity": true
+  }
+}
