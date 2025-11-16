@@ -1,0 +1,246 @@
+{
+  "name": "frontend-specialist-standards",
+  "description": "Frontend development standards for React/Vue/Angular and responsive design",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["frontend-specialist", "typescript-expert", "code-review-gatekeeper"],
+  "triggers": [
+    "component_creation",
+    "ui_code_change",
+    "css_modification",
+    "frontend_pre_commit",
+    "state_management_change"
+  ],
+
+  "component_standards": {
+    "react": {
+      "component_type": "functional_components_with_hooks",
+      "naming": "PascalCase_for_components",
+      "file_structure": "one_component_per_file",
+      "props_typing": "typescript_interfaces_required",
+      "hooks_rules": {
+        "dependency_arrays": "explicit_and_complete",
+        "custom_hooks": "prefix_with_use",
+        "useEffect_cleanup": "required_for_subscriptions",
+        "useState_naming": "[value, setValue]"
+      }
+    },
+    "vue": {
+      "component_type": "composition_api_preferred",
+      "naming": "PascalCase_for_components",
+      "script_setup": "use_script_setup_syntax",
+      "props_typing": "defineProps_with_typescript",
+      "emits": "defineEmits_with_typescript"
+    },
+    "angular": {
+      "component_type": "standalone_components_preferred",
+      "naming": "kebab-case_for_selectors",
+      "lifecycle_hooks": "implement_OnInit_OnDestroy",
+      "change_detection": "OnPush_for_performance",
+      "dependency_injection": "constructor_injection"
+    }
+  },
+
+  "state_management": {
+    "react": {
+      "local_state": "useState_for_component_state",
+      "global_state": "redux_zustand_or_jotai",
+      "server_state": "react_query_or_swr",
+      "form_state": "react_hook_form_or_formik"
+    },
+    "vue": {
+      "local_state": "ref_and_reactive",
+      "global_state": "pinia_preferred",
+      "composables": "for_reusable_logic"
+    },
+    "angular": {
+      "local_state": "component_properties",
+      "global_state": "ngrx_or_akita",
+      "services": "singleton_services_for_shared_state"
+    }
+  },
+
+  "styling_standards": {
+    "css_architecture": {
+      "methodology": "css_modules_or_tailwind",
+      "naming": "BEM_for_vanilla_css",
+      "organization": "component_colocated_styles",
+      "global_styles": "minimal_and_documented"
+    },
+    "responsive_design": {
+      "mobile_first": "required",
+      "breakpoints": {
+        "mobile": "320px_to_767px",
+        "tablet": "768px_to_1023px",
+        "desktop": "1024px_and_above"
+      },
+      "fluid_typography": "use_clamp_or_fluid_units",
+      "flexible_layouts": "flexbox_or_grid"
+    },
+    "css_in_js": {
+      "react": "styled_components_or_emotion",
+      "vue": "scoped_styles_or_css_modules",
+      "performance": "minimize_runtime_overhead"
+    }
+  },
+
+  "accessibility": {
+    "semantic_html": {
+      "requirement": "use_semantic_elements",
+      "landmarks": "nav_main_aside_footer",
+      "headings": "hierarchical_h1_to_h6",
+      "lists": "ul_ol_for_list_content"
+    },
+    "aria": {
+      "labels": "aria_label_for_icon_buttons",
+      "roles": "explicit_roles_when_needed",
+      "states": "aria_expanded_aria_selected",
+      "live_regions": "aria_live_for_dynamic_content"
+    },
+    "keyboard_navigation": {
+      "tab_order": "logical_tab_order",
+      "focus_management": "visible_focus_indicators",
+      "keyboard_shortcuts": "document_all_shortcuts",
+      "skip_links": "provide_skip_to_content"
+    },
+    "wcag_compliance": {
+      "level": "AA_minimum",
+      "color_contrast": "4_5_1_for_normal_text",
+      "text_resize": "200_percent_without_loss",
+      "screen_reader": "test_with_nvda_or_jaws"
+    }
+  },
+
+  "performance_standards": {
+    "core_web_vitals": {
+      "lcp": "largest_contentful_paint_under_2_5s",
+      "fid": "first_input_delay_under_100ms",
+      "cls": "cumulative_layout_shift_under_0_1",
+      "measurement": "lighthouse_and_web_vitals"
+    },
+    "optimization_techniques": {
+      "code_splitting": "route_based_and_component_based",
+      "lazy_loading": "images_and_components",
+      "tree_shaking": "remove_unused_code",
+      "minification": "js_css_html_minification",
+      "compression": "gzip_or_brotli"
+    },
+    "bundle_size": {
+      "main_bundle": "under_200kb_gzipped",
+      "vendor_bundle": "under_300kb_gzipped",
+      "chunk_size": "30kb_to_50kb_per_chunk",
+      "analysis": "webpack_bundle_analyzer"
+    }
+  },
+
+  "testing_standards": {
+    "unit_testing": {
+      "framework": "jest_or_vitest",
+      "library": "react_testing_library_or_vue_test_utils",
+      "coverage": "80_percent_minimum",
+      "assertions": "meaningful_user_facing_assertions"
+    },
+    "integration_testing": {
+      "tool": "testing_library_integration",
+      "focus": "user_workflows_and_interactions",
+      "mocking": "minimal_mocking_preferred"
+    },
+    "e2e_testing": {
+      "framework": "playwright_or_cypress",
+      "coverage": "critical_user_paths",
+      "visual_regression": "percy_or_chromatic"
+    }
+  },
+
+  "build_and_tooling": {
+    "build_tools": {
+      "react": "vite_or_webpack",
+      "vue": "vite_recommended",
+      "angular": "angular_cli",
+      "configuration": "separate_dev_and_prod_configs"
+    },
+    "linting": {
+      "eslint": "required_with_typescript",
+      "prettier": "code_formatting",
+      "stylelint": "css_linting",
+      "husky": "pre_commit_hooks"
+    },
+    "type_checking": {
+      "typescript": "strict_mode_enabled",
+      "prop_types": "typescript_interfaces",
+      "type_coverage": "90_percent_minimum"
+    }
+  },
+
+  "security_standards": {
+    "xss_prevention": {
+      "sanitization": "dompurify_for_html_content",
+      "csp": "content_security_policy_headers",
+      "dangerous_props": "avoid_dangerouslySetInnerHTML"
+    },
+    "data_protection": {
+      "sensitive_data": "never_in_localstorage",
+      "tokens": "httponly_cookies_preferred",
+      "https": "enforce_https_only"
+    },
+    "dependencies": {
+      "npm_audit": "zero_high_vulnerabilities",
+      "updates": "regular_security_updates",
+      "license_check": "compatible_licenses_only"
+    }
+  },
+
+  "validation_sequence": {
+    "phase_1_type_checking": {
+      "typescript": "tsc --noEmit",
+      "success_criteria": "zero_type_errors",
+      "blocking": true
+    },
+    "phase_2_linting": {
+      "eslint": "eslint --max-warnings 0",
+      "stylelint": "stylelint **/*.css",
+      "success_criteria": "zero_errors_and_warnings",
+      "blocking": true
+    },
+    "phase_3_testing": {
+      "unit_tests": "npm test",
+      "coverage": "jest --coverage --coverageThreshold=80",
+      "success_criteria": "all_tests_pass_coverage_met",
+      "blocking": true
+    },
+    "phase_4_build": {
+      "build": "npm run build",
+      "bundle_analysis": "analyze_bundle_size",
+      "success_criteria": "build_succeeds_size_acceptable",
+      "blocking": true
+    },
+    "phase_5_accessibility": {
+      "axe": "axe_core_automated_testing",
+      "lighthouse": "lighthouse_accessibility_score_90_plus",
+      "success_criteria": "wcag_aa_compliance",
+      "blocking": true
+    },
+    "phase_6_performance": {
+      "lighthouse": "lighthouse_performance_score_90_plus",
+      "web_vitals": "core_web_vitals_targets_met",
+      "success_criteria": "performance_targets_met",
+      "blocking": false
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "test-coverage-enforcer",
+      "typescript-expert",
+      "uiux-specialist"
+    ],
+    "blocks_progression_until": [
+      "type_checking_passed",
+      "linting_clean",
+      "tests_passing",
+      "build_successful",
+      "accessibility_validated"
+    ]
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "name": "java-expert-configuration",
+  "description": "Java/Spring Boot development standards and best practices enforcement",
+  "version": "1.0",
+  "disabled": false,
+  "agents": ["java-expert", "code-review-gatekeeper", "comprehensive-analyst"],
+  "triggers": [
+    "java_code_change",
+    "spring_configuration_change",
+    "maven_pom_change",
+    "gradle_config_change",
+    "java_pre_commit"
+  ],
+
+  "java_standards": {
+    "code_style": {
+      "formatter": "google_java_format",
+      "checkstyle_config": "google_checks.xml",
+      "naming_conventions": {
+        "classes": "PascalCase",
+        "methods": "camelCase",
+        "constants": "UPPER_SNAKE_CASE",
+        "packages": "lowercase_dot_separated"
+      },
+      "line_length": 100,
+      "indentation": "2_spaces"
+    },
+    "compilation": {
+      "java_version_minimum": "11",
+      "java_version_recommended": "17",
+      "compiler_warnings": "fail_on_warnings",
+      "maven_compile": "mvn clean compile -Werror",
+      "gradle_compile": "gradle clean compileJava -Werror"
+    },
+    "testing": {
+      "framework": "junit5",
+      "assertion_library": "assertj",
+      "mocking_framework": "mockito",
+      "minimum_coverage": 80,
+      "test_naming": "shouldDoSomethingWhenCondition",
+      "test_structure": "given_when_then"
+    }
+  },
+
+  "spring_boot_standards": {
+    "project_structure": {
+      "package_by_feature": "preferred",
+      "package_by_layer": "acceptable",
+      "root_package": "com_organization_project",
+      "required_packages": ["controller", "service", "repository", "model", "config"]
+    },
+    "dependency_injection": {
+      "constructor_injection": "required",
+      "field_injection": "forbidden",
+      "setter_injection": "discouraged"
+    },
+    "annotations": {
+      "component_scanning": "@ComponentScan",
+      "configuration": "@Configuration",
+      "service_layer": "@Service",
+      "repository_layer": "@Repository",
+      "rest_controller": "@RestController"
+    },
+    "configuration": {
+      "application_properties": "preferred",
+      "yaml_configuration": "acceptable",
+      "environment_variables": "required_for_secrets",
+      "profile_specific": "application-{profile}.properties"
+    }
+  },
+
+  "build_tool_standards": {
+    "maven": {
+      "version": "3.6+",
+      "required_plugins": ["maven-compiler-plugin", "maven-surefire-plugin", "jacoco-maven-plugin"],
+      "dependency_management": "use_dependencyManagement_section",
+      "properties": {
+        "java.version": "required",
+        "project.build.sourceEncoding": "UTF-8",
+        "maven.compiler.source": "match_java_version",
+        "maven.compiler.target": "match_java_version"
+      }
+    },
+    "gradle": {
+      "version": "7.0+",
+      "build_script": "build.gradle.kts_preferred",
+      "required_plugins": ["java", "spring-boot", "jacoco"],
+      "dependency_configuration": "implementation_over_compile"
+    }
+  },
+
+  "quality_gates": {
+    "static_analysis": {
+      "tools": ["checkstyle", "spotbugs", "pmd"],
+      "checkstyle_threshold": "zero_violations",
+      "spotbugs_threshold": "zero_high_priority",
+      "pmd_threshold": "zero_violations"
+    },
+    "code_coverage": {
+      "line_coverage": 80,
+      "branch_coverage": 75,
+      "tool": "jacoco",
+      "enforcement": "blocking"
+    },
+    "dependency_security": {
+      "owasp_dependency_check": "required",
+      "snyk_scan": "recommended",
+      "vulnerability_threshold": "zero_high_severity"
+    }
+  },
+
+  "spring_security_standards": {
+    "authentication": {
+      "password_encoding": "BCryptPasswordEncoder",
+      "session_management": "stateless_for_rest_apis",
+      "csrf_protection": "enabled_for_form_login",
+      "cors_configuration": "explicit_allowed_origins"
+    },
+    "authorization": {
+      "method_security": "@PreAuthorize_@PostAuthorize",
+      "role_hierarchy": "defined_in_configuration",
+      "access_decision": "unanimous_based"
+    }
+  },
+
+  "database_standards": {
+    "jpa_hibernate": {
+      "entity_annotations": "@Entity_@Table_@Column",
+      "relationship_mapping": "explicit_fetch_types",
+      "cascade_operations": "explicit_cascade_types",
+      "naming_strategy": "SpringPhysicalNamingStrategy"
+    },
+    "migrations": {
+      "tool": "flyway_or_liquibase",
+      "versioning": "V{version}__{description}.sql",
+      "validation": "validate_on_startup"
+    }
+  },
+
+  "validation_sequence": {
+    "phase_1_compilation": {
+      "maven": "mvn clean compile",
+      "gradle": "gradle clean compileJava",
+      "success_criteria": "zero_compilation_errors",
+      "blocking": true
+    },
+    "phase_2_static_analysis": {
+      "checkstyle": "mvn checkstyle:check",
+      "spotbugs": "mvn spotbugs:check",
+      "pmd": "mvn pmd:check",
+      "success_criteria": "zero_violations",
+      "blocking": true
+    },
+    "phase_3_testing": {
+      "unit_tests": "mvn test",
+      "integration_tests": "mvn verify",
+      "success_criteria": "all_tests_pass",
+      "blocking": true
+    },
+    "phase_4_coverage": {
+      "jacoco": "mvn jacoco:check",
+      "success_criteria": "minimum_80_percent_coverage",
+      "blocking": true
+    },
+    "phase_5_security": {
+      "dependency_check": "mvn dependency-check:check",
+      "success_criteria": "zero_high_vulnerabilities",
+      "blocking": true
+    }
+  },
+
+  "integration": {
+    "coordinates_with": [
+      "zero-tolerance-quality",
+      "test-coverage-enforcer",
+      "dependency-security",
+      "code-review"
+    ],
+    "blocks_progression_until": [
+      "compilation_successful",
+      "static_analysis_clean",
+      "tests_passing",
+      "coverage_threshold_met",
+      "security_scan_clean"
+    ]
+  }
+}
