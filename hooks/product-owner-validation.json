@@ -1,0 +1,235 @@
+{
+  "name": "product-owner-validation",
+  "version": "1.0.0",
+  "description": "Product requirements and user story quality gates",
+  "priority": "high",
+  "agents": [
+    "product-owner",
+    "system-architect",
+    "code-review-gatekeeper"
+  ],
+  "triggers": [
+    "user_story_creation",
+    "requirements_update",
+    "product_backlog_change",
+    "acceptance_criteria_definition"
+  ],
+  "validation_sequence": {
+    "phase_1_user_story_quality": {
+      "description": "User story structure and clarity",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "user_story_format",
+          "validation": "manual",
+          "required": true,
+          "description": "User story follows standard format",
+          "template": "As a [persona], I want [goal], so that [benefit]",
+          "checklist": [
+            "Clear persona/user role identified",
+            "Specific goal or feature described",
+            "Business value/benefit articulated",
+            "Story is independent and negotiable",
+            "Story is valuable to stakeholders",
+            "Story is estimatable by dev team",
+            "Story is small enough for sprint",
+            "Story is testable with clear outcomes"
+          ],
+          "invest_criteria": ["Independent", "Negotiable", "Valuable", "Estimatable", "Small", "Testable"]
+        },
+        {
+          "name": "acceptance_criteria",
+          "validation": "manual",
+          "required": true,
+          "description": "Clear acceptance criteria defined",
+          "format": "Given-When-Then (Gherkin syntax)",
+          "checklist": [
+            "Acceptance criteria specific and measurable",
+            "All scenarios covered (happy path + edge cases)",
+            "Criteria testable and verifiable",
+            "No implementation details in criteria",
+            "Success metrics defined",
+            "Failure/error conditions specified"
+          ]
+        }
+      ]
+    },
+    "phase_2_requirements_completeness": {
+      "description": "Requirements documentation completeness",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "functional_requirements",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Clear description of functionality",
+            "User interactions defined",
+            "Input validation rules specified",
+            "Output/results expectations",
+            "Business rules documented",
+            "Workflow/process flow described"
+          ]
+        },
+        {
+          "name": "non_functional_requirements",
+          "validation": "manual",
+          "required": true,
+          "description": "NFRs specified",
+          "categories": [
+            "Performance (response time, throughput)",
+            "Scalability (user load, data volume)",
+            "Availability (uptime requirements)",
+            "Security (authentication, authorization)",
+            "Usability (accessibility, UX standards)",
+            "Compatibility (browsers, devices)"
+          ]
+        },
+        {
+          "name": "constraints_dependencies",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Technical constraints identified",
+            "Business constraints documented",
+            "Dependencies on other stories/features",
+            "External system dependencies",
+            "Regulatory/compliance requirements"
+          ]
+        }
+      ]
+    },
+    "phase_3_stakeholder_alignment": {
+      "description": "Stakeholder alignment and prioritization",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "priority_justification",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Business value clearly articulated",
+            "Priority level assigned (MoSCoW or similar)",
+            "Impact on KPIs/OKRs specified",
+            "User/market research supporting priority",
+            "Cost-benefit analysis considered"
+          ],
+          "moscow": ["Must Have", "Should Have", "Could Have", "Won't Have"]
+        },
+        {
+          "name": "stakeholder_approval",
+          "validation": "manual",
+          "required": true,
+          "description": "Key stakeholders reviewed and approved",
+          "approvers": ["Product Manager", "Business Owner", "Key Users"]
+        }
+      ]
+    },
+    "phase_4_definition_of_ready": {
+      "description": "Story ready for development (DoR)",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "definition_of_ready",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "User story well-defined and clear",
+            "Acceptance criteria complete",
+            "Dependencies identified and managed",
+            "Team has necessary skills/knowledge",
+            "Design/mockups available if needed",
+            "Technical feasibility confirmed",
+            "Story sized/estimated by team",
+            "No blockers preventing start"
+          ]
+        }
+      ]
+    },
+    "phase_5_definition_of_done": {
+      "description": "Definition of Done criteria",
+      "blocking": true,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "definition_of_done",
+          "validation": "manual",
+          "required": true,
+          "description": "DoD criteria specified for story completion",
+          "checklist": [
+            "Code complete and reviewed",
+            "Unit tests written and passing",
+            "Integration tests passing",
+            "Acceptance criteria met",
+            "Documentation updated",
+            "Code deployed to staging/test environment",
+            "Product Owner acceptance obtained",
+            "No known defects"
+          ]
+        }
+      ]
+    },
+    "phase_6_metrics_tracking": {
+      "description": "Success metrics and KPIs",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "success_metrics",
+          "validation": "manual",
+          "required": false,
+          "description": "Measurable success criteria defined",
+          "examples": [
+            "User engagement metrics",
+            "Conversion rates",
+            "Performance improvements",
+            "Error rate reduction",
+            "User satisfaction scores",
+            "Business impact (revenue, cost savings)"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "sprint_planning": {
+      "required_phases": [
+        "phase_1_user_story_quality",
+        "phase_2_requirements_completeness",
+        "phase_4_definition_of_ready"
+      ]
+    },
+    "story_completion": {
+      "required_phases": [
+        "phase_5_definition_of_done"
+      ]
+    }
+  },
+  "story_templates": {
+    "user_story": "As a [persona]\nI want [goal]\nSo that [benefit]\n\nAcceptance Criteria:\n- Given [context]\n  When [action]\n  Then [outcome]",
+    "bug_report": "# Bug: [Title]\n## Description\n## Steps to Reproduce\n## Expected Behavior\n## Actual Behavior\n## Impact/Severity\n## Environment",
+    "technical_debt": "# Tech Debt: [Title]\n## Current Situation\n## Problems Caused\n## Proposed Solution\n## Effort Estimate\n## Business Impact if Not Addressed"
+  },
+  "tools_required": {
+    "recommended": ["Jira", "Azure DevOps", "Linear", "GitHub Projects"]
+  },
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "escalation": {
+      "missing_acceptance_criteria": "blocking",
+      "unclear_requirements": "blocking",
+      "missing_stakeholder_approval": "warning",
+      "incomplete_dor": "blocking"
+    }
+  },
+  "agile_ceremonies": {
+    "backlog_refinement": "Bi-weekly, stories prepared for upcoming sprints",
+    "sprint_planning": "Stories meet Definition of Ready",
+    "sprint_review": "Acceptance criteria validated",
+    "retrospective": "Process improvements captured"
+  }
+}

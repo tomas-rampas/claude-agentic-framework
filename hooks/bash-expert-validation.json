@@ -1,0 +1,136 @@
+{
+  "name": "bash-expert-validation",
+  "version": "1.0.0",
+  "description": "Quality gates and validation standards for Bash/shell script development",
+  "priority": "medium",
+  "agents": [
+    "bash-expert",
+    "code-review-gatekeeper",
+    "security-specialist"
+  ],
+  "triggers": [
+    "bash_script_change",
+    "sh_file_save",
+    "pre_commit"
+  ],
+  "validation_sequence": {
+    "phase_1_syntax_validation": {
+      "description": "Bash syntax and compatibility checks",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "bash_syntax",
+          "command": "bash -n script.sh",
+          "required": true,
+          "description": "Syntax check without execution"
+        },
+        {
+          "name": "shellcheck",
+          "command": "shellcheck -x **/*.sh",
+          "required": true,
+          "description": "Comprehensive shell script linter",
+          "severity_levels": ["error", "warning", "info", "style"]
+        },
+        {
+          "name": "posix_compliance",
+          "command": "checkbashisms script.sh",
+          "required": false,
+          "description": "Check for bash-specific features in sh scripts",
+          "note": "Install: apt-get install devscripts"
+        }
+      ]
+    },
+    "phase_2_best_practices": {
+      "description": "Bash best practices and style",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "shfmt_formatting",
+          "command": "shfmt -d -i 2 -ci **/*.sh",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "shfmt -w -i 2 -ci **/*.sh",
+          "description": "Shell script formatter"
+        },
+        {
+          "name": "best_practices_checklist",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Set -euo pipefail at script start",
+            "Quote all variable expansions",
+            "Use [[ ]] instead of [ ]",
+            "Prefer $() over backticks",
+            "Check command success with || or &&",
+            "Use local for function variables",
+            "Proper shebang (#!/usr/bin/env bash)"
+          ]
+        }
+      ]
+    },
+    "phase_3_security_checks": {
+      "description": "Security validation",
+      "blocking": true,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "shellcheck_security",
+          "command": "shellcheck -S error **/*.sh",
+          "required": true,
+          "description": "Security-focused checks"
+        },
+        {
+          "name": "security_checklist",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "No hard-coded credentials",
+            "Input sanitization for user input",
+            "Safe temp file creation with mktemp",
+            "Proper quoting to prevent injection",
+            "Use of secure random for secrets"
+          ]
+        }
+      ]
+    },
+    "phase_4_testing": {
+      "description": "Shell script testing",
+      "blocking": false,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "bats_tests",
+          "command": "bats tests/*.bats",
+          "required": false,
+          "description": "Bash Automated Testing System",
+          "note": "Install: npm install -g bats or brew install bats-core"
+        },
+        {
+          "name": "shunit2_tests",
+          "command": "shunit2 tests/*.sh",
+          "required": false,
+          "description": "xUnit-based testing framework for shell scripts"
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {
+      "required_phases": ["phase_1_syntax_validation", "phase_2_best_practices", "phase_3_security_checks"]
+    }
+  },
+  "tools_required": {
+    "essential": ["bash", "shellcheck"],
+    "recommended": ["shfmt", "bats"]
+  },
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "escalation": {
+      "syntax_error": "blocking",
+      "security_issue": "blocking",
+      "style_violation": "warning"
+    }
+  }
+}

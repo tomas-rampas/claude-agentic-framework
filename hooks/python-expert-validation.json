@@ -1,0 +1,468 @@
+{
+  "name": "python-expert-validation",
+  "version": "1.0.0",
+  "description": "Comprehensive quality gates and validation standards for Python development",
+  "priority": "high",
+  "agents": [
+    "python-expert",
+    "code-review-gatekeeper",
+    "comprehensive-analyst",
+    "security-specialist"
+  ],
+  "triggers": [
+    "python_code_change",
+    "requirements_update",
+    "pre_commit",
+    "python_file_save",
+    "poetry_lock_update"
+  ],
+  "validation_sequence": {
+    "phase_1_syntax_import": {
+      "description": "Python syntax and import verification",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "python_syntax_check",
+          "command": "python -m py_compile **/*.py",
+          "required": true,
+          "description": "Syntax error detection"
+        },
+        {
+          "name": "import_validation",
+          "command": "python -m py_compile -m <module_name>",
+          "required": true,
+          "description": "Module import verification"
+        },
+        {
+          "name": "pyflakes",
+          "command": "pyflakes .",
+          "required": true,
+          "description": "Passive checker for Python programs",
+          "note": "Install: pip install pyflakes"
+        }
+      ]
+    },
+    "phase_2_code_formatting": {
+      "description": "Python code formatting and style",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "black_formatting",
+          "command": "black --check --diff .",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "black .",
+          "description": "Uncompromising code formatter",
+          "config": "line_length: 88"
+        },
+        {
+          "name": "isort_imports",
+          "command": "isort --check-only --diff .",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "isort .",
+          "description": "Sort and organize imports"
+        },
+        {
+          "name": "autopep8_check",
+          "command": "autopep8 --diff --recursive .",
+          "required": false,
+          "auto_fix_available": true,
+          "auto_fix_command": "autopep8 --in-place --recursive .",
+          "description": "Auto-format to PEP 8 standards"
+        }
+      ]
+    },
+    "phase_3_linting": {
+      "description": "Python linting and code quality",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "flake8",
+          "command": "flake8 . --max-line-length=88 --extend-ignore=E203",
+          "required": true,
+          "description": "Style guide enforcement (PEP 8)",
+          "plugins": [
+            "flake8-docstrings",
+            "flake8-bugbear",
+            "flake8-comprehensions",
+            "flake8-simplify"
+          ]
+        },
+        {
+          "name": "pylint",
+          "command": "pylint **/*.py --fail-under=8.0",
+          "required": true,
+          "min_score": 8.0,
+          "description": "Comprehensive Python linter",
+          "checks": [
+            "coding standards",
+            "error detection",
+            "code smells",
+            "refactoring suggestions"
+          ]
+        },
+        {
+          "name": "ruff",
+          "command": "ruff check .",
+          "required": false,
+          "description": "Extremely fast Python linter (rust-based)",
+          "note": "Modern alternative to flake8/pylint"
+        }
+      ]
+    },
+    "phase_4_type_checking": {
+      "description": "Static type checking with type hints",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "mypy_type_check",
+          "command": "mypy . --strict",
+          "required": true,
+          "description": "Static type checker",
+          "flags": [
+            "--strict",
+            "--warn-redundant-casts",
+            "--warn-unused-ignores",
+            "--no-implicit-reexport"
+          ]
+        },
+        {
+          "name": "pyright",
+          "command": "pyright .",
+          "required": false,
+          "description": "Microsoft's fast type checker",
+          "note": "Install: npm install -g pyright"
+        },
+        {
+          "name": "pyre_check",
+          "command": "pyre check",
+          "required": false,
+          "description": "Facebook's performant type checker",
+          "note": "Install: pip install pyre-check"
+        }
+      ]
+    },
+    "phase_5_testing": {
+      "description": "Python testing requirements",
+      "blocking": true,
+      "timeout_seconds": 600,
+      "checks": [
+        {
+          "name": "pytest_unit_tests",
+          "command": "pytest tests/unit -v",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Unit tests with pytest"
+        },
+        {
+          "name": "pytest_integration_tests",
+          "command": "pytest tests/integration -v",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Integration tests"
+        },
+        {
+          "name": "pytest_all",
+          "command": "pytest -v",
+          "required": true,
+          "min_pass_rate": 100,
+          "description": "Complete test suite"
+        },
+        {
+          "name": "pytest_coverage",
+          "command": "pytest --cov=. --cov-report=html --cov-report=term --cov-fail-under=70",
+          "required": true,
+          "min_coverage_percent": 70,
+          "description": "Test coverage with pytest-cov"
+        },
+        {
+          "name": "doctest",
+          "command": "python -m doctest -v **/*.py",
+          "required": false,
+          "description": "Test code examples in docstrings"
+        },
+        {
+          "name": "mutation_testing",
+          "command": "mutmut run",
+          "required": false,
+          "description": "Mutation testing to verify test quality",
+          "note": "Install: pip install mutmut"
+        }
+      ]
+    },
+    "phase_6_security_scan": {
+      "description": "Python security vulnerability scanning",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "bandit_security",
+          "command": "bandit -r . -ll",
+          "required": true,
+          "description": "Security issues in Python code",
+          "scans_for": [
+            "SQL injection",
+            "Command injection",
+            "Hard-coded credentials",
+            "Weak cryptography",
+            "Insecure deserialization",
+            "Path traversal"
+          ]
+        },
+        {
+          "name": "safety_dependencies",
+          "command": "safety check --json",
+          "required": true,
+          "description": "Known security vulnerabilities in dependencies",
+          "note": "Install: pip install safety"
+        },
+        {
+          "name": "pip_audit",
+          "command": "pip-audit",
+          "required": true,
+          "description": "PyPI package vulnerability scanner",
+          "note": "Install: pip install pip-audit"
+        },
+        {
+          "name": "semgrep_scan",
+          "command": "semgrep --config auto .",
+          "required": false,
+          "description": "Lightweight static analysis",
+          "note": "Install: pip install semgrep"
+        }
+      ]
+    },
+    "phase_7_dependency_management": {
+      "description": "Python dependency validation",
+      "blocking": false,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "pip_check",
+          "command": "pip check",
+          "required": true,
+          "description": "Verify installed packages compatibility"
+        },
+        {
+          "name": "poetry_check",
+          "command": "poetry check",
+          "required": false,
+          "condition": "uses_poetry == true",
+          "description": "Validate pyproject.toml structure"
+        },
+        {
+          "name": "pipenv_check",
+          "command": "pipenv check",
+          "required": false,
+          "condition": "uses_pipenv == true",
+          "description": "Check for security vulnerabilities in Pipfile"
+        },
+        {
+          "name": "requirements_pinned",
+          "validation": "manual",
+          "required": true,
+          "description": "Dependencies pinned to specific versions",
+          "checklist": [
+            "Production requirements.txt has pinned versions",
+            "No wildcards (*) in version specifiers",
+            "Use requirements.lock or poetry.lock for reproducibility"
+          ]
+        }
+      ]
+    },
+    "phase_8_documentation": {
+      "description": "Python documentation standards",
+      "blocking": false,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "pydocstyle",
+          "command": "pydocstyle .",
+          "required": true,
+          "description": "Docstring style checker",
+          "conventions": [
+            "PEP 257",
+            "Google",
+            "NumPy",
+            "Sphinx"
+          ]
+        },
+        {
+          "name": "interrogate",
+          "command": "interrogate -v --fail-under=80",
+          "required": false,
+          "min_doc_coverage": 80,
+          "description": "Check docstring coverage",
+          "note": "Install: pip install interrogate"
+        },
+        {
+          "name": "sphinx_build",
+          "command": "sphinx-build -W -b html docs docs/_build",
+          "required": false,
+          "condition": "has_sphinx_docs == true",
+          "description": "Build Sphinx documentation"
+        }
+      ]
+    },
+    "phase_9_best_practices": {
+      "description": "Python idioms and best practices",
+      "blocking": false,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "code_complexity",
+          "command": "radon cc . -a -nb",
+          "required": false,
+          "max_complexity": 10,
+          "description": "Cyclomatic complexity analysis",
+          "note": "Install: pip install radon"
+        },
+        {
+          "name": "maintainability_index",
+          "command": "radon mi . -nb",
+          "required": false,
+          "min_maintainability": 60,
+          "description": "Maintainability index calculation"
+        },
+        {
+          "name": "dead_code_detection",
+          "command": "vulture .",
+          "required": false,
+          "description": "Find unused code",
+          "note": "Install: pip install vulture"
+        },
+        {
+          "name": "python_best_practices",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Type hints on all function signatures",
+            "Proper use of context managers (with statements)",
+            "List/dict comprehensions instead of loops where appropriate",
+            "f-strings for string formatting",
+            "pathlib instead of os.path",
+            "Dataclasses or Pydantic for data structures",
+            "Async/await for I/O-bound operations",
+            "Virtual environment used for dependencies"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {
+      "required_phases": [
+        "phase_1_syntax_import",
+        "phase_2_code_formatting",
+        "phase_3_linting",
+        "phase_5_testing"
+      ]
+    },
+    "pre_push": {
+      "required_phases": [
+        "phase_1_syntax_import",
+        "phase_2_code_formatting",
+        "phase_3_linting",
+        "phase_4_type_checking",
+        "phase_5_testing",
+        "phase_6_security_scan"
+      ]
+    },
+    "pre_release": {
+      "required_phases": [
+        "phase_1_syntax_import",
+        "phase_2_code_formatting",
+        "phase_3_linting",
+        "phase_4_type_checking",
+        "phase_5_testing",
+        "phase_6_security_scan",
+        "phase_7_dependency_management",
+        "phase_8_documentation",
+        "phase_9_best_practices"
+      ]
+    }
+  },
+  "tools_required": {
+    "essential": [
+      "python",
+      "pip",
+      "black",
+      "isort",
+      "flake8",
+      "mypy",
+      "pytest",
+      "pytest-cov"
+    ],
+    "recommended": [
+      "pylint",
+      "bandit",
+      "safety",
+      "pip-audit",
+      "pydocstyle"
+    ],
+    "advanced": [
+      "ruff",
+      "pyright",
+      "semgrep",
+      "mutmut",
+      "radon",
+      "vulture"
+    ]
+  },
+  "python_versions_supported": [
+    "3.9",
+    "3.10",
+    "3.11",
+    "3.12"
+  ],
+  "frameworks_supported": [
+    "Django",
+    "Flask",
+    "FastAPI",
+    "Pandas",
+    "NumPy",
+    "TensorFlow",
+    "PyTorch",
+    "Scikit-learn"
+  ],
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "require_review_on_failure": true,
+    "auto_fix_when_possible": true,
+    "escalation": {
+      "syntax_error": "blocking",
+      "test_failure": "blocking",
+      "type_error": "blocking",
+      "security_vulnerability": "blocking",
+      "linting_issue": "warning",
+      "missing_documentation": "warning"
+    }
+  },
+  "integration": {
+    "ci_cd_compatible": true,
+    "github_actions": true,
+    "gitlab_ci": true,
+    "ide_integration": [
+      "PyCharm",
+      "VSCode with Python extension",
+      "Sublime Text with Anaconda"
+    ],
+    "git_hooks": [
+      "pre-commit",
+      "pre-push"
+    ],
+    "pre_commit_framework": true
+  },
+  "metrics": {
+    "track_test_time": true,
+    "track_coverage": true,
+    "track_complexity": true,
+    "track_dependency_count": true,
+    "track_security_issues": true
+  }
+}

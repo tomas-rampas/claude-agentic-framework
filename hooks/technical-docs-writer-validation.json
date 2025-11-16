@@ -1,0 +1,211 @@
+{
+  "name": "technical-docs-writer-validation",
+  "version": "1.0.0",
+  "description": "Documentation quality gates and validation standards",
+  "priority": "medium",
+  "agents": [
+    "technical-docs-writer",
+    "code-review-gatekeeper"
+  ],
+  "triggers": [
+    "documentation_change",
+    "markdown_file_change",
+    "api_documentation_update",
+    "readme_update"
+  ],
+  "validation_sequence": {
+    "phase_1_content_quality": {
+      "description": "Documentation content quality",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "markdown_linting",
+          "command": "markdownlint **/*.md",
+          "required": true,
+          "auto_fix_available": true,
+          "auto_fix_command": "markdownlint --fix **/*.md",
+          "description": "Markdown syntax and style validation"
+        },
+        {
+          "name": "spelling_grammar",
+          "command": "vale **/*.md",
+          "required": true,
+          "description": "Spelling and grammar checking",
+          "note": "Install: brew install vale or scoop install vale"
+        },
+        {
+          "name": "content_checklist",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Clear and concise language",
+            "Proper heading hierarchy",
+            "Code examples are correct and tested",
+            "Screenshots are up-to-date",
+            "Links are valid and not broken",
+            "Technical terms defined on first use",
+            "Audience appropriately targeted"
+          ]
+        }
+      ]
+    },
+    "phase_2_completeness": {
+      "description": "Documentation completeness",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "required_sections",
+          "validation": "manual",
+          "required": true,
+          "description": "Required documentation sections present",
+          "readme_sections": [
+            "Project title and description",
+            "Installation instructions",
+            "Usage examples",
+            "API reference (if applicable)",
+            "Contributing guidelines",
+            "License information"
+          ],
+          "api_docs_sections": [
+            "Endpoint description",
+            "Request parameters",
+            "Response format",
+            "Error codes",
+            "Authentication requirements",
+            "Rate limiting",
+            "Examples"
+          ]
+        },
+        {
+          "name": "code_examples_tested",
+          "validation": "automatic",
+          "required": true,
+          "description": "Code examples in docs are validated/tested",
+          "note": "Use doctest or similar tools"
+        }
+      ]
+    },
+    "phase_3_accessibility": {
+      "description": "Documentation accessibility",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "link_validation",
+          "command": "markdown-link-check **/*.md",
+          "required": true,
+          "description": "Validate all links are working"
+        },
+        {
+          "name": "image_alt_text",
+          "validation": "manual",
+          "required": true,
+          "description": "Images have descriptive alt text"
+        },
+        {
+          "name": "table_of_contents",
+          "validation": "manual",
+          "required": false,
+          "description": "Long documents have table of contents",
+          "threshold": "> 500 lines or > 5 major sections"
+        }
+      ]
+    },
+    "phase_4_consistency": {
+      "description": "Documentation consistency and style",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "style_guide_compliance",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Consistent terminology throughout",
+            "Consistent code formatting",
+            "Consistent voice and tone",
+            "Proper use of technical terms",
+            "Formatting standards followed"
+          ]
+        },
+        {
+          "name": "versioning",
+          "validation": "manual",
+          "required": false,
+          "description": "Documentation version aligned with software version",
+          "checklist": [
+            "Version number in documentation",
+            "Changelog maintained",
+            "Deprecated features marked",
+            "Migration guides for breaking changes"
+          ]
+        }
+      ]
+    },
+    "phase_5_technical_accuracy": {
+      "description": "Technical accuracy validation",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "technical_review",
+          "validation": "manual",
+          "required": true,
+          "description": "Technical accuracy verified by subject matter expert",
+          "reviewers": ["developer", "tech lead", "domain expert"]
+        },
+        {
+          "name": "api_docs_sync",
+          "validation": "automatic",
+          "required": true,
+          "description": "API documentation synchronized with code",
+          "tools": [
+            "Swagger/OpenAPI generation",
+            "JSDoc/TSDoc generation",
+            "Javadoc generation"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_publish": {
+      "required_phases": [
+        "phase_1_content_quality",
+        "phase_2_completeness",
+        "phase_3_accessibility",
+        "phase_5_technical_accuracy"
+      ]
+    }
+  },
+  "documentation_types": {
+    "readme": {
+      "required_sections": ["Overview", "Installation", "Usage", "Contributing", "License"]
+    },
+    "api_reference": {
+      "required_sections": ["Endpoints", "Authentication", "Examples", "Error Codes"]
+    },
+    "user_guide": {
+      "required_sections": ["Getting Started", "Tutorials", "Common Tasks", "FAQ"]
+    },
+    "developer_guide": {
+      "required_sections": ["Architecture", "Setup", "Contributing", "Testing"]
+    }
+  },
+  "tools_required": {
+    "essential": ["markdownlint"],
+    "recommended": ["vale", "markdown-link-check"],
+    "advanced": ["alex (inclusive language)", "write-good"]
+  },
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "escalation": {
+      "broken_links": "warning",
+      "spelling_errors": "warning",
+      "missing_required_sections": "blocking",
+      "technical_inaccuracy": "blocking"
+    }
+  }
+}

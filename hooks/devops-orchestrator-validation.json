@@ -1,0 +1,237 @@
+{
+  "name": "devops-orchestrator-validation",
+  "version": "1.0.0",
+  "description": "Quality gates and validation for DevOps, Infrastructure-as-Code, and CI/CD",
+  "priority": "high",
+  "agents": [
+    "devops-orchestrator",
+    "code-review-gatekeeper",
+    "security-specialist",
+    "system-architect"
+  ],
+  "triggers": [
+    "infrastructure_code_change",
+    "ci_cd_pipeline_change",
+    "dockerfile_change",
+    "kubernetes_manifest_change",
+    "terraform_change"
+  ],
+  "validation_sequence": {
+    "phase_1_iac_validation": {
+      "description": "Infrastructure-as-Code validation",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "terraform_validate",
+          "command": "terraform validate",
+          "required": true,
+          "condition": "uses_terraform == true",
+          "description": "Terraform configuration validation"
+        },
+        {
+          "name": "terraform_fmt",
+          "command": "terraform fmt -check -recursive",
+          "required": true,
+          "condition": "uses_terraform == true",
+          "auto_fix_command": "terraform fmt -recursive",
+          "description": "Terraform formatting"
+        },
+        {
+          "name": "tflint",
+          "command": "tflint --recursive",
+          "required": true,
+          "condition": "uses_terraform == true",
+          "description": "Terraform linting"
+        },
+        {
+          "name": "ansible_lint",
+          "command": "ansible-lint playbooks/",
+          "required": true,
+          "condition": "uses_ansible == true",
+          "description": "Ansible playbook linting"
+        },
+        {
+          "name": "cloudformation_validate",
+          "command": "aws cloudformation validate-template --template-body file://template.yaml",
+          "required": true,
+          "condition": "uses_cloudformation == true",
+          "description": "AWS CloudFormation validation"
+        }
+      ]
+    },
+    "phase_2_container_validation": {
+      "description": "Container and Docker validation",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {
+          "name": "dockerfile_lint",
+          "command": "hadolint Dockerfile",
+          "required": true,
+          "condition": "has_dockerfile == true",
+          "description": "Dockerfile best practices linter"
+        },
+        {
+          "name": "docker_build_test",
+          "command": "docker build --no-cache -t test:latest .",
+          "required": true,
+          "condition": "has_dockerfile == true",
+          "description": "Test Docker image build"
+        },
+        {
+          "name": "trivy_image_scan",
+          "command": "trivy image test:latest",
+          "required": true,
+          "condition": "has_dockerfile == true",
+          "description": "Container vulnerability scanning"
+        },
+        {
+          "name": "docker_compose_validate",
+          "command": "docker-compose config",
+          "required": true,
+          "condition": "has_docker_compose == true",
+          "description": "Docker Compose configuration validation"
+        }
+      ]
+    },
+    "phase_3_kubernetes_validation": {
+      "description": "Kubernetes manifest validation",
+      "blocking": true,
+      "timeout_seconds": 90,
+      "condition": "uses_kubernetes == true",
+      "checks": [
+        {
+          "name": "kubectl_validate",
+          "command": "kubectl apply --dry-run=client -f manifests/",
+          "required": true,
+          "description": "Kubernetes manifest syntax validation"
+        },
+        {
+          "name": "kubeval",
+          "command": "kubeval manifests/*.yaml",
+          "required": true,
+          "description": "Kubernetes manifest schema validation"
+        },
+        {
+          "name": "kube_linter",
+          "command": "kube-linter lint manifests/",
+          "required": true,
+          "description": "Kubernetes best practices and security checks"
+        },
+        {
+          "name": "helm_lint",
+          "command": "helm lint charts/",
+          "required": true,
+          "condition": "uses_helm == true",
+          "description": "Helm chart validation"
+        }
+      ]
+    },
+    "phase_4_security_scanning": {
+      "description": "Security scanning for infrastructure",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "tfsec",
+          "command": "tfsec .",
+          "required": true,
+          "condition": "uses_terraform == true",
+          "description": "Terraform security scanner"
+        },
+        {
+          "name": "checkov",
+          "command": "checkov -d .",
+          "required": true,
+          "description": "Policy-as-code static analysis for IaC"
+        },
+        {
+          "name": "terrascan",
+          "command": "terrascan scan",
+          "required": false,
+          "description": "Detect compliance and security violations"
+        },
+        {
+          "name": "trivy_iac_scan",
+          "command": "trivy config .",
+          "required": true,
+          "description": "Misconfiguration scanning for IaC"
+        }
+      ]
+    },
+    "phase_5_ci_cd_validation": {
+      "description": "CI/CD pipeline validation",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "github_actions_lint",
+          "command": "actionlint",
+          "required": true,
+          "condition": "uses_github_actions == true",
+          "description": "GitHub Actions workflow linting"
+        },
+        {
+          "name": "gitlab_ci_lint",
+          "command": "gitlab-ci-lint .gitlab-ci.yml",
+          "required": true,
+          "condition": "uses_gitlab_ci == true",
+          "description": "GitLab CI validation"
+        },
+        {
+          "name": "azure_pipelines_validate",
+          "validation": "manual",
+          "required": true,
+          "condition": "uses_azure_pipelines == true",
+          "description": "Azure Pipelines YAML validation"
+        }
+      ]
+    },
+    "phase_6_best_practices": {
+      "description": "DevOps best practices validation",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "devops_checklist",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Infrastructure versioned in Git",
+            "Secrets managed with vault/secrets manager",
+            "No hardcoded credentials",
+            "Blue-green or canary deployment strategy",
+            "Automated rollback procedures",
+            "Resource tags/labels for cost tracking",
+            "Multi-environment support (dev/staging/prod)",
+            "Monitoring and alerting configured",
+            "Backup and disaster recovery plan",
+            "Auto-scaling policies defined"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {
+      "required_phases": ["phase_1_iac_validation", "phase_2_container_validation", "phase_4_security_scanning"]
+    },
+    "pre_deploy": {
+      "required_phases": ["phase_1_iac_validation", "phase_2_container_validation", "phase_3_kubernetes_validation", "phase_4_security_scanning", "phase_5_ci_cd_validation", "phase_6_best_practices"]
+    }
+  },
+  "tools_required": {
+    "essential": ["terraform or cloudformation", "docker"],
+    "recommended": ["tflint", "hadolint", "trivy", "checkov"],
+    "advanced": ["tfsec", "kube-linter", "terrascan"]
+  },
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "escalation": {
+      "iac_syntax_error": "blocking",
+      "security_vulnerability": "blocking",
+      "best_practice_violation": "warning"
+    }
+  }
+}

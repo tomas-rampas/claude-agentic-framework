@@ -1,0 +1,177 @@
+{
+  "name": "powershell-expert-validation",
+  "version": "1.0.0",
+  "description": "Quality gates and validation standards for PowerShell development",
+  "priority": "medium",
+  "agents": [
+    "powershell-expert",
+    "code-review-gatekeeper",
+    "security-specialist"
+  ],
+  "triggers": [
+    "powershell_script_change",
+    "ps1_file_save",
+    "psm1_file_save",
+    "pre_commit"
+  ],
+  "validation_sequence": {
+    "phase_1_syntax_validation": {
+      "description": "PowerShell syntax and parsing",
+      "blocking": true,
+      "timeout_seconds": 60,
+      "checks": [
+        {
+          "name": "powershell_syntax",
+          "command": "pwsh -NoProfile -Command 'Test-ScriptFileInfo -Path script.ps1'",
+          "required": true,
+          "description": "PowerShell syntax validation"
+        },
+        {
+          "name": "psscriptanalyzer",
+          "command": "Invoke-ScriptAnalyzer -Path . -Recurse -Settings PSGallery",
+          "required": true,
+          "description": "PowerShell static analyzer",
+          "severity_levels": ["Error", "Warning", "Information"],
+          "rule_categories": [
+            "CodeFormatting",
+            "CodeStyle",
+            "BestPractice",
+            "Security"
+          ]
+        }
+      ]
+    },
+    "phase_2_best_practices": {
+      "description": "PowerShell best practices",
+      "blocking": true,
+      "timeout_seconds": 45,
+      "checks": [
+        {
+          "name": "approved_verbs",
+          "validation": "automatic",
+          "required": true,
+          "description": "Use approved PowerShell verbs",
+          "note": "Get-Verb for approved list"
+        },
+        {
+          "name": "best_practices_checklist",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Use approved verbs (Get-, Set-, New-, etc.)",
+            "Proper error handling with try-catch",
+            "$ErrorActionPreference = 'Stop' for strict mode",
+            "Comment-based help for functions",
+            "Parameter validation attributes",
+            "Use Write-Error, Write-Warning, not Write-Host",
+            "Avoid aliases in scripts",
+            "CmdletBinding attribute for advanced functions"
+          ]
+        }
+      ]
+    },
+    "phase_3_security_checks": {
+      "description": "PowerShell security validation",
+      "blocking": true,
+      "timeout_seconds": 30,
+      "checks": [
+        {
+          "name": "psscriptanalyzer_security",
+          "command": "Invoke-ScriptAnalyzer -Path . -Severity Error -IncludeRule PSAvoid*",
+          "required": true,
+          "description": "Security-focused analysis"
+        },
+        {
+          "name": "security_checklist",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "No hard-coded credentials",
+            "Use SecureString for passwords",
+            "Proper certificate validation",
+            "Avoid Invoke-Expression with user input",
+            "Use -WhatIf and -Confirm for destructive operations",
+            "Script signing for production"
+          ]
+        }
+      ]
+    },
+    "phase_4_testing": {
+      "description": "PowerShell testing with Pester",
+      "blocking": false,
+      "timeout_seconds": 180,
+      "checks": [
+        {
+          "name": "pester_tests",
+          "command": "Invoke-Pester -Path ./Tests -CodeCoverage ./src/*.ps1",
+          "required": false,
+          "min_coverage_percent": 70,
+          "description": "Pester unit/integration tests"
+        },
+        {
+          "name": "pester_code_coverage",
+          "command": "Invoke-Pester -CodeCoverageOutputFile coverage.xml",
+          "required": false,
+          "description": "Code coverage reporting"
+        }
+      ]
+    },
+    "phase_5_module_validation": {
+      "description": "PowerShell module standards",
+      "blocking": false,
+      "timeout_seconds": 30,
+      "condition": "is_module == true",
+      "checks": [
+        {
+          "name": "module_manifest",
+          "command": "Test-ModuleManifest -Path *.psd1",
+          "required": true,
+          "description": "Validate module manifest"
+        },
+        {
+          "name": "module_structure",
+          "validation": "manual",
+          "required": true,
+          "checklist": [
+            "Proper manifest (.psd1) present",
+            "Module file (.psm1) structured correctly",
+            "Exported functions listed in manifest",
+            "Private functions in Private folder",
+            "Public functions in Public folder",
+            "Version follows semantic versioning"
+          ]
+        }
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {
+      "required_phases": ["phase_1_syntax_validation", "phase_2_best_practices", "phase_3_security_checks"]
+    },
+    "pre_release": {
+      "required_phases": ["phase_1_syntax_validation", "phase_2_best_practices", "phase_3_security_checks", "phase_4_testing", "phase_5_module_validation"]
+    }
+  },
+  "tools_required": {
+    "essential": ["pwsh or powershell", "PSScriptAnalyzer"],
+    "recommended": ["Pester", "platyPS"]
+  },
+  "powershell_versions_supported": [
+    "PowerShell 5.1",
+    "PowerShell 7.2+",
+    "PowerShell Core"
+  ],
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "escalation": {
+      "syntax_error": "blocking",
+      "security_issue": "blocking",
+      "best_practice_violation": "warning"
+    }
+  },
+  "integration": {
+    "azure_devops": true,
+    "github_actions": true,
+    "ide_integration": ["VSCode with PowerShell extension", "PowerShell ISE", "Windows Terminal"]
+  }
+}
