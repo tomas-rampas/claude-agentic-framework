@@ -142,6 +142,17 @@
       "post_processing": "go tool cover -html=coverage.out -o coverage.html",
       "threshold_validation": "go tool cover -func=coverage.out"
     },
+    "java": {
+      "coverage_tool": "jacoco",
+      "command": "mvn clean test jacoco:report",
+      "threshold_flags": "-Djacoco.check.lineRatio=0.80 -Djacoco.check.branchRatio=0.75",
+      "report_format": "jacoco_xml_html",
+      "integration": "junit_testng_maven_gradle",
+      "additional_tools": ["cobertura", "clover", "intellij-coverage"],
+      "gradle_command": "gradle test jacocoTestReport jacocoTestCoverageVerification",
+      "configuration_file": "jacoco.xml",
+      "threshold_validation": "mvn jacoco:check"
+    },
     "python": {
       "coverage_tool": "pytest-cov",
       "command": "pytest --cov=src --cov-report=xml --cov-report=term --cov-fail-under=80",

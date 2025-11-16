@@ -3,7 +3,7 @@
   "description": "Zero tolerance for compilation, linting, and test errors/warnings - ensures no code changes break existing functionality",
   "version": "1.0",
   "disabled": false,
-  "agents": ["maker", "test", "debug"],
+  "agents": ["rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert", "bash-expert", "powershell-expert", "code-review-gatekeeper", "comprehensive-analyst"],
   "triggers": [
     "code_change",
     "file_modification", 
@@ -33,7 +33,7 @@
   },
   
   "fallback_strategies": {
-    "compilation_timeout": "DELEGATE_TO_DEBUG_AGENT",
+    "compilation_timeout": "DELEGATE_TO_COMPREHENSIVE_ANALYST",
     "linting_timeout": "APPLY_AUTO_FIXES_THEN_WARN",
     "test_timeout": "RUN_SUBSET_THEN_ESCALATE",
     "agent_stuck": "PROGRESSIVE_ESCALATION",
@@ -45,17 +45,17 @@
       "step": 1,
       "name": "compilation_check",
       "description": "Verify code compiles without errors",
-      "command_examples": ["npm run build", "mvn compile", "go build", "python -m py_compile"],
+      "command_examples": ["npm run build", "mvn compile", "go build", "python -m py_compile", "cargo build", "dotnet build"],
       "success_criteria": "Zero compilation errors",
       "failure_action": "BLOCK_WITH_TIMEOUT",
       "timeout": 120000,
-      "fallback_action": "DELEGATE_TO_DEBUG_AGENT"
+      "fallback_action": "DELEGATE_TO_COMPREHENSIVE_ANALYST"
     },
     {
-      "step": 2, 
+      "step": 2,
       "name": "linting_validation",
       "description": "Execute linting with zero tolerance for errors and warnings",
-      "command_examples": ["eslint --max-warnings 0", "pylint --fail-under=10", "golangci-lint run", "checkstyle"],
+      "command_examples": ["eslint --max-warnings 0", "pylint --fail-under=10", "golangci-lint run", "checkstyle", "cargo clippy", "dotnet format --verify-no-changes"],
       "success_criteria": "Zero linting errors and warnings",
       "failure_action": "BLOCK_WITH_TIMEOUT",
       "timeout": 60000,
@@ -63,9 +63,9 @@
     },
     {
       "step": 3,
-      "name": "test_execution", 
+      "name": "test_execution",
       "description": "Run full test suite with zero failures",
-      "command_examples": ["npm test", "pytest", "go test ./...", "mvn test"],
+      "command_examples": ["npm test", "pytest", "go test ./...", "mvn test", "cargo test", "dotnet test", "gradle test"],
       "success_criteria": "All tests pass, zero warnings",
       "failure_action": "BLOCK_WITH_TIMEOUT",
       "timeout": 300000,
@@ -75,7 +75,7 @@
       "step": 4,
       "name": "regression_validation",
       "description": "Ensure no existing functionality is broken",
-      "command_examples": ["npm run test:regression", "pytest tests/integration/", "go test -tags=integration"],
+      "command_examples": ["npm run test:regression", "pytest tests/integration/", "go test -tags=integration", "mvn verify", "cargo test --release", "dotnet test --filter Category=Integration"],
       "success_criteria": "No regressions detected",
       "failure_action": "BLOCK_IMMEDIATELY"
     },
@@ -83,7 +83,7 @@
       "step": 5,
       "name": "performance_check",
       "description": "Validate no performance degradation",
-      "command_examples": ["npm run benchmark", "pytest --benchmark", "go test -bench=."],
+      "command_examples": ["npm run benchmark", "pytest --benchmark", "go test -bench=.", "mvn -P benchmark test", "cargo bench", "dotnet test --filter Category=Performance"],
       "success_criteria": "Performance within acceptable thresholds",
       "failure_action": "BLOCK_WITH_REVIEW"
     }
@@ -115,17 +115,18 @@
   },
   
   "agent_responsibilities": {
-    "maker-agent": {
+    "implementation-experts": {
+      "agents": ["rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert", "bash-expert", "powershell-expert"],
       "pre_implementation": ["validate_compilation_baseline", "check_existing_tests"],
       "during_implementation": ["continuous_compilation_check", "incremental_testing"],
       "post_implementation": ["full_validation_suite", "regression_prevention"]
     },
-    "test-agent": {
+    "code-review-gatekeeper": {
       "primary_role": "zero_failure_enforcement",
       "responsibilities": ["execute_full_suite", "validate_coverage", "regression_testing"],
       "quality_gates": ["block_on_failure", "validate_warnings", "performance_monitoring"]
     },
-    "debug-agent": {
+    "comprehensive-analyst": {
       "error_elimination": ["systematic_warning_resolution", "performance_debugging"],
       "prevention": ["root_cause_analysis", "proactive_issue_detection"],
       "validation": ["comprehensive_error_checking", "edge_case_validation"]
@@ -155,8 +156,8 @@
   "failure_handling": {
     "compilation_failure": {
       "immediate_action": "BLOCK_ALL_PROGRESS",
-      "remediation": "debug-agent systematic error resolution",
-      "prevention": "Pre-compile validation in maker-agent"
+      "remediation": "comprehensive-analyst systematic error resolution",
+      "prevention": "Pre-compile validation in implementation experts"
     },
     "linting_failure": {
       "immediate_action": "BLOCK_COMMIT",
@@ -164,8 +165,8 @@
       "prevention": "Real-time linting during development"
     },
     "test_failure": {
-      "immediate_action": "BLOCK_DEPLOYMENT", 
-      "remediation": "test-agent investigation and debug-agent assistance",
+      "immediate_action": "BLOCK_DEPLOYMENT",
+      "remediation": "code-review-gatekeeper investigation and comprehensive-analyst assistance",
       "prevention": "TDD workflow ensures tests pass during development"
     },
     "regression_detected": {
