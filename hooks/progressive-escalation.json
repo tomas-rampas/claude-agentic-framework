@@ -22,9 +22,9 @@
       "description": "Bring in complementary agent for assistance",
       "timeout": 120000,
       "strategy": {
-        "maker_stuck": "ADD_DEBUG_AGENT_SUPPORT",
-        "test_stuck": "ADD_MAKER_AGENT_COLLABORATION", 
-        "debug_stuck": "ADD_READER_AGENT_CONTEXT",
+        "implementation_expert_stuck": "ADD_COMPREHENSIVE_ANALYST_SUPPORT",
+        "quality_expert_stuck": "ADD_IMPLEMENTATION_EXPERT_COLLABORATION",
+        "analyst_stuck": "ADD_ARCHITECTURE_EXPERT_CONTEXT",
         "coordination_mode": "COLLABORATIVE"
       }
     },
@@ -124,28 +124,28 @@
   },
   
   "escalation_workflows": {
-    "maker_agent_stuck": [
+    "implementation_expert_stuck": [
       "1. Simplify task and retry (Level 1)",
-      "2. Add debug-agent for assistance (Level 2)",
-      "3. Transfer to debug-agent as lead (Level 3)",
-      "4. Multi-agent: debug + test + maker (Level 4)",
-      "5. Orchestrator guides maker step-by-step (Level 5)",
+      "2. Add comprehensive-analyst for assistance (Level 2)",
+      "3. Transfer to comprehensive-analyst as lead (Level 3)",
+      "4. Multi-agent: comprehensive-analyst + code-review-gatekeeper + implementation-expert (Level 4)",
+      "5. Orchestrator guides implementation-expert step-by-step (Level 5)",
       "6. Minimal solution approach (Level 6)"
     ],
-    
-    "test_agent_stuck": [
-      "1. Reduce test scope and retry (Level 1)",
-      "2. Add maker-agent for test creation help (Level 2)", 
-      "3. Transfer to maker-agent for test implementation (Level 3)",
-      "4. Multi-agent: maker + debug + test (Level 4)",
-      "5. Orchestrator guides test strategy (Level 5)",
+
+    "quality_expert_stuck": [
+      "1. Reduce validation scope and retry (Level 1)",
+      "2. Add implementation-expert for quality remediation help (Level 2)",
+      "3. Transfer to implementation-expert for issue resolution (Level 3)",
+      "4. Multi-agent: implementation-expert + comprehensive-analyst + code-review-gatekeeper (Level 4)",
+      "5. Orchestrator guides quality validation strategy (Level 5)",
       "6. Basic validation only (Level 6)"
     ],
-    
+
     "quality_gate_blocking": [
       "1. Focus on critical issues only (Level 1)",
-      "2. Add debug-agent for issue resolution (Level 2)",
-      "3. Expert agent handles specific issue type (Level 3)", 
+      "2. Add comprehensive-analyst for issue resolution (Level 2)",
+      "3. Specialist agent handles specific issue type (Level 3)",
       "4. Multi-agent attack on quality issues (Level 4)",
       "5. Orchestrator provides detailed fixing guidance (Level 5)",
       "6. Temporary quality relaxation with documentation (Level 6)"

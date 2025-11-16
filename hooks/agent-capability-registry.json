@@ -124,6 +124,28 @@
       "success_rate": "93_percent",
       "token_efficiency": "high"
     },
+    "java-expert": {
+      "primary_domain": "java_development",
+      "skill_categories": [
+        "spring_boot_development",
+        "enterprise_application_architecture",
+        "microservices_development",
+        "jvm_optimization",
+        "dependency_injection_patterns",
+        "android_development",
+        "hibernate_jpa_mastery",
+        "reactive_programming",
+        "concurrent_programming",
+        "maven_gradle_build_systems"
+      ],
+      "technology_stack": ["java", "spring", "spring-boot", "maven", "gradle", "hibernate", "junit", "mockito"],
+      "testing_frameworks": ["junit", "junit5", "mockito", "testng", "jacoco", "archunit"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "94_percent",
+      "token_efficiency": "high"
+    },
     "bash-expert": {
       "primary_domain": "bash_shell_scripting",
       "skill_categories": [
@@ -167,6 +189,94 @@
       "typical_response_time": "10_20_seconds",
       "success_rate": "94_percent",
       "token_efficiency": "high"
+    },
+    "database-specialist": {
+      "primary_domain": "database_engineering",
+      "skill_categories": [
+        "schema_design_and_optimization",
+        "query_performance_tuning",
+        "sql_nosql_expertise",
+        "data_migration_strategies",
+        "indexing_optimization",
+        "database_security",
+        "backup_and_recovery",
+        "replication_and_sharding",
+        "orm_integration",
+        "database_monitoring"
+      ],
+      "technology_stack": ["postgresql", "mysql", "mongodb", "redis", "elasticsearch", "sql-server", "cassandra", "dynamodb"],
+      "testing_frameworks": ["pgbench", "sysbench", "mongodb-performance-test", "database-migration-testing"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "20_35_seconds",
+      "success_rate": "92_percent",
+      "token_efficiency": "medium_high"
+    },
+    "frontend-specialist": {
+      "primary_domain": "frontend_ui_development",
+      "skill_categories": [
+        "react_vue_angular_expertise",
+        "component_architecture",
+        "state_management",
+        "responsive_design",
+        "performance_optimization",
+        "accessibility_compliance",
+        "build_toolchain_mastery",
+        "css_frameworks_expertise",
+        "frontend_testing",
+        "ui_component_libraries"
+      ],
+      "technology_stack": ["react", "vue", "angular", "svelte", "tailwind", "sass", "webpack", "vite", "storybook"],
+      "testing_frameworks": ["jest", "react-testing-library", "cypress", "playwright", "vitest"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "high_complexity_capable",
+      "typical_response_time": "15_30_seconds",
+      "success_rate": "93_percent",
+      "token_efficiency": "high"
+    },
+    "security-specialist": {
+      "primary_domain": "security_engineering",
+      "skill_categories": [
+        "security_audit_and_assessment",
+        "owasp_top_10_expertise",
+        "authentication_authorization",
+        "vulnerability_scanning",
+        "penetration_testing",
+        "threat_modeling",
+        "compliance_validation",
+        "secure_coding_practices",
+        "cryptography",
+        "security_automation"
+      ],
+      "technology_stack": ["owasp-zap", "burp-suite", "snyk", "sonarqube", "oauth2", "jwt", "saml", "tls-ssl"],
+      "testing_frameworks": ["security-testing-frameworks", "penetration-testing-tools", "vulnerability-scanners"],
+      "performance_tier": "specialist_tier_1",
+      "complexity_rating": "very_high_complexity",
+      "typical_response_time": "25_40_seconds",
+      "success_rate": "91_percent",
+      "token_efficiency": "medium"
+    },
+    "uiux-specialist": {
+      "primary_domain": "ui_ux_design",
+      "skill_categories": [
+        "user_interface_design",
+        "user_experience_optimization",
+        "accessibility_wcag_compliance",
+        "design_system_creation",
+        "user_flow_design",
+        "wireframing_prototyping",
+        "usability_testing",
+        "responsive_design_patterns",
+        "design_tokens",
+        "interaction_design"
+      ],
+      "technology_stack": ["figma", "sketch", "adobe-xd", "storybook", "design-tokens", "wcag-guidelines", "aria-standards"],
+      "testing_frameworks": ["axe", "lighthouse", "pa11y", "usability-testing-frameworks"],
+      "performance_tier": "specialist_tier_2",
+      "complexity_rating": "medium_to_high_complexity",
+      "typical_response_time": "20_35_seconds",
+      "success_rate": "90_percent",
+      "token_efficiency": "medium_high"
     },
     "comprehensive-analyst": {
       "primary_domain": "analysis_and_investigation",

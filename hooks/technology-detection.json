@@ -50,11 +50,53 @@
       "package_indicators": ["main.go", "go.mod"]
     },
     "java": {
-      "file_extensions": ["*.java", "*.class", "*.jar"],
-      "config_files": ["pom.xml", "build.gradle", "gradle.properties", "maven.properties"],
-      "keywords": ["java", "spring", "maven", "gradle", "junit", "hibernate"],
-      "directories": ["src/main/java/", "src/test/java/", "target/", "build/"],
-      "package_indicators": ["pom.xml", "build.gradle", "Application.java"]
+      "file_extensions": ["*.java", "*.class", "*.jar", "*.war"],
+      "config_files": ["pom.xml", "build.gradle", "build.gradle.kts", "settings.gradle", "gradle.properties", "mvnw", "gradlew"],
+      "keywords": ["java", "spring", "spring boot", "maven", "gradle", "junit", "hibernate", "jpa", "spring mvc", "spring data", "lombok"],
+      "directories": ["src/main/java/", "src/test/java/", "src/main/resources/", "target/", "build/", ".mvn/", ".gradle/"],
+      "package_indicators": ["pom.xml", "build.gradle", "Application.java", "SpringBootApplication", "application.properties", "application.yml"]
+    },
+    "bash": {
+      "file_extensions": ["*.sh", "*.bash"],
+      "config_files": [".bashrc", ".bash_profile", "Makefile"],
+      "keywords": ["bash", "shell", "sh", "linux", "unix", "automation", "script"],
+      "directories": ["scripts/", "bin/", "tools/"],
+      "package_indicators": ["#!/bin/bash", "#!/bin/sh"]
+    },
+    "powershell": {
+      "file_extensions": ["*.ps1", "*.psm1", "*.psd1"],
+      "config_files": ["profile.ps1", "PSScriptAnalyzerSettings.psd1"],
+      "keywords": ["powershell", "pwsh", "windows", "azure", "automation", "cmdlet"],
+      "directories": ["Scripts/", "Modules/", "Functions/"],
+      "package_indicators": ["param(", "function", "cmdlet"]
+    },
+    "database": {
+      "file_extensions": ["*.sql", "*.ddl", "*.dml"],
+      "config_files": ["schema.sql", "migrations/", "seeds/", "prisma.schema", "knexfile.js", "ormconfig.json"],
+      "keywords": ["postgresql", "postgres", "mysql", "mariadb", "mongodb", "redis", "elasticsearch", "sql server", "cassandra", "dynamodb", "database", "schema", "migration", "orm", "sql"],
+      "directories": ["migrations/", "db/", "database/", "sql/", "schema/"],
+      "package_indicators": ["CREATE TABLE", "ALTER TABLE", "SELECT", "INSERT", "UPDATE", "migrations"]
+    },
+    "frontend_frameworks": {
+      "file_extensions": ["*.jsx", "*.tsx", "*.vue", "*.svelte"],
+      "config_files": ["package.json", ".eslintrc", "tailwind.config.js", "postcss.config.js", "vite.config.js", "webpack.config.js"],
+      "keywords": ["react", "vue", "angular", "svelte", "nextjs", "nuxt", "gatsby", "remix", "component", "jsx", "tsx", "hooks", "state management", "redux", "vuex", "pinia"],
+      "directories": ["components/", "src/components/", "pages/", "src/pages/", "public/", "static/", "assets/"],
+      "package_indicators": ["react", "@angular/core", "vue", "svelte", "next.config.js", "nuxt.config.js"]
+    },
+    "security_tools": {
+      "file_extensions": ["*.security", "*.sec"],
+      "config_files": [".snyk", "sonar-project.properties", "security-policy.yml", ".zap"],
+      "keywords": ["security", "vulnerability", "owasp", "authentication", "authorization", "oauth", "jwt", "saml", "ssl", "tls", "encryption", "audit", "penetration test"],
+      "directories": ["security/", "tests/security/", "audit/"],
+      "package_indicators": ["security scan", "vulnerability assessment", "pen test"]
+    },
+    "uiux_design": {
+      "file_extensions": ["*.fig", "*.sketch", "*.xd", "*.design"],
+      "config_files": ["design-system.json", "tokens.json", "theme.json"],
+      "keywords": ["figma", "sketch", "adobe xd", "design system", "accessibility", "wcag", "aria", "user flow", "wireframe", "prototype", "ui", "ux"],
+      "directories": ["designs/", "assets/design/", "mockups/", "prototypes/"],
+      "package_indicators": ["design-tokens", "style-guide", "component-library"]
     }
   },
 
