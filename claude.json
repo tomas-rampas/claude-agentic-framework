@@ -1,95 +1,103 @@
 {
-  "version": "2.0.0",
-  "description": "Optimized Claude Code CLI with lean MCP-enhanced sub-agents",
-  
+  "version": "3.0.0",
+  "description": "Claude Code CLI with 18-agent specialized architecture",
+
   "sub_agents": {
-    "plan-agent": {
+    "rust-expert": {
       "enabled": true,
-      "path": "~/.claude/agents/plan-agent",
-      "config_file": "~/.claude/agents/plan-agent/agent.json",
-      "prompt_file": "~/.claude/agents/plan-agent/agent.md",
-      "model": "claude-opus-4-1-20250805",
-      "specialization": "strategic_planning_architecture"
+      "path": "~/.claude/agents/rust-expert",
+      "config_file": "~/.claude/agents/rust-expert/agent.json",
+      "prompt_file": "~/.claude/agents/rust-expert.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "rust_development_systems_programming"
     },
-    "reader-agent": {
+    "csharp-expert": {
       "enabled": true,
-      "path": "~/.claude/agents/reader-agent", 
-      "config_file": "~/.claude/agents/reader-agent/agent.json",
-      "prompt_file": "~/.claude/agents/reader-agent/agent.md",
+      "path": "~/.claude/agents/csharp-expert",
+      "config_file": "~/.claude/agents/csharp-expert/agent.json",
+      "prompt_file": "~/.claude/agents/csharp-expert.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "csharp_dotnet_azure_development"
+    },
+    "go-expert": {
+      "enabled": true,
+      "path": "~/.claude/agents/go-expert",
+      "config_file": "~/.claude/agents/go-expert/agent.json",
+      "prompt_file": "~/.claude/agents/go-expert.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "go_microservices_cloud_native"
+    },
+    "java-expert": {
+      "enabled": true,
+      "path": "~/.claude/agents/java-expert",
+      "config_file": "~/.claude/agents/java-expert/agent.json",
+      "prompt_file": "~/.claude/agents/java-expert.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "java_spring_boot_enterprise"
+    },
+    "python-expert": {
+      "enabled": true,
+      "path": "~/.claude/agents/python-expert",
+      "config_file": "~/.claude/agents/python-expert/agent.json",
+      "prompt_file": "~/.claude/agents/python-expert.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "python_web_data_science_automation"
+    },
+    "typescript-expert": {
+      "enabled": true,
+      "path": "~/.claude/agents/typescript-expert",
+      "config_file": "~/.claude/agents/typescript-expert/agent.json",
+      "prompt_file": "~/.claude/agents/typescript-expert.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "typescript_javascript_react_nodejs"
+    },
+    "bash-expert": {
+      "enabled": true,
+      "path": "~/.claude/agents/bash-expert",
+      "config_file": "~/.claude/agents/bash-expert/agent.json",
+      "prompt_file": "~/.claude/agents/bash-expert.md",
       "model": "claude-haiku-3-20241201",
-      "specialization": "fast_analysis_extraction"
+      "specialization": "bash_shell_linux_automation"
     },
-    "maker-agent": {
+    "powershell-expert": {
       "enabled": true,
-      "path": "~/.claude/agents/maker-agent",
-      "config_file": "~/.claude/agents/maker-agent/agent.json", 
-      "prompt_file": "~/.claude/agents/maker-agent/agent.md",
-      "model": "claude-sonnet-4-20250514",
-      "specialization": "code_creation_implementation"
-    },
-    "security-agent": {
-      "enabled": true,
-      "path": "~/.claude/agents/security-agent",
-      "config_file": "~/.claude/agents/security-agent/agent.json",
-      "prompt_file": "~/.claude/agents/security-agent/agent.md", 
+      "path": "~/.claude/agents/powershell-expert",
+      "config_file": "~/.claude/agents/powershell-expert/agent.json",
+      "prompt_file": "~/.claude/agents/powershell-expert.md",
       "model": "claude-haiku-3-20241201",
-      "specialization": "vulnerability_scanning_defensive"
+      "specialization": "powershell_windows_azure_automation"
     },
-    "test-agent": {
+    "database-specialist": {
       "enabled": true,
-      "path": "~/.claude/agents/test-agent",
-      "config_file": "~/.claude/agents/test-agent/agent.json",
-      "prompt_file": "~/.claude/agents/test-agent/agent.md",
-      "model": "claude-haiku-3-20241201", 
-      "specialization": "testing_validation_quality"
+      "path": "~/.claude/agents/database-specialist",
+      "config_file": "~/.claude/agents/database-specialist/agent.json",
+      "prompt_file": "~/.claude/agents/database-specialist.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "database_design_optimization_sql_nosql"
     },
-    "docs-agent": {
+    "frontend-specialist": {
       "enabled": true,
-      "path": "~/.claude/agents/docs-agent",
-      "config_file": "~/.claude/agents/docs-agent/agent.json",
-      "prompt_file": "~/.claude/agents/docs-agent/agent.md",
+      "path": "~/.claude/agents/frontend-specialist",
+      "config_file": "~/.claude/agents/frontend-specialist/agent.json",
+      "prompt_file": "~/.claude/agents/frontend-specialist.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "frontend_react_vue_angular_responsive"
+    },
+    "security-specialist": {
+      "enabled": true,
+      "path": "~/.claude/agents/security-specialist",
+      "config_file": "~/.claude/agents/security-specialist/agent.json",
+      "prompt_file": "~/.claude/agents/security-specialist.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "security_auditing_owasp_compliance"
+    },
+    "uiux-specialist": {
+      "enabled": true,
+      "path": "~/.claude/agents/uiux-specialist",
+      "config_file": "~/.claude/agents/uiux-specialist/agent.json",
+      "prompt_file": "~/.claude/agents/uiux-specialist.md",
       "model": "claude-haiku-3-20241201",
-      "specialization": "documentation_technical_writing"
-    },
-    "debug-agent": {
-      "enabled": true,
-      "path": "~/.claude/agents/debug-agent",
-      "config_file": "~/.claude/agents/debug-agent/agent.json",
-      "prompt_file": "~/.claude/agents/debug-agent/agent.md",
-      "model": "claude-sonnet-4-20250514",
-      "specialization": "systematic_debugging_analysis"
-    },
-    "rust-systems-expert": {
-      "enabled": true,
-      "path": "~/.claude/agents/rust-systems-expert",
-      "config_file": "~/.claude/agents/rust-systems-expert/agent.json",
-      "prompt_file": "~/.claude/agents/rust-systems-expert.md",
-      "model": "claude-sonnet-4-20250514",
-      "specialization": "rust_code_implementation"
-    },
-    "code-review-gatekeeper": {
-      "enabled": true,
-      "path": "~/.claude/agents/code-review-gatekeeper",
-      "config_file": "~/.claude/agents/code-review-gatekeeper/agent.json",
-      "prompt_file": "~/.claude/agents/code-review-gatekeeper.md",
-      "model": "claude-opus-4-1-20250805",
-      "specialization": "quality_enforcement_review"
-    },
-    "comprehensive-analyst": {
-      "enabled": true,
-      "path": "~/.claude/agents/comprehensive-analyst",
-      "config_file": "~/.claude/agents/comprehensive-analyst/agent.json",
-      "prompt_file": "~/.claude/agents/comprehensive-analyst.md",
-      "model": "claude-sonnet-4-20250514",
-      "specialization": "deep_analysis_investigation"
-    },
-    "system-architect": {
-      "enabled": true,
-      "path": "~/.claude/agents/system-architect",
-      "config_file": "~/.claude/agents/system-architect/agent.json",
-      "prompt_file": "~/.claude/agents/system-architect.md",
-      "model": "claude-opus-4-1-20250805",
-      "specialization": "system_design_architecture"
+      "specialization": "uiux_design_accessibility_usability"
     },
     "devops-orchestrator": {
       "enabled": true,
@@ -97,7 +105,31 @@
       "config_file": "~/.claude/agents/devops-orchestrator/agent.json",
       "prompt_file": "~/.claude/agents/devops-orchestrator.md",
       "model": "claude-sonnet-4-20250514",
-      "specialization": "infrastructure_deployment"
+      "specialization": "infrastructure_deployment_cicd"
+    },
+    "system-architect": {
+      "enabled": true,
+      "path": "~/.claude/agents/system-architect",
+      "config_file": "~/.claude/agents/system-architect/agent.json",
+      "prompt_file": "~/.claude/agents/system-architect.md",
+      "model": "claude-opus-4-1-20250805",
+      "specialization": "system_design_architecture_patterns"
+    },
+    "comprehensive-analyst": {
+      "enabled": true,
+      "path": "~/.claude/agents/comprehensive-analyst",
+      "config_file": "~/.claude/agents/comprehensive-analyst/agent.json",
+      "prompt_file": "~/.claude/agents/comprehensive-analyst.md",
+      "model": "claude-sonnet-4-20250514",
+      "specialization": "deep_analysis_investigation_debugging"
+    },
+    "code-review-gatekeeper": {
+      "enabled": true,
+      "path": "~/.claude/agents/code-review-gatekeeper",
+      "config_file": "~/.claude/agents/code-review-gatekeeper/agent.json",
+      "prompt_file": "~/.claude/agents/code-review-gatekeeper.md",
+      "model": "claude-opus-4-1-20250805",
+      "specialization": "quality_enforcement_code_review"
     },
     "technical-docs-writer": {
       "enabled": true,
@@ -105,7 +137,7 @@
       "config_file": "~/.claude/agents/technical-docs-writer/agent.json",
       "prompt_file": "~/.claude/agents/technical-docs-writer.md",
       "model": "claude-haiku-3-20241201",
-      "specialization": "documentation_writing"
+      "specialization": "documentation_technical_writing"
     },
     "product-owner": {
       "enabled": true,
@@ -113,9 +145,10 @@
       "config_file": "~/.claude/agents/product-owner/agent.json",
       "prompt_file": "~/.claude/agents/product-owner.md",
       "model": "claude-sonnet-4-20250514",
-      "specialization": "product_management_planning"
+      "specialization": "product_management_requirements_planning"
     }
-  }, 
+  },
+
   "global_settings": {
     "mcp_timeout": 15000,
     "mcp_retry_count": 2,
@@ -129,22 +162,59 @@
     "token_monitoring": true,
     "performance_optimization": true
   },
-  
+
   "shared_resources": {
     "base_config": "~/.claude/shared/base-config.json",
-    "mcp_config": "~/.claude/shared/mcp-config.json", 
+    "mcp_config": "~/.claude/shared/mcp-config.json",
     "agent_patterns": "~/.claude/shared/agent-patterns.md",
     "hooks_directory": "~/.claude/hooks",
-    "smart_mcp_hook": "~/.claude/hooks/smart-mcp.json"
+    "agent_capability_registry": "~/.claude/hooks/agent-capability-registry.json"
   },
-  
+
   "optimization_features": {
     "lean_agent_prompts": true,
     "consolidated_configurations": true,
     "smart_mcp_activation": true,
     "shared_pattern_library": true,
-    "essential_hooks_only": true,
+    "essential_hooks_only": false,
     "token_usage_monitoring": true,
-    "performance_caching": true
+    "performance_caching": true,
+    "specialized_agent_routing": true,
+    "quality_gate_enforcement": true
+  },
+
+  "agent_categories": {
+    "language_experts": [
+      "rust-expert",
+      "csharp-expert",
+      "go-expert",
+      "java-expert",
+      "python-expert",
+      "typescript-expert"
+    ],
+    "automation_experts": [
+      "bash-expert",
+      "powershell-expert"
+    ],
+    "domain_specialists": [
+      "database-specialist",
+      "frontend-specialist",
+      "security-specialist",
+      "uiux-specialist"
+    ],
+    "infrastructure_operations": [
+      "devops-orchestrator"
+    ],
+    "architecture_planning": [
+      "system-architect",
+      "product-owner"
+    ],
+    "quality_analysis": [
+      "comprehensive-analyst",
+      "code-review-gatekeeper"
+    ],
+    "documentation": [
+      "technical-docs-writer"
+    ]
   }
 }

@@ -1,10 +1,12 @@
 {
-  "version": "2.0",
+  "version": "3.0",
+  "description": "Core hooks for 18-agent architecture with specialized routing",
   "hooks": {
     "development-standards": {
-      "agents": ["maker"],
+      "agents": ["language_experts"],
       "triggers": ["code_creation", "file_modification"],
-      "actions": ["enforce_style", "validate_syntax", "check_conventions"]
+      "actions": ["enforce_style", "validate_syntax", "check_conventions"],
+      "note": "Routes to appropriate language expert based on file type"
     },
     "mcp-integration": {
       "agents": ["all"],
@@ -12,24 +14,24 @@
       "actions": ["route_to_mcp", "validate_fallback", "cache_results"]
     },
     "error-handling": {
-      "agents": ["maker", "debug"],
+      "agents": ["language_experts", "comprehensive-analyst"],
       "triggers": ["exception_detected", "validation_failed"],
       "actions": ["try_catch_wrap", "log_error", "graceful_fallback"]
     },
     "testing-workflow": {
-      "agents": ["test", "maker"],
+      "agents": ["code-review-gatekeeper", "language_experts"],
       "triggers": ["code_change", "test_execution"],
       "actions": ["run_tests", "analyze_coverage", "report_failures"]
     },
     "tdd-workflow": {
-      "agents": ["test", "maker", "plan"],
+      "agents": ["code-review-gatekeeper", "language_experts", "system-architect"],
       "triggers": ["code_creation", "new_feature", "function_implementation"],
       "actions": ["create_failing_test", "minimal_implementation", "refactor_with_tests"],
       "workflow_phases": ["red", "green", "refactor"],
       "enforcement": "blocking"
     },
     "zero-tolerance-quality": {
-      "agents": ["maker", "test", "debug"],
+      "agents": ["language_experts", "code-review-gatekeeper", "comprehensive-analyst"],
       "triggers": ["code_change", "file_modification", "pre_commit", "build_process"],
       "actions": ["validate_compilation", "check_linting", "run_tests", "prevent_regressions"],
       "enforcement_levels": ["compilation_errors", "linting_errors", "test_failures"],
@@ -43,34 +45,34 @@
       "escalation": "automatic"
     },
     "progressive-escalation": {
-      "agents": ["orchestrator"],
+      "agents": ["devops-orchestrator"],
       "triggers": ["agent_timeout", "agent_stuck", "coordination_failure"],
       "actions": ["escalate_progressively", "maintain_delegation", "prevent_takeover"],
       "escalation_levels": 6,
       "enforcement": "mandatory"
     },
     "security-check": {
-      "agents": ["security", "maker"],
+      "agents": ["security-specialist", "language_experts"],
       "triggers": ["code_creation", "dependency_change"],
       "actions": ["scan_vulnerabilities", "detect_secrets", "validate_inputs"]
     },
     "documentation-sync": {
-      "agents": ["docs", "maker"],
+      "agents": ["technical-docs-writer", "language_experts"],
       "triggers": ["code_change", "api_modification"],
       "actions": ["update_docs", "generate_examples", "validate_links"]
     },
     "performance-monitor": {
-      "agents": ["debug", "maker"],
+      "agents": ["comprehensive-analyst", "language_experts"],
       "triggers": ["performance_issue", "resource_usage"],
       "actions": ["profile_execution", "identify_bottlenecks", "suggest_optimizations"]
     },
     "code-analysis": {
-      "agents": ["reader", "security"],
+      "agents": ["comprehensive-analyst", "security-specialist"],
       "triggers": ["file_analysis", "pattern_search"],
       "actions": ["extract_symbols", "analyze_structure", "detect_patterns"]
     },
     "workflow-coordination": {
-      "agents": ["plan", "all"],
+      "agents": ["system-architect", "product-owner", "all"],
       "triggers": ["task_planning", "agent_handoff"],
       "actions": ["coordinate_agents", "track_progress", "resolve_conflicts"]
     },
@@ -80,29 +82,61 @@
       "actions": ["validate_outputs", "check_standards", "approve_changes"]
     },
     "debugging-support": {
-      "agents": ["debug", "maker"],
+      "agents": ["comprehensive-analyst", "language_experts"],
       "triggers": ["error_reported", "test_failure"],
       "actions": ["trace_execution", "analyze_logs", "suggest_fixes"]
     },
     "planning-support": {
-      "agents": ["plan"],
+      "agents": ["system-architect", "product-owner"],
       "triggers": ["architecture_design", "requirement_analysis"],
       "actions": ["decompose_problem", "evaluate_options", "create_roadmap"]
     },
     "file-operations": {
-      "agents": ["reader", "maker", "docs"],
+      "agents": ["comprehensive-analyst", "language_experts", "technical-docs-writer"],
       "triggers": ["file_access", "bulk_operations"],
       "actions": ["optimize_io", "handle_large_files", "ensure_atomicity"]
     },
     "symbol-operations": {
-      "agents": ["maker", "reader", "debug"],
+      "agents": ["language_experts", "comprehensive-analyst"],
       "triggers": ["refactoring", "symbol_search"],
       "actions": ["resolve_symbols", "track_references", "safe_rename"]
     },
     "framework-integration": {
-      "agents": ["maker", "plan"],
+      "agents": ["language_experts", "system-architect"],
       "triggers": ["library_use", "pattern_implementation"],
       "actions": ["query_docs", "apply_patterns", "validate_usage"]
     }
+  },
+  "agent_group_definitions": {
+    "language_experts": [
+      "rust-expert",
+      "csharp-expert",
+      "go-expert",
+      "java-expert",
+      "python-expert",
+      "typescript-expert",
+      "bash-expert",
+      "powershell-expert"
+    ],
+    "all": [
+      "rust-expert",
+      "csharp-expert",
+      "go-expert",
+      "java-expert",
+      "python-expert",
+      "typescript-expert",
+      "bash-expert",
+      "powershell-expert",
+      "database-specialist",
+      "frontend-specialist",
+      "security-specialist",
+      "uiux-specialist",
+      "devops-orchestrator",
+      "system-architect",
+      "comprehensive-analyst",
+      "code-review-gatekeeper",
+      "technical-docs-writer",
+      "product-owner"
+    ]
   }
 }

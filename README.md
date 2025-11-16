@@ -36,8 +36,8 @@ This framework **extends Claude Code CLI** with a specialized 18-agent ecosystem
 - **CLAUDE.md**: Agent execution rules and task routing logic
 - **agents/**: 18 specialized agent definitions with YAML frontmatter
 - **commands/**: Custom commands like `/delegate` for intelligent task routing
-- **hooks/**: Quality gates and automated learning hooks
-- **workflows/**: Pattern capture and optimization workflows
+- **hooks/**: Quality gates and automated validation hooks
+- **skills/**: Framework enhancement and maintenance capabilities
 
 **🔌 MCP Servers (Enhanced Capabilities)**
 - **serena**: Semantic code intelligence + institutional memory system
@@ -259,15 +259,17 @@ cd ~/.claude
 #### Step 2: Validate Framework Integrity
 
 ```bash
-# Run validation script to ensure all components are properly configured
-./scripts/validate-mcp-integration.sh
+# Verify all framework components are present
+ls -la CLAUDE.md claude.json agents/ commands/ hooks/ shared/ skills/
 
-# Expected output:
-# ✅ CLAUDE.md configuration found
-# ✅ All 18 agents present
-# ✅ Delegate command configured
-# ✅ MCP servers configured
-# ✅ Learning system initialized
+# Expected: All directories and key files should exist
+# ✅ CLAUDE.md (agent execution rules)
+# ✅ claude.json (agent configuration)
+# ✅ agents/ (18 agent definitions)
+# ✅ commands/ (delegate command)
+# ✅ hooks/ (quality gates)
+# ✅ shared/ (shared configurations)
+# ✅ skills/ (framework tools)
 ```
 
 #### Step 3: Verify Agent Configuration
@@ -329,15 +331,12 @@ User: "Explain the agent system"
 cd ~/.claude
 
 # 2. Verify all components
-ls -la CLAUDE.md agents/ commands/ hooks/
+ls -la CLAUDE.md claude.json agents/ commands/ hooks/ shared/ skills/
 
-# 3. Check MCP integration
-cat .mcp.json
+# 3. Verify agent configuration
+cat claude.json | grep -A 2 "sub_agents"
 
-# 4. Validate complete framework integrity
-./scripts/validate-mcp-integration.sh
-
-# 5. Optional: Run security check
+# 4. Optional: Run security check
 ./security-check.sh
 ```
 
@@ -635,21 +634,19 @@ Located in `/hooks/` directory:
 │   ├── code-review.json             # Code review standards
 │   └── delegation-enforcement.yaml  # Agent delegation rules
 ├── shared/                           # Shared configurations
-│   └── memory-categories.json        # Learning system structure
-├── context/                          # Agent coordination and context
-│   └── agent-coordination.json      # Enhanced with learning capabilities
-├── workflows/                        # Learning workflow definitions
-│   └── learning-workflows.json      # Post-task analysis and pattern recognition
-├── knowledge/                        # Knowledge base integration
-│   └── knowledge-base-integration.json  # Semantic search and curation
-├── playbooks/                        # Automated playbooks
-│   └── workflow-playbooks.json      # Generated from successful patterns
-├── scripts/                          # Validation and setup scripts
-│   ├── validate-mcp-integration.sh  # MCP server validation
-│   ├── setup-delegation.sh          # Delegation system setup
-│   └── delegation-check.sh          # Delegation verification
+│   ├── agent-patterns.md            # Common agent patterns
+│   ├── base-config.json             # Base configuration
+│   ├── mcp-config.json              # MCP server configuration
+│   └── memory-categories.json       # Learning system structure
+├── skills/                           # Framework enhancement capabilities
+│   ├── framework-validator.md       # Framework health validation
+│   ├── agent-routing-advisor.md     # Task routing assistance
+│   ├── hook-config-generator.md     # Hook generation tools
+│   ├── workflow-visualizer.md       # Workflow diagram generation
+│   ├── performance-analytics.md     # Performance tracking
+│   └── migration-assistant.md       # Framework migration tools
 ├── .env.example                      # Environment template
-├── .mcp.json                         # MCP server configuration
+├── claude.json                       # Agent configuration
 ├── security-check.sh                 # Security validation script
 └── README.md                         # This file
 ```
@@ -813,19 +810,17 @@ The framework automatically tracks learning effectiveness:
 
 ### Core Framework Documentation
 - **CLAUDE.md** - Main orchestrator with agent execution rules
-- **agents/*.md** - Individual agent definitions with YAML frontmatter and learning integration
+- **claude.json** - Agent configuration with all 18 specialized agents
+- **agents/*.md** - Individual agent definitions with YAML frontmatter
 - **shared/memory-categories.json** - Learning system structure and categories
-- **workflows/learning-workflows.json** - Automated learning process definitions
+- **skills/*.md** - Framework enhancement and maintenance tools
 
-### Learning System
-- **hooks/pattern-capture.json** - Automatic pattern learning configuration
-- **knowledge/knowledge-base-integration.json** - Semantic search and playbooks
-- **playbooks/workflow-playbooks.json** - Generated step-by-step guides
-
-### Quality Assurance
+### Quality Assurance System
 - **hooks/zero-tolerance-quality.json** - Quality enforcement standards
 - **hooks/architecture-review.json** - Technical design validation
 - **hooks/code-review.json** - Code review standards and practices
+- **hooks/pattern-capture.json** - Automatic pattern learning configuration
+- **hooks/agent-capability-registry.json** - Agent routing and capabilities
 
 ---
 
