@@ -1,8 +1,9 @@
 {
   "name": "go-expert-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Comprehensive quality gates and validation standards for Go development",
   "priority": "high",
+  "enabled": true,
   "agents": [
     "go-expert",
     "code-review-gatekeeper",
@@ -16,6 +17,28 @@
     "go_file_save",
     "dependency_update"
   ],
+  "prerequisite_checks": {
+    "project_detection": {
+      "enabled": true,
+      "blocking": true,
+      "description": "Verify this is a Go project before running validation",
+      "detection_methods": [
+        {
+          "method": "search_go_mod",
+          "command": "find . -maxdepth 3 \\( -name 'go.mod' -o -name 'go.sum' \\) 2>/dev/null",
+          "required": true,
+          "skip_validation_if_not_found": true
+        },
+        {
+          "method": "check_go_files",
+          "command": "find . -maxdepth 3 -name '*.go' 2>/dev/null | head -1",
+          "required": false,
+          "skip_validation_if_not_found": true
+        }
+      ],
+      "skip_message": "⏭️ Skipping Go validation: No Go project detected in workspace"
+    }
+  },
   "validation_sequence": {
     "phase_1_compilation": {
       "description": "Go compilation and build verification",
