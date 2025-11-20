@@ -1,8 +1,9 @@
 {
   "name": "rust-expert-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Comprehensive quality gates and validation standards for Rust development",
   "priority": "high",
+  "enabled": true,
   "agents": [
     "rust-expert",
     "code-review-gatekeeper",
@@ -16,6 +17,28 @@
     "rust_file_save",
     "dependency_update"
   ],
+  "prerequisite_checks": {
+    "project_detection": {
+      "enabled": true,
+      "blocking": true,
+      "description": "Verify this is a Rust project before running validation",
+      "detection_methods": [
+        {
+          "method": "search_cargo_files",
+          "command": "find . -maxdepth 3 -name 'Cargo.toml' 2>/dev/null",
+          "required": true,
+          "skip_validation_if_not_found": true
+        },
+        {
+          "method": "check_rust_files",
+          "command": "find . -maxdepth 3 -name '*.rs' 2>/dev/null | head -1",
+          "required": false,
+          "skip_validation_if_not_found": true
+        }
+      ],
+      "skip_message": "⏭️ Skipping Rust validation: No Rust project detected in workspace"
+    }
+  },
   "validation_sequence": {
     "phase_1_compilation": {
       "description": "Rust compilation and build verification",

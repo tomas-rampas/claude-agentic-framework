@@ -1,8 +1,9 @@
 {
   "name": "python-expert-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Comprehensive quality gates and validation standards for Python development",
   "priority": "high",
+  "enabled": true,
   "agents": [
     "python-expert",
     "code-review-gatekeeper",
@@ -16,6 +17,28 @@
     "python_file_save",
     "poetry_lock_update"
   ],
+  "prerequisite_checks": {
+    "project_detection": {
+      "enabled": true,
+      "blocking": true,
+      "description": "Verify this is a Python project before running validation",
+      "detection_methods": [
+        {
+          "method": "search_python_config",
+          "command": "find . -maxdepth 3 \\( -name 'requirements.txt' -o -name 'pyproject.toml' -o -name 'setup.py' -o -name 'Pipfile' \\) 2>/dev/null",
+          "required": true,
+          "skip_validation_if_not_found": true
+        },
+        {
+          "method": "check_python_files",
+          "command": "find . -maxdepth 3 -name '*.py' 2>/dev/null | head -1",
+          "required": false,
+          "skip_validation_if_not_found": true
+        }
+      ],
+      "skip_message": "⏭️ Skipping Python validation: No Python project detected in workspace"
+    }
+  },
   "validation_sequence": {
     "phase_1_syntax_import": {
       "description": "Python syntax and import verification",

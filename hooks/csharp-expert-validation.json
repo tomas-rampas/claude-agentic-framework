@@ -1,8 +1,9 @@
 {
   "name": "csharp-expert-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Comprehensive quality gates and validation standards for C#/.NET development",
   "priority": "high",
+  "enabled": true,
   "agents": [
     "csharp-expert",
     "code-review-gatekeeper",
@@ -16,6 +17,28 @@
     "csharp_file_save",
     "nuget_package_update"
   ],
+  "prerequisite_checks": {
+    "project_detection": {
+      "enabled": true,
+      "blocking": true,
+      "description": "Verify this is a C#/.NET project before running validation",
+      "detection_methods": [
+        {
+          "method": "search_csproj_files",
+          "command": "find . -maxdepth 3 -name '*.csproj' -o -name '*.sln' 2>/dev/null",
+          "required": true,
+          "skip_validation_if_not_found": true
+        },
+        {
+          "method": "check_cs_files",
+          "command": "find . -maxdepth 3 -name '*.cs' 2>/dev/null | head -1",
+          "required": false,
+          "skip_validation_if_not_found": true
+        }
+      ],
+      "skip_message": "⏭️ Skipping C# validation: No C#/.NET project detected in workspace"
+    }
+  },
   "validation_sequence": {
     "phase_1_compilation": {
       "description": ".NET compilation and build verification",
