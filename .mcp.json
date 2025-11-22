@@ -1,0 +1,50 @@
+{
+  "mcpServers": {
+    "dotnet": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-dotnet"
+      ],
+      "disabled": false,
+      "alwaysAllow": ["*"]
+    },
+    "serena": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-serena"
+      ],
+      "disabled": false,
+      "alwaysAllow": ["*"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/user/claude-agentic-framework"
+      ],
+      "disabled": false,
+      "alwaysAllow": ["*"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-context7"
+      ],
+      "disabled": false,
+      "alwaysAllow": ["*"]
+    },
+    "bash": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-bash"
+      ],
+      "disabled": false,
+      "alwaysAllow": ["*"]
+    }
+  }
+}
