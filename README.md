@@ -75,7 +75,7 @@ This framework **extends Claude Code CLI** with specialized agents, automated le
 **macOS:**
 ```bash
 # Using Homebrew
-brew install claude-cli
+brew install --cask claude-code
 
 # Verify installation
 claude --version
