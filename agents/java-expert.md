@@ -24,7 +24,7 @@ assistant: "I'll use the java-expert agent to modernize your Java code with stre
 Refactoring Java code to use modern features is a key responsibility of the java-expert.
 </commentary>
 </example>
-model: sonnet
+model: opus
 color: maroon
 ---
 

@@ -24,7 +24,7 @@ assistant: "I'll use the uiux-specialist agent to analyze and redesign your sign
 Optimizing user flows and conversion is a key responsibility of the uiux-specialist.
 </commentary>
 </example>
-model: sonnet
+model: opus
 color: coral
 ---
 

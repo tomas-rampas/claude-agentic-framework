@@ -24,7 +24,7 @@ assistant: "I'll use the database-specialist agent to evaluate database options 
 Database selection and architecture decisions are key responsibilities of the database-specialist.
 </commentary>
 </example>
-model: sonnet
+model: opus
 color: amber
 ---
 

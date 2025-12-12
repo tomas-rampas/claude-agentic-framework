@@ -24,7 +24,7 @@ assistant: "I'll use the typescript-expert agent to review and refactor your Typ
 Refactoring TypeScript code for strict type safety is a key responsibility of the typescript-expert.
 </commentary>
 </example>
-model: sonnet
+model: opus
 color: purple
 ---
 

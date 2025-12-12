@@ -24,7 +24,7 @@ assistant: "I'll use the security-specialist agent to implement comprehensive AP
 API security and threat mitigation are key responsibilities of the security-specialist.
 </commentary>
 </example>
-model: sonnet
+model: opus
 color: crimson
 ---
 

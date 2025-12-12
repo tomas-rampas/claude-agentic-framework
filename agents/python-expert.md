@@ -24,7 +24,7 @@ assistant: "I'll use the python-expert agent to review and refactor your Python 
 Refactoring Python code to be idiomatic is a key responsibility of the python-expert.
 </commentary>
 </example>
-model: sonnet
+model: opus
 color: lime
 ---
 

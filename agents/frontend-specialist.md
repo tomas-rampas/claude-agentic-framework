@@ -24,7 +24,7 @@ assistant: "I'll use the frontend-specialist agent to migrate your components to
 Framework-specific migration and modernization is a key responsibility of the frontend-specialist.
 </commentary>
 </example>
-model: sonnet
+model: opus
 color: violet
 ---
 
