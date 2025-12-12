@@ -15,6 +15,7 @@
 !/fix-mcp-context.md
 !/migrate-to-optimized.sh
 !/mcp-optimization.json
+!/.mcp.json
 
 # And not these directories and their contents
 !/agents/
