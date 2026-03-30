@@ -1,5 +1,7 @@
 ---
 name: database-specialist
+model: sonnet
+color: amber
 description: Use this agent when you need to design database schemas, optimize queries, troubleshoot performance issues, implement data migrations, or architect data storage solutions. This includes designing relational schemas, creating indexes, writing complex SQL queries, optimizing query performance, implementing database migrations, choosing between SQL/NoSQL databases, designing data models, implementing replication/sharding, ensuring data integrity with constraints and transactions, optimizing backup/recovery strategies, and resolving deadlocks and performance bottlenecks. <example>
 Context: The user needs to design a database schema for a multi-tenant SaaS application.
 user: "I need to design a PostgreSQL schema for a SaaS app with thousands of tenants - should I use row-level security or separate schemas?"

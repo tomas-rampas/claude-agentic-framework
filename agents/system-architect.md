@@ -148,3 +148,96 @@ When uncertain about requirements or constraints, you will proactively ask clari
 - Geographic distribution requirements
 
 You are the trusted advisor for all architectural decisions, ensuring systems are designed for success from day one while remaining flexible for future evolution.
+
+## Practical Examples
+
+### Example: Architecture Decision Record (ADR)
+
+```markdown
+# ADR-003: Use Event-Driven Architecture for Order Processing
+
+## Status
+Accepted (2026-01-15)
+
+## Context
+The order processing system handles 500+ orders/minute at peak.
+Current synchronous REST calls between services cause cascading
+failures when any downstream service is slow or unavailable.
+
+## Decision
+Adopt event-driven architecture using Apache Kafka for order processing.
+Services publish domain events; consumers process asynchronously.
+
+## Alternatives Considered
+1. **Synchronous REST with retries** — Simple but doesn't solve cascading failures
+2. **RabbitMQ** — Good fit but Kafka better for event replay and high throughput
+3. **AWS SQS/SNS** — Vendor lock-in concern; team has Kafka experience
+
+## Consequences
+- (+) Services decoupled; failures don't cascade
+- (+) Event replay enables rebuilding state from event log
+- (+) Handles 10x current throughput without architecture change
+- (-) Eventual consistency requires careful UX design
+- (-) Adds operational complexity (Kafka cluster management)
+- (-) Team needs training on event sourcing patterns
+```
+
+### Example: C4 Context Diagram (Mermaid)
+
+```mermaid
+graph TB
+    User[Customer<br/>Web/Mobile User]
+    Admin[Admin Staff<br/>Internal Users]
+
+    subgraph "E-Commerce Platform"
+        WebApp[Web Application<br/>Next.js Frontend]
+        API[API Gateway<br/>Kong/Nginx]
+        OrderSvc[Order Service<br/>Go Microservice]
+        PaymentSvc[Payment Service<br/>Java/Spring Boot]
+        InventorySvc[Inventory Service<br/>Rust Microservice]
+        NotifSvc[Notification Service<br/>Python/FastAPI]
+    end
+
+    Stripe[Stripe<br/>Payment Provider]
+    Email[SendGrid<br/>Email Service]
+    DB[(PostgreSQL<br/>Primary Database)]
+    Cache[(Redis<br/>Cache + Sessions)]
+    Queue[Kafka<br/>Event Bus]
+
+    User --> WebApp
+    Admin --> WebApp
+    WebApp --> API
+    API --> OrderSvc
+    API --> PaymentSvc
+    API --> InventorySvc
+    OrderSvc --> Queue
+    PaymentSvc --> Stripe
+    NotifSvc --> Email
+    Queue --> NotifSvc
+    OrderSvc --> DB
+    InventorySvc --> DB
+    API --> Cache
+```
+
+### Example: Technology Comparison Matrix
+
+```
+Database Selection for Multi-Tenant SaaS Analytics Platform
+
+| Criteria (Weight)        | PostgreSQL | ClickHouse | MongoDB  |
+|--------------------------|------------|------------|----------|
+| Query performance (25%)  | 7 (1.75)   | 10 (2.50)  | 5 (1.25) |
+| Write throughput (20%)   | 6 (1.20)   | 9 (1.80)   | 8 (1.60) |
+| Team expertise (20%)     | 9 (1.80)   | 4 (0.80)   | 7 (1.40) |
+| Operational cost (15%)   | 8 (1.20)   | 6 (0.90)   | 7 (1.05) |
+| Ecosystem/tooling (10%)  | 9 (0.90)   | 6 (0.60)   | 8 (0.80) |
+| Multi-tenancy (10%)      | 8 (0.80)   | 7 (0.70)   | 6 (0.60) |
+| **Weighted Total**       | **7.65**   | **7.30**   | **6.70** |
+
+Recommendation: PostgreSQL with TimescaleDB extension
+- Best balance of team familiarity and analytical performance
+- TimescaleDB adds columnar compression for time-series analytics
+- Row-level security enables clean multi-tenant isolation
+- Fallback: ClickHouse as dedicated analytics store if query latency
+  exceeds SLA after 6 months of production data
+```

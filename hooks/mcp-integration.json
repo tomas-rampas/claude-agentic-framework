@@ -1,26 +1,78 @@
 {
-  "name": "mcp-integration", 
+  "name": "mcp-integration",
+  "description": "MCP server routing, fallback strategies, and availability management",
+  "version": "2.0",
   "agents": ["all"],
   "triggers": ["file_ops", "symbol_ops", "framework_use", "complex_reasoning"],
-  "actions": {
-    "route_to_mcp": "Use appropriate MCP server for enhanced capabilities",
-    "validate_fallback": "Ensure graceful degradation when MCP unavailable",
-    "cache_results": "Cache MCP responses for performance"
+
+  "mcp_servers": {
+    "filesystem": {
+      "purpose": "File system operations beyond native Read/Write/Edit tools",
+      "use_when": [
+        "Need to list directory trees with size information",
+        "Need atomic file operations across multiple files",
+        "Working with files outside the standard workspace"
+      ],
+      "do_not_use_when": [
+        "Simple file reads (use native Read tool)",
+        "Simple file edits (use native Edit tool)",
+        "File search by pattern (use native Glob tool)"
+      ]
+    },
+    "serena": {
+      "purpose": "Symbol resolution and semantic code operations",
+      "use_when": [
+        "Need to find symbol definitions across a large codebase",
+        "Performing safe renames with reference tracking",
+        "Analyzing symbol relationships and dependencies"
+      ],
+      "do_not_use_when": [
+        "Simple text search (use native Grep tool)",
+        "Known file location (use native Read tool)"
+      ]
+    },
+    "context7": {
+      "purpose": "External library documentation and framework references",
+      "use_when": [
+        "Need up-to-date documentation for a specific library version",
+        "Implementing patterns from external frameworks",
+        "Checking API compatibility between library versions"
+      ],
+      "do_not_use_when": [
+        "Working with well-known standard library functions",
+        "Agent already has domain expertise for the framework"
+      ]
+    },
+    "bash": {
+      "purpose": "Shell command execution for build, test, and system operations",
+      "use_when": [
+        "Running build commands (cargo build, npm install, etc.)",
+        "Executing test suites",
+        "System-level operations"
+      ],
+      "do_not_use_when": [
+        "Native Bash tool is available and sufficient"
+      ]
+    }
   },
-  "mcp_routing": {
-    "file_operations": "filesystem",
-    "symbol_operations": "serena", 
-    "external_docs": "context7",
-    "complex_reasoning": "sequential-thinking"
-  },
-  "architecture_notes": {
-    "single_source": "All MCP servers defined ONLY in ~/.claude.json",
-    "reference_only": "This hook references servers, does not define them"
-  },
+
   "fallback_strategy": {
-    "serena_unavailable": "Use native text search and Edit tools",
-    "filesystem_unavailable": "Use native Read/Write tools",
-    "context7_unavailable": "Use cached knowledge",
-    "sequential_thinking_unavailable": "Use native reasoning"
+    "serena_unavailable": "Use native Grep for text-based symbol search and Edit for renaming",
+    "filesystem_unavailable": "Use native Read/Write/Glob tools for all file operations",
+    "context7_unavailable": "Rely on agent's built-in knowledge and web search if available",
+    "bash_unavailable": "Use native Bash tool for command execution"
+  },
+
+  "architecture_notes": {
+    "single_source": "All MCP servers defined in .mcp.json at project root",
+    "reference_only": "This hook documents routing decisions, does not define servers",
+    "auto_allow": "All MCP servers configured with alwaysAllow for frictionless usage"
+  },
+
+  "troubleshooting": {
+    "server_not_starting": "Check npx can download the package; verify network access",
+    "timeout_errors": "Increase mcp_timeout in claude.json global_settings (default: 15000ms)",
+    "permission_denied": "Check alwaysAllow configuration in .mcp.json",
+    "fallback_activated": "Normal behavior when server unavailable; check logs for root cause"
   }
 }
