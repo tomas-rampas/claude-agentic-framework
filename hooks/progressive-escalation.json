@@ -160,6 +160,43 @@
     "reasonable_completion_time": true
   },
   
+  "concrete_scenarios": {
+    "scenario_1_borrow_checker": {
+      "task": "Rust agent struggles with complex lifetime annotations",
+      "level_1": "Retry with simplified ownership model (clone instead of borrow)",
+      "level_2": "Add comprehensive-analyst to analyze the ownership graph",
+      "level_3": "Transfer to system-architect for API redesign that avoids complex lifetimes",
+      "resolution": "Usually resolves at level 1-2; level 3 indicates API design issue"
+    },
+    "scenario_2_test_failures": {
+      "task": "Python agent's implementation fails integration tests",
+      "level_1": "Retry focusing on the specific failing test assertion",
+      "level_2": "Add code-review-gatekeeper to analyze test expectations vs implementation",
+      "level_3": "Transfer to comprehensive-analyst for root cause analysis",
+      "resolution": "Usually resolves at level 2; persistent failures indicate requirement misunderstanding"
+    },
+    "scenario_3_performance_regression": {
+      "task": "TypeScript agent's implementation causes performance regression",
+      "level_1": "Retry with explicit performance constraints in task description",
+      "level_2": "Add comprehensive-analyst to profile and identify bottleneck",
+      "level_3": "Transfer to system-architect for architectural solution",
+      "resolution": "Level 2 usually sufficient; level 3 for systemic performance issues"
+    }
+  },
+
+  "threshold_tuning_guidance": {
+    "increase_timeouts_when": [
+      "Working with large codebases (>100k LOC)",
+      "Tasks require compilation of multiple crates/packages",
+      "Network-dependent operations (dependency resolution)"
+    ],
+    "decrease_timeouts_when": [
+      "Simple refactoring tasks",
+      "Well-defined, narrow-scope changes",
+      "Hot-path code with existing test coverage"
+    ]
+  },
+
   "monitoring_and_adjustment": {
     "track_escalation_frequency": true,
     "analyze_escalation_patterns": true,

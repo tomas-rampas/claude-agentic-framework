@@ -1,5 +1,7 @@
 ---
 name: frontend-specialist
+model: sonnet
+color: violet
 description: Use this agent when you need to implement frontend user interfaces with modern frameworks including React, Vue, Angular, Blazor, Svelte, or Next.js. This includes building responsive components, managing application state, implementing routing, handling forms and validation, integrating with backend APIs, optimizing performance, implementing SSR/SSG, creating reusable component libraries, and following framework-specific best practices. Perfect for implementing UI designs in specific frameworks, building interactive web applications, creating SPAs, or developing server-rendered applications. <example>
 Context: The user needs to implement a dashboard in React with complex state management.
 user: "I need to build a React dashboard with real-time data updates and complex filtering using Redux"

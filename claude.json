@@ -8,7 +8,7 @@
       "path": "~/.claude/agents/rust-expert",
       "config_file": "~/.claude/agents/rust-expert/agent.json",
       "prompt_file": "~/.claude/agents/rust-expert.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "rust_development_systems_programming"
     },
     "csharp-expert": {
@@ -16,7 +16,7 @@
       "path": "~/.claude/agents/csharp-expert",
       "config_file": "~/.claude/agents/csharp-expert/agent.json",
       "prompt_file": "~/.claude/agents/csharp-expert.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "csharp_dotnet_azure_development"
     },
     "go-expert": {
@@ -24,7 +24,7 @@
       "path": "~/.claude/agents/go-expert",
       "config_file": "~/.claude/agents/go-expert/agent.json",
       "prompt_file": "~/.claude/agents/go-expert.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "go_microservices_cloud_native"
     },
     "java-expert": {
@@ -32,7 +32,7 @@
       "path": "~/.claude/agents/java-expert",
       "config_file": "~/.claude/agents/java-expert/agent.json",
       "prompt_file": "~/.claude/agents/java-expert.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "java_spring_boot_enterprise"
     },
     "python-expert": {
@@ -40,7 +40,7 @@
       "path": "~/.claude/agents/python-expert",
       "config_file": "~/.claude/agents/python-expert/agent.json",
       "prompt_file": "~/.claude/agents/python-expert.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "python_web_data_science_automation"
     },
     "typescript-expert": {
@@ -48,7 +48,7 @@
       "path": "~/.claude/agents/typescript-expert",
       "config_file": "~/.claude/agents/typescript-expert/agent.json",
       "prompt_file": "~/.claude/agents/typescript-expert.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "typescript_javascript_react_nodejs"
     },
     "bash-expert": {
@@ -56,7 +56,7 @@
       "path": "~/.claude/agents/bash-expert",
       "config_file": "~/.claude/agents/bash-expert/agent.json",
       "prompt_file": "~/.claude/agents/bash-expert.md",
-      "model": "claude-haiku-3-20241201",
+      "model": "claude-haiku-4-5-20251001",
       "specialization": "bash_shell_linux_automation"
     },
     "powershell-expert": {
@@ -64,7 +64,7 @@
       "path": "~/.claude/agents/powershell-expert",
       "config_file": "~/.claude/agents/powershell-expert/agent.json",
       "prompt_file": "~/.claude/agents/powershell-expert.md",
-      "model": "claude-haiku-3-20241201",
+      "model": "claude-haiku-4-5-20251001",
       "specialization": "powershell_windows_azure_automation"
     },
     "database-specialist": {
@@ -72,7 +72,7 @@
       "path": "~/.claude/agents/database-specialist",
       "config_file": "~/.claude/agents/database-specialist/agent.json",
       "prompt_file": "~/.claude/agents/database-specialist.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "database_design_optimization_sql_nosql"
     },
     "frontend-specialist": {
@@ -80,7 +80,7 @@
       "path": "~/.claude/agents/frontend-specialist",
       "config_file": "~/.claude/agents/frontend-specialist/agent.json",
       "prompt_file": "~/.claude/agents/frontend-specialist.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "frontend_react_vue_angular_responsive"
     },
     "security-specialist": {
@@ -88,7 +88,7 @@
       "path": "~/.claude/agents/security-specialist",
       "config_file": "~/.claude/agents/security-specialist/agent.json",
       "prompt_file": "~/.claude/agents/security-specialist.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "security_auditing_owasp_compliance"
     },
     "uiux-specialist": {
@@ -96,7 +96,7 @@
       "path": "~/.claude/agents/uiux-specialist",
       "config_file": "~/.claude/agents/uiux-specialist/agent.json",
       "prompt_file": "~/.claude/agents/uiux-specialist.md",
-      "model": "claude-haiku-3-20241201",
+      "model": "claude-haiku-4-5-20251001",
       "specialization": "uiux_design_accessibility_usability"
     },
     "devops-orchestrator": {
@@ -104,7 +104,7 @@
       "path": "~/.claude/agents/devops-orchestrator",
       "config_file": "~/.claude/agents/devops-orchestrator/agent.json",
       "prompt_file": "~/.claude/agents/devops-orchestrator.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "infrastructure_deployment_cicd"
     },
     "system-architect": {
@@ -112,7 +112,7 @@
       "path": "~/.claude/agents/system-architect",
       "config_file": "~/.claude/agents/system-architect/agent.json",
       "prompt_file": "~/.claude/agents/system-architect.md",
-      "model": "claude-opus-4-1-20250805",
+      "model": "claude-opus-4-6-20250805",
       "specialization": "system_design_architecture_patterns"
     },
     "comprehensive-analyst": {
@@ -120,7 +120,7 @@
       "path": "~/.claude/agents/comprehensive-analyst",
       "config_file": "~/.claude/agents/comprehensive-analyst/agent.json",
       "prompt_file": "~/.claude/agents/comprehensive-analyst.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "deep_analysis_investigation_debugging"
     },
     "code-review-gatekeeper": {
@@ -128,7 +128,7 @@
       "path": "~/.claude/agents/code-review-gatekeeper",
       "config_file": "~/.claude/agents/code-review-gatekeeper/agent.json",
       "prompt_file": "~/.claude/agents/code-review-gatekeeper.md",
-      "model": "claude-opus-4-1-20250805",
+      "model": "claude-opus-4-6-20250805",
       "specialization": "quality_enforcement_code_review"
     },
     "technical-docs-writer": {
@@ -136,7 +136,7 @@
       "path": "~/.claude/agents/technical-docs-writer",
       "config_file": "~/.claude/agents/technical-docs-writer/agent.json",
       "prompt_file": "~/.claude/agents/technical-docs-writer.md",
-      "model": "claude-haiku-3-20241201",
+      "model": "claude-haiku-4-5-20251001",
       "specialization": "documentation_technical_writing"
     },
     "product-owner": {
@@ -144,7 +144,7 @@
       "path": "~/.claude/agents/product-owner",
       "config_file": "~/.claude/agents/product-owner/agent.json",
       "prompt_file": "~/.claude/agents/product-owner.md",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-4-6-20250514",
       "specialization": "product_management_requirements_planning"
     }
   },

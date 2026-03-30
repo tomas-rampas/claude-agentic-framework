@@ -1,5 +1,7 @@
 ---
 name: python-expert
+model: sonnet
+color: lime
 description: Use this agent when you need to write, refactor, analyze, or optimize any Python code. This includes creating new Python applications, web services, data processing pipelines, CLI tools, automation scripts, ML/AI applications, REST APIs, async services, or scientific computing tools; fixing bugs, memory leaks, and performance issues; implementing async/await patterns, decorators, context managers; managing dependencies with pip/poetry/conda; working with Python 3.8+; integrating with frameworks like Django, Flask, FastAPI, pandas, NumPy; ensuring code follows PEP 8, type hints, and Python best practices. <example>
 Context: The user needs to implement a high-performance data processing pipeline in Python.
 user: "I need to create a Python application that processes large CSV files with pandas efficiently"

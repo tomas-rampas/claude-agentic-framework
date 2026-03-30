@@ -1,36 +1,91 @@
 {
   "name": "smart-mcp",
-  "description": "Intelligent MCP server activation based on context and task requirements",
+  "description": "Intelligent MCP server activation based on context, task complexity, and resource needs",
   "version": "2.0",
-  
+
   "activation_rules": {
     "filesystem": {
-      "conditions": ["file_size > 1MB", "atomic_write_required", "directory_operations", "concurrent_access"],
+      "activate_when": [
+        "File size exceeds 1MB and needs chunked reading",
+        "Atomic write operations across multiple files required",
+        "Need directory tree with metadata (sizes, timestamps)",
+        "Concurrent file access patterns detected"
+      ],
+      "prefer_native_when": [
+        "Single file read/write operations",
+        "File pattern search (use Glob)",
+        "Content search (use Grep)",
+        "Standard file editing (use Edit)"
+      ],
       "auto_activate": false,
-      "cache_duration": 300000
+      "cache_duration_ms": 300000
+    },
+    "serena": {
+      "activate_when": [
+        "Symbol definition lookup in unfamiliar codebase",
+        "Cross-file rename refactoring",
+        "Dependency graph analysis",
+        "Finding all implementations of an interface/trait"
+      ],
+      "prefer_native_when": [
+        "Known file location for the symbol",
+        "Simple text search patterns",
+        "Small codebase with few files"
+      ],
+      "auto_activate": false,
+      "cache_duration_ms": 600000
     },
     "context7": {
-      "conditions": ["external_library_usage", "framework_implementation", "best_practices_needed"],
+      "activate_when": [
+        "Implementing patterns from a specific library version",
+        "Need API reference for third-party framework",
+        "Checking breaking changes between library versions",
+        "Best practices lookup for unfamiliar framework"
+      ],
+      "prefer_native_when": [
+        "Working with standard library features",
+        "Agent has strong built-in knowledge of the framework",
+        "General programming patterns not tied to specific library"
+      ],
       "auto_activate": false,
-      "cache_duration": 3600000
-    },
-    "sequential-thinking": {
-      "conditions": ["problem_complexity > 3", "architectural_decision", "systematic_approach_needed"],
-      "auto_activate": false,
-      "cache_duration": 1800000
+      "cache_duration_ms": 3600000
     }
   },
-  
-  "fallback_strategies": {
-    "filesystem": "native Read/Write tools",
-    "context7": "cached knowledge",
-    "sequential-thinking": "linear reasoning"
+
+  "decision_examples": {
+    "example_1": {
+      "task": "Rename a React component from UserCard to ProfileCard",
+      "decision": "Activate serena for cross-file rename with reference tracking",
+      "reason": "Component likely imported in multiple files; need safe rename"
+    },
+    "example_2": {
+      "task": "Read a small config file",
+      "decision": "Use native Read tool, skip filesystem MCP",
+      "reason": "Simple operation; MCP overhead not justified"
+    },
+    "example_3": {
+      "task": "Implement NextAuth.js v5 authentication",
+      "decision": "Activate context7 for up-to-date API reference",
+      "reason": "NextAuth v5 has breaking changes from v4; need current docs"
+    }
   },
-  
+
+  "fallback_strategies": {
+    "filesystem": "native Read/Write/Edit/Glob tools",
+    "serena": "Grep-based symbol search with manual reference tracking",
+    "context7": "Agent's built-in knowledge base"
+  },
+
+  "cache_invalidation": {
+    "filesystem": "Invalidate on file modification events",
+    "serena": "Invalidate on code changes in tracked files",
+    "context7": "TTL-based only (library docs rarely change mid-session)"
+  },
+
   "performance_monitoring": {
     "track_usage": true,
     "measure_response_time": true,
     "log_fallbacks": true,
-    "optimize_caching": true
+    "alert_threshold_ms": 5000
   }
 }

@@ -244,7 +244,7 @@
       ]
     },
     "phase_7_best_practices": {
-      "description": "Rust idioms and best practices",
+      "description": "Rust idioms, workspace management, and best practices",
       "blocking": false,
       "timeout_seconds": 60,
       "checks": [
@@ -263,16 +263,38 @@
           "note": "Requires cargo-outdated: cargo install cargo-outdated"
         },
         {
+          "name": "msrv_check",
+          "command": "cargo msrv verify",
+          "required": false,
+          "description": "Verify minimum supported Rust version if rust-version is set in Cargo.toml",
+          "note": "Requires cargo-msrv: cargo install cargo-msrv"
+        },
+        {
+          "name": "workspace_validation",
+          "validation": "manual",
+          "required": false,
+          "description": "Workspace and multi-crate project validation",
+          "checklist": [
+            "Workspace members properly listed in root Cargo.toml",
+            "Shared dependencies use workspace inheritance (workspace = true)",
+            "No conflicting dependency versions across workspace members",
+            "Cargo.lock committed for binary crates, not for libraries"
+          ]
+        },
+        {
           "name": "idiomatic_rust_review",
           "validation": "manual",
           "required": true,
           "checklist": [
             "Iterator chains used instead of loops where appropriate",
             "Error handling uses Result<T, E> appropriately",
-            "Type system leveraged for compile-time guarantees",
+            "Custom error types use thiserror for library, anyhow for application",
+            "Type system leveraged for compile-time guarantees (newtype pattern, phantom types)",
             "Zero-cost abstractions utilized",
             "Traits implemented for extensibility",
-            "Pattern matching used effectively"
+            "Pattern matching used effectively with exhaustive matches",
+            "Cow<str> used where ownership is conditionally needed",
+            "Builder pattern used for complex struct construction"
           ]
         }
       ]

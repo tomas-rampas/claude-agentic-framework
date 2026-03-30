@@ -178,7 +178,7 @@
   "debugging": {
     "context_tracing": {
       "enabled": true,
-      "log_file": "/home/mcquak/.claude/logs/orchestration-scope.log",
+      "log_file": "logs/orchestration-scope.log",
       "trace_inheritance_attempts": true,
       "log_context_filtering": true
     },

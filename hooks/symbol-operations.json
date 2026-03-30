@@ -1,21 +1,82 @@
 {
   "name": "symbol-operations",
-  "agents": ["maker", "reader", "debug"],
-  "triggers": ["refactoring", "symbol_search"],
+  "description": "Symbol resolution, reference tracking, and safe renaming operations across the codebase",
+  "version": "2.0",
+  "agents": ["rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert"],
+  "triggers": ["refactoring", "symbol_search", "rename_request", "reference_lookup"],
+
   "actions": {
-    "resolve_symbols": "Resolve symbol definitions and references",
-    "track_references": "Track all symbol references across codebase",
-    "safe_rename": "Safely rename symbols with reference updating"
+    "resolve_symbols": {
+      "description": "Resolve symbol definitions and find their source locations",
+      "input": "symbol name, optional file scope",
+      "output": "definition location, type information, visibility scope",
+      "method": "Use Grep with precise patterns for function/class/type definitions"
+    },
+    "track_references": {
+      "description": "Find all references to a symbol across the codebase",
+      "input": "symbol name, definition file",
+      "output": "list of files and line numbers referencing the symbol",
+      "method": "Use Grep with word-boundary matching, filter test vs production code"
+    },
+    "safe_rename": {
+      "description": "Rename a symbol across all files with reference updating",
+      "input": "old name, new name, scope (file/module/project)",
+      "output": "list of modified files with changes applied",
+      "method": "Use Edit with replace_all after verifying all references via track_references",
+      "safety_checks": [
+        "Verify no naming collisions with new name",
+        "Check for string literals that may contain the symbol name",
+        "Validate renamed code still compiles/passes linting"
+      ]
+    }
   },
-  "implementation": "Use serena MCP for symbol operations, fallback to text-based search and replace",
+
   "mcp_routing": {
     "primary": "serena",
     "fallback": "native_text_operations",
     "tools": {
       "resolve_symbols": "find_symbol",
-      "track_references": "find_referencing_symbols", 
+      "track_references": "find_referencing_symbols",
       "safe_rename": "replace_symbol_body"
     },
-    "architecture_note": "References serena server defined in ~/.claude.json"
+    "architecture_note": "References serena server defined in .mcp.json"
+  },
+
+  "language_specific_patterns": {
+    "rust": {
+      "function": "fn\\s+SYMBOL",
+      "struct": "struct\\s+SYMBOL",
+      "trait": "trait\\s+SYMBOL",
+      "enum": "enum\\s+SYMBOL",
+      "impl": "impl\\s+(.*\\s+for\\s+)?SYMBOL"
+    },
+    "typescript": {
+      "function": "(function|const|let|var)\\s+SYMBOL",
+      "class": "class\\s+SYMBOL",
+      "interface": "interface\\s+SYMBOL",
+      "type": "type\\s+SYMBOL"
+    },
+    "python": {
+      "function": "def\\s+SYMBOL",
+      "class": "class\\s+SYMBOL"
+    },
+    "go": {
+      "function": "func\\s+(\\(.*\\)\\s+)?SYMBOL",
+      "struct": "type\\s+SYMBOL\\s+struct",
+      "interface": "type\\s+SYMBOL\\s+interface"
+    }
+  },
+
+  "error_handling": {
+    "symbol_not_found": "Report symbol not found with suggestions for similar names",
+    "ambiguous_symbol": "List all matching definitions and ask for disambiguation",
+    "rename_collision": "Abort rename and report existing symbol with same name",
+    "partial_rename_failure": "Roll back all changes if any file fails to update"
+  },
+
+  "success_criteria": {
+    "resolve": "Symbol definition located with file path and line number",
+    "track": "All references found including imports, usages, and re-exports",
+    "rename": "All references updated, code compiles, no naming collisions"
   }
 }
