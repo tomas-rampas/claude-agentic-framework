@@ -1,0 +1,15 @@
+# Normalise all text files to LF on commit and checkout
+* text=auto eol=lf
+
+# Force binary files to never be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.dll binary
+*.exe binary
+*.nupkg binary
