@@ -21,6 +21,7 @@
 | **java-expert** | Java/Spring Boot development, enterprise applications, Android |
 | **python-expert** | Python development, web frameworks, data science, automation |
 | **typescript-expert** | TypeScript/JavaScript development, React/Next.js, Node.js backends |
+| **mql-trading-dev** | MQL4/MQL5 and C/C++ development for MetaTrader, Expert Advisors, indicators, trading systems |
 | **powershell-expert** | PowerShell automation, Windows administration, cloud scripting |
 | **bash-expert** | Bash/shell scripting, Linux automation, Unix system administration |
 | **database-specialist** | Database design, schema optimization, query optimization, SQL/NoSQL |
@@ -42,6 +43,7 @@
 - **Java/Spring Boot** → java-expert
 - **Python development** → python-expert
 - **TypeScript/JavaScript** → typescript-expert
+- **MQL4/MQL5 & MetaTrader trading systems** → mql-trading-dev
 
 ### Scripting & Automation
 - **Bash/shell scripting** → bash-expert

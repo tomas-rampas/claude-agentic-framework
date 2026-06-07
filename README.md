@@ -1,6 +1,6 @@
 # Claude Code CLI - Agent Execution Framework
 
-A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) that adds 18 specialized agents, automated pattern capture, institutional memory, and intelligent task routing.
+A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) that adds 19 specialized agents, automated pattern capture, institutional memory, and intelligent task routing.
 
 **This is NOT a standalone tool** — it requires Claude Code CLI as the underlying platform.
 
@@ -10,10 +10,10 @@ A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/
 
 This framework extends Claude Code CLI with:
 
-- **18 Specialized Agents** covering the full development lifecycle
+- **19 Specialized Agents** covering the full development lifecycle
 - **44 Quality Gates** with multi-phase validation per agent
 - **Self-Learning System** — automated pattern capture, institutional memory, and semantic search
-- **MCP Integration** — 4 MCP servers for code intelligence, file ops, documentation, and reasoning
+- **MCP Integration** — 5 MCP servers for code intelligence, file ops, documentation, .NET tooling, and shell execution
 
 ---
 
@@ -40,14 +40,14 @@ claude --version
 
 ### Configure MCP Servers
 
-Create or update `~/.claude/mcp.json` (or project-level `.mcp.json`):
+Create or update the project-level `.mcp.json` (or `~/.claude/mcp.json`):
 
 ```json
 {
   "mcpServers": {
     "serena": {
       "command": "npx",
-      "args": ["-y", "@serenaai/mcp-server"]
+      "args": ["-y", "@modelcontextprotocol/server-serena"]
     },
     "filesystem": {
       "command": "npx",
@@ -55,24 +55,29 @@ Create or update `~/.claude/mcp.json` (or project-level `.mcp.json`):
     },
     "context7": {
       "command": "npx",
-      "args": ["-y", "@context7/mcp-server"]
+      "args": ["-y", "@modelcontextprotocol/server-context7"]
     },
-    "sequential-thinking": {
+    "dotnet": {
       "command": "npx",
-      "args": ["-y", "@sequential-thinking/mcp-server"]
+      "args": ["-y", "@modelcontextprotocol/server-dotnet"]
+    },
+    "bash": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-bash"]
     }
   }
 }
 ```
 
-Replace `/home/your-username` with your actual home directory path.
+Replace `/home/your-username` with the directory you want the filesystem server scoped to.
 
 | MCP Server | Purpose |
 |------------|---------|
-| **serena** | Semantic code intelligence + institutional memory |
+| **serena** | Semantic code intelligence, symbol operations + institutional memory |
 | **filesystem** | Enhanced file operations for large files and atomic updates |
 | **context7** | External documentation and best practices |
-| **sequential-thinking** | Complex reasoning and multi-step analysis |
+| **dotnet** | .NET/C# build, test, and project tooling |
+| **bash** | Shell command execution for automation tasks |
 
 ---
 
@@ -107,6 +112,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 "Implement JWT authentication in Rust"                   → rust-expert
 "Create ASP.NET Core REST API with Entity Framework"     → csharp-expert
 "Build gRPC microservice in Go"                          → go-expert
+"Build a Fisher Transform indicator for MetaTrader 5"    → mql-trading-dev
 "Review pull request for code quality"                   → code-review-gatekeeper
 "Set up Kubernetes deployment with Helm"                 → devops-orchestrator
 "Write API documentation for REST endpoints"             → technical-docs-writer
@@ -138,6 +144,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 | **java-expert** | Spring Boot, Maven/Gradle, enterprise apps |
 | **python-expert** | Django/Flask, data science, automation |
 | **typescript-expert** | React/Next.js, Node.js, frontend/backend |
+| **mql-trading-dev** | MQL4/MQL5, C/C++ DLLs, MetaTrader trading systems |
 
 ### Scripting & Automation
 | Agent | Focus |
@@ -167,11 +174,12 @@ Tasks are automatically routed to the appropriate agent. Examples:
 ~/.claude/
 ├── CLAUDE.md                # Agent execution rules and task routing
 ├── claude.json              # Agent configuration (v3.0.0)
-├── agents/                  # 18 agent definitions (.md with YAML frontmatter)
+├── .mcp.json                # MCP server definitions (serena, filesystem, context7, dotnet, bash)
+├── agents/                  # 19 agent definitions (.md with YAML frontmatter)
 ├── commands/                # 6 commands (delegate, analyze-framework, list-agents, etc.)
 ├── hooks/                   # 44 quality gates (agent-specific + framework-wide)
-├── shared/                  # Shared configs (base-config, mcp-config, memory-categories)
-├── skills/                  # 11 operational skills (validation, debugging, analytics)
+├── shared/                  # Shared configs (base-config, mcp-config, agent-patterns, memory-categories)
+├── skills/                  # 14 operational skills (validation, debugging, analytics, scaffolding)
 ├── scripts/                 # 3 validation scripts
 └── security-check.sh        # Security validation
 ```
@@ -188,6 +196,29 @@ Tasks are automatically routed to the appropriate agent. Examples:
 | `/validate-hooks` | Hook coverage and consistency verification |
 | `/agent-status` | Real-time agent monitoring and performance metrics |
 | `/quality-report` | Quality metrics, trend analysis, and reporting |
+
+---
+
+## Skills
+
+The framework ships 14 operational skills in `skills/` that support validation, debugging, and analytics:
+
+| Skill | Purpose |
+|-------|---------|
+| **framework-validator** | Comprehensive framework health, consistency, and integrity checks |
+| **config-validator** | Validate framework configuration files for correctness |
+| **dependency-checker** | Check framework dependencies and tool requirements |
+| **agent-debugger** | Debug agent routing, execution, and integration issues |
+| **agent-routing-advisor** | Intelligent task-to-agent mapping recommendations |
+| **hook-auditor** | Audit hook coverage, consistency, and effectiveness |
+| **hook-config-generator** | Generate new validation hooks from templates |
+| **code-scaffolder** | Generate idiomatic project scaffolding for supported languages |
+| **refactoring-advisor** | Identify refactoring opportunities and improvement patterns |
+| **git-workflow-assistant** | Guide branching, commit conventions, and PR workflows |
+| **migration-assistant** | Assist with framework version migrations |
+| **performance-analytics** | Analyze agent and hook performance metrics |
+| **quality-reporter** | Generate quality metrics reports and trend analysis |
+| **workflow-visualizer** | Visualize multi-agent workflows and coordination patterns |
 
 ---
 
@@ -218,12 +249,12 @@ which claude  # If missing, reinstall per the Prerequisites section
 **MCP servers not available:**
 ```bash
 cat ~/.claude/.mcp.json          # Check configuration
-npx -y @serenaai/mcp-server --version  # Test server
+npx -y @modelcontextprotocol/server-serena --version  # Test server
 ```
 
 **Agents not found:**
 ```bash
-ls -1 agents/*.md | wc -l  # Should show 18
+ls -1 agents/*.md | wc -l  # Should show 19
 ./scripts/validate-agents.sh
 ```
 
@@ -243,4 +274,4 @@ cat commands/delegate.md | head -20  # Verify command exists
 
 ---
 
-**Built for Claude Code CLI • 18 Specialized Agents • 44 Quality Gates • Self-Learning • v3.0.0**
+**Built for Claude Code CLI • 19 Specialized Agents • 44 Quality Gates • 14 Skills • Self-Learning • v3.0.0**
