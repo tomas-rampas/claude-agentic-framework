@@ -1,0 +1,120 @@
+{
+  "name": "mql-trading-dev-validation",
+  "version": "1.0.0",
+  "description": "Comprehensive quality gates and validation standards for MQL4/MQL5 and C/C++ MetaTrader development",
+  "priority": "high",
+  "enabled": true,
+  "agents": ["mql-trading-dev", "code-review-gatekeeper", "comprehensive-analyst"],
+  "triggers": ["mql_code_change", "mq5_file_save", "mq4_file_save", "mqh_include_change", "dll_source_change", "pre_commit"],
+  "prerequisite_checks": {
+    "project_detection": {
+      "enabled": true,
+      "blocking": true,
+      "description": "Verify this is an MQL4/MQL5 (MetaTrader) project before running validation",
+      "detection_methods": [
+        {"method": "search_mql_sources", "command": "find . -maxdepth 4 \\( -name '*.mq5' -o -name '*.mq4' -o -name '*.mqh' \\) 2>/dev/null", "required": true, "skip_validation_if_not_found": true},
+        {"method": "search_mql_directories", "command": "find . -maxdepth 4 -type d \\( -iname 'MQL5' -o -iname 'MQL4' -o -iname 'Experts' -o -iname 'Indicators' \\) 2>/dev/null", "required": false, "skip_validation_if_not_found": false}
+      ],
+      "skip_message": "Skipping MQL validation: No MQL4/MQL5 (MetaTrader) project detected in workspace"
+    }
+  },
+  "validation_sequence": {
+    "phase_1_compilation": {
+      "description": "MetaEditor command-line compilation and build verification",
+      "blocking": true,
+      "timeout_seconds": 300,
+      "checks": [
+        {"name": "metaeditor_compile", "command": "metaeditor64.exe /compile:\"<path-to-source>\" /log", "required": true, "error_on_warning": false, "description": "Compile .mq5/.mq4 via MetaEditor command line; inspect the generated .log next to the source for errors and warnings", "note": "MetaEditor is a Windows GUI-dependent tool with no headless CI equivalent. The /compile flag works only where MetaEditor (metaeditor64.exe for MT5, metaeditor.exe for MT4) is installed and on PATH. Skip this check if MetaEditor is unavailable in the environment and fall back to the manual compilation review checklist."},
+        {"name": "compile_log_zero_errors", "validation": "automatic", "required": true, "description": "Parse the compilation .log and confirm zero errors before proceeding", "note": "MQL compile output is written to a sibling .log file, not stdout. A non-existent or stale .log means the compile did not run."},
+        {"name": "manual_compilation_review", "validation": "manual", "required": false, "description": "Fallback when MetaEditor is unavailable: review code for syntactically valid MQL", "checklist": ["No use of MQL5-only constructs in .mq4 files and no deprecated MQL4 patterns in .mq5 files", "All #include and #import paths resolve", "MQL4 files declare #property strict; MQL5 files do not (strict is MQL4-only)", "Embedded #resource references point at files that exist"]}
+      ]
+    },
+    "phase_2_mql_correctness": {
+      "description": "MQL4/MQL5 correctness review (timeseries, data access, indicator architecture)",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {"name": "data_access_return_checks", "validation": "manual", "required": true, "description": "Every data-copy call validates its return value", "checklist": ["Every CopyBuffer / CopyRates / CopyTime / CopyHigh / CopyLow / CopyClose / CopyTickVolume return value is checked against the requested count", "GetLastError() is read immediately after a failing copy call (it resets on the next API call), with ERR_HISTORY_WILL_UPDATED handled as a retry rather than a hard error", "Invalid or missing data returns EMPTY_VALUE, never 0.0 (0.0 is a valid Fisher/indicator value)"]},
+        {"name": "timeseries_orientation", "validation": "manual", "required": true, "description": "Timeseries arrays are correctly oriented", "checklist": ["ArraySetAsSeries(array, true) is called on every timeseries array before use in MQL5", "Arrays are declared dynamic (double arr[]) and ArrayResize'd before population where required", "Buffer/array indexing accounts for series vs non-series direction (newest at index 0 only when set as series)"]},
+        {"name": "indicator_architecture", "validation": "manual", "required": true, "description": "Handle-based indicator architecture (MQL5) and buffer model correctness", "checklist": ["MQL5 indicator handles are created once (in OnInit), reused across ticks, and never created per-tick inside OnTick/OnCalculate", "No deprecated per-tick iCustom/iMA handle creation in hot paths", "SetIndexBuffer indices are contiguous and unchanged when new buffers are added; PlotIndexSetXxx matches the buffer it describes", "Indicator buffer values are read via CopyBuffer with a validated return, not assumed populated"]},
+        {"name": "oncalculate_correctness", "validation": "manual", "required": true, "description": "OnCalculate prev_calculated handling is correct", "checklist": ["OnCalculate returns rates_total (never 0 on a successful pass) so prev_calculated advances correctly", "First-run (prev_calculated == 0) initialises buffers; subsequent runs only recompute from prev_calculated-1 forward", "No full-history recomputation on every tick when an incremental update suffices"]}
+      ]
+    },
+    "phase_3_resource_handle_hygiene": {
+      "description": "Resource and handle lifecycle hygiene",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {"name": "indicator_handle_release", "validation": "manual", "required": true, "description": "Indicator handles are released", "checklist": ["Every indicator handle obtained in OnInit is released with IndicatorRelease in OnDeinit", "Handles are checked against INVALID_HANDLE before use"]},
+        {"name": "chart_object_cleanup", "validation": "manual", "required": true, "description": "Chart objects are freed", "checklist": ["All chart objects created by the program use a unique program prefix and are removed in OnDeinit via prefix-based ObjectsDeleteAll(0, \"PREFIX_\") or ObjectDelete", "No object-name collisions with other EAs/indicators on the same chart", "ChartRedraw() is called once after batch object updates, not per object"]},
+        {"name": "timer_and_deinit", "validation": "manual", "required": true, "description": "Timers and other resources are released in OnDeinit", "checklist": ["EventKillTimer() is called in OnDeinit when EventSetTimer was used", "File handles from FileOpen are closed with FileClose", "No Sleep() in indicators (only permitted in EAs and scripts)"]}
+      ]
+    },
+    "phase_4_dll_cpp_interop": {
+      "description": "DLL / C-C++ interop correctness (conditional — only when native DLL sources are present)",
+      "blocking": true,
+      "timeout_seconds": 180,
+      "checks": [
+        {"name": "dll_source_present", "command": "find . -maxdepth 4 \\( -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' \\) 2>/dev/null", "required": false, "description": "Detect native C/C++ DLL sources; skip the remaining interop checks if none are found", "note": "This phase is conditional. If no C/C++ sources exist, the interop checklist below does not apply."},
+        {"name": "dll_export_and_abi", "validation": "manual", "required": false, "description": "Exported functions are MQL-callable", "checklist": ["Exported functions use __declspec(dllexport) (or a matching .def file) and the expected calling convention (__stdcall for MQL #import compatibility)", "Parameter and return types map cleanly to MQL types (int/long/double/wchar_t* for strings); no STL containers or C++ objects across the boundary", "The MQL #import declaration signatures exactly match the C/C++ exports (count, order, width of each parameter)", "DLL bitness matches the terminal (64-bit DLL for MT5 / 64-bit terminal); 'Allow DLL imports' is documented as a runtime prerequisite", "Pointers/buffers passed from MQL are sized correctly and never written past their bounds on the C side"]}
+      ]
+    },
+    "phase_5_security_safety": {
+      "description": "Security and trade-safety review",
+      "blocking": true,
+      "timeout_seconds": 120,
+      "checks": [
+        {"name": "no_hardcoded_secrets", "validation": "manual", "required": true, "description": "No hard-coded credentials or account identifiers", "checklist": ["No hard-coded account numbers, passwords, API keys, broker server names, or license tokens in source", "Sensitive values are supplied via input parameters or external config, not literals", "Account-binding (if any) uses AccountInfoInteger(ACCOUNT_LOGIN) checks, not embedded secrets"]},
+        {"name": "input_and_file_safety", "validation": "manual", "required": true, "description": "Inputs and file access are validated", "checklist": ["All input parameters are range/sanity validated in OnInit (periods >= 2, lots within broker min/max/step, non-negative timeouts)", "FileOpen uses FILE_COMMON / sandbox-relative paths only; no absolute or user-controlled paths that escape the MQL sandbox", "String parsing uses StringFind/StringSubstr rather than fixed offsets; broker symbol suffixes are configurable, never hard-coded"]},
+        {"name": "trade_operation_guards", "validation": "manual", "required": true, "description": "Trade operations check their results", "checklist": ["Every CTrade call (or native OrderSend) result is checked; retcode is inspected (TRADE_RETCODE_DONE) before assuming success", "Position/lot sizing is computed against SYMBOL_VOLUME_MIN/MAX/STEP with no integer/overflow truncation", "Stops and order prices respect SYMBOL_TRADE_STOPS_LEVEL and are normalised to _Digits/_Point", "Duplicate-order and re-entry guards exist (hedging-safe scan before opening); magic numbers are named constants"]}
+      ]
+    },
+    "phase_6_best_practices": {
+      "description": "MQL best practices and style",
+      "blocking": false,
+      "timeout_seconds": 120,
+      "checks": [
+        {"name": "strict_compilation_clean", "validation": "manual", "required": false, "description": "Compilation is warning-clean", "checklist": ["The compilation .log reports zero warnings (unused variables, implicit conversions, deprecated functions)", "No implicit narrowing conversions in lot/price arithmetic"]},
+        {"name": "property_headers", "validation": "manual", "required": false, "description": "Standard #property headers present", "checklist": ["#property copyright, #property link, and #property version are present", "#property description is present for EAs and indicators", "Standard MQL file/function header comment blocks are used"]},
+        {"name": "naming_and_conventions", "validation": "manual", "required": false, "description": "Naming and structural conventions followed", "checklist": ["input is used for user-facing parameters (not the deprecated extern) in MQL5", "Files PascalCase, classes C-prefixed PascalCase, variables camelCase, object names project-prefixed; magic numbers are named constants", "Calculation, rendering, and event-handling concerns are separated (.mqh calculators do not touch chart objects)", "No Print() in hot paths (OnTick/OnCalculate); PrintFormat with __FUNCTION__ used for errors and init/deinit only"]}
+      ]
+    }
+  },
+  "quality_gates": {
+    "pre_commit": {"required_phases": ["phase_1_compilation", "phase_2_mql_correctness", "phase_3_resource_handle_hygiene"]},
+    "pre_push": {"required_phases": ["phase_1_compilation", "phase_2_mql_correctness", "phase_3_resource_handle_hygiene", "phase_4_dll_cpp_interop", "phase_5_security_safety"]},
+    "pre_release": {"required_phases": ["phase_1_compilation", "phase_2_mql_correctness", "phase_3_resource_handle_hygiene", "phase_4_dll_cpp_interop", "phase_5_security_safety", "phase_6_best_practices"]}
+  },
+  "tools_required": {
+    "essential": ["MetaEditor (metaeditor64.exe for MT5 / metaeditor.exe for MT4)"],
+    "recommended": ["MetaTrader 5 terminal", "MetaTrader 4 terminal", "MetaTrader Strategy Tester", "git"],
+    "advanced": ["MSVC / MinGW toolchain (for C/C++ DLL builds)", "Strategy Tester optimisation runs", "Note: MQL has no standard headless lint/coverage/static-analysis CLI; phases 2-6 are manual or checklist-driven by necessity"]
+  },
+  "frameworks_supported": ["MQL5", "MQL4", "MetaTrader 5", "MetaTrader 4", "C/C++ DLL"],
+  "enforcement_rules": {
+    "allow_bypass": false,
+    "require_review_on_failure": true,
+    "auto_fix_when_possible": true,
+    "escalation": {
+      "compilation_failure": "blocking",
+      "data_access_unchecked": "blocking",
+      "resource_handle_leak": "blocking",
+      "dll_interop_mismatch": "blocking",
+      "security_vulnerability": "blocking",
+      "trade_operation_unchecked": "blocking",
+      "best_practice_violation": "warning"
+    }
+  },
+  "integration": {
+    "ci_cd_compatible": false,
+    "ci_cd_note": "MetaEditor compilation is a Windows GUI-tool dependency with no first-class headless CI runner; phase 1 requires a Windows host with MetaEditor installed, and phases 2-6 are manual/checklist reviews. CI integration is limited to driving metaeditor64.exe /compile on a self-hosted Windows runner.",
+    "github_actions": false,
+    "ide_integration": ["MetaEditor"],
+    "git_hooks": ["pre-commit", "pre-push"]
+  },
+  "metrics": {
+    "track_build_time": true,
+    "track_compile_warnings": true,
+    "track_manual_review_completion": true
+  }
+}
