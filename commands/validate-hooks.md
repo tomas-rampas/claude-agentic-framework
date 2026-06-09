@@ -43,7 +43,7 @@ Verifies each of the 18 agents has appropriate validation hooks:
    ✅ rust-expert         → rust-expert-validation.json
    ✅ csharp-expert       → csharp-expert-validation.json
    ✅ go-expert           → go-expert-validation.json
-   ✅ java-expert         → java-expert-configuration.json
+   ✅ java-expert         → java-expert-validation.json
    ✅ python-expert       → python-expert-validation.json
    ✅ typescript-expert   → typescript-expert-validation.json
    ✅ bash-expert         → bash-expert-validation.json
@@ -51,8 +51,8 @@ Verifies each of the 18 agents has appropriate validation hooks:
 
 ✅ DOMAIN SPECIALISTS (4/4 = 100%)
    ✅ database-specialist → database-specialist-validation.json
-   ✅ frontend-specialist → frontend-specialist-standards.json
-   ✅ security-specialist → security-specialist-audit.json
+   ✅ frontend-specialist → frontend-specialist-validation.json
+   ✅ security-specialist → security-specialist-validation.json
    ✅ uiux-specialist     → uiux-specialist-validation.json
 
 ✅ INFRASTRUCTURE (1/1 = 100%)
@@ -251,7 +251,7 @@ File Type Coverage:
   ✅ .rs   → rust-expert-validation
   ✅ .cs   → csharp-expert-validation
   ✅ .go   → go-expert-validation
-  ✅ .java → java-expert-configuration
+  ✅ .java → java-expert-validation
   ✅ .py   → python-expert-validation
   ✅ .ts   → typescript-expert-validation
   ✅ .sh   → bash-expert-validation

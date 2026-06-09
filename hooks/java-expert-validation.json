@@ -1,5 +1,5 @@
 {
-  "name": "java-expert-configuration",
+  "name": "java-expert-validation",
   "description": "Java/Spring Boot development standards and best practices enforcement",
   "version": "1.0",
   "disabled": false,

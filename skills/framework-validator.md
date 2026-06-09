@@ -73,10 +73,10 @@ HOOKS=(
   "technology-detection.json"
   "agent-performance-sla.json"
   "progressive-escalation.json"
-  "java-expert-configuration.json"
+  "java-expert-validation.json"
   "database-specialist-validation.json"
-  "frontend-specialist-standards.json"
-  "security-specialist-audit.json"
+  "frontend-specialist-validation.json"
+  "security-specialist-validation.json"
   "uiux-specialist-validation.json"
 )
 
@@ -133,10 +133,10 @@ required_files:
       - hooks/progressive-escalation.json
 
     specialist:
-      - hooks/java-expert-configuration.json
+      - hooks/java-expert-validation.json
       - hooks/database-specialist-validation.json
-      - hooks/frontend-specialist-standards.json
-      - hooks/security-specialist-audit.json
+      - hooks/frontend-specialist-validation.json
+      - hooks/security-specialist-validation.json
       - hooks/uiux-specialist-validation.json
 ```
 

@@ -213,7 +213,7 @@
     "coordinates_with": [
       "zero-tolerance-quality",
       "architecture-compliance",
-      "security-specialist-audit"
+      "security-specialist-validation"
     ],
     "blocks_progression_until": [
       "schema_validation_passed",
