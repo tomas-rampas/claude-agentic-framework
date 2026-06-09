@@ -69,7 +69,7 @@ Analyzes all 19 agents:
 
 Examines validation hook system:
 
-**Total Hooks:** 45 (31 framework-wide + 19 agent-specific - may vary)
+**Total Hooks:** 45 (26 framework-wide + 19 agent-specific - may vary)
 
 **Agent-Specific Validation Hooks (19 required):**
 - Check each agent has dedicated validation hook
