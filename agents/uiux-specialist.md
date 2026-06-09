@@ -1,29 +1,6 @@
 ---
 name: uiux-specialist
-description: Use this agent when you need to design user interfaces, improve user experience, create design systems, implement accessibility standards, or optimize user interactions. This includes designing responsive layouts, creating component libraries, implementing design tokens, conducting usability analysis, optimizing user flows, ensuring WCAG compliance, creating wireframes and prototypes, implementing CSS architectures, optimizing mobile experiences, and applying design principles like visual hierarchy, typography, color theory, and responsive design. <example>
-Context: The user needs help designing a responsive dashboard interface.
-user: "I need to design a dashboard for analytics with complex data visualization that works on mobile and desktop"
-assistant: "I'll use the uiux-specialist agent to design a responsive dashboard with proper information hierarchy, mobile-first approach, and accessible data visualization."
-<commentary>
-Since this involves UI/UX design with responsive requirements, the uiux-specialist should be invoked.
-</commentary>
-</example>
-<example>
-Context: The user's application has poor accessibility.
-user: "Our app fails WCAG accessibility audits - users with screen readers can't navigate it properly"
-assistant: "Let me invoke the uiux-specialist agent to audit and fix accessibility issues with proper ARIA labels, keyboard navigation, and semantic HTML."
-<commentary>
-Accessibility and WCAG compliance are core UX concerns that the uiux-specialist specializes in.
-</commentary>
-</example>
-<example>
-Context: The user wants to improve conversion rates.
-user: "Our signup form has a 70% drop-off rate. Can you redesign it to improve conversions?"
-assistant: "I'll use the uiux-specialist agent to analyze and redesign your signup flow with UX best practices to reduce friction and improve conversion."
-<commentary>
-Optimizing user flows and conversion is a key responsibility of the uiux-specialist.
-</commentary>
-</example>
+description: Use this agent when you need to design user interfaces, improve user experience, create design systems, implement accessibility standards, or optimize user interactions. This includes designing responsive layouts, creating component libraries, implementing design tokens, conducting usability analysis, optimizing user flows, ensuring WCAG compliance, creating wireframes and prototypes, implementing CSS architectures, optimizing mobile experiences, and applying design principles like visual hierarchy, typography, color theory, and responsive design. <example>\nContext: The user needs help designing a responsive dashboard interface.\nuser: "I need to design a dashboard for analytics with complex data visualization that works on mobile and desktop"\nassistant: "I'll use the uiux-specialist agent to design a responsive dashboard with proper information hierarchy, mobile-first approach, and accessible data visualization."\n<commentary>\nSince this involves UI/UX design with responsive requirements, the uiux-specialist should be invoked.\n</commentary>\n</example>\n<example>\nContext: The user's application has poor accessibility.\nuser: "Our app fails WCAG accessibility audits - users with screen readers can't navigate it properly"\nassistant: "Let me invoke the uiux-specialist agent to audit and fix accessibility issues with proper ARIA labels, keyboard navigation, and semantic HTML."\n<commentary>\nAccessibility and WCAG compliance are core UX concerns that the uiux-specialist specializes in.\n</commentary>\n</example>\n<example>\nContext: The user wants to improve conversion rates.\nuser: "Our signup form has a 70% drop-off rate. Can you redesign it to improve conversions?"\nassistant: "I'll use the uiux-specialist agent to analyze and redesign your signup flow with UX best practices to reduce friction and improve conversion."\n<commentary>\nOptimizing user flows and conversion is a key responsibility of the uiux-specialist.\n</commentary>\n</example>
 model: opus
 color: coral
 ---
