@@ -8,7 +8,7 @@ tags: [agents, list, capabilities, reference]
 
 ## Purpose
 
-Display comprehensive information about all 18 specialized agents in the framework, including their capabilities, specializations, validation hooks, and current status.
+Display comprehensive information about all 19 specialized agents in the framework, including their capabilities, specializations, validation hooks, and current status.
 
 ## Usage
 
@@ -56,13 +56,13 @@ Display comprehensive information about all 18 specialized agents in the framewo
 │ technical-docs-writer    │ Documentation   │ Haiku     │ ✅       │ Ready      │
 └──────────────────────────┴─────────────────┴───────────┴──────────┴────────────┘
 
-Total: 18 agents (18 ready, 0 unavailable)
+Total: 19 agents (19 ready, 0 unavailable)
 ```
 
 ### 2. Category View (--language)
 
 ```
-🔧 LANGUAGE EXPERTS (8 agents)
+🔧 LANGUAGE EXPERTS (9 agents)
 
 ┌───────────────────┬────────────────────────────────────────────────┬────────┐
 │ Agent             │ Specialization                                  │ Status │
@@ -73,6 +73,7 @@ Total: 18 agents (18 ready, 0 unavailable)
 │ java-expert       │ Java/Spring Boot, enterprise apps, Android     │ ✅ Ready│
 │ python-expert     │ Python web, data science, automation           │ ✅ Ready│
 │ typescript-expert │ TypeScript/JS, React/Next.js, Node.js          │ ✅ Ready│
+│ mql-trading-dev   │ MQL4/MQL5, MetaTrader, trading systems          │ ✅ Ready│
 │ bash-expert       │ Bash/shell scripting, Linux automation         │ ✅ Ready│
 │ powershell-expert │ PowerShell, Windows admin, Azure scripting     │ ✅ Ready│
 └───────────────────┴────────────────────────────────────────────────┴────────┘
@@ -151,11 +152,11 @@ Total: 18 agents (18 ready, 0 unavailable)
     }
   ],
   "summary": {
-    "total_agents": 18,
-    "ready": 18,
+    "total_agents": 19,
+    "ready": 19,
     "unavailable": 0,
     "categories": {
-      "language_experts": 8,
+      "language_experts": 9,
       "domain_specialists": 4,
       "infrastructure": 1,
       "architecture_planning": 2,
@@ -167,7 +168,7 @@ Total: 18 agents (18 ready, 0 unavailable)
 
 ## Agent Categories
 
-### Language Experts (8 agents)
+### Language Experts (9 agents)
 ```
 rust-expert          → Rust systems programming
 csharp-expert        → C#/.NET development
@@ -175,6 +176,7 @@ go-expert            → Go microservices
 java-expert          → Java/Spring Boot
 python-expert        → Python development
 typescript-expert    → TypeScript/JavaScript
+mql-trading-dev      → MQL4/MQL5 & MetaTrader trading systems
 bash-expert          → Bash/shell scripting
 powershell-expert    → PowerShell automation
 ```

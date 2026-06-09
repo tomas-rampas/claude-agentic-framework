@@ -1,6 +1,6 @@
 {
   "version": "3.0.0",
-  "description": "Claude Code CLI with 18-agent specialized architecture",
+  "description": "Claude Code CLI with 19-agent specialized architecture",
 
   "sub_agents": {
     "rust-expert": {
@@ -50,6 +50,14 @@
       "prompt_file": "~/.claude/agents/typescript-expert.md",
       "model": "claude-sonnet-4-6-20250514",
       "specialization": "typescript_javascript_react_nodejs"
+    },
+    "mql-trading-dev": {
+      "enabled": true,
+      "path": "~/.claude/agents/mql-trading-dev",
+      "config_file": "~/.claude/agents/mql-trading-dev/agent.json",
+      "prompt_file": "~/.claude/agents/mql-trading-dev.md",
+      "model": "claude-opus-4-6-20250805",
+      "specialization": "mql4_mql5_metatrader_trading_systems"
     },
     "bash-expert": {
       "enabled": true,
@@ -190,7 +198,8 @@
       "go-expert",
       "java-expert",
       "python-expert",
-      "typescript-expert"
+      "typescript-expert",
+      "mql-trading-dev"
     ],
     "automation_experts": [
       "bash-expert",

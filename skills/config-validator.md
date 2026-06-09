@@ -37,7 +37,7 @@ jq -e '.global_settings' claude.json
 
 # Agent count
 agent_count=$(jq '.sub_agents | length' claude.json)
-[ $agent_count -eq 18 ] || echo "Expected 18 agents, found $agent_count"
+[ $agent_count -eq 19 ] || echo "Expected 19 agents, found $agent_count"
 
 # Agent structure
 for agent in $(jq -r '.sub_agents | keys[]' claude.json); do
@@ -266,7 +266,7 @@ SCHEMA VALIDATION
   ✅ Shared resources configured
 
 CROSS-REFERENCE VALIDATION
-  ✅ All 18 agents have definition files
+  ✅ All 19 agents have definition files
   ✅ All agent files referenced in claude.json
   ✅ All hook agent references valid
   ✅ No orphaned configuration files
@@ -275,7 +275,7 @@ LOGICAL CONSISTENCY
   ✅ No duplicate agent names
   ✅ No circular dependencies detected
   ✅ All model names valid
-  ✅ Agent count correct (18)
+  ✅ Agent count correct (19)
 
 OVERALL STATUS: ✅ PASS
   Files Validated: 67

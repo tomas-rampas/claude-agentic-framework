@@ -8,7 +8,7 @@ tags: [agents, status, monitoring]
 
 ## Purpose
 
-Check the configuration status and health of all 18 specialized agents in the framework by inspecting actual configuration files.
+Check the configuration status and health of all 19 specialized agents in the framework by inspecting actual configuration files.
 
 ## Usage
 
@@ -69,8 +69,8 @@ When a specific agent name is provided, show detailed information:
 
 ## Expected Agent Count
 
-The framework has 18 agents across 7 categories:
-- **Language Experts** (6): rust, csharp, go, java, python, typescript
+The framework has 19 agents across 7 categories:
+- **Language Experts** (7): rust, csharp, go, java, python, typescript, mql-trading-dev
 - **Automation Experts** (2): bash, powershell
 - **Domain Specialists** (4): database, frontend, security, uiux
 - **Infrastructure** (1): devops-orchestrator

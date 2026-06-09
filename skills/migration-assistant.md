@@ -59,7 +59,7 @@ description: "Update from N agents to M agents"
 
 example:
   from: 11
-  to: 18
+  to: 19
   new_agents:
     - java-expert
     - database-specialist
@@ -295,7 +295,7 @@ validate_migration() {
   done
 
   # Validate agent count
-  EXPECTED_COUNT=18
+  EXPECTED_COUNT=19
   ACTUAL_COUNT=$(ls agents/*.md 2>/dev/null | wc -l)
 
   if [ "$ACTUAL_COUNT" -ne "$EXPECTED_COUNT" ]; then
@@ -447,7 +447,7 @@ rollback_migration "backups/migration-20251116-1449"
 ## Validation
 
 - [ ] No old agent names in hooks
-- [ ] Correct agent count (18)
+- [ ] Correct agent count (19)
 - [ ] All JSON files valid
 - [ ] All agent files exist
 - [ ] Documentation updated
@@ -467,9 +467,9 @@ Migration Assistant Response:
 
 📋 Migration Overview:
   Changes:
-    - Agent count: 11 → 18
+    - Agent count: 11 → 19
     - New agents: java-expert, database-specialist, frontend-specialist,
-                  security-specialist, uiux-specialist
+                  security-specialist, uiux-specialist, mql-trading-dev
     - Renamed: rust-systems-expert → rust-expert
     - Hook format updated to v2.0
 
@@ -484,7 +484,7 @@ Migration Assistant Response:
   ✅ Added security-specialist.md
   ✅ Added uiux-specialist.md
   ✅ Renamed rust-systems-expert → rust-expert
-  ✅ Updated CLAUDE.md (18 agents)
+  ✅ Updated CLAUDE.md (19 agents)
   ✅ Updated delegate.md routing
 
 🔧 Phase 2: Hook Updates
@@ -494,7 +494,7 @@ Migration Assistant Response:
   ✅ Updated integration points
 
 🔧 Phase 3: Documentation
-  ✅ Updated README.md (11 → 18 agents)
+  ✅ Updated README.md (11 → 19 agents)
   ✅ Updated architecture section
   ✅ Updated workflow examples
 
@@ -502,7 +502,7 @@ Migration Assistant Response:
   ✅ JSON syntax: All valid
   ✅ Agent references: All current
   ✅ Integration points: All valid
-  ✅ Agent count: 18 ✓
+  ✅ Agent count: 19 ✓
   ✅ Framework validation: PASSED
 
 ✅ Migration Complete!
@@ -510,7 +510,7 @@ Migration Assistant Response:
 📝 Summary:
   - Duration: 2 minutes
   - Files updated: 47
-  - Agents: 11 → 18
+  - Agents: 11 → 19
   - Hooks: 23 → 28
   - Validation: PASSED
 

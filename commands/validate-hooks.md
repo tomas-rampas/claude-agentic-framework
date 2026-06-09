@@ -26,7 +26,7 @@ Comprehensive validation of the framework's hook system, checking for coverage g
 
 ### 1. Hook Coverage Analysis
 
-Verifies each of the 18 agents has appropriate validation hooks:
+Verifies each of the 19 agents has appropriate validation hooks:
 
 **Expected Hook Naming Patterns:**
 - `{agent}-validation.json`
@@ -39,13 +39,14 @@ Verifies each of the 18 agents has appropriate validation hooks:
 🔍 Hook Coverage Analysis
 ═══════════════════════════════════════
 
-✅ LANGUAGE EXPERTS (8/8 = 100%)
+✅ LANGUAGE EXPERTS (9/9 = 100%)
    ✅ rust-expert         → rust-expert-validation.json
    ✅ csharp-expert       → csharp-expert-validation.json
    ✅ go-expert           → go-expert-validation.json
    ✅ java-expert         → java-expert-validation.json
    ✅ python-expert       → python-expert-validation.json
    ✅ typescript-expert   → typescript-expert-validation.json
+   ✅ mql-trading-dev     → mql-trading-dev-validation.json
    ✅ bash-expert         → bash-expert-validation.json
    ✅ powershell-expert   → powershell-expert-validation.json
 
@@ -68,12 +69,12 @@ Verifies each of the 18 agents has appropriate validation hooks:
    ✅ technical-docs-writer     → technical-docs-writer-validation.json
 
 📊 SUMMARY
-   Total Agents: 18
-   Agents with Hooks: 18
+   Total Agents: 19
+   Agents with Hooks: 19
    Coverage: 100% ✅
 
-   Total Hooks: 44
-   Agent-Specific: 18
+   Total Hooks: 45
+   Agent-Specific: 19
    Framework-Wide: 26
 ```
 
@@ -109,8 +110,8 @@ Validating 1 YAML file...
 ✅ delegation-enforcement.yaml
 
 📊 RESULTS
-   Total Files: 44
-   Valid JSON: 43/43 ✅
+   Total Files: 45
+   Valid JSON: 44/44 ✅
    Valid YAML: 1/1 ✅
    Errors: 0
 ```
@@ -213,7 +214,7 @@ Verifies hooks properly integrate with framework:
 ═══════════════════════════
 
 Checking agent existence...
-  ✅ All 18 agents exist
+  ✅ All 19 agents exist
   ✅ All referenced agents valid
 
 Checking for circular dependencies...
@@ -245,7 +246,7 @@ Identifies potential coverage gaps:
 Checking for coverage gaps...
 
 Agent Coverage:
-  ✅ All 18 agents have validation hooks
+  ✅ All 19 agents have validation hooks
 
 File Type Coverage:
   ✅ .rs   → rust-expert-validation
@@ -284,8 +285,8 @@ When run with `--all`, produces comprehensive report:
 ═══════════════════════════════════════════════════════════
 
 1. HOOK COVERAGE ANALYSIS
-   ├─ Agent Coverage: 18/18 (100%) ✅
-   ├─ Language Experts: 8/8 ✅
+   ├─ Agent Coverage: 19/19 (100%) ✅
+   ├─ Language Experts: 9/9 ✅
    ├─ Domain Specialists: 4/4 ✅
    ├─ Infrastructure: 1/1 ✅
    ├─ Architecture & Planning: 2/2 ✅
@@ -326,8 +327,8 @@ When run with `--all`, produces comprehensive report:
 All validation checks passed successfully!
 Hook system is properly configured and comprehensive.
 
-Total Hooks: 44
-  • Agent-specific: 18 (100% coverage)
+Total Hooks: 45
+  • Agent-specific: 19 (100% coverage)
   • Framework-wide: 26
   • Issues Found: 0
   • Warnings: 0
@@ -380,7 +381,7 @@ Fix:
    Line: 8
 
 Fix:
-  Update agent name to one of the 18 valid agents
+  Update agent name to one of the 19 valid agents
   or remove the invalid reference
 ```
 

@@ -26,7 +26,7 @@ Perform a comprehensive analysis of the Claude Code CLI Agentic Framework, check
 
 Checks all framework configuration files:
 
-- **claude.json**: Verifies all 18 agents are properly configured
+- **claude.json**: Verifies all 19 agents are properly configured
 - **Core hooks**: Validates core-hooks.json syntax and agent references
 - **Shared resources**: Checks base-config.json, mcp-config.json, agent-patterns.md
 
@@ -34,7 +34,7 @@ Checks all framework configuration files:
 ```bash
 # Check claude.json structure
 jq '.sub_agents | length' claude.json
-# Expected: 18
+# Expected: 19
 
 # Verify no old agent names
 grep -r '"maker"\|"test"\|"debug"\|"plan"\|"reader"' hooks/ claude.json
@@ -43,11 +43,11 @@ grep -r '"maker"\|"test"\|"debug"\|"plan"\|"reader"' hooks/ claude.json
 
 ### 2. Agent Availability Assessment
 
-Analyzes all 18 agents:
+Analyzes all 19 agents:
 
-**Language Experts (8 agents):**
+**Language Experts (9 agents):**
 - rust-expert, csharp-expert, go-expert, java-expert
-- python-expert, typescript-expert, bash-expert, powershell-expert
+- python-expert, typescript-expert, mql-trading-dev, bash-expert, powershell-expert
 
 **Domain Specialists (4 agents):**
 - database-specialist, frontend-specialist, security-specialist, uiux-specialist
@@ -69,9 +69,9 @@ Analyzes all 18 agents:
 
 Examines validation hook system:
 
-**Total Hooks:** 44 (31 framework-wide + 18 agent-specific - may vary)
+**Total Hooks:** 45 (31 framework-wide + 19 agent-specific - may vary)
 
-**Agent-Specific Validation Hooks (18 required):**
+**Agent-Specific Validation Hooks (19 required):**
 - Check each agent has dedicated validation hook
 - Validate hook JSON syntax
 - Verify agent references are current
@@ -109,9 +109,9 @@ Validates expected directory structure:
 
 ```
 claude-agentic-framework/
-├── agents/       ✓ (18 agent files)
+├── agents/       ✓ (19 agent files)
 ├── commands/     ✓ (delegate + management commands)
-├── hooks/        ✓ (44+ validation hooks)
+├── hooks/        ✓ (45+ validation hooks)
 ├── shared/       ✓ (4 configuration files)
 ├── skills/       ✓ (6-11 skill files)
 ├── scripts/      ✓ (3 validation scripts)
@@ -143,18 +143,18 @@ Checks validation scripts:
 ================================================
 
 ✅ CONFIGURATION
-   • claude.json: v3.0.0 (18 agents configured)
+   • claude.json: v3.0.0 (19 agents configured)
    • core-hooks.json: v3.0 (no old agent names)
    • Shared resources: 4/4 files present
 
-✅ AGENTS (18/18)
-   • Language Experts: 8/8 ✓
+✅ AGENTS (19/19)
+   • Language Experts: 9/9 ✓
    • Domain Specialists: 4/4 ✓
    • Infrastructure & Planning: 3/3 ✓
    • Quality & Analysis: 3/3 ✓
 
-✅ HOOKS (44 total)
-   • Agent-specific validation: 18/18 (100% coverage)
+✅ HOOKS (45 total)
+   • Agent-specific validation: 19/19 (100% coverage)
    • Framework-wide: 26 hooks
    • All JSON syntax valid
    • No old agent references

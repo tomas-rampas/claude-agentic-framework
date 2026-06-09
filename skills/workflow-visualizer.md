@@ -106,7 +106,7 @@ flowchart TD
 
 ```mermaid
 mindmap
-  root((18 Agents))
+  root((19 Agents))
     Language Experts
       rust-expert
       csharp-expert
@@ -114,6 +114,7 @@ mindmap
       java-expert
       python-expert
       typescript-expert
+      mql-trading-dev
     Scripting
       bash-expert
       powershell-expert
@@ -473,7 +474,7 @@ Workflow Visualizer Response:
 
 ```mermaid
 mindmap
-  root((18 Agents<br/>Framework))
+  root((19 Agents<br/>Framework))
     Language Experts
       rust-expert
         Systems Programming
@@ -493,6 +494,9 @@ mindmap
       typescript-expert
         Full Stack
         React/Node.js
+      mql-trading-dev
+        MetaTrader Trading
+        MQL4/MQL5
 
     Scripting & Automation
       bash-expert
@@ -539,7 +543,7 @@ mindmap
         User Stories
 ```
 
-🎯 Total: 18 Specialized Agents
+🎯 Total: 19 Specialized Agents
 📂 Categories: 6 major categories
 🔧 Coverage: Complete SDLC coverage
 ```
