@@ -63,10 +63,15 @@ For each todo, in dependency order:
 1. Write a failing test for the acceptance criteria (**red**).
 2. Delegate implementation to the right specialist until the test passes (**green**).
 3. Refactor while keeping tests green.
-4. Run the **full unit-test suite**. Do **not** run integration tests.
-5. Confirm the quality bar (§4).
-6. Run review gates (§5).
-7. Commit (§6).
+4. **Update the docs this todo touches, in the same change.** If the todo adds,
+   removes, or changes a public type, a DSL/config field, an event type, a CLI
+   flag, a verdict, a schema, or any user-visible behavior, it has doc impact —
+   locate and update that surface now (via `technical-docs-writer`). A todo with
+   stale docs is **not** green. (Scope = §7.)
+5. Run the **full unit-test suite**. Do **not** run integration tests.
+6. Confirm the quality bar (§4).
+7. Run review gates (§5).
+8. Commit (§6).
 
 **Parallelism:** parallelize sub-agents only for todos that are independent and
 touch disjoint files/state. Serialize anything that shares files or state.
@@ -79,6 +84,9 @@ Before any commit, all must pass clean:
 - **Linter:** 0 errors, 0 warnings.
 - **Formatter:** no diffs.
 - **Unit tests:** full suite green.
+- **Docs:** every doc surface the change touches is current (README, spec, plan,
+  schema, CHANGELOG — see §7). Stale user-facing docs fail the bar, exactly like
+  a failing test.
 
 If the bar cannot be met: retry up to **2** times, then **stop and report** with
 diagnostics. Never loop indefinitely, suppress warnings, skip/disable tests, or
@@ -95,12 +103,23 @@ report a clean state that isn't real.
   delivered.
 
 ## 7. Documentation
-- Keep docs current **as you go** via `technical-docs-writer`. Don't batch all
-  doc updates to the end.
+- **Documentation scope.** "Docs" means every surface a reader or author trusts:
+  `README.md`; the authoritative spec under `docs/`; the delivery plan (`plan/`
+  sprint files, roadmap, **checkboxes**); any `CHANGELOG`; and machine-facing
+  contracts (JSON Schema, OpenAPI, public API / XML-doc comments). A change is not
+  done until every surface it *touches* is current.
+- Keep docs current **as you go** via `technical-docs-writer` (the per-todo doc
+  step, §3.4). Don't batch all doc updates to the end.
 
 ## 8. Wrap-up
 - Confirm every todo is complete and all acceptance criteria are met.
-- Update remaining docs via `technical-docs-writer`.
+- **Documentation drift-audit (blocking).** Before declaring done, delegate to a
+  *fresh* sub-agent (`Explore` or `technical-docs-writer`) an audit of README,
+  `docs/`, `plan/`, `CHANGELOG`, and any schema **against what actually shipped
+  (the diff)** — classifying each surface MUST-UPDATE / nice-to-have / no-change.
+  **Do not assume the spec already matches — verify it** (a fresh agent re-derives
+  doc impact from the diff without the orchestrator's bias). Fix every MUST-UPDATE
+  before summarizing.
 - Tick all completed checkboxes in the plan.
 - Summarize: what shipped, what didn't (and why), and any follow-ups.
 
