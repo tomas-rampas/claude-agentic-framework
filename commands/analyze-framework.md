@@ -55,8 +55,8 @@ Analyzes all 20 agents:
 **Infrastructure & Planning (3 agents):**
 - devops-orchestrator, system-architect, product-owner
 
-**Quality & Analysis (3 agents):**
-- comprehensive-analyst, code-review-gatekeeper, technical-docs-writer
+**Quality & Analysis (4 agents):**
+- comprehensive-analyst, code-review-gatekeeper, peer-review-critic, technical-docs-writer
 
 **For Each Agent:**
 - ✅ Agent file exists (agents/{agent}.md)
@@ -168,8 +168,8 @@ Checks validation scripts:
 
 📊 OVERALL HEALTH: 🟢 EXCELLENT
    • Configuration: 100%
-   • Agent Coverage: 100%
-   • Hook Coverage: 100%
+   • Agent existence: 20/20
+   • Hook Coverage: 19/20 dedicated + framework-wide gate
    • Documentation: Complete
 ```
 

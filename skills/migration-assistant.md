@@ -68,7 +68,7 @@ migration_steps:
   2. Update CLAUDE.md with new agents
   3. Add routing patterns to delegate.md
   4. Update all hooks to include new agents
-  5. Add new agent-specific hooks
+  5. Add new agent-specific hooks (or register the agent under an existing framework-wide gate, e.g. peer-review-critic via peer-review-final-gate)
   6. Update README.md count
   7. Update architecture documentation
   8. Validate framework integrity

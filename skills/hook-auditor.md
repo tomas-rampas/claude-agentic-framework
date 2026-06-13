@@ -404,7 +404,7 @@ Generated: 2025-11-16 15:45 UTC
 EXECUTIVE SUMMARY
   Overall Hook Health: 🟢 95/100 (Excellent)
 
-  Coverage: 100% ✅
+  Coverage: 19/20 dedicated + framework-wide gate ✅
   Consistency: 95% ✅
   Effectiveness: 94% ✅
   Integration: 98% ✅
