@@ -21,7 +21,7 @@ Generate a quality assessment of the framework by inspecting actual configuratio
 ### 1. Configuration Integrity
 
 Validate core configuration files:
-- `claude.json` — Parse JSON, verify 19 agents, check required fields
+- `claude.json` — Parse JSON, verify 20 agents, check required fields
 - `settings.json` — Parse JSON, verify permissions structure
 - `.mcp.json` — Parse JSON, verify MCP server definitions
 - `shared/*.json` — Validate all shared resource files
@@ -29,7 +29,7 @@ Validate core configuration files:
 ### 2. Agent Coverage
 
 Check agent ecosystem completeness:
-- All 19 agents have definition files in `agents/`
+- All 20 agents have definition files in `agents/`
 - All agent files have valid YAML frontmatter (name, description, model, color)
 - Agent model fields match claude.json assignments
 - No orphaned agent files (files without claude.json entries)
@@ -37,7 +37,7 @@ Check agent ecosystem completeness:
 ### 3. Hook Coverage
 
 Assess validation hook system:
-- Each of the 19 agents has a dedicated validation hook
+- 19 of 20 agents have dedicated validation hooks; peer-review-critic is covered by the framework-wide peer-review-final-gate hook
 - All hook JSON files parse without errors
 - Hook agent references point to valid agent names
 - No references to deprecated agent names
@@ -45,7 +45,7 @@ Assess validation hook system:
 ### 4. Structural Integrity
 
 Verify directory structure:
-- `agents/` — 19 agent definition files
+- `agents/` — 20 agent definition files
 - `commands/` — Slash command definitions
 - `hooks/` — Validation hook configurations
 - `shared/` — Shared configuration resources
@@ -80,15 +80,16 @@ Quality Score = (
 FRAMEWORK QUALITY REPORT
 ========================
 
-Configuration Integrity:  ✓ claude.json valid (19 agents)
+Configuration Integrity:  ✓ claude.json valid (20 agents)
                          ✓ settings.json valid
                          ✓ .mcp.json valid
 
-Agent Coverage:          19/19 agents with definition files
-                         19/19 agents with valid frontmatter
+Agent Coverage:          20/20 agents with definition files
+                         20/20 agents with valid frontmatter
                          0 orphaned files
 
-Hook Coverage:           19/19 agents with validation hooks
+Hook Coverage:           19/20 agents with dedicated validation hooks
+                         peer-review-critic covered by peer-review-final-gate
                          45 total hook files, all valid JSON
                          0 deprecated agent references
 

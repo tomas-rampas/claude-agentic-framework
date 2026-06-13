@@ -1,6 +1,6 @@
 {
   "version": "3.0.0",
-  "description": "Claude Code CLI with 19-agent specialized architecture",
+  "description": "Claude Code CLI with 20-agent specialized architecture",
 
   "sub_agents": {
     "rust-expert": {
@@ -139,6 +139,14 @@
       "model": "claude-opus-4-6-20250805",
       "specialization": "quality_enforcement_code_review"
     },
+    "peer-review-critic": {
+      "enabled": true,
+      "path": "~/.claude/agents/peer-review-critic",
+      "config_file": "~/.claude/agents/peer-review-critic/agent.json",
+      "prompt_file": "~/.claude/agents/peer-review-critic.md",
+      "model": "claude-opus-4-6-20250805",
+      "specialization": "independent_peer_review_final_gate"
+    },
     "technical-docs-writer": {
       "enabled": true,
       "path": "~/.claude/agents/technical-docs-writer",
@@ -220,7 +228,8 @@
     ],
     "quality_analysis": [
       "comprehensive-analyst",
-      "code-review-gatekeeper"
+      "code-review-gatekeeper",
+      "peer-review-critic"
     ],
     "documentation": [
       "technical-docs-writer"

@@ -1,6 +1,6 @@
 # Claude Code CLI - Agent Execution Framework
 
-A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) that adds 19 specialized agents, automated pattern capture, institutional memory, and intelligent task routing.
+A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) that adds 20 specialized agents, automated pattern capture, institutional memory, and intelligent task routing.
 
 **This is NOT a standalone tool** — it requires Claude Code CLI as the underlying platform.
 
@@ -10,8 +10,8 @@ A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/
 
 This framework extends Claude Code CLI with:
 
-- **19 Specialized Agents** covering the full development lifecycle
-- **44 Quality Gates** with multi-phase validation per agent
+- **20 Specialized Agents** covering the full development lifecycle
+- **45 Quality Gates** with multi-phase validation per agent
 - **Self-Learning System** — automated pattern capture, institutional memory, and semantic search
 - **MCP Integration** — 5 MCP servers for code intelligence, file ops, documentation, .NET tooling, and shell execution
 
@@ -175,9 +175,9 @@ Tasks are automatically routed to the appropriate agent. Examples:
 ├── CLAUDE.md                # Agent execution rules and task routing
 ├── claude.json              # Agent configuration (v3.0.0)
 ├── .mcp.json                # MCP server definitions (serena, filesystem, context7, dotnet, bash)
-├── agents/                  # 19 agent definitions (.md with YAML frontmatter)
+├── agents/                  # 20 agent definitions (.md with YAML frontmatter)
 ├── commands/                # 6 commands (delegate, analyze-framework, list-agents, etc.)
-├── hooks/                   # 44 quality gates (agent-specific + framework-wide)
+├── hooks/                   # 45 quality gates (agent-specific + framework-wide)
 ├── shared/                  # Shared configs (base-config, mcp-config, agent-patterns, memory-categories)
 ├── skills/                  # 14 operational skills (validation, debugging, analytics, scaffolding)
 ├── scripts/                 # 3 validation scripts
@@ -254,7 +254,7 @@ npx -y @modelcontextprotocol/server-serena --version  # Test server
 
 **Agents not found:**
 ```bash
-ls -1 agents/*.md | wc -l  # Should show 19
+ls -1 agents/*.md | wc -l  # Should show 20
 ./scripts/validate-agents.sh
 ```
 
@@ -274,4 +274,4 @@ cat commands/delegate.md | head -20  # Verify command exists
 
 ---
 
-**Built for Claude Code CLI • 19 Specialized Agents • 44 Quality Gates • 14 Skills • Self-Learning • v3.0.0**
+**Built for Claude Code CLI • 20 Specialized Agents • 45 Quality Gates • 14 Skills • Self-Learning • v3.0.0**

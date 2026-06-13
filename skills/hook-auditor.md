@@ -11,7 +11,7 @@ tags: [audit, hooks, coverage, quality-gates, compliance]
 
 ## Purpose
 
-Comprehensive auditing tool for the framework's validation hook system, ensuring complete coverage, configuration consistency, and effective quality enforcement across all 19 agents.
+Comprehensive auditing tool for the framework's validation hook system, ensuring complete coverage, configuration consistency, and effective quality enforcement across all 20 agents.
 
 ## When to Use
 
@@ -46,8 +46,8 @@ done
 ```
 
 **Expected Coverage:**
-- 19/19 agents with validation hooks (100%)
-- Each agent has 1+ dedicated hook files
+- 20 agents total: 19/20 with dedicated validation hooks, peer-review-critic covered by framework-wide peer-review-final-gate hook
+- Each of the 19 has 1+ dedicated hook files
 - Hook naming follows convention: `{agent}-validation.json`
 
 **Report Format:**
@@ -55,18 +55,18 @@ done
 HOOK COVERAGE AUDIT REPORT
 ═══════════════════════════════════════
 
-✅ COMPLETE COVERAGE (19/19)
+✅ HOOK COVERAGE (19/20 dedicated + 1 framework-wide gate)
    Language Experts: 9/9 ✓
    Domain Specialists: 4/4 ✓
    Infrastructure: 1/1 ✓
    Architecture & Planning: 2/2 ✓
-   Quality & Analysis: 3/3 ✓
+   Quality & Analysis: 3/4 (peer-review-critic via framework-wide peer-review-final-gate)
 
 HOOK INVENTORY (45 total)
    Agent-Specific: 19
    Framework-Wide: 26
 
-COVERAGE: 100% ✅
+COVERAGE: 19/20 agents have a dedicated validation hook; peer-review-critic via the framework-wide gate ✅
 ```
 
 ### 2. Consistency Audit
@@ -130,7 +130,7 @@ AGENT REFERENCES
   ❌ 1 hook references deprecated agent 'maker'
 
 JSON SYNTAX
-  ✅ All 44 hooks valid JSON
+  ✅ All 45 hooks valid JSON
   ❌ 1 YAML file has indentation issues
 
 CONSISTENCY: 95% (minor issues found)
@@ -302,7 +302,7 @@ SECURITY AUDIT REPORT
 ═══════════════════════════════════════
 
 SECURITY PHASE COVERAGE
-  ✅ 19/19 agents have security phases
+  ✅ 19/19 dedicated agents have security phases
   ✅ All security phases are blocking
   ✅ Vulnerability scanning required
 
@@ -414,19 +414,20 @@ EXECUTIVE SUMMARY
 ═══════════════════════════════════════════════════════════
 1. COVERAGE AUDIT
 ═══════════════════════════════════════════════════════════
-  Agent Coverage: 19/19 (100%) ✅
+  Agent Coverage: 19/20 dedicated + 1 framework-wide gate ✅
   Total Hooks: 45
   Agent-Specific: 19
-  Framework-Wide: 26
+  Framework-Wide: 26 (incl. peer-review-final-gate for peer-review-critic)
 
-  ✅ All agents have validation hooks
+  ✅ 19/20 agents have a dedicated validation hook
+  ✅ peer-review-critic covered by the framework-wide peer-review-final-gate
   ✅ No coverage gaps identified
 
 ═══════════════════════════════════════════════════════════
 2. CONSISTENCY AUDIT
 ═══════════════════════════════════════════════════════════
-  JSON Syntax: 44/44 valid ✅
-  Required Fields: 42/44 complete (95%)
+  JSON Syntax: 45/45 valid ✅
+  Required Fields: 43/45 complete (96%)
   Agent References: 100% valid ✅
 
   ⚠️  MINOR ISSUES (2)
