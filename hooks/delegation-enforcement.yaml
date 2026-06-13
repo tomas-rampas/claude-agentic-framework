@@ -26,7 +26,7 @@ config:
 exemption_check:
   enabled: true
   exempt_if_agent_context: true
-  exempt_agents: ["rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert", "bash-expert", "powershell-expert", "database-specialist", "frontend-specialist", "security-specialist", "uiux-specialist", "devops-orchestrator", "system-architect", "comprehensive-analyst", "code-review-gatekeeper", "technical-docs-writer", "product-owner"]
+  exempt_agents: ["rust-expert", "csharp-expert", "go-expert", "java-expert", "python-expert", "typescript-expert", "mql-trading-dev", "bash-expert", "powershell-expert", "database-specialist", "frontend-specialist", "security-specialist", "uiux-specialist", "devops-orchestrator", "system-architect", "comprehensive-analyst", "code-review-gatekeeper", "peer-review-critic", "technical-docs-writer", "product-owner"]
 
 execution_blocks:
   direct_bash:
@@ -110,6 +110,7 @@ agent_detection:
     - "java-expert"
     - "python-expert"
     - "typescript-expert"
+    - "mql-trading-dev"
     - "bash-expert"
     - "powershell-expert"
     - "database-specialist"
@@ -120,6 +121,7 @@ agent_detection:
     - "system-architect"
     - "comprehensive-analyst"
     - "code-review-gatekeeper"
+    - "peer-review-critic"
     - "technical-docs-writer"
     - "product-owner"
 

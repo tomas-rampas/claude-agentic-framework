@@ -134,6 +134,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 | **system-architect** | System design, technology selection, SOLID principles |
 | **comprehensive-analyst** | Security audits, performance profiling, investigation |
 | **code-review-gatekeeper** | Code review, quality gates, standards compliance |
+| **peer-review-critic** | Final independent peer review — diff-scoped gatekeeper (branch vs base) |
 
 ### Language Experts
 | Agent | Focus |
