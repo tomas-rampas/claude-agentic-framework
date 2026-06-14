@@ -438,7 +438,7 @@ section "[6] Architecture description strings match derived agent count + roster
 
 # ===========================================================================
 # CHECK 8 - Stated-count scan (curated, high-signal, blocking)
-#   (Numbered 8 to match the spec; model parity WARNING is check 7 below.)
+#   (Numbered 8 to match the spec; model parity is check 7 below.)
 # ===========================================================================
 section "[8] Stated-count scan (README/docs headline counts == derived values)"
 {
@@ -528,40 +528,67 @@ section "[8] Stated-count scan (README/docs headline counts == derived values)"
 }
 
 # ===========================================================================
-# CHECK 7 - Model parity (NON-BLOCKING WARNING)
+# CHECK 7 - Model parity (BLOCKING)
 # ===========================================================================
-section "[7] Model parity (agents/<a>.md frontmatter model: == claude.json model)  [WARNING]"
+# Single source of truth: BOTH the agents/<a>.md frontmatter `model:` and
+# claude.json `.sub_agents[<a>].model` are tier SHORTHANDS (opus/sonnet/haiku).
+# We assert DIRECT string equality between them (no shorthand->full-id round
+# trip), and additionally guard that every model value seen - on either side -
+# is a declared key in .consistency.model_shorthand_map. An unknown/typo value
+# (e.g. "sonnett") or any md<->claude.json divergence is a BLOCKING failure.
+section "[7] Model parity (agents/<a>.md frontmatter model: == claude.json model, both shorthand)"
 {
-  mismatches=0 checked=0 unresolved=0
-  while IFS=$'\t' read -r agent model_id; do
+  ok=1 checked=0
+
+  # Known shorthand keys from the map (the only legal model values).
+  valid_models="$(_facts_jq -r '.consistency.model_shorthand_map // {} | keys[]' \
+                  "$FACTS_CLAUDE_JSON" 2>/dev/null | LC_ALL=C sort)"
+  if [[ -z "$valid_models" ]]; then
+    ok=0
+    fail "model parity: .consistency.model_shorthand_map is empty or missing (no legal model values defined)"
+  fi
+
+  # _is_valid_model <value> - 0 if <value> is a declared shorthand key, else 1.
+  _is_valid_model() {
+    printf '%s\n' "$valid_models" | grep -qxF -- "$1"
+  }
+
+  while IFS=$'\t' read -r agent reg_model; do
     [[ -z "$agent" ]] && continue
     md="$FACTS_AGENTS_DIR/$agent.md"
-    [[ -f "$md" ]] || continue
-    # frontmatter model: value (first occurrence)
-    fm="$(grep -m1 -E '^model:[[:space:]]*' "$md" | sed -E 's/^model:[[:space:]]*//; s/[[:space:]]+$//; s/^["'\'']//; s/["'\'']$//')"
-    [[ -z "$fm" ]] && continue
-    checked=$((checked + 1))
-    # Resolve shorthand -> full id (if it IS a shorthand); otherwise compare raw.
-    resolved="$(fact_model_shorthand "$fm" 2>/dev/null || true)"
-    if [[ -z "$resolved" ]]; then
-      # Not a known shorthand; maybe it's already a full id.
-      resolved="$fm"
-      if ! printf '%s\n' "$resolved" | grep -qE '^claude-'; then
-        unresolved=$((unresolved + 1))
-        warn "$agent: frontmatter model '$fm' is not a known shorthand or full id"
-        continue
-      fi
+    if [[ ! -f "$md" ]]; then
+      # Missing .md is reported by check 1; skip here to avoid double-counting.
+      continue
     fi
-    if [[ "$resolved" != "$model_id" ]]; then
-      mismatches=$((mismatches + 1))
-      warn "$agent: frontmatter '$fm' -> '$resolved' != claude.json '$model_id'"
+    # frontmatter model: value (first occurrence), stripped of quotes/space.
+    fm="$(grep -m1 -E '^model:[[:space:]]*' "$md" | sed -E 's/^model:[[:space:]]*//; s/[[:space:]]+$//; s/^["'\'']//; s/["'\'']$//')"
+    checked=$((checked + 1))
+
+    # Guard: both sides must be a declared shorthand key in the map.
+    if [[ -z "$fm" ]]; then
+      ok=0
+      fail "$agent: agents/$agent.md has no frontmatter 'model:' value"
+    elif ! _is_valid_model "$fm"; then
+      ok=0
+      fail "$agent: agents/$agent.md model '$fm' is not a key in consistency.model_shorthand_map"
+    fi
+    if [[ -z "$reg_model" ]]; then
+      ok=0
+      fail "$agent: claude.json .sub_agents[\"$agent\"].model is empty"
+    elif ! _is_valid_model "$reg_model"; then
+      ok=0
+      fail "$agent: claude.json model '$reg_model' is not a key in consistency.model_shorthand_map"
+    fi
+
+    # Direct shorthand equality (only meaningful once both are present).
+    if [[ -n "$fm" && -n "$reg_model" && "$fm" != "$reg_model" ]]; then
+      ok=0
+      fail "$agent: model mismatch (agents/$agent.md '$fm' != claude.json '$reg_model')"
     fi
   done <<< "$(fact_models)"
 
-  if [[ "$mismatches" -eq 0 && "$unresolved" -eq 0 ]]; then
-    pass "all $checked agent frontmatter models agree with claude.json"
-  else
-    info "model parity is advisory: $mismatches mismatch(es), $unresolved unresolved of $checked checked (non-blocking)"
+  if [[ "$ok" -eq 1 ]]; then
+    pass "all $checked agent models agree (md frontmatter == claude.json, both valid shorthand)"
   fi
 }
 

@@ -116,7 +116,9 @@ fact_categories() {
     "$FACTS_CLAUDE_JSON"
 }
 
-# fact_models - "agent<TAB>model_id" from .sub_agents
+# fact_models - "agent<TAB>model" from .sub_agents. The model value is the tier
+# shorthand (opus/sonnet/haiku) - i.e. a key of .consistency.model_shorthand_map
+# - which is the single source of truth shared with each agents/<a>.md frontmatter.
 fact_models() {
   _facts_require_jq || return $?
   _facts_require_claude_json || return $?
