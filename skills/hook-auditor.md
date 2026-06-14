@@ -60,7 +60,8 @@ HOOK COVERAGE AUDIT REPORT
    Domain Specialists: 4/4 ✓
    Infrastructure: 1/1 ✓
    Architecture & Planning: 2/2 ✓
-   Quality & Analysis: 3/4 (peer-review-critic via framework-wide peer-review-final-gate)
+   Quality & Analysis: 2/3 (peer-review-critic via framework-wide peer-review-final-gate)
+   Documentation: 1/1 ✓
 
 HOOK INVENTORY (45 total)
    Agent-Specific: 19

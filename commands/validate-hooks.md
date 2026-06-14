@@ -296,7 +296,8 @@ When run with `--all`, produces comprehensive report:
    ├─ Domain Specialists: 4/4 ✅
    ├─ Infrastructure: 1/1 ✅
    ├─ Architecture & Planning: 2/2 ✅
-   └─ Quality & Analysis: 3/3 + peer-review-final-gate ✅
+   ├─ Quality & Analysis: 2/3 (peer-review-critic via peer-review-final-gate) ✅
+   └─ Documentation: 1/1 ✅
 
 2. SYNTAX VALIDATION
    ├─ JSON Files: 45/45 valid ✅

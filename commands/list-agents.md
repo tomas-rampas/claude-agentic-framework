@@ -163,7 +163,8 @@ Total: 20 agents (20 ready, 0 unavailable)
       "domain_specialists": 4,
       "infrastructure": 1,
       "architecture_planning": 2,
-      "quality_analysis": 4
+      "quality_analysis": 3,
+      "documentation": 1
     }
   }
 }
@@ -199,11 +200,15 @@ system-architect     → Architecture design, patterns
 product-owner        → Requirements, user stories
 ```
 
-### Quality & Analysis (4 agents)
+### Quality & Analysis (3 agents)
 ```
 comprehensive-analyst    → Deep analysis, investigation
 code-review-gatekeeper  → Code review, quality enforcement
 peer-review-critic      → Independent peer review, final gate
+```
+
+### Documentation (1 agent)
+```
 technical-docs-writer   → Documentation, guides
 ```
 

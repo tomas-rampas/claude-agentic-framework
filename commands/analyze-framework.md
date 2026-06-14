@@ -55,8 +55,11 @@ Analyzes all 20 agents:
 **Infrastructure & Planning (3 agents):**
 - devops-orchestrator, system-architect, product-owner
 
-**Quality & Analysis (4 agents):**
-- comprehensive-analyst, code-review-gatekeeper, peer-review-critic, technical-docs-writer
+**Quality & Analysis (3 agents):**
+- comprehensive-analyst, code-review-gatekeeper, peer-review-critic
+
+**Documentation (1 agent):**
+- technical-docs-writer
 
 **For Each Agent:**
 - ✅ Agent file exists (agents/{agent}.md)
@@ -151,7 +154,8 @@ Checks validation scripts:
    • Language Experts: 9/9 ✓
    • Domain Specialists: 4/4 ✓
    • Infrastructure & Planning: 3/3 ✓
-   • Quality & Analysis: 4/4 ✓
+   • Quality & Analysis: 3/3 ✓
+   • Documentation: 1/1 ✓
 
 ✅ HOOKS (45 total)
    • Agent-specific validation: 19/20 (peer-review-critic via framework-wide hook)
