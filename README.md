@@ -266,6 +266,12 @@ cat commands/delegate.md | head -20  # Verify command exists
 
 ---
 
+## Contributing
+
+To add or modify agents, manage framework consistency, or understand the anti-drift validation system, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
 ## Resources
 
 - [Claude Code CLI Documentation](https://docs.claude.com/en/docs/claude-code)
