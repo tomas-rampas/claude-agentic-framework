@@ -26,7 +26,7 @@ Comprehensive validation of the framework's hook system, checking for coverage g
 
 ### 1. Hook Coverage Analysis
 
-Verifies each of the 19 agents has appropriate validation hooks:
+Verifies each of the 20 agents has appropriate validation hooks:
 
 **Expected Hook Naming Patterns:**
 - `{agent}-validation.json`
@@ -68,10 +68,14 @@ Verifies each of the 19 agents has appropriate validation hooks:
    ✅ code-review-gatekeeper    → code-review-gatekeeper-validation.json
    ✅ technical-docs-writer     → technical-docs-writer-validation.json
 
+⚠️ FINAL QUALITY GATE (1/1)
+   ℹ️ peer-review-critic        → peer-review-final-gate (framework-wide Stop hook)
+
 📊 SUMMARY
-   Total Agents: 19
-   Agents with Hooks: 19
-   Coverage: 100% ✅
+   Total Agents: 20
+   Agents with Dedicated Hooks: 19
+   Framework-Wide Gates: peer-review-critic (peer-review-final-gate)
+   Coverage: 19 of 20 agents with dedicated validation hooks ✅
 
    Total Hooks: 45
    Agent-Specific: 19
@@ -99,19 +103,20 @@ done
 🔍 Syntax Validation
 ═══════════════════════
 
-Validating 43 JSON files...
+Validating 45 JSON files...
 ✅ agent-capability-registry.json
 ✅ agent-coordination.json
 ✅ agent-health-monitor.json
 ... (all hooks) ...
+✅ peer-review-final-gate.json
 ✅ zero-tolerance-quality.json
 
 Validating 1 YAML file...
 ✅ delegation-enforcement.yaml
 
 📊 RESULTS
-   Total Files: 45
-   Valid JSON: 44/44 ✅
+   Total Files: 46
+   Valid JSON: 45/45 ✅
    Valid YAML: 1/1 ✅
    Errors: 0
 ```
@@ -192,7 +197,7 @@ rust-expert-validation.json
 ... (all hooks) ...
 
 📊 RESULTS
-   Hooks Validated: 44
+   Hooks Validated: 45
    Structural Issues: 0 ✅
    Invalid Agent References: 0 ✅
 ```
@@ -214,7 +219,7 @@ Verifies hooks properly integrate with framework:
 ═══════════════════════════
 
 Checking agent existence...
-  ✅ All 19 agents exist
+  ✅ All 20 agents exist
   ✅ All referenced agents valid
 
 Checking for circular dependencies...
@@ -246,7 +251,8 @@ Identifies potential coverage gaps:
 Checking for coverage gaps...
 
 Agent Coverage:
-  ✅ All 19 agents have validation hooks
+  ✅ 19 of 20 agents have dedicated validation hooks
+  ℹ️ peer-review-critic covered by framework-wide peer-review-final-gate hook
 
 File Type Coverage:
   ✅ .rs   → rust-expert-validation
@@ -285,15 +291,16 @@ When run with `--all`, produces comprehensive report:
 ═══════════════════════════════════════════════════════════
 
 1. HOOK COVERAGE ANALYSIS
-   ├─ Agent Coverage: 19/19 (100%) ✅
+   ├─ Agent Coverage: 19/20 dedicated hooks + 1 framework-wide ✅
    ├─ Language Experts: 9/9 ✅
    ├─ Domain Specialists: 4/4 ✅
    ├─ Infrastructure: 1/1 ✅
    ├─ Architecture & Planning: 2/2 ✅
-   └─ Quality & Analysis: 3/3 ✅
+   ├─ Quality & Analysis: 2/3 (peer-review-critic via peer-review-final-gate) ✅
+   └─ Documentation: 1/1 ✅
 
 2. SYNTAX VALIDATION
-   ├─ JSON Files: 43/43 valid ✅
+   ├─ JSON Files: 45/45 valid ✅
    ├─ YAML Files: 1/1 valid ✅
    └─ Parse Errors: 0 ✅
 
@@ -328,8 +335,8 @@ All validation checks passed successfully!
 Hook system is properly configured and comprehensive.
 
 Total Hooks: 45
-  • Agent-specific: 19 (100% coverage)
-  • Framework-wide: 26
+  • Agent-specific: 19 (19 of 20 agents with dedicated hooks)
+  • Framework-wide: 26 (including peer-review-final-gate for peer-review-critic)
   • Issues Found: 0
   • Warnings: 0
 
@@ -381,7 +388,7 @@ Fix:
    Line: 8
 
 Fix:
-  Update agent name to one of the 19 valid agents
+  Update agent name to one of the 20 valid agents
   or remove the invalid reference
 ```
 

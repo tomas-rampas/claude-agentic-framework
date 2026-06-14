@@ -25,7 +25,7 @@ Validate the entire Claude Code agentic framework for integrity, consistency, an
 
 ### 1. Agent Alignment Validation
 
-**Check all 19 agents are properly configured:**
+**Check all 20 agents are properly configured:**
 
 ```bash
 # Expected agents
@@ -39,16 +39,16 @@ EXPECTED_AGENTS=(
 
 # Validation steps:
 1. Verify all agent files exist in agents/ directory
-2. Check CLAUDE.md lists all 19 agents
+2. Check CLAUDE.md lists all 20 agents
 3. Verify delegate.md routing covers all agents
-4. Ensure README.md references 19 agents (not 11 or other outdated count)
+4. Ensure README.md references 20 agents (not 11 or other outdated count)
 ```
 
 **Files to validate:**
 - `CLAUDE.md` - Check agent table completeness
-- `commands/delegate.md` - Verify routing patterns for all 19 agents
+- `commands/delegate.md` - Verify routing patterns for all 20 agents
 - `README.md` - Validate agent count and architecture section
-- `agents/*.md` - Ensure all 19 agent files exist
+- `agents/*.md` - Ensure all 20 agent files exist
 
 ### 2. Hook Consistency Validation
 
@@ -111,7 +111,7 @@ required_files:
     - .gitignore
 
   agents:
-    count: 19
+    count: 20
     pattern: "agents/*.md"
 
   commands:
@@ -224,7 +224,7 @@ done
 
 echo "✓ Validating README.md..."
 if grep -q "11 specialized agents" README.md || grep -q "11 agents" README.md; then
-  echo "  ❌ ERROR: README.md still references '11 agents' instead of 19"
+  echo "  ❌ ERROR: README.md still references '11 agents' instead of 20"
   ((ERRORS++))
 fi
 
@@ -283,8 +283,8 @@ health_report:
 
   agent_alignment:
     status: "PASS"
-    total_agents: 19
-    configured_agents: 19
+    total_agents: 20
+    configured_agents: 20
     missing_agents: []
     orphaned_agents: []
 
@@ -332,11 +332,11 @@ critical_issues:
     auto_fix_command: "sed -i 's/maker-agent/implementation-experts/g' hooks/zero-tolerance-quality.json"
 
 high_issues:
-  - issue: "README.md references '11 agents' instead of 19"
+  - issue: "README.md references '11 agents' instead of 20"
     severity: "HIGH"
     impact: "Documentation misleading"
     remediation:
-      - "Update all '11 agents' references to '19 agents'"
+      - "Update all '11 agents' references to '20 agents'"
       - "Update agent architecture table"
       - "Verify agent file list"
     auto_fixable: true
@@ -356,8 +356,8 @@ high_issues:
       "agent_alignment": {
         "status": "PASS",
         "details": {
-          "expected_count": 19,
-          "found_count": 19,
+          "expected_count": 20,
+          "found_count": 20,
           "missing": [],
           "orphaned": []
         }
@@ -405,7 +405,7 @@ high_issues:
 
 ## Success Criteria
 
-- ✅ All 19 agents have valid configuration files
+- ✅ All 20 agents have valid configuration files
 - ✅ All hooks reference current agent names
 - ✅ No old agent names (maker, test, debug) in any hook
 - ✅ CLAUDE.md, README.md, and delegate.md aligned
@@ -430,7 +430,7 @@ claude "/framework-validator"
 
 # Expected output:
 # 🔍 Validating framework...
-# ✅ Agent alignment: PASS (19/19 agents)
+# ✅ Agent alignment: PASS (20/20 agents)
 # ✅ Hook consistency: PASS (28 hooks)
 # ✅ File integrity: PASS
 # 📊 Overall Health Score: 95/100

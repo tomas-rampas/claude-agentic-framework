@@ -14,6 +14,7 @@
 |-------|---------------------|
 | **comprehensive-analyst** | Deep analysis, evaluation, and investigation |
 | **code-review-gatekeeper** | Code review, quality validation, testing |
+| **peer-review-critic** | **Final gatekeeper** — independent, diff-scoped critical peer review of branch-vs-base before work is declared done (runs after code-review-gatekeeper) |
 | **devops-orchestrator** | Infrastructure, CI/CD, deployment automation |
 | **rust-expert** | Rust systems programming, high-performance applications, CLI tools |
 | **csharp-expert** | C#/.NET development, ASP.NET Core, Azure solutions |
@@ -61,6 +62,7 @@
 ### Analysis & Quality
 - **Deep analysis/investigation** → comprehensive-analyst
 - **Code review/validation** → code-review-gatekeeper
+- **Final independent peer review (branch vs base, before "done")** → peer-review-critic
 
 ### Documentation & Planning
 - **Technical documentation** → technical-docs-writer
@@ -111,5 +113,11 @@ For complex tasks requiring multiple domains:
 3. **code-review-gatekeeper** validates quality and integration
 4. **comprehensive-analyst** evaluates completeness and risks
 5. **technical-docs-writer** documents the final solution
+6. **peer-review-critic** performs the final independent peer review of the branch diff against its base — the last gate before the work is declared done
 
 This framework enables efficient task routing to specialized agents who execute implementations directly with full tool access and technical authority.
+
+### 🚦 Final Quality Gate (enforced)
+**`peer-review-critic` is the mandatory final gatekeeper.** Before declaring any coding task done, run it as the last step — *after* `code-review-gatekeeper` and after the change is committed — to get an independent, diff-scoped critical review (branch vs base) and resolve every BLOCKER/MAJOR finding (or obtain explicit user sign-off).
+
+This is enforced, not just advisory: the `peer-review-final-gate` Stop hook (`~/.claude/hook-dispatcher.ps1` / `~/.claude/hook-dispatcher.bash`, template `~/.claude/hooks/peer-review-final-gate.json`) blocks the end of a coding session when a feature branch has committed, unreviewed work ahead of its base and `peer-review-critic` has not run that session. The gate is loop-safe and fail-open, and fires at most once per session.

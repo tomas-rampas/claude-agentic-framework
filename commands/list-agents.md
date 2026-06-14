@@ -8,7 +8,7 @@ tags: [agents, list, capabilities, reference]
 
 ## Purpose
 
-Display comprehensive information about all 19 specialized agents in the framework, including their capabilities, specializations, validation hooks, and current status.
+Display comprehensive information about all 20 specialized agents in the framework, including their capabilities, specializations, validation hooks, and current status.
 
 ## Usage
 
@@ -42,6 +42,7 @@ Display comprehensive information about all 19 specialized agents in the framewo
 │ java-expert              │ Language        │ Sonnet    │ ✅       │ Ready      │
 │ python-expert            │ Language        │ Sonnet    │ ✅       │ Ready      │
 │ typescript-expert        │ Language        │ Sonnet    │ ✅       │ Ready      │
+│ mql-trading-dev          │ Language        │ Opus      │ ✅       │ Ready      │
 │ bash-expert              │ Automation      │ Haiku     │ ✅       │ Ready      │
 │ powershell-expert        │ Automation      │ Haiku     │ ✅       │ Ready      │
 │ database-specialist      │ Domain          │ Sonnet    │ ✅       │ Ready      │
@@ -53,10 +54,12 @@ Display comprehensive information about all 19 specialized agents in the framewo
 │ product-owner            │ Planning        │ Sonnet    │ ✅       │ Ready      │
 │ comprehensive-analyst    │ Analysis        │ Sonnet    │ ✅       │ Ready      │
 │ code-review-gatekeeper   │ Quality         │ Opus      │ ✅       │ Ready      │
+│ peer-review-critic       │ Quality         │ Opus      │ 🚦       │ Ready      │
 │ technical-docs-writer    │ Documentation   │ Haiku     │ ✅       │ Ready      │
 └──────────────────────────┴─────────────────┴───────────┴──────────┴────────────┘
 
-Total: 19 agents (19 ready, 0 unavailable)
+Total: 20 agents (20 ready, 0 unavailable)
+✅ = dedicated {agent}-validation hook   🚦 = governed by the framework-wide peer-review-final-gate hook
 ```
 
 ### 2. Category View (--language)
@@ -152,15 +155,16 @@ Total: 19 agents (19 ready, 0 unavailable)
     }
   ],
   "summary": {
-    "total_agents": 19,
-    "ready": 19,
+    "total_agents": 20,
+    "ready": 20,
     "unavailable": 0,
     "categories": {
       "language_experts": 9,
       "domain_specialists": 4,
       "infrastructure": 1,
       "architecture_planning": 2,
-      "quality_analysis": 3
+      "quality_analysis": 3,
+      "documentation": 1
     }
   }
 }
@@ -200,6 +204,11 @@ product-owner        → Requirements, user stories
 ```
 comprehensive-analyst    → Deep analysis, investigation
 code-review-gatekeeper  → Code review, quality enforcement
+peer-review-critic      → Independent peer review, final gate
+```
+
+### Documentation (1 agent)
+```
 technical-docs-writer   → Documentation, guides
 ```
 

@@ -25,11 +25,11 @@ description fits, and delegate. Keep a task on a single agent unless it genuinel
 spans domains. Available specialists:
 
 - **Implementation:** `rust-expert`, `csharp-expert`, `go-expert`, `java-expert`,
-  `python-expert`, `typescript-expert`, `bash-expert`, `powershell-expert`
+  `python-expert`, `typescript-expert`, `mql-trading-dev`, `bash-expert`, `powershell-expert`
 - **Specialists:** `database-specialist`, `security-specialist`,
   `devops-orchestrator`, `frontend-specialist`, `uiux-specialist`
 - **Plan / analyze:** `system-architect`, `product-owner`, `comprehensive-analyst`
-- **Quality / docs:** `code-review-gatekeeper`, `technical-docs-writer`
+- **Quality / docs:** `code-review-gatekeeper`, `peer-review-critic`, `technical-docs-writer`
 
 ## How to frame a delegated task
 Always hand an agent a **concrete** task, never a vague one. Specify: the exact

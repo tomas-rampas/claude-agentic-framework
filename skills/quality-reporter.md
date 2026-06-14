@@ -66,7 +66,7 @@ Overall Score: 🟢 95/100 (Excellent)
 - **Coverage:** 82.4% (+1.2%)
 
 ## Highlights
-✅ Achieved 100% hook coverage (19/19 agents)
+✅ Full hook coverage — 19/20 agents have a dedicated validation hook; peer-review-critic governed by the framework-wide peer-review-final-gate
 ✅ Zero critical security vulnerabilities
 ✅ Improved test coverage by 1.2%
 
@@ -401,8 +401,8 @@ Overall Quality Score: 🟢 95/100 (Excellent)
 ### Month Highlights
 - 312 builds (306 successful)
 - 43,847 tests executed
-- 19 agents fully operational
-- 44 quality gates active
+- 20 agents fully operational
+- 45 quality gates active
 
 ## Detailed Metrics
 

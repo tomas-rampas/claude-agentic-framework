@@ -106,7 +106,7 @@ flowchart TD
 
 ```mermaid
 mindmap
-  root((19 Agents))
+  root((20 Agents))
     Language Experts
       rust-expert
       csharp-expert
@@ -125,13 +125,15 @@ mindmap
       uiux-specialist
     Infrastructure
       devops-orchestrator
-    Architecture
+    Architecture & Planning
       system-architect
+      product-owner
+    Quality & Analysis
       comprehensive-analyst
       code-review-gatekeeper
+      peer-review-critic
     Documentation
       technical-docs-writer
-      product-owner
 ```
 
 ## Workflow Templates
@@ -474,7 +476,7 @@ Workflow Visualizer Response:
 
 ```mermaid
 mindmap
-  root((19 Agents<br/>Framework))
+  root((20 Agents<br/>Framework))
     Language Experts
       rust-expert
         Systems Programming
@@ -530,6 +532,9 @@ mindmap
       code-review-gatekeeper
         Quality Gates
         Testing
+      peer-review-critic
+        Independent Peer Review
+        Final Gate
 
     Supporting Roles
       devops-orchestrator
@@ -543,8 +548,8 @@ mindmap
         User Stories
 ```
 
-🎯 Total: 19 Specialized Agents
-📂 Categories: 6 major categories
+🎯 Total: 20 Specialized Agents
+📂 Categories: 5 major categories
 🔧 Coverage: Complete SDLC coverage
 ```
 

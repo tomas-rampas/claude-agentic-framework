@@ -58,21 +58,17 @@ migration_type: "agent_count_change"
 description: "Update from N agents to M agents"
 
 example:
-  from: 11
-  to: 19
+  from: 19
+  to: 20
   new_agents:
-    - java-expert
-    - database-specialist
-    - frontend-specialist
-    - security-specialist
-    - uiux-specialist
+    - peer-review-critic
 
 migration_steps:
   1. Add new agent files
   2. Update CLAUDE.md with new agents
   3. Add routing patterns to delegate.md
   4. Update all hooks to include new agents
-  5. Add new agent-specific hooks
+  5. Add new agent-specific hooks (or register the agent under an existing framework-wide gate, e.g. peer-review-critic via peer-review-final-gate)
   6. Update README.md count
   7. Update architecture documentation
   8. Validate framework integrity
@@ -295,7 +291,7 @@ validate_migration() {
   done
 
   # Validate agent count
-  EXPECTED_COUNT=19
+  EXPECTED_COUNT=20
   ACTUAL_COUNT=$(ls agents/*.md 2>/dev/null | wc -l)
 
   if [ "$ACTUAL_COUNT" -ne "$EXPECTED_COUNT" ]; then
@@ -447,7 +443,7 @@ rollback_migration "backups/migration-20251116-1449"
 ## Validation
 
 - [ ] No old agent names in hooks
-- [ ] Correct agent count (19)
+- [ ] Correct agent count (20)
 - [ ] All JSON files valid
 - [ ] All agent files exist
 - [ ] Documentation updated

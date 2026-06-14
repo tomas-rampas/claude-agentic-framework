@@ -26,7 +26,7 @@ Perform a comprehensive analysis of the Claude Code CLI Agentic Framework, check
 
 Checks all framework configuration files:
 
-- **claude.json**: Verifies all 19 agents are properly configured
+- **claude.json**: Verifies all 20 agents are properly configured
 - **Core hooks**: Validates core-hooks.json syntax and agent references
 - **Shared resources**: Checks base-config.json, mcp-config.json, agent-patterns.md
 
@@ -34,7 +34,7 @@ Checks all framework configuration files:
 ```bash
 # Check claude.json structure
 jq '.sub_agents | length' claude.json
-# Expected: 19
+# Expected: 20
 
 # Verify no old agent names
 grep -r '"maker"\|"test"\|"debug"\|"plan"\|"reader"' hooks/ claude.json
@@ -43,7 +43,7 @@ grep -r '"maker"\|"test"\|"debug"\|"plan"\|"reader"' hooks/ claude.json
 
 ### 2. Agent Availability Assessment
 
-Analyzes all 19 agents:
+Analyzes all 20 agents:
 
 **Language Experts (9 agents):**
 - rust-expert, csharp-expert, go-expert, java-expert
@@ -56,7 +56,10 @@ Analyzes all 19 agents:
 - devops-orchestrator, system-architect, product-owner
 
 **Quality & Analysis (3 agents):**
-- comprehensive-analyst, code-review-gatekeeper, technical-docs-writer
+- comprehensive-analyst, code-review-gatekeeper, peer-review-critic
+
+**Documentation (1 agent):**
+- technical-docs-writer
 
 **For Each Agent:**
 - ✅ Agent file exists (agents/{agent}.md)
@@ -72,7 +75,7 @@ Examines validation hook system:
 **Total Hooks:** 45 (26 framework-wide + 19 agent-specific - may vary)
 
 **Agent-Specific Validation Hooks (19 required):**
-- Check each agent has dedicated validation hook
+- Check 19 of 20 agents have dedicated validation hooks (peer-review-critic covered by framework-wide peer-review-final-gate)
 - Validate hook JSON syntax
 - Verify agent references are current
 - Check for old agent names (maker, test, debug, plan, reader)
@@ -109,7 +112,7 @@ Validates expected directory structure:
 
 ```
 claude-agentic-framework/
-├── agents/       ✓ (19 agent files)
+├── agents/       ✓ (20 agent files)
 ├── commands/     ✓ (delegate + management commands)
 ├── hooks/        ✓ (45+ validation hooks)
 ├── shared/       ✓ (4 configuration files)
@@ -143,19 +146,20 @@ Checks validation scripts:
 ================================================
 
 ✅ CONFIGURATION
-   • claude.json: v3.0.0 (19 agents configured)
+   • claude.json: v3.0.0 (20 agents configured)
    • core-hooks.json: v3.0 (no old agent names)
    • Shared resources: 4/4 files present
 
-✅ AGENTS (19/19)
+✅ AGENTS (20/20)
    • Language Experts: 9/9 ✓
    • Domain Specialists: 4/4 ✓
    • Infrastructure & Planning: 3/3 ✓
    • Quality & Analysis: 3/3 ✓
+   • Documentation: 1/1 ✓
 
 ✅ HOOKS (45 total)
-   • Agent-specific validation: 19/19 (100% coverage)
-   • Framework-wide: 26 hooks
+   • Agent-specific validation: 19/20 (peer-review-critic via framework-wide hook)
+   • Framework-wide: 26 hooks (including peer-review-final-gate)
    • All JSON syntax valid
    • No old agent references
 
@@ -168,8 +172,8 @@ Checks validation scripts:
 
 📊 OVERALL HEALTH: 🟢 EXCELLENT
    • Configuration: 100%
-   • Agent Coverage: 100%
-   • Hook Coverage: 100%
+   • Agent existence: 20/20
+   • Hook Coverage: 19/20 dedicated + framework-wide gate
    • Documentation: Complete
 ```
 
