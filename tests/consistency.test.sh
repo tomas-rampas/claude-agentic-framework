@@ -361,6 +361,9 @@ section "[11] Model parity: divergent tier + invalid shorthand -> non-zero (chec
   other="$(jq -r --arg cur "$cur" '
     .consistency.model_shorthand_map | keys[] | select(. != $cur)' \
     "$copy/claude.json" | head -1)"
+  # Guard: 11a needs a second valid tier to flip to. Fail loudly rather than
+  # silently no-op if the map ever shrinks below 2 tiers.
+  [[ -n "$other" ]] || _fail "CASE 11a setup needs >=2 model tiers in model_shorthand_map"
   jq --arg a "$victim" --arg m "$other" '.sub_agents[$a].model = $m' \
     "$copy/claude.json" > "$copy/claude.json.tmp" \
     && mv "$copy/claude.json.tmp" "$copy/claude.json"

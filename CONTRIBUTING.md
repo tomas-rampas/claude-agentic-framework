@@ -91,7 +91,7 @@ This runs 11 checks including:
 - JSON validity (and best-effort YAML — skipped locally when no python/ruby YAML parser is present; runs on CI)
 - No use of deprecated names
 - Architecture description count accuracy
-- Model parity (agents/<name>.md frontmatter vs claude.json) — advisory WARNING only (see note below)
+- Model parity (agents/<name>.md frontmatter vs claude.json — both tier shorthand) — blocking (see note below)
 - Roster presence in prose tables (README, CLAUDE.md, list-agents.md)
 - README focus-text parity (README Focus cells match claude.json .focus fields)
 - Generated blocks are fresh
