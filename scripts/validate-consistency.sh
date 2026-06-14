@@ -49,6 +49,28 @@ info()  { printf '  %sINFO%s  %s\n' "$C_CYN" "$C_NC" "$1"; }
 detail(){ printf '          %s\n' "$1"; }
 section(){ printf '\n%s%s%s\n' "$C_CYN" "$1" "$C_NC"; }
 
+# _esc_ere <string> - backslash-escape every ERE metacharacter in <string> so
+# it can be embedded as a LITERAL inside a larger regex. Implemented in pure
+# bash (substring membership, no sed/glob pattern parsing) so it is immune to
+# platform sed quirks (POSIX collating symbols, backslash-in-bracket-class) and
+# to metacharacters in the input itself. Replaces the previous
+# `sed 's/[..]/\\&/g'`, which emitted a literal '&' on this platform's sed and
+# silently failed to escape (false negatives).
+_esc_ere() {
+  local s="${1-}" out="" ch i
+  local meta='.[]{}()*+?^$|\'
+  local bs='\'
+  for (( i=0; i<${#s}; i++ )); do
+    ch="${s:i:1}"
+    if [[ "$meta" == *"$ch"* ]]; then
+      out="${out}${bs}${ch}"
+    else
+      out="${out}${ch}"
+    fi
+  done
+  printf '%s' "$out"
+}
+
 # --- preflight --------------------------------------------------------------
 if ! command -v jq >/dev/null 2>&1; then
   printf '%sERROR%s jq is required but not installed.\n' "$C_RED" "$C_NC" >&2
@@ -194,7 +216,6 @@ section "[3] Hook coverage (every non-allowlisted agent has {agent}-validation.j
 section "[4] JSON validity (hooks/*.json, claude.json, shared/*.json) + YAML best-effort"
 {
   json_bad=0 json_total=0
-  add_json() { :; }
   # Collect target json files.
   json_files=()
   [[ -f "$ROOT/claude.json" ]] && json_files+=("$ROOT/claude.json")
@@ -295,17 +316,23 @@ section "[5] Deprecated agent names (no live references in config or active doc 
 
   while IFS= read -r name; do
     [[ -z "$name" ]] && continue
-    esc="$(printf '%s' "$name" | sed 's/[.[\*^$()+?{}|\\]/\\&/g')"
 
-    # Structured config: deprecated name as a JSON string token.
-    # EXCLUDE the consistency block's OWN canonical definition lines
-    # (deprecated_agent_names / hook_coverage_allowlist / model_shorthand_map),
-    # which legitimately enumerate these names. Those keys only ever appear in
-    # claude.json's consistency block, so filtering by key name is exact.
+    # Structured config: deprecated name as a JSON string token "<name>".
+    # The canonical lists that legitimately enumerate these names all live under
+    # the .consistency block (deprecated_agent_names / hook_coverage_allowlist /
+    # model_shorthand_map). We exclude them STRUCTURALLY by deleting that block
+    # with jq before scanning, rather than text-filtering by key name (which is
+    # coupled to single-line JSON layout and breaks under `jq '.'` reformatting).
+    # The literal token is matched with fixed-string grep (-F) so a name
+    # containing a regex metacharacter still matches exactly and cannot break
+    # the pattern.
     for f in "${json_scope[@]}"; do
       [[ -f "$f" ]] || continue
-      hits="$(grep -nE "\"${esc}\"" "$f" 2>/dev/null \
-              | grep -vE '"(deprecated_agent_names|hook_coverage_allowlist|model_shorthand_map)"')"
+      # Strip .consistency so the canonical lists are never scanned. If jq fails
+      # for any reason, fall back to scanning the raw file (fail-safe: catch more,
+      # never silently skip).
+      scan="$(_facts_jq 'del(.consistency)' "$f" 2>/dev/null || cat "$f")"
+      hits="$(printf '%s\n' "$scan" | grep -nF "\"$name\"")"
       if [[ -n "$hits" ]]; then
         ok=0
         fail "deprecated name '$name' used as config token in ${f#"$ROOT"/}:"
@@ -314,6 +341,10 @@ section "[5] Deprecated agent names (no live references in config or active doc 
     done
 
     # Docs: only ACTIVE references (path / routing directive), not prose.
+    # Only the variable part (<name>) is interpolated into this otherwise-fixed
+    # structural regex, so we metachar-escape it with _esc_ere (a name with a
+    # regex metachar can therefore neither break the pattern nor over-match).
+    esc="$(_esc_ere "$name")"
     active_re="agents/${esc}\.md|subagent_type[\"']?[[:space:]]*[:=][[:space:]]*[\"']?${esc}([\"', )]|\$)|\"agent\"[[:space:]]*:[[:space:]]*\"${esc}\"|(^|[[:space:](=])agent[[:space:]]*:[[:space:]]*${esc}([[:space:],)]|\$)"
     for f in "${doc_scope[@]}"; do
       [[ -f "$f" ]] || continue

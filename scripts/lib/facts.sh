@@ -205,6 +205,8 @@ fact_counts() {
   printf 'hook_yaml=%s\n' "$hook_yaml"
   printf 'agent_specific_hooks=%s\n' "$agent_specific"
   printf 'framework_wide_hooks=%s\n' "$framework_wide"
+  # "quality gates" == count of hook JSON files (each hooks/*.json is one gate);
+  # this is the number docs render as "N Quality Gates".
   printf 'quality_gates=%s\n' "$hook_json"
 }
 

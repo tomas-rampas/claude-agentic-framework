@@ -88,10 +88,10 @@ This runs 11 checks including:
 - Registry ↔ filesystem parity
 - Category partition (no duplicates, no gaps)
 - Hook coverage (every non-allowlisted agent has a validation hook)
-- JSON validity
+- JSON validity (and best-effort YAML — skipped locally when no python/ruby YAML parser is present; runs on CI)
 - No use of deprecated names
 - Architecture description count accuracy
-- Model parity (agents/<name>.md frontmatter matches claude.json) — WARNING only
+- Model parity (agents/<name>.md frontmatter vs claude.json) — advisory WARNING only (see note below)
 - Roster presence in prose tables (README, CLAUDE.md, list-agents.md)
 - README focus-text parity (README Focus cells match claude.json .focus fields)
 - Generated blocks are fresh
@@ -111,7 +111,7 @@ The validator will tell you exactly which tables need updates. Do not hardcode a
 - **Derives all truth at runtime** from `claude.json` and the filesystem — no hardcoded lists
 - **Runs 11 checks** (see summary above) and collects all failures before exiting
 - **Distinguishes blocking vs. advisory**: exits non-zero on any blocking check failure
-- **Model parity is WARNING only** (check 7) — frontmatter model mismatches do not block CI
+- **Model parity is advisory only** (check 7) — it does not block CI. The frontmatter `model:` and claude.json's per-agent model currently diverge for several agents (most `.md` files declare `opus`); mismatches are reported for awareness, not enforced. Reconciling them — and deciding which is authoritative for runtime — is deferred to a separate model-alignment change.
 
 Run it during development and before pushing. CI (`.github/workflows/consistency.yml`) runs it on every PR.
 
