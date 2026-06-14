@@ -21,6 +21,11 @@ set -uo pipefail
 # NOTE: -e is deliberately NOT set. We want to run every check and aggregate
 # results; a non-zero from a single grep/diff must not abort the whole run.
 
+# Force C collation so `comm`/`sort` agree on ordering on every locale. The
+# facts layer sorts with `LC_ALL=C sort`; `comm` must use the same collation or
+# it reports bogus missing/orphan diffs under a non-C user locale.
+export LC_ALL=C
+
 # --- locate + source the shared facts layer --------------------------------
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/lib/facts.sh

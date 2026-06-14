@@ -81,7 +81,11 @@ _facts_require_claude_json() {
 # stray CR breaks comm/diff/string comparisons downstream. Strip it here so
 # every fact is guaranteed LF-only and byte-clean on every platform.
 _facts_jq() {
+  # Return jq's exit status (not tr's) via PIPESTATUS, so a jq failure is
+  # detectable by callers regardless of whether they have `set -o pipefail`
+  # (e.g. the `_facts_jq ... || cat` fallback in validate-consistency.sh).
   jq "$@" | tr -d '\r'
+  return "${PIPESTATUS[0]}"
 }
 
 # --- agent facts ------------------------------------------------------------

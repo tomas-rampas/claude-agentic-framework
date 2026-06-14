@@ -8,6 +8,9 @@
 # names or counts remain.
 
 set -uo pipefail
+# Force C collation so `comm` matches the facts layer's `LC_ALL=C sort` (else
+# bogus missing/orphan results under a non-C locale).
+export LC_ALL=C
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/lib/facts.sh

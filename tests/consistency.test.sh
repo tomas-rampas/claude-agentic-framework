@@ -328,8 +328,6 @@ section "[10] Idempotency: generate-docs.sh --write on a clean copy is a no-op"
 {
   copy="$(make_copy)"
   la="$copy/commands/list-agents.md"
-  before="$(jq -nr --arg s "$(tr -d '\r' < "$la")" '$s | @base64' 2>/dev/null)"
-  # Fallback hash if jq @base64 path is awkward: compare raw bytes via cmp later.
   cp "$la" "$copy/.la.before"
   run_generate "$copy" --write
   assert_rc_zero "generate-docs.sh --write succeeds on a clean copy"
@@ -342,7 +340,6 @@ section "[10] Idempotency: generate-docs.sh --write on a clean copy is a no-op"
   run_generate "$copy" --check
   assert_rc_zero "--check confirms blocks fresh after idempotent --write"
   rm -rf "$copy"
-  unset before
 }
 
 # ===========================================================================

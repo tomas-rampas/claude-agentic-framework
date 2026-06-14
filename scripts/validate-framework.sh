@@ -85,10 +85,7 @@ echo "Expected agents (derived from claude.json): ${N_AGENTS}"
 echo ""
 
 # Delegate the authoritative, dynamic checks to the single source of truth.
-if bash "$SCRIPT_DIR/validate-consistency.sh"; then
-  CONSISTENCY_OK=1
-else
-  CONSISTENCY_OK=0
+if ! bash "$SCRIPT_DIR/validate-consistency.sh"; then
   ERRORS=$((ERRORS + 1))
 fi
 
