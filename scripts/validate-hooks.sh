@@ -36,11 +36,15 @@ DEP_FOUND=0
 
 while IFS= read -r name; do
   [[ -z "$name" ]] && continue
-  esc="$(printf '%s' "$name" | sed 's/[.[\*^$()+?{}|\\]/\\&/g')"
+  # hooks/*.json carry no .consistency block, so the deprecated name only ever
+  # appears here as a genuine JSON string token. Match the literal token with
+  # fixed-string grep (-F): this is correct for a JSON literal and immune to
+  # regex metacharacters in the name (the previous sed-based escaper emitted a
+  # literal '&' on this platform and could miss metachar names -> false negatives).
   shopt -s nullglob
   for f in "$HOOKS_DIR"/*.json; do
     case "$f" in *archive*) continue;; esac
-    hits="$(grep -nE "\"${esc}\"" "$f" 2>/dev/null)"
+    hits="$(grep -nF "\"$name\"" "$f" 2>/dev/null)"
     if [[ -n "$hits" ]]; then
       echo "❌ Found deprecated name '$name' in $(basename "$f"):"
       while IFS= read -r ln; do [[ -n "$ln" ]] && echo "     $ln"; done <<< "$hits"

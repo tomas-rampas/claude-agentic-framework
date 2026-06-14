@@ -10,9 +10,13 @@
 #     <!-- END GENERATED: <id> -->
 #
 # markers_replace replaces ONLY the lines strictly between the two marker
-# comments, leaving the marker lines themselves and everything outside the
-# region byte-for-byte untouched. This makes a re-run with identical generated
-# content a true no-op (idempotency), which the round-trip test depends on.
+# comments, leaving the marker lines themselves and the surrounding content
+# intact, with one deliberate normalization: the file is written LF-only and is
+# guaranteed to end with exactly one trailing LF (the repo enforces
+# .gitattributes eol=lf, so this is a no-op on a well-formed source file). Apart
+# from that EOL normalization, bytes outside the region are preserved verbatim.
+# This makes a re-run with identical generated content a true no-op
+# (idempotency), which the round-trip test depends on.
 #
 # Design notes / guarantees:
 #   - Pure bash + standard awk. No sed -i, no in-place editors that mangle EOL.
