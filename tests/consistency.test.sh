@@ -343,6 +343,49 @@ section "[10] Idempotency: generate-docs.sh --write on a clean copy is a no-op"
 }
 
 # ===========================================================================
+# CASE 11 - Model parity (check 7, blocking): a tier divergence and an invalid
+#           shorthand must each fail validation.
+# ===========================================================================
+section "[11] Model parity: divergent tier + invalid shorthand -> non-zero (check 7)"
+{
+  # --- 11a: flip ONE agent's claude.json .model to a DIFFERENT valid tier so
+  # it no longer matches that agent's agents/<a>.md frontmatter shorthand. The
+  # .md is left untouched, so the ONLY break is the md<->claude.json model
+  # mismatch (check 7 now blocking).
+  copy="$(make_copy)"
+  # Pick a real agent and a different (but still valid) shorthand than its
+  # current md value, derived from the copy so the test stays roster-agnostic.
+  victim="$(jq -r '.sub_agents | keys[0]' "$copy/claude.json")"
+  cur="$(jq -r --arg a "$victim" '.sub_agents[$a].model' "$copy/claude.json")"
+  # Choose a different declared shorthand key.
+  other="$(jq -r --arg cur "$cur" '
+    .consistency.model_shorthand_map | keys[] | select(. != $cur)' \
+    "$copy/claude.json" | head -1)"
+  # Guard: 11a needs a second valid tier to flip to. Fail loudly rather than
+  # silently no-op if the map ever shrinks below 2 tiers.
+  [[ -n "$other" ]] || _fail "CASE 11a setup needs >=2 model tiers in model_shorthand_map"
+  jq --arg a "$victim" --arg m "$other" '.sub_agents[$a].model = $m' \
+    "$copy/claude.json" > "$copy/claude.json.tmp" \
+    && mv "$copy/claude.json.tmp" "$copy/claude.json"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails when an agent's md/claude.json models diverge"
+  assert_out_contains "reports a model mismatch for $victim" "$victim: model mismatch"
+  rm -rf "$copy"
+
+  # --- 11b: set an INVALID shorthand (typo) in claude.json .model. It is not a
+  # key in model_shorthand_map, so the map guard must fail it (blocking).
+  copy="$(make_copy)"
+  victim="$(jq -r '.sub_agents | keys[0]' "$copy/claude.json")"
+  jq --arg a "$victim" '.sub_agents[$a].model = "sonnett"' \
+    "$copy/claude.json" > "$copy/claude.json.tmp" \
+    && mv "$copy/claude.json.tmp" "$copy/claude.json"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails on an invalid model shorthand in claude.json"
+  assert_out_contains "reports invalid shorthand 'sonnett' for $victim" "is not a key in consistency.model_shorthand_map"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
 # Summary
 # ===========================================================================
 printf '\n%s================================================%s\n' "$C_CYN" "$C_NC"

@@ -235,8 +235,8 @@ for hook in hooks/*.json; do
   fi
 done
 
-# Model names valid
-valid_models=("claude-opus-4-1-20250805" "claude-sonnet-4-20250514" "claude-haiku-3-20241201")
+# Model names valid (tier shorthand; claude.json stores opus/sonnet/haiku)
+valid_models=("opus" "sonnet" "haiku")
 for agent in $(jq -r '.sub_agents | keys[]' claude.json); do
   model=$(jq -r ".sub_agents.$agent.model" claude.json)
   if [[ ! " ${valid_models[@]} " =~ " ${model} " ]]; then

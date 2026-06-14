@@ -91,7 +91,7 @@ Total: 20 agents (20 ready, 0 unavailable)
 📋 BASIC INFORMATION
   • Name: rust-expert
   • Category: Language Expert
-  • Model: claude-sonnet-4-20250514
+  • Model: sonnet (resolves to claude-sonnet-4-6)
   • Specialization: rust_development_systems_programming
   • File: agents/rust-expert.md
   • Configuration: claude.json ✓
@@ -137,7 +137,7 @@ Total: 20 agents (20 ready, 0 unavailable)
     {
       "name": "rust-expert",
       "category": "language_expert",
-      "model": "claude-sonnet-4-20250514",
+      "model": "sonnet",
       "specialization": "rust_development_systems_programming",
       "file_path": "agents/rust-expert.md",
       "validation_hook": "hooks/rust-expert-validation.json",

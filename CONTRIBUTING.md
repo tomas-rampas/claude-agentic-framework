@@ -11,7 +11,7 @@ This guide explains the anti-drift consistency system and how to contribute to t
 - **`.consistency`** — metadata controlling generator and validator behavior:
   - `hook_coverage_allowlist` — agents exempt from requiring a per-agent `{agent}-validation.json` hook
   - `deprecated_agent_names` — retired agent identifiers (flagged if re-used)
-  - `model_shorthand_map` — e.g., `"opus" -> "claude-opus-4-6-20250805"`
+  - `model_shorthand_map` — maps each tier shorthand to its current pinned model id, e.g. `"opus" -> "claude-opus-4-8"`. The shorthand keys (`opus`/`sonnet`/`haiku`) are the single source of truth used in both `.sub_agents[*].model` and each agent's frontmatter; the values are the runtime model ids.
   - `doc_blocks` — registry of machine-generated documentation regions
 
 Do not hand-edit agent counts, rosters, or model assignments in documentation or scripts — they are derived from `claude.json` and the filesystem at validation time.
@@ -28,7 +28,7 @@ Add `agents/<name>.md` with YAML frontmatter:
 ---
 name: <agent-name>
 description: <one-paragraph summary + examples>
-model: <shorthand-key or full id>  # e.g., "opus" or "claude-opus-4-6-20250805"
+model: <tier-shorthand>            # opus | sonnet | haiku (must match claude.json)
 color: <color-name>
 ---
 
@@ -46,7 +46,7 @@ In the `.sub_agents` object, add an entry with `model` and `focus`:
   "path": "~/.claude/agents/your-agent",
   "config_file": "~/.claude/agents/your-agent/agent.json",
   "prompt_file": "~/.claude/agents/your-agent.md",
-  "model": "claude-sonnet-4-6-20250514",
+  "model": "sonnet",
   "specialization": "your_domain_area",
   "focus": "Brief focus area (1-2 sentences)"
 }
@@ -91,7 +91,7 @@ This runs 11 checks including:
 - JSON validity (and best-effort YAML — skipped locally when no python/ruby YAML parser is present; runs on CI)
 - No use of deprecated names
 - Architecture description count accuracy
-- Model parity (agents/<name>.md frontmatter vs claude.json) — advisory WARNING only (see note below)
+- Model parity (agents/<name>.md frontmatter vs claude.json — both tier shorthand) — blocking (see note below)
 - Roster presence in prose tables (README, CLAUDE.md, list-agents.md)
 - README focus-text parity (README Focus cells match claude.json .focus fields)
 - Generated blocks are fresh
@@ -111,7 +111,7 @@ The validator will tell you exactly which tables need updates. Do not hardcode a
 - **Derives all truth at runtime** from `claude.json` and the filesystem — no hardcoded lists
 - **Runs 11 checks** (see summary above) and collects all failures before exiting
 - **Distinguishes blocking vs. advisory**: exits non-zero on any blocking check failure
-- **Model parity is advisory only** (check 7) — it does not block CI. The frontmatter `model:` and claude.json's per-agent model currently diverge for several agents (most `.md` files declare `opus`); mismatches are reported for awareness, not enforced. Reconciling them — and deciding which is authoritative for runtime — is deferred to a separate model-alignment change.
+- **Enforces model parity** (check 7, blocking) — each agent's frontmatter `model:` and its claude.json `.sub_agents[*].model` must be the SAME tier shorthand (`opus`/`sonnet`/`haiku`), and every model value on either side must be a declared key in `consistency.model_shorthand_map`. A mismatch or an unknown/typo value fails CI.
 
 Run it during development and before pushing. CI (`.github/workflows/consistency.yml`) runs it on every PR.
 

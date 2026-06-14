@@ -116,7 +116,9 @@ fact_categories() {
     "$FACTS_CLAUDE_JSON"
 }
 
-# fact_models - "agent<TAB>model_id" from .sub_agents
+# fact_models - "agent<TAB>model" from .sub_agents. The model value is the tier
+# shorthand (opus/sonnet/haiku) - i.e. a key of .consistency.model_shorthand_map
+# - which is the single source of truth shared with each agents/<a>.md frontmatter.
 fact_models() {
   _facts_require_jq || return $?
   _facts_require_claude_json || return $?
@@ -144,6 +146,9 @@ fact_deprecated() {
 # fact_model_shorthand <shorthand> - resolve a shorthand (opus/sonnet/haiku)
 # to its full model id via .consistency.model_shorthand_map. Prints nothing
 # and returns 1 if the shorthand is unknown.
+# Library accessor: retained for shorthand->runtime-id resolution (dispatch /
+# deploy tooling). Check 7 compares shorthand directly, so it has no in-repo
+# caller today.
 fact_model_shorthand() {
   local sh="${1:-}"
   _facts_require_jq || return $?
