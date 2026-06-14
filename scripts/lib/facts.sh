@@ -146,6 +146,9 @@ fact_deprecated() {
 # fact_model_shorthand <shorthand> - resolve a shorthand (opus/sonnet/haiku)
 # to its full model id via .consistency.model_shorthand_map. Prints nothing
 # and returns 1 if the shorthand is unknown.
+# Library accessor: retained for shorthand->runtime-id resolution (dispatch /
+# deploy tooling). Check 7 compares shorthand directly, so it has no in-repo
+# caller today.
 fact_model_shorthand() {
   local sh="${1:-}"
   _facts_require_jq || return $?
