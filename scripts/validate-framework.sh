@@ -1,8 +1,31 @@
-#!/bin/bash
-# validate-framework.sh - Comprehensive framework validation script
-# Validates the Claude Code CLI Agentic Framework integrity
+#!/usr/bin/env bash
+# validate-framework.sh - Comprehensive framework validation (dynamic).
+#
+# Validates the Claude Code CLI Agentic Framework integrity. All "truth" is
+# DERIVED at runtime from claude.json + the filesystem via the shared facts
+# layer (scripts/lib/facts.sh): there is NO frozen EXPECTED_AGENTS array and NO
+# hardcoded agent count anywhere in this script.
+#
+# Structure:
+#   Steps 1-2 here perform lightweight structural checks (core files +
+#   directories). The deep consistency battery (registry<->fs parity, category
+#   partition, hook coverage, JSON/YAML validity, deprecated names, arch
+#   strings, stated-count scan, model parity) is delegated to the single source
+#   of truth, validate-consistency.sh, so the two never drift apart.
 
-set -e
+set -uo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=scripts/lib/facts.sh
+source "$SCRIPT_DIR/lib/facts.sh"
+
+ROOT="$FACTS_REPO_ROOT"
+
+if [[ -t 1 ]]; then
+  RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; YELLOW=$'\033[1;33m'; NC=$'\033[0m'
+else
+  RED=""; GREEN=""; YELLOW=""; NC=""
+fi
 
 echo "🔍 Claude Code CLI Agentic Framework Validator"
 echo "================================================"
@@ -11,191 +34,62 @@ echo ""
 ERRORS=0
 WARNINGS=0
 
-# Color codes
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
-
-# Expected agents (18 total)
-EXPECTED_AGENTS=(
-  "rust-expert"
-  "csharp-expert"
-  "go-expert"
-  "java-expert"
-  "python-expert"
-  "typescript-expert"
-  "bash-expert"
-  "powershell-expert"
-  "database-specialist"
-  "frontend-specialist"
-  "security-specialist"
-  "uiux-specialist"
-  "devops-orchestrator"
-  "system-architect"
-  "comprehensive-analyst"
-  "code-review-gatekeeper"
-  "technical-docs-writer"
-  "product-owner"
-)
-
-# Old agent names that should NOT exist
-OLD_AGENTS=(
-  "plan-agent"
-  "reader-agent"
-  "maker-agent"
-  "security-agent"
-  "test-agent"
-  "docs-agent"
-  "debug-agent"
-  "rust-systems-expert"
-)
+# Derived facts (no hardcoded values).
+N_AGENTS="$(fact_agents | grep -c . || true)"
 
 echo "📋 Step 1: Validating Core Files"
 echo "--------------------------------"
 
-# Check CLAUDE.md
-if [ -f "CLAUDE.md" ]; then
-  echo -e "${GREEN}✅${NC} CLAUDE.md found"
-else
-  echo -e "${RED}❌${NC} CLAUDE.md missing"
-  ((ERRORS++))
-fi
-
-# Check claude.json
-if [ -f "claude.json" ]; then
-  echo -e "${GREEN}✅${NC} claude.json found"
-
-  # Validate JSON syntax
-  if command -v jq &> /dev/null; then
-    if jq empty claude.json 2>/dev/null; then
-      echo -e "${GREEN}✅${NC} claude.json has valid JSON syntax"
-    else
-      echo -e "${RED}❌${NC} claude.json has invalid JSON syntax"
-      ((ERRORS++))
-    fi
+for core in CLAUDE.md claude.json; do
+  if [[ -f "$ROOT/$core" ]]; then
+    echo -e "${GREEN}✅${NC} $core found"
+  else
+    echo -e "${RED}❌${NC} $core missing"
+    ERRORS=$((ERRORS + 1))
   fi
-else
-  echo -e "${RED}❌${NC} claude.json missing"
-  ((ERRORS++))
+done
+
+if [[ -f "$ROOT/claude.json" ]]; then
+  if jq empty "$ROOT/claude.json" >/dev/null 2>&1; then
+    echo -e "${GREEN}✅${NC} claude.json has valid JSON syntax"
+  else
+    echo -e "${RED}❌${NC} claude.json has invalid JSON syntax"
+    ERRORS=$((ERRORS + 1))
+  fi
 fi
 
-# Check README.md
-if [ -f "README.md" ]; then
+if [[ -f "$ROOT/README.md" ]]; then
   echo -e "${GREEN}✅${NC} README.md found"
 else
   echo -e "${YELLOW}⚠️${NC}  README.md missing"
-  ((WARNINGS++))
+  WARNINGS=$((WARNINGS + 1))
 fi
 
 echo ""
 echo "📁 Step 2: Validating Directories"
 echo "--------------------------------"
 
-# Check required directories
-for dir in "agents" "commands" "hooks" "shared" "skills"; do
-  if [ -d "$dir" ]; then
+for dir in agents commands hooks shared skills; do
+  if [[ -d "$ROOT/$dir" ]]; then
     echo -e "${GREEN}✅${NC} $dir/ directory exists"
   else
     echo -e "${RED}❌${NC} $dir/ directory missing"
-    ((ERRORS++))
+    ERRORS=$((ERRORS + 1))
   fi
 done
 
 echo ""
-echo "🤖 Step 3: Validating Agents (18 expected)"
-echo "----------------------------------------"
-
-AGENT_COUNT=0
-for agent in "${EXPECTED_AGENTS[@]}"; do
-  if [ -f "agents/${agent}.md" ]; then
-    echo -e "${GREEN}✅${NC} ${agent}.md"
-    ((AGENT_COUNT++))
-  else
-    echo -e "${RED}❌${NC} ${agent}.md MISSING"
-    ((ERRORS++))
-  fi
-done
-
+echo "🤖 Step 3: Deep Consistency Checks (delegated to validate-consistency.sh)"
+echo "------------------------------------------------------------------------"
+echo "Expected agents (derived from claude.json): ${N_AGENTS}"
 echo ""
-echo "Agent count: $AGENT_COUNT / 18"
 
-if [ $AGENT_COUNT -eq 18 ]; then
-  echo -e "${GREEN}✅${NC} All 18 agents present"
+# Delegate the authoritative, dynamic checks to the single source of truth.
+if bash "$SCRIPT_DIR/validate-consistency.sh"; then
+  CONSISTENCY_OK=1
 else
-  echo -e "${RED}❌${NC} Expected 18 agents, found $AGENT_COUNT"
-  ((ERRORS++))
-fi
-
-echo ""
-echo "🚫 Step 4: Checking for Old Agent Names"
-echo "--------------------------------------"
-
-OLD_FOUND=0
-for old_agent in "${OLD_AGENTS[@]}"; do
-  # Check in claude.json
-  if grep -q "\"$old_agent\"" claude.json 2>/dev/null; then
-    echo -e "${RED}❌${NC} Found old agent name '$old_agent' in claude.json"
-    ((ERRORS++))
-    ((OLD_FOUND++))
-  fi
-
-  # Check in hooks
-  if grep -r "\"$old_agent\"" hooks/ 2>/dev/null | grep -v "archive" >/dev/null; then
-    echo -e "${RED}❌${NC} Found old agent name '$old_agent' in hooks/"
-    ((ERRORS++))
-    ((OLD_FOUND++))
-  fi
-done
-
-if [ $OLD_FOUND -eq 0 ]; then
-  echo -e "${GREEN}✅${NC} No old agent names found"
-fi
-
-echo ""
-echo "🪝 Step 5: Validating Hooks"
-echo "-------------------------"
-
-HOOK_COUNT=$(find hooks/ -maxdepth 1 -name "*.json" -o -name "*.yaml" 2>/dev/null | wc -l)
-echo "Found $HOOK_COUNT hook files"
-
-if [ $HOOK_COUNT -gt 0 ]; then
-  echo -e "${GREEN}✅${NC} Hook files present"
-
-  # Validate JSON syntax if jq is available
-  if command -v jq &> /dev/null; then
-    JSON_ERRORS=0
-    for file in hooks/*.json; do
-      if [ -f "$file" ]; then
-        if ! jq empty "$file" 2>/dev/null; then
-          echo -e "${RED}❌${NC} Invalid JSON in $(basename "$file")"
-          ((ERRORS++))
-          ((JSON_ERRORS++))
-        fi
-      fi
-    done
-
-    if [ $JSON_ERRORS -eq 0 ]; then
-      echo -e "${GREEN}✅${NC} All JSON hook files have valid syntax"
-    fi
-  fi
-else
-  echo -e "${YELLOW}⚠️${NC}  No hook files found"
-  ((WARNINGS++))
-fi
-
-echo ""
-echo "🎯 Step 6: Validating Skills"
-echo "---------------------------"
-
-SKILL_COUNT=$(find skills/ -maxdepth 1 -name "*.md" 2>/dev/null | wc -l)
-echo "Found $SKILL_COUNT skill files"
-
-if [ $SKILL_COUNT -gt 0 ]; then
-  echo -e "${GREEN}✅${NC} Skill files present"
-else
-  echo -e "${YELLOW}⚠️${NC}  No skill files found"
-  ((WARNINGS++))
+  CONSISTENCY_OK=0
+  ERRORS=$((ERRORS + 1))
 fi
 
 echo ""
@@ -203,16 +97,14 @@ echo "📊 Validation Summary"
 echo "===================="
 echo ""
 
-if [ $ERRORS -eq 0 ] && [ $WARNINGS -eq 0 ]; then
+if [[ "$ERRORS" -eq 0 && "$WARNINGS" -eq 0 ]]; then
   echo -e "${GREEN}🎉 PERFECT!${NC} Framework validation passed with no errors or warnings"
   echo ""
   echo "✅ All core files present"
-  echo "✅ All 18 agents configured"
-  echo "✅ No old agent names found"
-  echo "✅ All hooks valid"
-  echo "✅ Skills system in place"
+  echo "✅ All ${N_AGENTS} agents consistent (registry == filesystem)"
+  echo "✅ Consistency battery passed"
   exit 0
-elif [ $ERRORS -eq 0 ]; then
+elif [[ "$ERRORS" -eq 0 ]]; then
   echo -e "${YELLOW}⚠️  WARNINGS FOUND${NC}"
   echo "Errors: 0"
   echo "Warnings: $WARNINGS"

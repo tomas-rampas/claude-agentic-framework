@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "description": "Core hooks for 18-agent architecture with specialized routing",
+  "description": "Core hooks for 20-agent architecture with specialized routing",
   "hooks": {
     "development-standards": {
       "agents": ["language_experts"],
@@ -115,6 +115,7 @@
       "java-expert",
       "python-expert",
       "typescript-expert",
+      "mql-trading-dev",
       "bash-expert",
       "powershell-expert"
     ],
@@ -125,6 +126,7 @@
       "java-expert",
       "python-expert",
       "typescript-expert",
+      "mql-trading-dev",
       "bash-expert",
       "powershell-expert",
       "database-specialist",
@@ -135,6 +137,7 @@
       "system-architect",
       "comprehensive-analyst",
       "code-review-gatekeeper",
+      "peer-review-critic",
       "technical-docs-writer",
       "product-owner"
     ]

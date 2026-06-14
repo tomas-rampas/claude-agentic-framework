@@ -2,6 +2,16 @@
   "version": "3.0.0",
   "description": "Claude Code CLI with 20-agent specialized architecture",
 
+  "consistency": {
+    "hook_coverage_allowlist": ["peer-review-critic"],
+    "deprecated_agent_names": ["maker", "maker-agent", "test-agent", "debug-agent", "reader-agent", "plan-agent", "rust-systems-expert"],
+    "model_shorthand_map": {
+      "opus": "claude-opus-4-6-20250805",
+      "sonnet": "claude-sonnet-4-6-20250514",
+      "haiku": "claude-haiku-4-5-20251001"
+    }
+  },
+
   "sub_agents": {
     "rust-expert": {
       "enabled": true,
