@@ -25,6 +25,9 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/lib/facts.sh
 source "$SCRIPT_DIR/lib/facts.sh"
+# render.sh provides render_focus() for prose-table focus-text parity (check 10).
+# shellcheck source=scripts/lib/render.sh
+source "$SCRIPT_DIR/lib/render.sh"
 
 ROOT="$FACTS_REPO_ROOT"
 
@@ -523,6 +526,260 @@ section "[7] Model parity (agents/<a>.md frontmatter model: == claude.json model
     pass "all $checked agent frontmatter models agree with claude.json"
   else
     info "model parity is advisory: $mismatches mismatch(es), $unresolved unresolved of $checked checked (non-blocking)"
+  fi
+}
+
+# ===========================================================================
+# CHECK 9 - Roster-presence for NON-generated prose tables (BLOCKING)
+# ===========================================================================
+# These tables are NOT machine-generated (their grouping/order cannot round-trip
+# from claude.json - see generate-docs.sh). We therefore guard them here:
+#   (a) every registered agent appears EXACTLY ONCE in the roster,
+#   (b) no unknown/extra agent rows,
+#   (c) for the textual "### Category (N agents)" sections, the stated N equals
+#       the actual number of agents listed beneath that header.
+# This catches the missing-row / wrong-header-count drift without generating
+# the prose.
+section "[9] Roster-presence for prose tables (CLAUDE.md table + list-agents roster/categories)"
+{
+  ok=1
+
+  # _roster_compare <label> <newline-list-of-agents-extracted>
+  #   Compares an extracted roster against the canonical agent set:
+  #     - duplicate rows (agent listed more than once)
+  #     - unknown rows  (name not a registered agent)
+  #     - missing rows  (registered agent not present)
+  _roster_compare() {
+    local label="$1" extracted="$2"
+    local sorted dups unknown missing local_ok=1
+
+    sorted="$(printf '%s\n' "$extracted" | grep -v '^$' | LC_ALL=C sort)"
+
+    # (a) duplicates
+    dups="$(printf '%s\n' "$sorted" | uniq -d)"
+    if [[ -n "$dups" ]]; then
+      local_ok=0; ok=0
+      fail "$label: agent row(s) appear more than once:"
+      while IFS= read -r a; do [[ -n "$a" ]] && detail "duplicate-row: $a"; done <<< "$dups"
+    fi
+
+    # (b) unknown (in roster, not a real agent)
+    unknown="$(comm -23 <(printf '%s\n' "$sorted" | LC_ALL=C sort -u) <(printf '%s\n' "$AGENTS_SORTED"))"
+    if [[ -n "$unknown" ]]; then
+      local_ok=0; ok=0
+      fail "$label: unknown/extra agent row(s) (not in claude.json .sub_agents):"
+      while IFS= read -r a; do [[ -n "$a" ]] && detail "unknown-row: $a"; done <<< "$unknown"
+    fi
+
+    # (c) missing (real agent, absent from roster)
+    missing="$(comm -13 <(printf '%s\n' "$sorted" | LC_ALL=C sort -u) <(printf '%s\n' "$AGENTS_SORTED"))"
+    if [[ -n "$missing" ]]; then
+      local_ok=0; ok=0
+      fail "$label: registered agent(s) MISSING from roster:"
+      while IFS= read -r a; do [[ -n "$a" ]] && detail "missing-row: $a"; done <<< "$missing"
+    fi
+
+    if [[ "$local_ok" -eq 1 ]]; then
+      pass "$label: all $(printf '%s\n' "$AGENTS_SORTED" | grep -c .) agents present exactly once; no unknown rows"
+    fi
+  }
+
+  # --- 9a: CLAUDE.md "AVAILABLE IMPLEMENTATION AGENTS" table ----------------
+  # Rows look like:  | **agent-name** | Implementation domain |
+  # Scope the extraction to the table by only matching that exact row shape; the
+  # routing guidelines below use "- **Rust development**" (no leading pipe) so
+  # they cannot leak in.
+  claude_md="$ROOT/CLAUDE.md"
+  if [[ -f "$claude_md" ]]; then
+    cmd_roster="$(grep -oE '^\| \*\*[a-z0-9-]+\*\* \|' "$claude_md" \
+                  | sed -E 's/^\| \*\*//; s/\*\* \|$//')"
+    if [[ -z "$cmd_roster" ]]; then
+      ok=0; fail "CLAUDE.md: could not locate any agent table rows"
+    else
+      _roster_compare "CLAUDE.md agent table" "$cmd_roster"
+    fi
+  else
+    ok=0; fail "CLAUDE.md not found at $claude_md"
+  fi
+
+  # --- 9b: list-agents.md ASCII roster table --------------------------------
+  # Rows look like:  | rust-expert              | Language | ...   (box-drawing
+  # vertical bar U+2502). The file contains MORE THAN ONE box table (the main
+  # roster, plus a "--language" category-view EXAMPLE that re-lists the 9
+  # language/automation agents). We therefore scope extraction to the FIRST box
+  # table only: capture rows after the first top border (U+250C "\xe2\x94\x8c")
+  # and stop at its matching bottom border (U+2514 "\xe2\x94\x94"). Within that
+  # block we pull the first content cell and keep only agent-name-shaped tokens
+  # (header "Agent" and separator rows are naturally excluded).
+  la="$ROOT/commands/list-agents.md"
+  if [[ -f "$la" ]]; then
+    la_roster="$(awk '
+      # First top border opens the roster table.
+      !started && /^\xe2\x94\x8c/ { started=1; next }
+      started && /^\xe2\x94\x94/  { exit }            # bottom border closes it
+      started && /\xe2\x94\x82/ {
+        line=$0
+        n=split(line, cells, "\xe2\x94\x82")
+        cell=cells[2]                                  # first content cell
+        gsub(/^[ \t]+/, "", cell); gsub(/[ \t]+$/, "", cell)
+        if (cell ~ /^[a-z0-9]+(-[a-z0-9]+)+$/) print cell
+      }
+    ' "$la")"
+    if [[ -z "$la_roster" ]]; then
+      ok=0; fail "list-agents.md: could not locate any ASCII roster rows"
+    else
+      _roster_compare "list-agents.md ASCII roster" "$la_roster"
+
+      # Also validate the declared "Total: <N> agents" line against the roster.
+      declared_total="$(grep -oE 'Total: [0-9]+ agents' "$la" | head -1 | grep -oE '[0-9]+')"
+      actual_total="$(printf '%s\n' "$la_roster" | grep -c .)"
+      if [[ -n "$declared_total" && "$declared_total" != "$actual_total" ]]; then
+        ok=0
+        fail "list-agents.md roster: 'Total: $declared_total agents' != $actual_total rows in the table"
+      fi
+    fi
+
+    # --- 9c: list-agents.md textual "### Category (N agents)" sections ------
+    # Each header is followed by a fenced block of "agent-name -> ..." lines.
+    # We (1) verify the union of all listed agents is the full roster exactly,
+    # and (2) verify each header's stated N equals the agents listed beneath it.
+    cat_total_ok=1
+    all_cat_agents=""
+    # Iterate headers with their line numbers.
+    while IFS= read -r hline; do
+      [[ -z "$hline" ]] && continue
+      hnum="${hline%%:*}"
+      htext="${hline#*:}"
+      # stated N (the number inside "(N agent[s])")
+      stated="$(printf '%s' "$htext" | grep -oE '\([0-9]+ agents?\)' | grep -oE '[0-9]+')"
+      # Collect agent tokens from the lines AFTER this header up to the next
+      # "### " header (or EOF). An agent line looks like:
+      #   rust-expert          -> Rust systems programming
+      sect_agents="$(awk -v start="$hnum" '
+        NR > start {
+          if ($0 ~ /^### /) exit
+          # first token if it is an agent-name shape
+          tok=$1
+          if (tok ~ /^[a-z0-9]+(-[a-z0-9]+)+$/) print tok
+        }
+      ' "$la")"
+      actual="$(printf '%s\n' "$sect_agents" | grep -c .)"
+      all_cat_agents+="$sect_agents"$'\n'
+      if [[ "$stated" != "$actual" ]]; then
+        cat_total_ok=0; ok=0
+        fail "list-agents.md category header count mismatch: '$(printf '%s' "$htext" | sed -E 's/^[[:space:]]+//')' states $stated but lists $actual"
+        while IFS= read -r a; do [[ -n "$a" ]] && detail "listed: $a"; done <<< "$sect_agents"
+      fi
+    done <<< "$(grep -nE '^### .* \([0-9]+ agents?\)' "$la")"
+
+    # Union of textual-category agents must equal the full roster exactly.
+    if [[ -n "$all_cat_agents" ]]; then
+      _roster_compare "list-agents.md textual categories (union)" "$all_cat_agents"
+    else
+      ok=0; fail "list-agents.md: could not locate any '### Category (N agents)' sections"
+    fi
+    if [[ "$cat_total_ok" -eq 1 ]]; then
+      pass "list-agents.md: every '### Category (N agents)' header count matches its listed agents"
+    fi
+  else
+    ok=0; fail "list-agents.md not found at $la"
+  fi
+
+  [[ "$ok" -eq 1 ]] || true
+}
+
+# ===========================================================================
+# CHECK 10 - README focus-text parity (BLOCKING)
+# ===========================================================================
+# The README "## Agents" tables are NOT generated (grouping cannot round-trip),
+# but each agent's Focus column is now single-sourced as .sub_agents[a].focus.
+# Guard the prose against drift: every agent's README Focus cell must match the
+# canonical focus field byte-for-byte, the README must list every agent exactly
+# once, and contain no unknown agent rows.
+section "[10] README focus-text parity (.sub_agents[a].focus == README Focus cell)"
+{
+  readme="$ROOT/README.md"
+  ok=1
+  if [[ ! -f "$readme" ]]; then
+    ok=0; fail "README.md not found at $readme"
+  else
+    # Extract "agent<TAB>focus" pairs from the ## Agents section only.
+    readme_pairs="$(awk '
+      /^## Agents$/ {inagents=1; next}
+      inagents && /^## / {inagents=0}
+      inagents && /^\| \*\*[a-z0-9-]+\*\* \| / {
+        line=$0
+        sub(/^\| \*\*/, "", line)
+        idx=index(line, "** | ")
+        name=substr(line, 1, idx-1)
+        rest=substr(line, idx+5)
+        sub(/ \|$/, "", rest)
+        printf "%s\t%s\n", name, rest
+      }
+    ' "$readme")"
+
+    # Roster presence: agents listed in the README ## Agents tables.
+    readme_roster="$(printf '%s\n' "$readme_pairs" | awk -F'\t' 'NF{print $1}')"
+    readme_sorted="$(printf '%s\n' "$readme_roster" | grep -v '^$' | LC_ALL=C sort)"
+    r_dups="$(printf '%s\n' "$readme_sorted" | uniq -d)"
+    r_unknown="$(comm -23 <(printf '%s\n' "$readme_sorted" | LC_ALL=C sort -u) <(printf '%s\n' "$AGENTS_SORTED"))"
+    r_missing="$(comm -13 <(printf '%s\n' "$readme_sorted" | LC_ALL=C sort -u) <(printf '%s\n' "$AGENTS_SORTED"))"
+    if [[ -n "$r_dups" ]]; then
+      ok=0; fail "README ## Agents: duplicate agent row(s):"
+      while IFS= read -r a; do [[ -n "$a" ]] && detail "duplicate-row: $a"; done <<< "$r_dups"
+    fi
+    if [[ -n "$r_unknown" ]]; then
+      ok=0; fail "README ## Agents: unknown/extra agent row(s):"
+      while IFS= read -r a; do [[ -n "$a" ]] && detail "unknown-row: $a"; done <<< "$r_unknown"
+    fi
+    if [[ -n "$r_missing" ]]; then
+      ok=0; fail "README ## Agents: registered agent(s) MISSING from tables:"
+      while IFS= read -r a; do [[ -n "$a" ]] && detail "missing-row: $a"; done <<< "$r_missing"
+    fi
+
+    # Focus-text parity: README cell == claude.json focus field.
+    mismatch=0
+    while IFS=$'\t' read -r name foc; do
+      [[ -z "$name" ]] && continue
+      canon="$(render_focus "$name" 2>/dev/null || true)"
+      if [[ -z "$canon" ]]; then
+        ok=0; mismatch=$((mismatch + 1))
+        fail "README focus parity: '$name' has no .focus field in claude.json"
+      elif [[ "$foc" != "$canon" ]]; then
+        ok=0; mismatch=$((mismatch + 1))
+        fail "README focus parity: '$name' README cell != claude.json .focus"
+        detail "README:     $foc"
+        detail "claude.json: $canon"
+      fi
+    done <<< "$readme_pairs"
+
+    if [[ "$ok" -eq 1 ]]; then
+      pass "all $(printf '%s\n' "$readme_sorted" | grep -c .) README agent rows present once; focus text matches claude.json exactly"
+    fi
+  fi
+}
+
+# ===========================================================================
+# CHECK 11 - Generated blocks are fresh (BLOCKING) - wires in generate-docs
+# ===========================================================================
+# Runs the generator in --check mode so a stale machine-generated block (e.g.
+# the list-agents JSON summary) fails the same gate as everything else. Kept as
+# a separate script per the phase design; this is the single call site that lets
+# one `validate-consistency.sh` run cover both validation AND generation drift.
+section "[11] Generated documentation blocks are up to date (generate-docs.sh --check)"
+{
+  gen="$SCRIPT_DIR/generate-docs.sh"
+  if [[ ! -f "$gen" ]]; then
+    fail "generate-docs.sh not found at $gen"
+  else
+    gen_out="$(bash "$gen" --check 2>&1)"
+    gen_rc=$?
+    if [[ "$gen_rc" -eq 0 ]]; then
+      pass "all generated blocks are fresh"
+    else
+      fail "generate-docs.sh --check reported stale/invalid blocks (exit $gen_rc):"
+      while IFS= read -r ln; do [[ -n "$ln" ]] && detail "$ln"; done <<< "$gen_out"
+    fi
   fi
 }
 
