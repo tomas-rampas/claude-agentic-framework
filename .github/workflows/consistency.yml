@@ -1,0 +1,39 @@
+name: consistency
+
+# Run the anti-drift consistency gate on every PR and on pushes to the
+# default branch. The generate-docs.sh --check step is what fails the build
+# when committed GENERATED blocks have drifted from claude.json.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# Least privilege: these scripts only read the checked-out tree and need no
+# write access to repo contents, issues, PRs, or any other scope.
+permissions:
+  contents: read
+
+jobs:
+  consistency:
+    name: validate + generate-check + tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure jq is available
+        # jq ships preinstalled on ubuntu-latest; fail fast (no apt-get) if it
+        # is somehow missing rather than silently masking an unexpected image.
+        run: |
+          command -v jq >/dev/null || { echo "jq missing"; exit 1; }
+          jq --version
+
+      - name: Validate consistency (dynamic anti-drift checks)
+        run: bash scripts/validate-consistency.sh
+
+      - name: Check generated docs are fresh
+        run: bash scripts/generate-docs.sh --check
+
+      - name: Run consistency test harness
+        run: bash tests/consistency.test.sh

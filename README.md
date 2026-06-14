@@ -181,7 +181,9 @@ Tasks are automatically routed to the appropriate agent. Examples:
 ├── hooks/                   # 45 quality gates (agent-specific + framework-wide)
 ├── shared/                  # Shared configs (base-config, mcp-config, agent-patterns, memory-categories)
 ├── skills/                  # 14 operational skills (validation, debugging, analytics, scaffolding)
-├── scripts/                 # 3 validation scripts
+├── scripts/                 # Validation, anti-drift consistency, and doc-generation scripts
+├── tests/                   # Consistency test harness
+├── .github/workflows/       # CI (anti-drift consistency gate)
 └── security-check.sh        # Security validation
 ```
 
@@ -263,6 +265,12 @@ ls -1 agents/*.md | wc -l  # Should show 20
 ```bash
 cat commands/delegate.md | head -20  # Verify command exists
 ```
+
+---
+
+## Contributing
+
+To add or modify agents, manage framework consistency, or understand the anti-drift validation system, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 

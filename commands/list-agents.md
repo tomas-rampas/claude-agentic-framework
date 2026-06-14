@@ -155,6 +155,7 @@ Total: 20 agents (20 ready, 0 unavailable)
     }
   ],
   "summary": {
+    <!-- BEGIN GENERATED: list-agents-summary -->
     "total_agents": 20,
     "ready": 20,
     "unavailable": 0,
@@ -166,6 +167,7 @@ Total: 20 agents (20 ready, 0 unavailable)
       "quality_analysis": 3,
       "documentation": 1
     }
+    <!-- END GENERATED: list-agents-summary -->
   }
 }
 ```

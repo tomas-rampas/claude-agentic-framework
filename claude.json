@@ -2,6 +2,26 @@
   "version": "3.0.0",
   "description": "Claude Code CLI with 20-agent specialized architecture",
 
+  "consistency": {
+    "hook_coverage_allowlist": ["peer-review-critic"],
+    "deprecated_agent_names": ["maker", "maker-agent", "test-agent", "debug-agent", "reader-agent", "plan-agent", "rust-systems-expert"],
+    "model_shorthand_map": {
+      "opus": "claude-opus-4-6-20250805",
+      "sonnet": "claude-sonnet-4-6-20250514",
+      "haiku": "claude-haiku-4-5-20251001"
+    },
+    "doc_blocks": {
+      "list_agents_summary_categories": {
+        "language_experts": ["language_experts", "automation_experts"],
+        "domain_specialists": ["domain_specialists"],
+        "infrastructure": ["infrastructure_operations"],
+        "architecture_planning": ["architecture_planning"],
+        "quality_analysis": ["quality_analysis"],
+        "documentation": ["documentation"]
+      }
+    }
+  },
+
   "sub_agents": {
     "rust-expert": {
       "enabled": true,
@@ -9,7 +29,8 @@
       "config_file": "~/.claude/agents/rust-expert/agent.json",
       "prompt_file": "~/.claude/agents/rust-expert.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "rust_development_systems_programming"
+      "specialization": "rust_development_systems_programming",
+      "focus": "Systems programming, memory safety, async/await"
     },
     "csharp-expert": {
       "enabled": true,
@@ -17,7 +38,8 @@
       "config_file": "~/.claude/agents/csharp-expert/agent.json",
       "prompt_file": "~/.claude/agents/csharp-expert.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "csharp_dotnet_azure_development"
+      "specialization": "csharp_dotnet_azure_development",
+      "focus": "ASP.NET Core, Entity Framework, Azure"
     },
     "go-expert": {
       "enabled": true,
@@ -25,7 +47,8 @@
       "config_file": "~/.claude/agents/go-expert/agent.json",
       "prompt_file": "~/.claude/agents/go-expert.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "go_microservices_cloud_native"
+      "specialization": "go_microservices_cloud_native",
+      "focus": "Microservices, gRPC, Kubernetes operators"
     },
     "java-expert": {
       "enabled": true,
@@ -33,7 +56,8 @@
       "config_file": "~/.claude/agents/java-expert/agent.json",
       "prompt_file": "~/.claude/agents/java-expert.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "java_spring_boot_enterprise"
+      "specialization": "java_spring_boot_enterprise",
+      "focus": "Spring Boot, Maven/Gradle, enterprise apps"
     },
     "python-expert": {
       "enabled": true,
@@ -41,7 +65,8 @@
       "config_file": "~/.claude/agents/python-expert/agent.json",
       "prompt_file": "~/.claude/agents/python-expert.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "python_web_data_science_automation"
+      "specialization": "python_web_data_science_automation",
+      "focus": "Django/Flask, data science, automation"
     },
     "typescript-expert": {
       "enabled": true,
@@ -49,7 +74,8 @@
       "config_file": "~/.claude/agents/typescript-expert/agent.json",
       "prompt_file": "~/.claude/agents/typescript-expert.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "typescript_javascript_react_nodejs"
+      "specialization": "typescript_javascript_react_nodejs",
+      "focus": "React/Next.js, Node.js, frontend/backend"
     },
     "mql-trading-dev": {
       "enabled": true,
@@ -57,7 +83,8 @@
       "config_file": "~/.claude/agents/mql-trading-dev/agent.json",
       "prompt_file": "~/.claude/agents/mql-trading-dev.md",
       "model": "claude-opus-4-6-20250805",
-      "specialization": "mql4_mql5_metatrader_trading_systems"
+      "specialization": "mql4_mql5_metatrader_trading_systems",
+      "focus": "MQL4/MQL5, C/C++ DLLs, MetaTrader trading systems"
     },
     "bash-expert": {
       "enabled": true,
@@ -65,7 +92,8 @@
       "config_file": "~/.claude/agents/bash-expert/agent.json",
       "prompt_file": "~/.claude/agents/bash-expert.md",
       "model": "claude-haiku-4-5-20251001",
-      "specialization": "bash_shell_linux_automation"
+      "specialization": "bash_shell_linux_automation",
+      "focus": "Shell scripting, Linux automation, CLI tools"
     },
     "powershell-expert": {
       "enabled": true,
@@ -73,7 +101,8 @@
       "config_file": "~/.claude/agents/powershell-expert/agent.json",
       "prompt_file": "~/.claude/agents/powershell-expert.md",
       "model": "claude-haiku-4-5-20251001",
-      "specialization": "powershell_windows_azure_automation"
+      "specialization": "powershell_windows_azure_automation",
+      "focus": "Windows administration, Azure/AWS automation"
     },
     "database-specialist": {
       "enabled": true,
@@ -81,7 +110,8 @@
       "config_file": "~/.claude/agents/database-specialist/agent.json",
       "prompt_file": "~/.claude/agents/database-specialist.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "database_design_optimization_sql_nosql"
+      "specialization": "database_design_optimization_sql_nosql",
+      "focus": "Schema design, query optimization, SQL/NoSQL"
     },
     "frontend-specialist": {
       "enabled": true,
@@ -89,7 +119,8 @@
       "config_file": "~/.claude/agents/frontend-specialist/agent.json",
       "prompt_file": "~/.claude/agents/frontend-specialist.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "frontend_react_vue_angular_responsive"
+      "specialization": "frontend_react_vue_angular_responsive",
+      "focus": "React/Vue/Angular, responsive design, accessibility"
     },
     "security-specialist": {
       "enabled": true,
@@ -97,7 +128,8 @@
       "config_file": "~/.claude/agents/security-specialist/agent.json",
       "prompt_file": "~/.claude/agents/security-specialist.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "security_auditing_owasp_compliance"
+      "specialization": "security_auditing_owasp_compliance",
+      "focus": "Vulnerability assessment, compliance, auth"
     },
     "uiux-specialist": {
       "enabled": true,
@@ -105,7 +137,8 @@
       "config_file": "~/.claude/agents/uiux-specialist/agent.json",
       "prompt_file": "~/.claude/agents/uiux-specialist.md",
       "model": "claude-haiku-4-5-20251001",
-      "specialization": "uiux_design_accessibility_usability"
+      "specialization": "uiux_design_accessibility_usability",
+      "focus": "User flows, design systems, wireframing"
     },
     "devops-orchestrator": {
       "enabled": true,
@@ -113,7 +146,8 @@
       "config_file": "~/.claude/agents/devops-orchestrator/agent.json",
       "prompt_file": "~/.claude/agents/devops-orchestrator.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "infrastructure_deployment_cicd"
+      "specialization": "infrastructure_deployment_cicd",
+      "focus": "CI/CD, containers, cloud deployment, monitoring"
     },
     "system-architect": {
       "enabled": true,
@@ -121,7 +155,8 @@
       "config_file": "~/.claude/agents/system-architect/agent.json",
       "prompt_file": "~/.claude/agents/system-architect.md",
       "model": "claude-opus-4-6-20250805",
-      "specialization": "system_design_architecture_patterns"
+      "specialization": "system_design_architecture_patterns",
+      "focus": "System design, technology selection, SOLID principles"
     },
     "comprehensive-analyst": {
       "enabled": true,
@@ -129,7 +164,8 @@
       "config_file": "~/.claude/agents/comprehensive-analyst/agent.json",
       "prompt_file": "~/.claude/agents/comprehensive-analyst.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "deep_analysis_investigation_debugging"
+      "specialization": "deep_analysis_investigation_debugging",
+      "focus": "Security audits, performance profiling, investigation"
     },
     "code-review-gatekeeper": {
       "enabled": true,
@@ -137,7 +173,8 @@
       "config_file": "~/.claude/agents/code-review-gatekeeper/agent.json",
       "prompt_file": "~/.claude/agents/code-review-gatekeeper.md",
       "model": "claude-opus-4-6-20250805",
-      "specialization": "quality_enforcement_code_review"
+      "specialization": "quality_enforcement_code_review",
+      "focus": "Code review, quality gates, standards compliance"
     },
     "peer-review-critic": {
       "enabled": true,
@@ -145,7 +182,8 @@
       "config_file": "~/.claude/agents/peer-review-critic/agent.json",
       "prompt_file": "~/.claude/agents/peer-review-critic.md",
       "model": "claude-opus-4-6-20250805",
-      "specialization": "independent_peer_review_final_gate"
+      "specialization": "independent_peer_review_final_gate",
+      "focus": "Final independent peer review — diff-scoped gatekeeper (branch vs base)"
     },
     "technical-docs-writer": {
       "enabled": true,
@@ -153,7 +191,8 @@
       "config_file": "~/.claude/agents/technical-docs-writer/agent.json",
       "prompt_file": "~/.claude/agents/technical-docs-writer.md",
       "model": "claude-haiku-4-5-20251001",
-      "specialization": "documentation_technical_writing"
+      "specialization": "documentation_technical_writing",
+      "focus": "API docs, user guides, architecture docs"
     },
     "product-owner": {
       "enabled": true,
@@ -161,7 +200,8 @@
       "config_file": "~/.claude/agents/product-owner/agent.json",
       "prompt_file": "~/.claude/agents/product-owner.md",
       "model": "claude-sonnet-4-6-20250514",
-      "specialization": "product_management_requirements_planning"
+      "specialization": "product_management_requirements_planning",
+      "focus": "User stories, backlog management, acceptance criteria"
     }
   },
 
