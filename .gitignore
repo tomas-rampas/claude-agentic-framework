@@ -24,6 +24,8 @@
 !/shared/
 !/skills/
 !/scripts/
+!/tests/
+!/.github/
 
 # Explicitly ignore files at the root that should not be tracked
 /settings.json

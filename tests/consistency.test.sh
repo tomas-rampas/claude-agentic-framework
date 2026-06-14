@@ -1,0 +1,362 @@
+#!/usr/bin/env bash
+# consistency.test.sh - Portable, self-contained test harness for the anti-drift
+# consistency system (Phase A+B: scripts/lib/*.sh, scripts/validate-consistency.sh,
+# scripts/generate-docs.sh).
+#
+# WHY plain bash (not bats): this must run unmodified on the developer's Windows
+# machine (Cygwin/Git-bash) AND on ubuntu-latest CI with nothing but bash + jq.
+#
+# ISOLATION CONTRACT (the real working tree is NEVER mutated):
+#   Each test case operates on its own throwaway copy of the repo:
+#     1. `cp -r` every top-level entry EXCEPT .git into a fresh `mktemp -d` dir.
+#        The copy is therefore a detached, NON-git tree (a `cp -r` copy must be
+#        validated as such; .git is skipped both for correctness and speed).
+#     2. Mutate ONLY the copy (inject a defect, or leave it clean).
+#     3. Run the COPIED scripts/validate-consistency.sh / generate-docs.sh against
+#        the copy, with FRAMEWORK_ROOT pinned to the copy root.
+#     4. Assert the exit code / message.
+#     5. Remove the temp dir (a per-run trap also sweeps any leftovers).
+#
+#   FRAMEWORK_ROOT is required, not optional: `git rev-parse` would otherwise
+#   resolve the copy's root to whatever git tree the temp dir happens to live in
+#   (e.g. when TMPDIR is inside a checkout), silently testing the WRONG tree.
+#   facts.sh honours FRAMEWORK_ROOT above git, so pinning it guarantees every
+#   assertion is made against the isolated copy.
+#
+# Usage:
+#   bash tests/consistency.test.sh
+#   echo "exit=$?"      # 0 = all cases passed, 1 = at least one failed
+#
+# Requirements: bash, jq, cp, mktemp, awk, grep.
+
+set -uo pipefail
+# NOTE: -e is intentionally NOT set. We run every case and aggregate results; a
+# single failing assertion must not abort the whole suite.
+
+# --- locate the repo under test --------------------------------------------
+# The harness lives at <repo>/tests/consistency.test.sh, so the source repo is
+# one level up from this script's directory. Resolved script-relative so the
+# suite can be invoked from any CWD.
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SRC_REPO="$(cd "$TEST_DIR/.." && pwd)"
+
+# --- pin the bash interpreter (portability + Windows safety) ----------------
+# Invoke every copied script with the SAME bash that is running this harness,
+# and put that bash's directory first on PATH so any nested `bash ...` call
+# inside the scripts (e.g. validate-consistency.sh check 11 -> generate-docs.sh)
+# resolves to the identical interpreter. On a Windows box with several bash
+# flavors on PATH (Cygwin, Git-for-Windows, the WindowsApps stub) a mixed
+# Cygwin+Git-bash pipeline can deadlock on process substitution; pinning one
+# flavor avoids that. On Linux/CI this is simply /usr/bin/bash either way.
+BASH_BIN="${BASH:-bash}"
+if [[ -x "$BASH_BIN" ]]; then
+  PATH="$(dirname "$BASH_BIN"):$PATH"
+  export PATH
+fi
+
+# --- output helpers ---------------------------------------------------------
+if [[ -t 1 ]]; then
+  C_RED=$'\033[0;31m'; C_GRN=$'\033[0;32m'; C_YEL=$'\033[1;33m'
+  C_CYN=$'\033[0;36m'; C_NC=$'\033[0m'
+else
+  C_RED=""; C_GRN=""; C_YEL=""; C_CYN=""; C_NC=""
+fi
+
+TESTS_RUN=0
+TESTS_PASS=0
+TESTS_FAIL=0
+
+# Track every temp dir we create so the global trap can sweep them even if a
+# case dies unexpectedly. The real tree never appears in here.
+declare -a __TMP_DIRS=()
+
+cleanup_all() {
+  local d
+  for d in "${__TMP_DIRS[@]:-}"; do
+    [[ -n "${d:-}" && -d "$d" ]] && rm -rf "$d"
+  done
+}
+trap cleanup_all EXIT INT TERM
+
+# --- copy helper ------------------------------------------------------------
+# make_copy -> prints the path to a fresh, isolated, non-git copy of the repo.
+# The caller mutates and runs scripts against the returned path.
+#
+# We copy every top-level entry EXCEPT .git. Skipping .git is deliberate:
+#   * the copy must be a detached, NON-git tree (exercises facts.sh's non-git
+#     root-resolution fallback), so .git would be removed anyway;
+#   * copying .git (thousands of tiny objects) is by far the slowest part of a
+#     `cp -r` under Cygwin/Windows - excluding it keeps each case fast.
+# Dotfiles that matter (.gitattributes, .mcp.json, .claude/, etc.) ARE copied;
+# only .git (and the . / .. pseudo-entries) are skipped.
+make_copy() {
+  local dst entry base
+  dst="$(mktemp -d "${TMPDIR:-/tmp}/consistency-test.XXXXXX")" || {
+    printf 'FATAL: mktemp failed\n' >&2
+    exit 2
+  }
+  __TMP_DIRS+=("$dst")
+  shopt -s dotglob nullglob
+  for entry in "$SRC_REPO"/*; do
+    base="$(basename "$entry")"
+    [[ "$base" == ".git" ]] && continue
+    cp -r "$entry" "$dst/"
+  done
+  shopt -u dotglob nullglob
+  printf '%s\n' "$dst"
+}
+
+# --- script runners (pin FRAMEWORK_ROOT to the copy) ------------------------
+# run_validate <copy-root> -> runs the COPIED validator against the copy.
+#   Captures combined stdout+stderr into $RUN_OUT and the exit code into $RUN_RC.
+RUN_OUT=""
+RUN_RC=0
+run_validate() {
+  local root="$1"
+  RUN_OUT="$(FRAMEWORK_ROOT="$root" "$BASH_BIN" "$root/scripts/validate-consistency.sh" 2>&1)"
+  RUN_RC=$?
+}
+# run_generate <copy-root> <mode...> -> runs the COPIED generator against the copy.
+run_generate() {
+  local root="$1"; shift
+  RUN_OUT="$(FRAMEWORK_ROOT="$root" "$BASH_BIN" "$root/scripts/generate-docs.sh" "$@" 2>&1)"
+  RUN_RC=$?
+}
+
+# --- assertions -------------------------------------------------------------
+# Every assertion records pass/fail and prints a one-line verdict. They never
+# exit; the suite always runs to completion.
+_pass() { TESTS_RUN=$((TESTS_RUN + 1)); TESTS_PASS=$((TESTS_PASS + 1)); printf '  %sPASS%s  %s\n' "$C_GRN" "$C_NC" "$1"; }
+_fail() {
+  TESTS_RUN=$((TESTS_RUN + 1)); TESTS_FAIL=$((TESTS_FAIL + 1))
+  printf '  %sFAIL%s  %s\n' "$C_RED" "$C_NC" "$1"
+  [[ -n "${2:-}" ]] && printf '        %s\n' "$2"
+}
+
+assert_rc_zero() {
+  local label="$1"
+  if [[ "$RUN_RC" -eq 0 ]]; then _pass "$label (exit 0)"
+  else _fail "$label" "expected exit 0, got $RUN_RC"; fi
+}
+assert_rc_nonzero() {
+  local label="$1"
+  if [[ "$RUN_RC" -ne 0 ]]; then _pass "$label (exit $RUN_RC)"
+  else _fail "$label" "expected non-zero exit, got 0"; fi
+}
+# assert_out_contains <label> <needle>
+assert_out_contains() {
+  local label="$1" needle="$2"
+  if printf '%s' "$RUN_OUT" | grep -qF -- "$needle"; then _pass "$label"
+  else _fail "$label" "expected output to contain: $needle"; fi
+}
+
+section() { printf '\n%s%s%s\n' "$C_CYN" "$1" "$C_NC"; }
+
+# ===========================================================================
+printf '%s================================================%s\n' "$C_CYN" "$C_NC"
+printf '%s  Anti-Drift Consistency Test Harness%s\n' "$C_CYN" "$C_NC"
+printf '%s  source repo: %s%s\n' "$C_CYN" "$SRC_REPO" "$C_NC"
+printf '%s================================================%s\n' "$C_CYN" "$C_NC"
+
+# --- preflight --------------------------------------------------------------
+if ! command -v jq >/dev/null 2>&1; then
+  printf '%sFATAL%s jq is required but not installed.\n' "$C_RED" "$C_NC" >&2
+  exit 2
+fi
+
+# ===========================================================================
+# CASE 1 - Happy path: unmodified copy validates clean.
+# ===========================================================================
+section "[1] Happy path: unmodified copy -> validate-consistency.sh exits 0"
+{
+  copy="$(make_copy)"
+  run_validate "$copy"
+  assert_rc_zero "unmodified copy passes validation"
+  assert_out_contains "validator reports RESULT: PASS" "RESULT: PASS"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 2 - Missing agent .md: registry parity must fail.
+# ===========================================================================
+section "[2] Missing agent: delete agents/go-expert.md -> non-zero (registry parity)"
+{
+  copy="$(make_copy)"
+  rm -f "$copy/agents/go-expert.md"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails when a registered agent has no .md"
+  assert_out_contains "reports missing-md for go-expert" "missing-md: go-expert"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 3 - Orphan agent file not in claude.json.
+# ===========================================================================
+section "[3] Orphan agent file: add agents/zzz-expert.md (unregistered) -> non-zero"
+{
+  copy="$(make_copy)"
+  printf -- '---\nname: zzz-expert\nmodel: opus\n---\nOrphan.\n' > "$copy/agents/zzz-expert.md"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails on an orphan agents/*.md"
+  assert_out_contains "reports orphan-md for zzz-expert" "orphan-md: zzz-expert"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 4 - Category partition break: remove an agent from agent_categories.
+# ===========================================================================
+section "[4] Category partition break: drop an agent from agent_categories -> non-zero"
+{
+  copy="$(make_copy)"
+  # Pick the first agent that is currently assigned to some category, then
+  # remove it from every category list. The agent stays registered + has its
+  # .md, so the ONLY break is the category partition (uncategorized agent).
+  victim="$(jq -r '.agent_categories | to_entries[0].value[0]' "$copy/claude.json")"
+  jq --arg v "$victim" '
+    .agent_categories |= with_entries(.value |= map(select(. != $v)))
+  ' "$copy/claude.json" > "$copy/claude.json.tmp" && mv "$copy/claude.json.tmp" "$copy/claude.json"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails when an agent is in no category"
+  assert_out_contains "reports uncategorized agent ($victim)" "uncategorized: $victim"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 5 - Missing validation hook for a non-allowlisted agent.
+# ===========================================================================
+section "[5] Missing hook: rm hooks/rust-expert-validation.json -> non-zero (hook coverage)"
+{
+  copy="$(make_copy)"
+  rm -f "$copy/hooks/rust-expert-validation.json"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails when a required agent has no validation hook"
+  assert_out_contains "reports missing-hook for rust-expert" "missing-hook: rust-expert"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 6 - Allowlist works: an allowlisted agent (peer-review-critic) needs no
+#          hook, and a clean copy must still pass. Guards against a regression
+#          that would force a per-agent hook onto allowlisted agents.
+# ===========================================================================
+section "[6] Allowlist: allowlisted agent (no hook) still passes -> exit 0"
+{
+  copy="$(make_copy)"
+  # Sanity: the allowlist is non-empty and the allowlisted agent has NO hook on
+  # disk (so a passing run proves the allowlist exemption is honoured).
+  al="$(FRAMEWORK_ROOT="$copy" "$BASH_BIN" -c 'source "$0/scripts/lib/facts.sh"; fact_allowlist' "$copy")"
+  if [[ -z "$al" ]]; then
+    _fail "allowlist is non-empty" "fact_allowlist returned nothing"
+  else
+    _pass "allowlist is non-empty ($(printf '%s' "$al" | tr '\n' ' '))"
+  fi
+  # Confirm at least one allowlisted agent has no validation hook file.
+  exempt_no_hook=""
+  while IFS= read -r a; do
+    [[ -z "$a" ]] && continue
+    [[ -f "$copy/hooks/${a}-validation.json" ]] || { exempt_no_hook="$a"; break; }
+  done <<< "$al"
+  if [[ -n "$exempt_no_hook" ]]; then
+    _pass "allowlisted agent has no hook on disk ($exempt_no_hook)"
+  else
+    _fail "an allowlisted agent has no hook on disk" "every allowlisted agent unexpectedly has a hook"
+  fi
+  run_validate "$copy"
+  assert_rc_zero "clean copy with allowlisted-but-hookless agent still passes"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 7 - Stale core-hooks.json description ("18-agent").
+# ===========================================================================
+section "[7] Stale core-hooks description: set to '18-agent' -> non-zero"
+{
+  copy="$(make_copy)"
+  jq '.description = "Core hooks for 18-agent architecture with specialized routing"' \
+    "$copy/hooks/core-hooks.json" > "$copy/hooks/core-hooks.json.tmp" \
+    && mv "$copy/hooks/core-hooks.json.tmp" "$copy/hooks/core-hooks.json"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails on a stale core-hooks.json description"
+  assert_out_contains "reports core-hooks.json missing N-agent" "core-hooks.json .description missing"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 8 - Roster drift in prose table: delete an agent row from CLAUDE.md.
+# ===========================================================================
+section "[8] Roster drift: delete an agent row from the CLAUDE.md table -> non-zero"
+{
+  copy="$(make_copy)"
+  # Remove the go-expert table row (shape: | **go-expert** | ... |). awk drops
+  # exactly that line, leaving everything else byte-identical.
+  awk '!/^\| \*\*go-expert\*\* \|/' "$copy/CLAUDE.md" > "$copy/CLAUDE.md.tmp" \
+    && mv "$copy/CLAUDE.md.tmp" "$copy/CLAUDE.md"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails when an agent row is missing from CLAUDE.md table"
+  assert_out_contains "reports missing-row for go-expert" "missing-row: go-expert"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 9 - Generator staleness: edit inside the GENERATED region.
+# ===========================================================================
+section "[9] Generator staleness: mutate inside list-agents GENERATED region -> --check non-zero"
+{
+  copy="$(make_copy)"
+  la="$copy/commands/list-agents.md"
+  # Corrupt a data line strictly between the BEGIN/END markers so the rendered
+  # block no longer matches what's on disk. Change "total_agents": N -> 999.
+  awk '
+    /<!-- BEGIN GENERATED: list-agents-summary -->/ { inside=1; print; next }
+    /<!-- END GENERATED: list-agents-summary -->/   { inside=0; print; next }
+    inside && /"total_agents":/ { sub(/[0-9]+/, "999"); print; next }
+    { print }
+  ' "$la" > "$la.tmp" && mv "$la.tmp" "$la"
+  run_generate "$copy" --check
+  assert_rc_nonzero "generate-docs.sh --check fails on a stale generated block"
+  assert_out_contains "reports STALE for list-agents-summary" "STALE"
+  # And the full validator (check 11 wires in --check) must also fail.
+  run_validate "$copy"
+  assert_rc_nonzero "validator (check 11) also fails on the stale block"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 10 - Generator idempotency: --write on a clean copy leaves no diff.
+# ===========================================================================
+section "[10] Idempotency: generate-docs.sh --write on a clean copy is a no-op"
+{
+  copy="$(make_copy)"
+  la="$copy/commands/list-agents.md"
+  before="$(jq -nr --arg s "$(tr -d '\r' < "$la")" '$s | @base64' 2>/dev/null)"
+  # Fallback hash if jq @base64 path is awkward: compare raw bytes via cmp later.
+  cp "$la" "$copy/.la.before"
+  run_generate "$copy" --write
+  assert_rc_zero "generate-docs.sh --write succeeds on a clean copy"
+  if cmp -s "$copy/.la.before" "$la"; then
+    _pass "list-agents.md byte-identical before/after --write (idempotent)"
+  else
+    _fail "list-agents.md changed after --write" "expected no diff on a clean copy"
+  fi
+  # Belt-and-suspenders: --check must report FRESH after the no-op write.
+  run_generate "$copy" --check
+  assert_rc_zero "--check confirms blocks fresh after idempotent --write"
+  rm -rf "$copy"
+  unset before
+}
+
+# ===========================================================================
+# Summary
+# ===========================================================================
+printf '\n%s================================================%s\n' "$C_CYN" "$C_NC"
+if [[ "$TESTS_FAIL" -eq 0 ]]; then
+  printf '%s  RESULT: PASS%s  (%s/%s assertions passed, 0 failed)\n' \
+    "$C_GRN" "$C_NC" "$TESTS_PASS" "$TESTS_RUN"
+  printf '%s================================================%s\n' "$C_CYN" "$C_NC"
+  exit 0
+else
+  printf '%s  RESULT: FAIL%s  (%s passed, %s failed, %s total)\n' \
+    "$C_RED" "$C_NC" "$TESTS_PASS" "$TESTS_FAIL" "$TESTS_RUN"
+  printf '%s================================================%s\n' "$C_CYN" "$C_NC"
+  exit 1
+fi

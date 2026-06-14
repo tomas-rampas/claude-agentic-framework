@@ -22,10 +22,24 @@ fi
 __FACTS_SH_LOADED=1
 
 # --- repo root resolution ---------------------------------------------------
-# Prefer git; fall back to walking up from this script's own location so the
-# library keeps working inside a tarball / detached checkout with no git.
+# Resolution order:
+#   1. FRAMEWORK_ROOT env override (explicit, highest precedence). Used by the
+#      test harness to pin resolution to an isolated temp copy of the repo even
+#      when that copy happens to live inside an unrelated git working tree (where
+#      `git rev-parse` would otherwise resolve to the WRONG root). Must point at
+#      a directory containing claude.json.
+#   2. git (`git rev-parse --show-toplevel`) for normal in-repo use.
+#   3. script-relative walk-up from this file's location so the library keeps
+#      working inside a tarball / detached / non-git checkout (e.g. a `cp -r`
+#      temp copy with no .git).
+#   4. CWD as a last resort.
 _facts_resolve_root() {
   local here git_root
+  # 1. explicit override (must actually look like the framework root)
+  if [[ -n "${FRAMEWORK_ROOT:-}" && -f "${FRAMEWORK_ROOT}/claude.json" ]]; then
+    ( cd "${FRAMEWORK_ROOT}" 2>/dev/null && pwd ) && return 0
+  fi
+  # 2. git
   if git_root="$(git rev-parse --show-toplevel 2>/dev/null)" && [[ -n "$git_root" ]]; then
     printf '%s\n' "$git_root"
     return 0
