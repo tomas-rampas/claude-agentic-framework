@@ -804,6 +804,64 @@ section "[11] Generated documentation blocks are up to date (generate-docs.sh --
 }
 
 # ===========================================================================
+# CHECK 12 - Skills layout (BLOCKING)
+# ===========================================================================
+# Claude Code only loads skills from skills/<name>/SKILL.md. Flat skills/*.md
+# files are silently ignored by the runtime, so their presence is always a
+# defect. Each SKILL.md must carry frontmatter with name == its directory and
+# a non-empty single-line description.
+section "[12] Skills layout (skills/<name>/SKILL.md only; frontmatter name == dirname)"
+{
+  ok=1
+  skills_dir="$FACTS_SKILLS_DIR"
+  if [[ -d "$skills_dir" ]]; then
+    shopt -s nullglob
+
+    # 12a: no loose files directly under skills/ (flat *.md is unloadable)
+    for f in "$skills_dir"/*; do
+      if [[ -f "$f" ]]; then
+        ok=0
+        fail "loose file in skills/ (not loadable by Claude Code): ${f#"$ROOT"/}"
+        detail "flat-skill-file: $(basename "$f")"
+      fi
+    done
+
+    # 12b: every skills/<name>/ dir has SKILL.md with sane frontmatter
+    for d in "$skills_dir"/*/; do
+      d="${d%/}"
+      sname="$(basename "$d")"
+      sm="$d/SKILL.md"
+      if [[ ! -f "$sm" ]]; then
+        ok=0
+        fail "skills/$sname/ has no SKILL.md"
+        detail "missing-skill-md: $sname"
+        continue
+      fi
+      fm_name="$(grep -m1 -E '^name:[[:space:]]*' "$sm" | sed -E 's/^name:[[:space:]]*//; s/[[:space:]]+$//')"
+      fm_desc="$(grep -m1 -E '^description:[[:space:]]*' "$sm" | sed -E 's/^description:[[:space:]]*//; s/[[:space:]]+$//')"
+      if [[ "$fm_name" != "$sname" ]]; then
+        ok=0
+        fail "skills/$sname/SKILL.md frontmatter name '$fm_name' != directory name '$sname'"
+        detail "skill-name-mismatch: $sname"
+      fi
+      if [[ -z "$fm_desc" ]]; then
+        ok=0
+        fail "skills/$sname/SKILL.md has no (or empty) frontmatter description"
+        detail "skill-missing-description: $sname"
+      fi
+    done
+    shopt -u nullglob
+
+    if [[ "$ok" -eq 1 ]]; then
+      n_sk="$(fact_skills | grep -c . || true)"
+      pass "$n_sk skill(s) in canonical skills/<name>/SKILL.md layout; frontmatter consistent"
+    fi
+  else
+    info "no skills/ directory present"
+  fi
+}
+
+# ===========================================================================
 # Summary
 # ===========================================================================
 printf '\n%s================================================%s\n' "$C_CYN" "$C_NC"

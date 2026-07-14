@@ -198,24 +198,17 @@ Tasks are automatically routed to the appropriate agent. Examples:
 
 ## Skills
 
-The framework ships 14 operational skills in `skills/` that support validation, debugging, and analytics:
+The framework ships operational skills in `skills/<name>/SKILL.md` (the layout Claude Code loads):
 
 | Skill | Purpose |
 |-------|---------|
-| **framework-validator** | Comprehensive framework health, consistency, and integrity checks |
-| **config-validator** | Validate framework configuration files for correctness |
-| **dependency-checker** | Check framework dependencies and tool requirements |
-| **agent-debugger** | Debug agent routing, execution, and integration issues |
-| **agent-routing-advisor** | Intelligent task-to-agent mapping recommendations |
-| **hook-auditor** | Audit hook coverage, consistency, and effectiveness |
-| **hook-config-generator** | Generate new validation hooks from templates |
+| **agent-debugger** | Diagnose agent routing, loading, and configuration issues |
+| **agent-routing-advisor** | Recommend the right specialist agent for a task |
 | **code-scaffolder** | Generate idiomatic project scaffolding for supported languages |
+| **dependency-checker** | Verify the toolchain the framework needs (git, jq, pwsh 7, node, uv) |
+| **git-workflow-assistant** | Guide branching, commit conventions, and PR workflows (incl. the peer-review gate) |
+| **hook-config-generator** | Guide for adding a new real hook (script + registration + tests) |
 | **refactoring-advisor** | Identify refactoring opportunities and improvement patterns |
-| **git-workflow-assistant** | Guide branching, commit conventions, and PR workflows |
-| **migration-assistant** | Assist with framework version migrations |
-| **performance-analytics** | Analyze agent and hook performance metrics |
-| **quality-reporter** | Generate quality metrics reports and trend analysis |
-| **workflow-visualizer** | Visualize multi-agent workflows and coordination patterns |
 
 ---
 
@@ -280,5 +273,5 @@ To add or modify agents, manage framework consistency, or understand the anti-dr
 ---
 
 <!-- BEGIN GENERATED: framework-stats -->
-**Built for Claude Code CLI • 20 Specialized Agents • 4 Hook Scripts • 14 Skills • 6 Commands • v3.0.0**
+**Built for Claude Code CLI • 20 Specialized Agents • 4 Hook Scripts • 7 Skills • 6 Commands • v3.0.0**
 <!-- END GENERATED: framework-stats -->

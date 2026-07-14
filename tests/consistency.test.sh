@@ -389,6 +389,45 @@ section "[12] Generator staleness: mutate README framework-stats region -> --che
 }
 
 # ===========================================================================
+# CASE 13 - Flat skill file: a loose skills/*.md is unloadable -> check 12 fails.
+# ===========================================================================
+section "[13] Flat skill file: add skills/rogue.md -> non-zero (check 12)"
+{
+  copy="$(make_copy)"
+  printf -- '---\nname: rogue\ndescription: not loadable\n---\nBody.\n' > "$copy/skills/rogue.md"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails on a flat skills/*.md file"
+  assert_out_contains "reports flat-skill-file" "flat-skill-file: rogue.md"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 14 - Skill dir without SKILL.md / frontmatter-name mismatch -> check 12.
+# ===========================================================================
+section "[14] Broken skill dir: no SKILL.md, and name != dirname -> non-zero (check 12)"
+{
+  copy="$(make_copy)"
+  mkdir -p "$copy/skills/broken"
+  run_validate "$copy"
+  assert_rc_nonzero "validator fails on a skill dir without SKILL.md"
+  assert_out_contains "reports missing-skill-md" "missing-skill-md: broken"
+  rm -rf "$copy"
+
+  copy="$(make_copy)"
+  first_skill="$(basename "$(find "$copy/skills" -mindepth 1 -maxdepth 1 -type d | head -1)")"
+  if [[ -n "$first_skill" ]]; then
+    sed -i.bak "s/^name: ${first_skill}\$/name: wrong-name/" "$copy/skills/$first_skill/SKILL.md" \
+      && rm -f "$copy/skills/$first_skill/SKILL.md.bak"
+    run_validate "$copy"
+    assert_rc_nonzero "validator fails on frontmatter name != dirname"
+    assert_out_contains "reports skill-name-mismatch" "skill-name-mismatch: $first_skill"
+  else
+    _fail "found a skill directory to mutate" "skills/ has no subdirectories"
+  fi
+  rm -rf "$copy"
+}
+
+# ===========================================================================
 # Summary
 # ===========================================================================
 printf '\n%s================================================%s\n' "$C_CYN" "$C_NC"
