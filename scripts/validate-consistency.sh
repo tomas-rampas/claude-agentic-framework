@@ -314,7 +314,7 @@ section "[5] Deprecated agent names (no live references in config or active doc 
 
     # Structured config: deprecated name as a JSON string token "<name>".
     # The canonical lists that legitimately enumerate these names all live under
-    # the .consistency block (deprecated_agent_names / hook_coverage_allowlist /
+    # the .consistency block (deprecated_agent_names /
     # model_shorthand_map). We exclude them STRUCTURALLY by deleting that block
     # with jq before scanning, rather than text-filtering by key name (which is
     # coupled to single-line JSON layout and breaks under `jq '.'` reformatting).

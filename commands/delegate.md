@@ -1,7 +1,6 @@
 ---
 description: Route and orchestrate a development objective end-to-end through specialist sub-agents
 argument-hint: <objective, e.g. "implement Sprint 3" or "add SCIM provisioning">
-category: workflow
 ---
 
 # /delegate — Orchestrate & Route

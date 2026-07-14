@@ -1,7 +1,6 @@
 ---
 name: agent-status
 description: Display configuration status and health information for framework agents
-tags: [agents, status, monitoring]
 ---
 
 # Agent Status Command

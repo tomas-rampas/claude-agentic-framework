@@ -1,7 +1,6 @@
 ---
 name: analyze-framework
 description: Perform comprehensive framework health check and analysis
-tags: [framework, validation, health-check, diagnostics]
 ---
 
 # Framework Health Analysis Command

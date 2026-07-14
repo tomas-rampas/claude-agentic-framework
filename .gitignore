@@ -10,12 +10,6 @@
 !/.env.example
 !/SECURITY_AUDIT.md
 !/security-check.sh
-!/validate-framework.sh
-!/AGENT_ARCHITECTURE_SUMMARY.md
-!/REFACTOR_SUMMARY.md
-!/fix-mcp-context.md
-!/migrate-to-optimized.sh
-!/mcp-optimization.json
 !/.mcp.json
 !/settings.template.json
 
