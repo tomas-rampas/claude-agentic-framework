@@ -45,7 +45,7 @@ bash scripts/validate-consistency.sh   # check 5 covers this
 
 ### 2. Agent Availability Assessment
 
-Analyzes all 20 agents using the canonical 7 categories from `claude.json .agent_categories`:
+Analyzes every registered agent using the canonical categories from `claude.json .agent_categories`:
 
 - **language_experts** — rust-expert, csharp-expert, go-expert, java-expert, python-expert, typescript-expert, mql-trading-dev
 - **automation_experts** — bash-expert, powershell-expert
@@ -112,8 +112,8 @@ CONFIGURATION
    • settings.template.json: hooks registered, parity OK
    • .mcp.json: valid server specs
 
-AGENTS (20/20)
-   • All categories partition the roster; model parity OK
+AGENTS
+   • Registry == filesystem; all categories partition the roster; model parity OK
 
 HOOKS
    • Registration parity OK (no missing, no orphans, events valid)

@@ -82,8 +82,8 @@ Configuration Integrity:  ✓ claude.json valid (registry == filesystem)
                          ✓ settings.template.json valid (hooks registered)
                          ✓ .mcp.json valid
 
-Agent Coverage:          20/20 agents with definition files
-                         20/20 agents with valid frontmatter
+Agent Coverage:          all registered agents have definition files
+                         all agent frontmatter valid (model parity OK)
                          0 orphaned files
 
 Hook Architecture:       registration parity OK (no missing, no orphans)

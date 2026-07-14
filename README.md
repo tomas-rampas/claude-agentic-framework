@@ -1,6 +1,6 @@
 # Claude Code CLI - Agent Execution Framework
 
-A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) that adds 20 specialized agents, automated pattern capture, institutional memory, and intelligent task routing.
+A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) that adds 20 specialized agents, a real peer-review enforcement gate, an anti-drift consistency system, and intelligent task routing.
 
 **This is NOT a standalone tool** — it requires Claude Code CLI as the underlying platform.
 
@@ -206,7 +206,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 | `/analyze-framework` | Framework health checking and validation |
 | `/list-agents` | Agent catalog with filtering and multiple output formats |
 | `/validate-hooks` | Hook coverage and consistency verification |
-| `/agent-status` | Real-time agent monitoring and performance metrics |
+| `/agent-status` | Agent configuration status and health assessment |
 | `/quality-report` | Quality metrics, trend analysis, and reporting |
 
 ---

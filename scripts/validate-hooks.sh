@@ -57,7 +57,9 @@ while IFS= read -r name; do
   [[ -z "$name" ]] && continue
   shopt -s nullglob
   for f in "$FACTS_HOOKS_DIR"/*.ps1; do
-    hits="$(grep -nF "$name" "$f" 2>/dev/null)"
+    # -w: word-boundary match so a deprecated token that happens to be a
+    # substring of an unrelated identifier cannot false-positive.
+    hits="$(grep -nwF "$name" "$f" 2>/dev/null)"
     if [[ -n "$hits" ]]; then
       echo "ERROR: deprecated name '$name' in $(basename "$f"):"
       while IFS= read -r ln; do [[ -n "$ln" ]] && echo "     $ln"; done <<< "$hits"
