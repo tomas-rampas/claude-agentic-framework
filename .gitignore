@@ -17,6 +17,7 @@
 !/migrate-to-optimized.sh
 !/mcp-optimization.json
 !/.mcp.json
+!/settings.template.json
 
 # And not these directories and their contents
 !/agents/
