@@ -34,7 +34,7 @@ try {
     $info = $techMap[$ext]
     if (-not $info) { exit 0 }
 
-    $sessionId = ([string]$payload.session_id) -replace '[^\w\-.]', ''
+    $sessionId = ([string]$payload.session_id) -replace '[^\w-]', ''
     if ($sessionId) {
         $stateRoot = $env:CLAUDE_STATE_DIR
         if (-not $stateRoot) { $stateRoot = Join-Path $HOME '.claude/.state' }

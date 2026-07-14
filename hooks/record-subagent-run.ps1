@@ -10,7 +10,7 @@
 try {
     $payload = [Console]::In.ReadToEnd() | ConvertFrom-Json -ErrorAction Stop
 
-    $sessionId = ([string]$payload.session_id) -replace '[^\w\-.]', ''
+    $sessionId = ([string]$payload.session_id) -replace '[^\w-]', ''
     if (-not $sessionId) { exit 0 }
 
     $subagent = [string]$payload.tool_input.subagent_type

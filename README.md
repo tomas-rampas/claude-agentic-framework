@@ -11,7 +11,7 @@ A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/
 This framework extends Claude Code CLI with:
 
 - **20 Specialized Agents** covering the full development lifecycle
-- **Real Enforcement Hooks** — a blocking peer-review Stop gate plus session-context and delegation-hint hooks, registered in `settings.json` and covered by tests
+- **Real Enforcement Hooks** — a blocking peer-review Stop gate plus session-context and delegation-hint hooks, registered via `settings.template.json` and covered by tests
 - **Anti-Drift Consistency System** — dynamic validator, doc generator, and CI gate that keep the registry, docs, and filesystem in lockstep
 - **MCP Integration** — 3 MCP servers for code intelligence, file operations, and documentation lookup
 

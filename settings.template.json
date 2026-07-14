@@ -31,10 +31,7 @@
       "Bash(head:*)",
       "Bash(tail:*)",
       "Bash(wc:*)",
-      "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(sed:*)",
-      "Bash(awk:*)",
       "Bash(sort:*)",
       "Bash(uniq:*)",
       "Bash(cut:*)",
@@ -109,6 +106,9 @@
       "Bash(shellcheck:*)"
     ],
     "ask": [
+      "Bash(find:*)",
+      "Bash(sed:*)",
+      "Bash(awk:*)",
       "Bash(git push:*)",
       "Bash(git merge:*)",
       "Bash(git rebase:*)",

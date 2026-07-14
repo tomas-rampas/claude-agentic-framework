@@ -6,6 +6,10 @@
 # The hook implementations are PowerShell 7 scripts, so pwsh is required at
 # runtime even on Unix (https://learn.microsoft.com/powershell).
 #
+# NOTE: On Windows use scripts/install.ps1 instead. This script leaves the
+# literal $HOME in hook commands (expanded by the POSIX shell at hook time);
+# Windows hook invocation cannot expand it, so hooks would be silently inert.
+#
 # Usage: bash scripts/install.sh [--force]
 
 set -euo pipefail
