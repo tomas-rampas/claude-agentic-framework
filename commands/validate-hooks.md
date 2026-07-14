@@ -1,7 +1,6 @@
 ---
 name: validate-hooks
 description: Validate hook registration, consistency, and configuration
-tags: [hooks, validation, quality-gates, coverage]
 ---
 
 # Validate Hooks Command

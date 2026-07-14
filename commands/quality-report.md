@@ -1,7 +1,6 @@
 ---
 name: quality-report
 description: Generate a framework quality assessment based on actual configuration state
-tags: [quality, metrics, reporting, validation]
 ---
 
 # Quality Report Command

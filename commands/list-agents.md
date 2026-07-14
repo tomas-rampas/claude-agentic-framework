@@ -1,7 +1,6 @@
 ---
 name: list-agents
 description: Display all available agents with capabilities and status
-tags: [agents, list, capabilities, reference]
 ---
 
 # List Agents Command
