@@ -22,8 +22,12 @@ This framework extends Claude Code CLI with:
 | Requirement | Purpose |
 |-------------|---------|
 | **[Claude Code CLI](https://docs.claude.com/en/docs/claude-code)** | Agent execution platform (required) |
-| **Node.js/npm** | Running MCP servers via npx |
 | **Git** | Version control |
+| **PowerShell 7+ (`pwsh`)** | Runs the hook scripts (`hooks/*.ps1`) — required on every platform |
+| **bash + jq** | Validation and doc-generation tooling (Git Bash works on Windows) |
+| **Node.js/npm** | filesystem + context7 MCP servers via `npx` |
+| **uv (`uvx`)** | serena MCP server |
+| **shellcheck** | Shell-script linting (optional, used by CI) |
 
 ### Install Claude Code CLI
 
@@ -77,13 +81,24 @@ Set `MCP_FS_ROOT` (and optionally `CONTEXT7_API_KEY`) in your environment or `.e
 ## Installation
 
 ```bash
-# Clone into Claude Code CLI config directory
+# 1. Clone into the Claude Code CLI config directory (or anywhere you like)
 git clone <your-framework-repo> ~/.claude
 cd ~/.claude
 
-# Validate framework integrity
-./scripts/validate-framework.sh
+# 2. Install the runtime surface (settings.json from the template, hook
+#    registration, session-state directory). Refuses to clobber an existing
+#    hooks block unless -Force is passed.
+pwsh -NoProfile -File scripts/install.ps1        # Windows / any OS with pwsh
+# or: bash scripts/install.sh                    # Linux / macOS / WSL
+
+# 3. Validate framework integrity
+bash scripts/validate-consistency.sh
 ```
+
+Notes:
+- `settings.json` is **not** tracked — it is created from `settings.template.json` by the installer, so your local permission tweaks never end up in git.
+- Secrets/paths for MCP servers come from your environment or `.env` (copy `.env.example`); if `.claude/settings.local.json` lists servers under `disabledMcpjsonServers`, remove the ones you want active.
+- Restart any running Claude Code session after installing so the hooks load.
 
 ---
 
