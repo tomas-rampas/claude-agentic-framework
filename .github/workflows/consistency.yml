@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   consistency:
-    name: validate + generate-check + tests
+    name: validate + generate-check + tests (ubuntu)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,8 +32,60 @@ jobs:
       - name: Validate consistency (dynamic anti-drift checks)
         run: bash scripts/validate-consistency.sh
 
+      - name: Validate hook registration parity
+        run: bash scripts/validate-hooks.sh
+
       - name: Check generated docs are fresh
         run: bash scripts/generate-docs.sh --check
 
+      - name: Security scan (secret patterns)
+        run: bash security-check.sh
+
       - name: Run consistency test harness
+        run: bash tests/consistency.test.sh
+
+  lint:
+    name: shellcheck + PSScriptAnalyzer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: shellcheck all shell scripts
+        # SC1091: sourced files are resolved at runtime relative to the script
+        # dir; shellcheck cannot follow them without -x context. Severity is
+        # pinned to warning so info-level style notes never break the build.
+        run: |
+          shellcheck --version
+          shellcheck --severity=warning -e SC1091 scripts/*.sh scripts/lib/*.sh tests/*.sh security-check.sh
+
+      - name: PSScriptAnalyzer over hook + install scripts
+        shell: pwsh
+        run: |
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          $results = @('hooks', 'scripts', 'tests') | ForEach-Object {
+            Invoke-ScriptAnalyzer -Path $_ -Recurse -Severity Error, Warning
+          }
+          $results | Format-Table -AutoSize
+          if ($results | Where-Object Severity -eq 'Error') { exit 1 }
+
+  hooks-windows:
+    name: hook behavior + validators (windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Hook behavior tests (pwsh)
+        shell: pwsh
+        run: pwsh -NoProfile -File tests/hooks.test.ps1
+
+      - name: Validate consistency under Git Bash
+        # Exercises the Windows-specific code paths (CRLF-stripping jq wrapper,
+        # C-locale collation) the scripts were hardened for.
+        shell: bash
+        run: bash scripts/validate-consistency.sh
+
+      - name: Run consistency test harness under Git Bash
+        shell: bash
         run: bash tests/consistency.test.sh
