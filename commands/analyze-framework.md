@@ -8,7 +8,7 @@ tags: [framework, validation, health-check, diagnostics]
 
 ## Purpose
 
-Perform a comprehensive analysis of the Claude Code CLI Agentic Framework, checking configuration integrity, agent availability, hook coverage, and overall system health.
+Perform a comprehensive analysis of the Claude Code CLI Agentic Framework, checking configuration integrity, agent availability, hook registration, and overall system health.
 
 ## Usage
 
@@ -22,217 +22,127 @@ Perform a comprehensive analysis of the Claude Code CLI Agentic Framework, check
 
 ## What This Command Does
 
+The authoritative implementation is the anti-drift tooling — this command runs it and interprets the results:
+
+```bash
+bash scripts/validate-consistency.sh    # the full check battery (see CONTRIBUTING.md)
+bash scripts/generate-docs.sh --check   # generated doc blocks are fresh
+pwsh -NoProfile -File tests/hooks.test.ps1   # hook behavior tests
+```
+
 ### 1. Configuration Validation
 
-Checks all framework configuration files:
+- **claude.json**: registry parses, all registered agents resolve to `agents/*.md` files (and vice versa), categories partition the roster
+- **settings.template.json**: valid JSON; its `hooks` block is the canonical hook registration
+- **.mcp.json**: valid JSON; servers are launchable specs
 
-- **claude.json**: Verifies all 20 agents are properly configured
-- **Core hooks**: Validates core-hooks.json syntax and agent references
-- **Shared resources**: Checks base-config.json, mcp-config.json, agent-patterns.md
-
-**Validation:**
 ```bash
-# Check claude.json structure
+# Check claude.json structure (expected: matches `ls -1 agents/*.md | wc -l`)
 jq '.sub_agents | length' claude.json
-# Expected: 20
 
-# Verify no old agent names
-grep -r '"maker"\|"test"\|"debug"\|"plan"\|"reader"' hooks/ claude.json
-# Expected: No matches
+# Verify no deprecated agent names are referenced
+bash scripts/validate-consistency.sh   # check 5 covers this
 ```
 
 ### 2. Agent Availability Assessment
 
-Analyzes all 20 agents:
+Analyzes all 20 agents using the canonical 7 categories from `claude.json .agent_categories`:
 
-**Language Experts (9 agents):**
-- rust-expert, csharp-expert, go-expert, java-expert
-- python-expert, typescript-expert, mql-trading-dev, bash-expert, powershell-expert
+- **language_experts** — rust-expert, csharp-expert, go-expert, java-expert, python-expert, typescript-expert, mql-trading-dev
+- **automation_experts** — bash-expert, powershell-expert
+- **domain_specialists** — database-specialist, frontend-specialist, security-specialist, uiux-specialist
+- **infrastructure_operations** — devops-orchestrator
+- **architecture_planning** — system-architect, product-owner
+- **quality_analysis** — comprehensive-analyst, code-review-gatekeeper, peer-review-critic
+- **documentation** — technical-docs-writer
 
-**Domain Specialists (4 agents):**
-- database-specialist, frontend-specialist, security-specialist, uiux-specialist
+**For each agent:**
+- Agent file exists (`agents/{agent}.md`)
+- Agent registered in `claude.json`
+- YAML frontmatter valid; `model:` tier matches the registry (check 7)
+- Agent appears in the prose rosters (README, CLAUDE.md, list-agents — checks 9/10)
 
-**Infrastructure & Planning (3 agents):**
-- devops-orchestrator, system-architect, product-owner
+### 3. Hook Architecture Analysis
 
-**Quality & Analysis (3 agents):**
-- comprehensive-analyst, code-review-gatekeeper, peer-review-critic
+Hooks are real Claude Code hooks: PowerShell scripts in `hooks/` registered in the settings `hooks` block (distributed via `settings.template.json`).
 
-**Documentation (1 agent):**
-- technical-docs-writer
-
-**For Each Agent:**
-- ✅ Agent file exists (agents/{agent}.md)
-- ✅ Agent in claude.json configuration
-- ✅ Agent has validation hook
-- ✅ Agent referenced in delegation command
-- ✅ YAML frontmatter valid
-
-### 3. Hook Coverage Analysis
-
-Examines validation hook system:
-
-**Total Hooks:** 45 (26 framework-wide + 19 agent-specific - may vary)
-
-**Agent-Specific Validation Hooks (19 required):**
-- Check 19 of 20 agents have dedicated validation hooks (peer-review-critic covered by framework-wide peer-review-final-gate)
-- Validate hook JSON syntax
-- Verify agent references are current
-- Check for old agent names (maker, test, debug, plan, reader)
-
-**Framework Hooks Coverage:**
-- Quality gates (zero-tolerance, TDD, code review)
-- Security scanning (dependency security, vulnerability checks)
-- Performance monitoring (regression detection, optimization tracking)
-- Learning system (pattern capture, lessons learned)
-- Coordination (agent health, performance SLA, capability registry)
+- Registration parity: every registered script exists; every script is registered; event names are valid; scripts pin PowerShell 7 (check 3)
+- Behavior: `tests/hooks.test.ps1` exercises block/allow paths of the peer-review Stop gate, the run recorder, session context, and the delegation hint
+- Design rationale: `docs/design/`
 
 ### 4. Skills System Check
 
-Validates framework enhancement skills:
-
-**Expected Skills (6 minimum):**
-1. framework-validator - Framework health validation
-2. agent-routing-advisor - Task routing assistance
-3. hook-config-generator - Hook generation tools
-4. workflow-visualizer - Workflow diagrams
-5. performance-analytics - Performance tracking
-6. migration-assistant - Framework migrations
-
-**Plus Operational Skills:**
-7. agent-debugger - Debug routing issues
-8. hook-auditor - Hook coverage verification
-9. config-validator - Configuration validation
-10. dependency-checker - Dependency verification
-11. quality-reporter - Quality metrics reports
+Verifies the skills on disk parse and match the documented roster. See README's Skills table for the current list; counts are derived, never hardcoded.
 
 ### 5. Directory Structure Verification
 
-Validates expected directory structure:
-
 ```
 claude-agentic-framework/
-├── agents/       ✓ (20 agent files)
-├── commands/     ✓ (delegate + management commands)
-├── hooks/        ✓ (45+ validation hooks)
-├── shared/       ✓ (4 configuration files)
-├── skills/       ✓ (6-11 skill files)
-├── scripts/      ✓ (3 validation scripts)
-├── CLAUDE.md     ✓ (agent execution rules)
-├── README.md     ✓ (comprehensive documentation)
-├── claude.json   ✓ (agent configuration)
-└── .gitignore    ✓ (proper exclusions)
+├── agents/                  ✓ (one .md per registered agent)
+├── commands/                ✓ (6 commands)
+├── hooks/                   ✓ (registered hook scripts)
+├── skills/                  ✓ (operational skills)
+├── scripts/                 ✓ (install + validation + doc generation)
+├── tests/                   ✓ (consistency + hook harnesses)
+├── docs/design/             ✓ (hook architecture rationale)
+├── CLAUDE.md                ✓ (agent execution rules)
+├── README.md                ✓ (documentation)
+├── claude.json              ✓ (agent registry)
+├── settings.template.json   ✓ (permissions + hook registration)
+└── .mcp.json                ✓ (MCP servers)
 ```
 
 ### 6. Script Validation
 
-Checks validation scripts:
-
-- **validate-framework.sh**: Comprehensive framework validator
-- **validate-agents.sh**: Quick agent presence check
-- **validate-hooks.sh**: Hook consistency validator
-
-**Tests:**
-- Scripts are executable
-- Scripts run without errors
-- Scripts produce expected output
+- **validate-consistency.sh**: the full anti-drift check battery (single source of truth)
+- **validate-framework.sh**: structural checks, then delegates to validate-consistency.sh
+- **validate-hooks.sh**: hook registration parity (shared logic with check 3)
+- **generate-docs.sh**: generated doc blocks (`--check` / `--write`)
+- **install.ps1 / install.sh**: settings + hook installation into `~/.claude`
 
 ## Output Format
 
 ### Quick Summary (Default)
 
 ```
-🔍 Claude Code CLI Framework Health Analysis
+Claude Code CLI Framework Health Analysis
 ================================================
 
-✅ CONFIGURATION
-   • claude.json: v3.0.0 (20 agents configured)
-   • core-hooks.json: v3.0 (no old agent names)
-   • Shared resources: 4/4 files present
+CONFIGURATION
+   • claude.json: valid, registry == filesystem
+   • settings.template.json: hooks registered, parity OK
+   • .mcp.json: valid server specs
 
-✅ AGENTS (20/20)
-   • Language Experts: 9/9 ✓
-   • Domain Specialists: 4/4 ✓
-   • Infrastructure & Planning: 3/3 ✓
-   • Quality & Analysis: 3/3 ✓
-   • Documentation: 1/1 ✓
+AGENTS (20/20)
+   • All categories partition the roster; model parity OK
 
-✅ HOOKS (45 total)
-   • Agent-specific validation: 19/20 (peer-review-critic via framework-wide hook)
-   • Framework-wide: 26 hooks (including peer-review-final-gate)
-   • All JSON syntax valid
-   • No old agent references
+HOOKS
+   • Registration parity OK (no missing, no orphans, events valid)
+   • hooks.test.ps1: all assertions pass
 
-✅ SKILLS (11 total)
-   • Framework enhancement: 6/6 ✓
-   • Operational: 5/5 ✓
+DOCS
+   • Generated blocks fresh; stated counts match derived values
 
-✅ SCRIPTS (3/3)
-   • All executable and functional
-
-📊 OVERALL HEALTH: 🟢 EXCELLENT
-   • Configuration: 100%
-   • Agent existence: 20/20
-   • Hook Coverage: 19/20 dedicated + framework-wide gate
-   • Documentation: Complete
+OVERALL HEALTH: EXCELLENT
 ```
 
 ### Detailed Analysis (--detailed)
 
 Includes:
 - Individual agent status and configuration details
-- Hook-by-hook validation results
-- Skill descriptions and integration status
+- Per-check validator output
+- Hook test results
 - Detected issues with remediation steps
-- Performance metrics if available
-- Recommended improvements
 
 ### Export Report (--export)
 
-Generates `framework-health-report.md` with:
-- Executive summary
-- Detailed findings for each component
-- Detected issues and warnings
-- Remediation recommendations
-- Framework metrics over time
-- Timestamp and version information
-
-## Implementation
-
-```typescript
-// Pseudo-code for framework analysis
-async function analyzeFramework(options: AnalysisOptions) {
-  const report = {
-    configuration: await validateConfiguration(),
-    agents: await checkAgentAvailability(),
-    hooks: await analyzeHookCoverage(),
-    skills: await validateSkills(),
-    structure: await verifyDirectoryStructure(),
-    scripts: await testValidationScripts()
-  };
-
-  const healthScore = calculateHealthScore(report);
-
-  if (options.detailed) {
-    displayDetailedReport(report);
-  } else {
-    displayQuickSummary(report, healthScore);
-  }
-
-  if (options.export) {
-    await exportToMarkdown(report, 'framework-health-report.md');
-  }
-
-  return report;
-}
-```
+Generates `framework-health-report.md` with executive summary, findings, remediation recommendations, and timestamp.
 
 ## Use Cases
 
 ### 1. Daily Health Check
 ```bash
 /analyze-framework
-# Quick check before starting work
 ```
 
 ### 2. Post-Update Validation
@@ -244,54 +154,42 @@ async function analyzeFramework(options: AnalysisOptions) {
 ### 3. Documentation/Reporting
 ```bash
 /analyze-framework --detailed --export
-# Generate comprehensive health report for documentation
 ```
 
 ### 4. Troubleshooting
 ```bash
 /analyze-framework --detailed
-# Diagnose framework issues or configuration problems
 ```
 
 ## Expected Issues and Remediation
 
-### Common Issues
-
-**Missing Agents:**
+**Missing agent file:**
 ```
-❌ Agent file not found: agents/rust-expert.md
-Remediation: Create agent file or update claude.json
+FAIL Agents registered in claude.json with NO agents/<name>.md file
+Remediation: create the agent file or remove the registry entry
 ```
 
-**Old Agent References:**
+**Hook parity break:**
 ```
-⚠️  Found old agent name 'maker' in hooks/custom-hook.json
-Remediation: Update to use appropriate language expert
-```
-
-**Hook Coverage Gaps:**
-```
-⚠️  No validation hook for: custom-agent
-Remediation: Create validation hook or mark as optional
+FAIL registered hook script missing on disk: hooks/<name>.ps1
+Remediation: restore the script, or remove its registration from settings.template.json
 ```
 
-**Invalid JSON:**
+**Stale generated block:**
 ```
-❌ Invalid JSON syntax: hooks/broken-hook.json
-Remediation: Fix JSON syntax errors
+FAIL generate-docs.sh --check reported stale/invalid blocks
+Remediation: bash scripts/generate-docs.sh --write
 ```
 
 ## Integration with Other Commands
 
-- Use with `/validate-hooks` for deeper hook analysis
+- Use with `/validate-hooks` for hook-specific analysis
 - Combine with `/list-agents` to see agent details
-- Follow up with `/agent-status` for runtime information
-- Use `/quality-report` for historical metrics
+- Follow up with `/agent-status` for configuration status
+- Use `/quality-report` for a quality assessment
 
 ## Notes
 
 - Analysis is read-only and doesn't modify any files
 - Safe to run at any time
-- Results are cached for 5 minutes to improve performance
-- Export creates file in current directory
-- Requires framework scripts to be executable (chmod +x scripts/*.sh)
+- Requires bash + jq (validators) and PowerShell 7 (hook tests)

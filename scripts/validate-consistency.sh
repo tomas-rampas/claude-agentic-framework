@@ -33,6 +33,9 @@ source "$SCRIPT_DIR/lib/facts.sh"
 # render.sh provides render_focus() for prose-table focus-text parity (check 10).
 # shellcheck source=scripts/lib/render.sh
 source "$SCRIPT_DIR/lib/render.sh"
+# hookcheck.sh provides hookcheck_problems() for hook registration parity (check 3).
+# shellcheck source=scripts/lib/hookcheck.sh
+source "$SCRIPT_DIR/lib/hookcheck.sh"
 
 ROOT="$FACTS_REPO_ROOT"
 
@@ -165,68 +168,52 @@ section "[2] Category partition (.agent_categories partitions all agents)"
 }
 
 # ===========================================================================
-# CHECK 3 - Hook coverage
+# CHECK 3 - Hook registration parity (real hook architecture)
 # ===========================================================================
-section "[3] Hook coverage (every non-allowlisted agent has {agent}-validation.json)"
+# Hooks only execute when registered in the settings "hooks" block, so the
+# tracked settings.template.json and hooks/*.ps1 must agree exactly: every
+# registered script exists, every script is registered (no dead code), every
+# event name is a real Claude Code event, and every script pins PowerShell 7.
+# Shared logic lives in scripts/lib/hookcheck.sh (also used by validate-hooks.sh).
+section "[3] Hook registration parity (settings.template.json hooks <-> hooks/*.ps1)"
 {
-  allowlist_sorted="$(fact_allowlist)"
-
-  # Agents that REQUIRE a per-agent validation hook = agents minus allowlist.
-  required="$(comm -23 <(printf '%s\n' "$AGENTS_SORTED") <(printf '%s\n' "$allowlist_sorted"))"
-
-  # Existing *-validation.json -> derive the agent name (strip suffix).
-  shopt -s nullglob
-  existing_hook_agents=""
-  for f in "$FACTS_HOOKS_DIR"/*-validation.json; do
-    b="$(basename "$f")"
-    existing_hook_agents+="${b%-validation.json}"$'\n'
-  done
-  shopt -u nullglob
-  existing_sorted="$(printf '%s' "$existing_hook_agents" | grep -v '^$' | LC_ALL=C sort)"
-
-  ok=1
-
-  # 3a: required agent with no hook
-  no_hook="$(comm -23 <(printf '%s\n' "$required") <(printf '%s\n' "$existing_sorted"))"
-  if [[ -n "$no_hook" ]]; then
-    ok=0
-    fail "Agent(s) missing required hooks/<agent>-validation.json:"
-    while IFS= read -r a; do [[ -n "$a" ]] && detail "missing-hook: $a (expected hooks/${a}-validation.json)"; done <<< "$no_hook"
-  fi
-
-  # 3b: orphan validation hook (maps to no real agent)
-  orphan_hook="$(comm -23 <(printf '%s\n' "$existing_sorted") <(printf '%s\n' "$AGENTS_SORTED"))"
-  if [[ -n "$orphan_hook" ]]; then
-    ok=0
-    fail "Orphan *-validation.json hook(s) not mapping to any registered agent:"
-    while IFS= read -r a; do [[ -n "$a" ]] && detail "orphan-hook: hooks/${a}-validation.json"; done <<< "$orphan_hook"
-  fi
-
-  if [[ "$ok" -eq 1 ]]; then
-    pass "all $(printf '%s\n' "$required" | grep -c .) required agents have a validation hook; no orphan hooks"
-  fi
-
-  # Allowlisted agents are reported as INFO (intentionally not covered per-agent).
-  if [[ -n "$allowlist_sorted" ]]; then
-    while IFS= read -r a; do
-      [[ -z "$a" ]] && continue
-      info "allowlisted (no per-agent hook required): $a"
-    done <<< "$allowlist_sorted"
+  problems="$(hookcheck_problems)"
+  if [[ -n "$problems" ]]; then
+    while IFS=$'\t' read -r ptype subject; do
+      [[ -z "$ptype" ]] && continue
+      case "$ptype" in
+        no-hooks-block)       fail "settings template has no usable hooks block: $subject" ;;
+        missing-hook-script)  fail "registered hook script missing on disk: hooks/$subject"
+                              detail "missing-hook-script: $subject" ;;
+        orphan-hook-script)   fail "hook script not registered in settings.template.json: hooks/$subject"
+                              detail "orphan-hook-script: $subject" ;;
+        invalid-hook-event)   fail "unknown Claude Code hook event in settings.template.json: $subject"
+                              detail "invalid-hook-event: $subject" ;;
+        missing-requires-ps7) fail "hook script lacks '#Requires -Version 7.0' header: hooks/$subject"
+                              detail "missing-requires-ps7: $subject" ;;
+        *)                    fail "hookcheck: $ptype $subject" ;;
+      esac
+    done <<< "$problems"
+  else
+    n_scripts="$(fact_hook_script_files | grep -c . || true)"
+    n_events="$(fact_hook_events | grep -c . || true)"
+    pass "$n_scripts hook script(s) registered across $n_events event(s); no orphans, all events valid, all pin PS7"
   fi
 }
 
 # ===========================================================================
 # CHECK 4 - JSON validity (+ best-effort YAML validity)
 # ===========================================================================
-section "[4] JSON validity (hooks/*.json, claude.json, shared/*.json) + YAML best-effort"
+section "[4] JSON validity (claude.json, settings.template.json, .mcp.json, hooks/*.json) + YAML best-effort"
 {
   json_bad=0 json_total=0
   # Collect target json files.
   json_files=()
   [[ -f "$ROOT/claude.json" ]] && json_files+=("$ROOT/claude.json")
+  [[ -f "$ROOT/settings.template.json" ]] && json_files+=("$ROOT/settings.template.json")
+  [[ -f "$ROOT/.mcp.json" ]] && json_files+=("$ROOT/.mcp.json")
   shopt -s nullglob
   for f in "$FACTS_HOOKS_DIR"/*.json; do json_files+=("$f"); done
-  for f in "$ROOT"/shared/*.json; do json_files+=("$f"); done
   shopt -u nullglob
 
   for f in "${json_files[@]}"; do
@@ -313,10 +300,13 @@ section "[5] Deprecated agent names (no live references in config or active doc 
   deprecated="$(fact_deprecated)"
   ok=1
 
-  json_scope=("$ROOT/claude.json")
+  json_scope=("$ROOT/claude.json" "$ROOT/settings.template.json")
   shopt -s nullglob
   for f in "$FACTS_HOOKS_DIR"/*.json; do json_scope+=("$f"); done
-  doc_scope=("$ROOT"/commands/*.md "$ROOT"/skills/*.md)
+  # Both skill layouts are scanned: skills/<name>/SKILL.md is the canonical
+  # (loadable) layout; flat skills/*.md is the legacy layout kept in scope so a
+  # dead name cannot hide mid-migration.
+  doc_scope=("$ROOT"/commands/*.md "$ROOT"/skills/*.md "$ROOT"/skills/*/SKILL.md)
   shopt -u nullglob
 
   while IFS= read -r name; do
@@ -388,51 +378,6 @@ section "[6] Architecture description strings match derived agent count + roster
     detail "description: $desc"
   fi
 
-  # 6b: core-hooks.json .description contains "<n>-agent"
-  core="$FACTS_HOOKS_DIR/core-hooks.json"
-  if [[ -f "$core" ]]; then
-    cdesc="$(_facts_jq -r '.description // ""' "$core")"
-    if printf '%s' "$cdesc" | grep -qE "(^|[^0-9])${n_agents}-agent([^0-9]|\$)"; then
-      pass "core-hooks.json .description references '${n_agents}-agent'"
-    else
-      found="$(printf '%s' "$cdesc" | grep -oE '[0-9]+-agent' | paste -sd, -)"
-      ok=0
-      fail "core-hooks.json .description missing '${n_agents}-agent' (found: ${found:-none})"
-      detail "description: $cdesc"
-    fi
-
-    # 6c: embedded rosters in core-hooks.json must reference only real agents,
-    #     and the 'all' roster must exactly equal fact_agents.
-    roster_keys="$(_facts_jq -r '.agent_group_definitions // {} | keys[]' "$core" 2>/dev/null)"
-    while IFS= read -r grp; do
-      [[ -z "$grp" ]] && continue
-      members="$(_facts_jq -r --arg g "$grp" '.agent_group_definitions[$g][]' "$core" 2>/dev/null | LC_ALL=C sort)"
-      # any member not a real agent?
-      bad="$(comm -23 <(printf '%s\n' "$members" | grep -v '^$' | LC_ALL=C sort -u) <(printf '%s\n' "$AGENTS_SORTED"))"
-      if [[ -n "$bad" ]]; then
-        ok=0
-        fail "core-hooks.json roster '$grp' references non-agent name(s):"
-        while IFS= read -r a; do [[ -n "$a" ]] && detail "stale/unknown in '$grp': $a"; done <<< "$bad"
-      fi
-      # the canonical 'all' roster must equal the full agent set
-      if [[ "$grp" == "all" ]]; then
-        only_roster="$(comm -23 <(printf '%s\n' "$members" | grep -v '^$' | LC_ALL=C sort -u) <(printf '%s\n' "$AGENTS_SORTED"))"
-        only_agents="$(comm -13 <(printf '%s\n' "$members" | grep -v '^$' | LC_ALL=C sort -u) <(printf '%s\n' "$AGENTS_SORTED"))"
-        if [[ -n "$only_roster" || -n "$only_agents" ]]; then
-          ok=0
-          fail "core-hooks.json 'all' roster does not equal the agent registry:"
-          while IFS= read -r a; do [[ -n "$a" ]] && detail "in 'all' but not an agent: $a"; done <<< "$only_roster"
-          while IFS= read -r a; do [[ -n "$a" ]] && detail "agent missing from 'all': $a"; done <<< "$only_agents"
-        else
-          pass "core-hooks.json 'all' roster exactly equals the $n_agents-agent registry"
-        fi
-      fi
-    done <<< "$roster_keys"
-  else
-    ok=0
-    fail "core-hooks.json not found at $core"
-  fi
-
   [[ "$ok" -eq 1 ]] || true
 }
 
@@ -443,13 +388,18 @@ section "[6] Architecture description strings match derived agent count + roster
 section "[8] Stated-count scan (README/docs headline counts == derived values)"
 {
   n_agents="$(fact_count agents)"
-  n_gates="$(fact_count quality_gates)"   # doc convention "Total Hooks"/"quality gates"
+  n_hooks="$(fact_count hooks)"      # registered hook command entries
+  n_skills="$(fact_count skills)"
+  n_commands="$(fact_count commands)"
 
-  # Files to scan for headline counts.
+  # Files to scan for headline counts. Skills are scanned in the canonical
+  # skills/<name>/SKILL.md layout only: legacy flat skills/*.md are excluded
+  # (pending migration/removal, their internal narratives carry historical
+  # numbers that are not current declarations).
   scan_files=()
   [[ -f "$ROOT/README.md" ]] && scan_files+=("$ROOT/README.md")
   shopt -s nullglob
-  for f in "$ROOT"/commands/*.md "$ROOT"/skills/*.md; do scan_files+=("$f"); done
+  for f in "$ROOT"/commands/*.md "$ROOT"/skills/*/SKILL.md; do scan_files+=("$f"); done
   shopt -u nullglob
 
   ok=1
@@ -505,25 +455,32 @@ section "[8] Stated-count scan (README/docs headline counts == derived values)"
   # High-signal ONLY: a number immediately followed by "specialized agents".
   # This deliberately does NOT match the legitimate non-derived numbers, which
   # are therefore never even examined (structural exclusion, not suppression):
-  #   - "19 agent-specific" / "19 required" / "Agent-Specific: 19" / "19 of 20"
-  #     / "19/20" / "X/20" coverage ratios
+  #   - "19 of 20" / "19/20" / "X/20" coverage ratios
   #   - historical "11 -> 19" / "11 agents" migration narrative
-  #   - subtotals like "26 framework-wide", "1 framework-wide gate"
-  #   - "5 MCP servers", "14 Skills", "6 commands", "v3.0.0", dates, %, head -20
+  #   - "3 MCP servers", "v3.0.0", dates, %, head -20
   _scan_counts '[0-9]+ [Ss]pecialized [Aa]gents' first "$n_agents" "agent count"
 
-  # ---- 8b: "<N> Quality Gates" / "<N> quality gates" -----------------------
-  _scan_counts '[0-9]+ [Qq]uality [Gg]ates' first "$n_gates" "quality-gate count"
+  # ---- 8b: "<N> hook scripts" / "<N> hooks" (real hook architecture) -------
+  _scan_counts '[0-9]+ [Hh]ook [Ss]cripts?' first "$n_hooks" "hook-script count"
+  _scan_counts '[0-9]+ [Hh]ooks\b' first "$n_hooks" "hooks count"
 
-  # ---- 8c: "Total Hooks: <N>" / "Total Hooks:** <N>" -----------------------
-  _scan_counts 'Total Hooks:\*{0,2} ?[0-9]+' last "$n_gates" "Total Hooks count"
+  # ---- 8c: "Total Hooks: <N>" / "<N> Quality Gates" (legacy phrasings) -----
+  # Kept so a resurrected legacy headline is measured against the real count.
+  _scan_counts 'Total Hooks:\*{0,2} ?[0-9]+' last "$n_hooks" "Total Hooks count"
+  _scan_counts '[0-9]+ [Qq]uality [Gg]ates' first "$n_hooks" "quality-gate count"
 
   # ---- 8d: 'wc -l  # Should show <N>' agent-file assertion ------------------
   # README documents `ls -1 agents/*.md | wc -l  # Should show <N>`.
   _scan_counts 'Should show [0-9]+' last "$n_agents" "documented agent-file count"
 
+  # ---- 8e: "<N> skills" / "<N> operational skills" --------------------------
+  _scan_counts '[0-9]+ ([Oo]perational )?[Ss]kills\b' first "$n_skills" "skill count"
+
+  # ---- 8f: "<N> commands" ----------------------------------------------------
+  _scan_counts '[0-9]+ [Cc]ommands\b' first "$n_commands" "command count"
+
   if [[ "$ok" -eq 1 ]]; then
-    pass "all high-signal stated counts match derived values (agents=$n_agents, gates=$n_gates)"
+    pass "all high-signal stated counts match derived values (agents=$n_agents, hooks=$n_hooks, skills=$n_skills, commands=$n_commands)"
   fi
 }
 

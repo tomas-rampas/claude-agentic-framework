@@ -21,10 +21,9 @@ Generate a quality assessment of the framework by inspecting actual configuratio
 ### 1. Configuration Integrity
 
 Validate core configuration files:
-- `claude.json` — Parse JSON, verify 20 agents, check required fields
-- `settings.json` — Parse JSON, verify permissions structure
+- `claude.json` — Parse JSON, verify the registry matches `agents/`, check required fields
+- `settings.template.json` — Parse JSON, verify permissions structure and the hooks block
 - `.mcp.json` — Parse JSON, verify MCP server definitions
-- `shared/*.json` — Validate all shared resource files
 
 ### 2. Agent Coverage
 
@@ -34,23 +33,23 @@ Check agent ecosystem completeness:
 - Agent model fields match claude.json assignments
 - No orphaned agent files (files without claude.json entries)
 
-### 3. Hook Coverage
+### 3. Hook Architecture
 
-Assess validation hook system:
-- 19 of 20 agents have dedicated validation hooks; peer-review-critic is covered by the framework-wide peer-review-final-gate hook
-- All hook JSON files parse without errors
-- Hook agent references point to valid agent names
+Assess the real hook system:
+- Registration parity: every script in the settings template's `hooks` block exists in `hooks/`, and vice versa (no dead scripts)
+- All event names are valid Claude Code hook events; all scripts pin PowerShell 7
+- Hook behavior tests pass (`tests/hooks.test.ps1`)
 - No references to deprecated agent names
 
 ### 4. Structural Integrity
 
 Verify directory structure:
-- `agents/` — 20 agent definition files
+- `agents/` — one definition file per registered agent
 - `commands/` — Slash command definitions
-- `hooks/` — Validation hook configurations
-- `shared/` — Shared configuration resources
+- `hooks/` — Registered hook scripts
 - `skills/` — Skill definitions
-- `scripts/` — Validation scripts
+- `scripts/` — Install + validation scripts
+- `tests/` — Consistency + hook harnesses
 
 ### 5. Quality Score
 
@@ -58,10 +57,10 @@ Calculate a quality score based on:
 
 ```
 Quality Score = (
-  Config Integrity    × 0.20 +
-  Agent Coverage      × 0.25 +
-  Hook Coverage       × 0.25 +
-  Frontmatter Quality × 0.15 +
+  Config Integrity     × 0.20 +
+  Agent Coverage       × 0.25 +
+  Hook Architecture    × 0.25 +
+  Frontmatter Quality  × 0.15 +
   Structural Integrity × 0.15
 ) × 100
 ```
@@ -80,17 +79,17 @@ Quality Score = (
 FRAMEWORK QUALITY REPORT
 ========================
 
-Configuration Integrity:  ✓ claude.json valid (20 agents)
-                         ✓ settings.json valid
+Configuration Integrity:  ✓ claude.json valid (registry == filesystem)
+                         ✓ settings.template.json valid (hooks registered)
                          ✓ .mcp.json valid
 
 Agent Coverage:          20/20 agents with definition files
                          20/20 agents with valid frontmatter
                          0 orphaned files
 
-Hook Coverage:           19/20 agents with dedicated validation hooks
-                         peer-review-critic covered by peer-review-final-gate
-                         45 total hook files, all valid JSON
+Hook Architecture:       registration parity OK (no missing, no orphans)
+                         all events valid; all scripts pin PS7
+                         hooks.test.ps1: all assertions pass
                          0 deprecated agent references
 
 Structural Integrity:    ✓ All required directories present

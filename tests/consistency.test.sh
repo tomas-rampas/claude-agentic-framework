@@ -222,62 +222,45 @@ section "[4] Category partition break: drop an agent from agent_categories -> no
 }
 
 # ===========================================================================
-# CASE 5 - Missing validation hook for a non-allowlisted agent.
+# CASE 5 - Missing hook script: registered in settings.template.json but
+#          deleted from hooks/ -> check 3 must fail.
 # ===========================================================================
-section "[5] Missing hook: rm hooks/rust-expert-validation.json -> non-zero (hook coverage)"
+section "[5] Missing hook script: rm hooks/stop-peer-review-gate.ps1 -> non-zero (check 3)"
 {
   copy="$(make_copy)"
-  rm -f "$copy/hooks/rust-expert-validation.json"
+  rm -f "$copy/hooks/stop-peer-review-gate.ps1"
   run_validate "$copy"
-  assert_rc_nonzero "validator fails when a required agent has no validation hook"
-  assert_out_contains "reports missing-hook for rust-expert" "missing-hook: rust-expert"
+  assert_rc_nonzero "validator fails when a registered hook script is missing"
+  assert_out_contains "reports missing-hook-script" "missing-hook-script: stop-peer-review-gate.ps1"
   rm -rf "$copy"
 }
 
 # ===========================================================================
-# CASE 6 - Allowlist works: an allowlisted agent (peer-review-critic) needs no
-#          hook, and a clean copy must still pass. Guards against a regression
-#          that would force a per-agent hook onto allowlisted agents.
+# CASE 6 - Orphan hook script: a hooks/*.ps1 that is NOT registered in the
+#          settings template is dead code -> check 3 must fail.
 # ===========================================================================
-section "[6] Allowlist: allowlisted agent (no hook) still passes -> exit 0"
+section "[6] Orphan hook script: add unregistered hooks/zzz-orphan.ps1 -> non-zero (check 3)"
 {
   copy="$(make_copy)"
-  # Sanity: the allowlist is non-empty and the allowlisted agent has NO hook on
-  # disk (so a passing run proves the allowlist exemption is honoured).
-  al="$(FRAMEWORK_ROOT="$copy" "$BASH_BIN" -c 'source "$0/scripts/lib/facts.sh"; fact_allowlist' "$copy")"
-  if [[ -z "$al" ]]; then
-    _fail "allowlist is non-empty" "fact_allowlist returned nothing"
-  else
-    _pass "allowlist is non-empty ($(printf '%s' "$al" | tr '\n' ' '))"
-  fi
-  # Confirm at least one allowlisted agent has no validation hook file.
-  exempt_no_hook=""
-  while IFS= read -r a; do
-    [[ -z "$a" ]] && continue
-    [[ -f "$copy/hooks/${a}-validation.json" ]] || { exempt_no_hook="$a"; break; }
-  done <<< "$al"
-  if [[ -n "$exempt_no_hook" ]]; then
-    _pass "allowlisted agent has no hook on disk ($exempt_no_hook)"
-  else
-    _fail "an allowlisted agent has no hook on disk" "every allowlisted agent unexpectedly has a hook"
-  fi
+  printf '#Requires -Version 7.0\nexit 0\n' > "$copy/hooks/zzz-orphan.ps1"
   run_validate "$copy"
-  assert_rc_zero "clean copy with allowlisted-but-hookless agent still passes"
+  assert_rc_nonzero "validator fails on an unregistered hook script"
+  assert_out_contains "reports orphan-hook-script" "orphan-hook-script: zzz-orphan.ps1"
   rm -rf "$copy"
 }
 
 # ===========================================================================
-# CASE 7 - Stale core-hooks.json description ("18-agent").
+# CASE 7 - Stale claude.json description ("18-agent") -> check 6a must fail.
 # ===========================================================================
-section "[7] Stale core-hooks description: set to '18-agent' -> non-zero"
+section "[7] Stale architecture description: claude.json set to '18-agent' -> non-zero"
 {
   copy="$(make_copy)"
-  jq '.description = "Core hooks for 18-agent architecture with specialized routing"' \
-    "$copy/hooks/core-hooks.json" > "$copy/hooks/core-hooks.json.tmp" \
-    && mv "$copy/hooks/core-hooks.json.tmp" "$copy/hooks/core-hooks.json"
+  jq '.description = "Claude Code CLI with 18-agent specialized architecture"' \
+    "$copy/claude.json" > "$copy/claude.json.tmp" \
+    && mv "$copy/claude.json.tmp" "$copy/claude.json"
   run_validate "$copy"
-  assert_rc_nonzero "validator fails on a stale core-hooks.json description"
-  assert_out_contains "reports core-hooks.json missing N-agent" "core-hooks.json .description missing"
+  assert_rc_nonzero "validator fails on a stale claude.json description"
+  assert_out_contains "reports claude.json missing N-agent" "claude.json .description missing"
   rm -rf "$copy"
 }
 
@@ -382,6 +365,26 @@ section "[11] Model parity: divergent tier + invalid shorthand -> non-zero (chec
   run_validate "$copy"
   assert_rc_nonzero "validator fails on an invalid model shorthand in claude.json"
   assert_out_contains "reports invalid shorthand 'sonnett' for $victim" "is not a key in consistency.model_shorthand_map"
+  rm -rf "$copy"
+}
+
+# ===========================================================================
+# CASE 12 - framework-stats staleness: mutate the README footer inside the
+#           GENERATED region -> --check (and the validator via check 11) fail.
+# ===========================================================================
+section "[12] Generator staleness: mutate README framework-stats region -> --check non-zero"
+{
+  copy="$(make_copy)"
+  rm_md="$copy/README.md"
+  awk '
+    /<!-- BEGIN GENERATED: framework-stats -->/ { inside=1; print; next }
+    /<!-- END GENERATED: framework-stats -->/   { inside=0; print; next }
+    inside && /Specialized Agents/ { sub(/[0-9]+ Specialized Agents/, "99 Specialized Agents"); print; next }
+    { print }
+  ' "$rm_md" > "$rm_md.tmp" && mv "$rm_md.tmp" "$rm_md"
+  run_generate "$copy" --check
+  assert_rc_nonzero "generate-docs.sh --check fails on a stale framework-stats block"
+  assert_out_contains "reports STALE for framework-stats" "STALE"
   rm -rf "$copy"
 }
 
