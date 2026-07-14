@@ -7,7 +7,7 @@ description: Display all available agents with capabilities and status
 
 ## Purpose
 
-Display comprehensive information about all 20 specialized agents in the framework, including their capabilities, specializations, validation hooks, and current status.
+Display comprehensive information about all 20 specialized agents in the framework, including their capabilities, specializations, model tier, and current status.
 
 ## Usage
 
@@ -32,33 +32,34 @@ Display comprehensive information about all 20 specialized agents in the framewo
 ### 1. Table Format (Default)
 
 ```
-┌──────────────────────────┬─────────────────┬───────────┬──────────┬────────────┐
-│ Agent                    │ Category        │ Model     │ Hook     │ Status     │
-├──────────────────────────┼─────────────────┼───────────┼──────────┼────────────┤
-│ rust-expert              │ Language        │ Sonnet    │ ✅       │ Ready      │
-│ csharp-expert            │ Language        │ Sonnet    │ ✅       │ Ready      │
-│ go-expert                │ Language        │ Sonnet    │ ✅       │ Ready      │
-│ java-expert              │ Language        │ Sonnet    │ ✅       │ Ready      │
-│ python-expert            │ Language        │ Sonnet    │ ✅       │ Ready      │
-│ typescript-expert        │ Language        │ Sonnet    │ ✅       │ Ready      │
-│ mql-trading-dev          │ Language        │ Opus      │ ✅       │ Ready      │
-│ bash-expert              │ Automation      │ Haiku     │ ✅       │ Ready      │
-│ powershell-expert        │ Automation      │ Haiku     │ ✅       │ Ready      │
-│ database-specialist      │ Domain          │ Sonnet    │ ✅       │ Ready      │
-│ frontend-specialist      │ Domain          │ Sonnet    │ ✅       │ Ready      │
-│ security-specialist      │ Domain          │ Sonnet    │ ✅       │ Ready      │
-│ uiux-specialist          │ Domain          │ Haiku     │ ✅       │ Ready      │
-│ devops-orchestrator      │ Infrastructure  │ Sonnet    │ ✅       │ Ready      │
-│ system-architect         │ Architecture    │ Opus      │ ✅       │ Ready      │
-│ product-owner            │ Planning        │ Sonnet    │ ✅       │ Ready      │
-│ comprehensive-analyst    │ Analysis        │ Sonnet    │ ✅       │ Ready      │
-│ code-review-gatekeeper   │ Quality         │ Opus      │ ✅       │ Ready      │
-│ peer-review-critic       │ Quality         │ Opus      │ 🚦       │ Ready      │
-│ technical-docs-writer    │ Documentation   │ Haiku     │ ✅       │ Ready      │
-└──────────────────────────┴─────────────────┴───────────┴──────────┴────────────┘
+┌──────────────────────────┬─────────────────┬───────────┬────────────┐
+│ Agent                    │ Category        │ Model     │ Status     │
+├──────────────────────────┼─────────────────┼───────────┼────────────┤
+│ rust-expert              │ Language        │ Sonnet    │ Ready      │
+│ csharp-expert            │ Language        │ Sonnet    │ Ready      │
+│ go-expert                │ Language        │ Sonnet    │ Ready      │
+│ java-expert              │ Language        │ Sonnet    │ Ready      │
+│ python-expert            │ Language        │ Sonnet    │ Ready      │
+│ typescript-expert        │ Language        │ Sonnet    │ Ready      │
+│ mql-trading-dev          │ Language        │ Opus      │ Ready      │
+│ bash-expert              │ Automation      │ Haiku     │ Ready      │
+│ powershell-expert        │ Automation      │ Haiku     │ Ready      │
+│ database-specialist      │ Domain          │ Sonnet    │ Ready      │
+│ frontend-specialist      │ Domain          │ Sonnet    │ Ready      │
+│ security-specialist      │ Domain          │ Sonnet    │ Ready      │
+│ uiux-specialist          │ Domain          │ Haiku     │ Ready      │
+│ devops-orchestrator      │ Infrastructure  │ Sonnet    │ Ready      │
+│ system-architect         │ Architecture    │ Opus      │ Ready      │
+│ product-owner            │ Planning        │ Sonnet    │ Ready      │
+│ comprehensive-analyst    │ Analysis        │ Sonnet    │ Ready      │
+│ code-review-gatekeeper   │ Quality         │ Opus      │ Ready      │
+│ peer-review-critic       │ Quality         │ Opus      │ Ready      │
+│ technical-docs-writer    │ Documentation   │ Haiku     │ Ready      │
+└──────────────────────────┴─────────────────┴───────────┴────────────┘
 
 Total: 20 agents (20 ready, 0 unavailable)
-✅ = dedicated {agent}-validation hook   🚦 = governed by the framework-wide peer-review-final-gate hook
+Quality enforcement is framework-wide: every agent's committed work passes the
+peer-review Stop gate (hooks/stop-peer-review-gate.ps1) before a session ends.
 ```
 
 ### 2. Category View (--language)
@@ -263,7 +264,7 @@ Works well with:
 - `/delegate` - Route tasks to agents
 - `/analyze-framework` - Check agent health
 - `/agent-status` - Runtime agent information
-- `/quality-report` - Agent performance metrics
+- `/quality-report` - Framework quality assessment
 
 ## Implementation Notes
 
@@ -292,8 +293,7 @@ Agent information sourced from:
 
 ## Notes
 
-- Agent list is static (defined in configuration)
-- Status checks are performed in real-time
-- Metrics require performance tracking enabled
-- Use `/agent-status` for runtime information
+- Agent list is derived from `claude.json` and `agents/*.md` (no hardcoded roster)
+- Status reflects configuration state (file presence, registry parity, model parity)
+- Use `/agent-status` for per-agent configuration detail
 - Combine with `/analyze-framework` for comprehensive view

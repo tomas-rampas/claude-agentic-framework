@@ -14,6 +14,15 @@
 
 set -euo pipefail
 
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*)
+    echo "ERROR: on Windows use scripts/install.ps1 - hooks installed by this" >&2
+    echo "       script keep a literal \$HOME that Windows cannot expand at hook" >&2
+    echo "       time, leaving them silently inert." >&2
+    exit 1
+    ;;
+esac
+
 FORCE=0
 [[ "${1:-}" == "--force" ]] && FORCE=1
 

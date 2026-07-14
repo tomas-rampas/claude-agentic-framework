@@ -61,7 +61,7 @@ Quality enforcement is framework-wide, not per-agent: every agent's committed wo
 
 ## Expected Agent Count
 
-The framework has 20 agents across 7 categories:
+The roster and its categories are defined in `claude.json` (`.sub_agents` + `.agent_categories`) — counts below reflect the current registry:
 - **Language Experts** (7): rust, csharp, go, java, python, typescript, mql-trading-dev
 - **Automation Experts** (2): bash, powershell
 - **Domain Specialists** (4): database, frontend, security, uiux

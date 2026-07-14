@@ -34,7 +34,7 @@ Searched for common patterns:
 
 ## Recommendations
 
-1. **Run the secret scan in CI** so a leaked credential fails the PR (wire `security-check.sh` into `.github/workflows/consistency.yml`).
+1. **Secret scan in CI** — in place: `.github/workflows/consistency.yml` runs `security-check.sh` on every PR, so a leaked credential fails the build.
 2. **Pre-commit hook** — optionally run `security-check.sh` from a git pre-commit hook locally.
 3. **Environment validation** — `scripts/install.ps1` verifies prerequisites; keep secrets out of install output.
 

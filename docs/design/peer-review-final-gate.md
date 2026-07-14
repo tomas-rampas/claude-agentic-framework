@@ -37,6 +37,12 @@ committed work on a feature branch, clean tree, not yet reviewed — to behave l
 pre-merge review gate that runs once, not a per-turn nag. Any error, parse failure, or
 missing tool exits 0 silently: the gate must never trap a user in an unstoppable session.
 
+**Accepted limitation:** the session marker means "peer-review-critic ran at least once
+this session", not "the current HEAD was reviewed". A session that reviews early and then
+commits more work is not re-gated. Tying the marker to the reviewed commit SHA was
+considered and rejected as too naggy for iterative fix-review-fix loops; the once-per-
+session semantic matches the documented contract in CLAUDE.md.
+
 ## Exit criteria for the review itself
 
 Every BLOCKER and MAJOR finding from peer-review-critic resolved (or explicit user
