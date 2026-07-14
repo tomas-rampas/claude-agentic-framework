@@ -56,10 +56,10 @@ fi
 
 # --- output helpers ---------------------------------------------------------
 if [[ -t 1 ]]; then
-  C_RED=$'\033[0;31m'; C_GRN=$'\033[0;32m'; C_YEL=$'\033[1;33m'
+  C_RED=$'\033[0;31m'; C_GRN=$'\033[0;32m'
   C_CYN=$'\033[0;36m'; C_NC=$'\033[0m'
 else
-  C_RED=""; C_GRN=""; C_YEL=""; C_CYN=""; C_NC=""
+  C_RED=""; C_GRN=""; C_CYN=""; C_NC=""
 fi
 
 TESTS_RUN=0
