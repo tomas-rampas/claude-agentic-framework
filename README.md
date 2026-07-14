@@ -13,7 +13,7 @@ This framework extends Claude Code CLI with:
 - **20 Specialized Agents** covering the full development lifecycle
 - **45 Quality Gates** with multi-phase validation per agent
 - **Self-Learning System** — automated pattern capture, institutional memory, and semantic search
-- **MCP Integration** — 5 MCP servers for code intelligence, file ops, documentation, .NET tooling, and shell execution
+- **MCP Integration** — 3 MCP servers for code intelligence, file operations, and documentation lookup
 
 ---
 
@@ -40,44 +40,37 @@ claude --version
 
 ### Configure MCP Servers
 
-Create or update the project-level `.mcp.json` (or `~/.claude/mcp.json`):
+This repo ships a project-level `.mcp.json` with three servers:
 
 ```json
 {
   "mcpServers": {
-    "serena": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-serena"]
-    },
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/your-username"]
+      "args": ["-y", "@modelcontextprotocol/server-filesystem",
+               "${MCP_FS_ROOT:-D:/src/github/claude-agentic-framework}"]
     },
     "context7": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-context7"]
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": { "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY:-}" }
     },
-    "dotnet": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-dotnet"]
-    },
-    "bash": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-bash"]
+    "serena": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/oraios/serena",
+               "serena", "start-mcp-server", "--context", "ide-assistant"]
     }
   }
 }
 ```
 
-Replace `/home/your-username` with the directory you want the filesystem server scoped to.
+Set `MCP_FS_ROOT` (and optionally `CONTEXT7_API_KEY`) in your environment or `.env` — see `.env.example`. Note that a project-level `.mcp.json` only applies to sessions started inside this directory; to make a server available in every project, register it with `claude mcp add --scope user` instead.
 
-| MCP Server | Purpose |
-|------------|---------|
-| **serena** | Semantic code intelligence, symbol operations + institutional memory |
-| **filesystem** | Enhanced file operations for large files and atomic updates |
-| **context7** | External documentation and best practices |
-| **dotnet** | .NET/C# build, test, and project tooling |
-| **bash** | Shell command execution for automation tasks |
+| MCP Server | Purpose | Runtime |
+|------------|---------|---------|
+| **filesystem** | Enhanced file operations for large files and atomic updates | Node.js (`npx`) |
+| **context7** | External documentation and best practices lookup | Node.js (`npx`) |
+| **serena** | Semantic code intelligence and symbol operations | Python (`uvx`) |
 
 ---
 
@@ -175,7 +168,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 ~/.claude/
 ├── CLAUDE.md                # Agent execution rules and task routing
 ├── claude.json              # Agent configuration (v3.0.0)
-├── .mcp.json                # MCP server definitions (serena, filesystem, context7, dotnet, bash)
+├── .mcp.json                # MCP server definitions (filesystem, context7, serena)
 ├── agents/                  # 20 agent definitions (.md with YAML frontmatter)
 ├── commands/                # 6 commands (delegate, analyze-framework, list-agents, etc.)
 ├── hooks/                   # 45 quality gates (agent-specific + framework-wide)
@@ -251,9 +244,13 @@ which claude  # If missing, reinstall per the Prerequisites section
 
 **MCP servers not available:**
 ```bash
-cat ~/.claude/.mcp.json          # Check configuration
-npx -y @modelcontextprotocol/server-serena --version  # Test server
+cat .mcp.json                                            # Check configuration
+npx -y @modelcontextprotocol/server-filesystem --help    # Test filesystem server
+npx -y @upstash/context7-mcp --help                      # Test context7 server
+uvx --from git+https://github.com/oraios/serena serena --help  # Test serena
+claude mcp list                                          # What Claude Code sees
 ```
+Also check `.claude/settings.local.json` — servers listed under `disabledMcpjsonServers` are switched off locally.
 
 **Agents not found:**
 ```bash
