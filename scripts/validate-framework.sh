@@ -40,7 +40,7 @@ N_AGENTS="$(fact_agents | grep -c . || true)"
 echo "📋 Step 1: Validating Core Files"
 echo "--------------------------------"
 
-for core in CLAUDE.md claude.json; do
+for core in CLAUDE.md claude.json settings.template.json .mcp.json; do
   if [[ -f "$ROOT/$core" ]]; then
     echo -e "${GREEN}✅${NC} $core found"
   else
@@ -69,7 +69,7 @@ echo ""
 echo "📁 Step 2: Validating Directories"
 echo "--------------------------------"
 
-for dir in agents commands hooks shared skills; do
+for dir in agents commands hooks skills scripts tests docs; do
   if [[ -d "$ROOT/$dir" ]]; then
     echo -e "${GREEN}✅${NC} $dir/ directory exists"
   else

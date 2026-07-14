@@ -58,8 +58,12 @@ FACTS_REPO_ROOT="${FACTS_REPO_ROOT:-$(_facts_resolve_root)}"
 FACTS_CLAUDE_JSON="${FACTS_CLAUDE_JSON:-$FACTS_REPO_ROOT/claude.json}"
 FACTS_AGENTS_DIR="${FACTS_AGENTS_DIR:-$FACTS_REPO_ROOT/agents}"
 FACTS_HOOKS_DIR="${FACTS_HOOKS_DIR:-$FACTS_REPO_ROOT/hooks}"
+FACTS_SKILLS_DIR="${FACTS_SKILLS_DIR:-$FACTS_REPO_ROOT/skills}"
+FACTS_COMMANDS_DIR="${FACTS_COMMANDS_DIR:-$FACTS_REPO_ROOT/commands}"
+FACTS_SETTINGS_TEMPLATE="${FACTS_SETTINGS_TEMPLATE:-$FACTS_REPO_ROOT/settings.template.json}"
 
 export FACTS_REPO_ROOT FACTS_CLAUDE_JSON FACTS_AGENTS_DIR FACTS_HOOKS_DIR
+export FACTS_SKILLS_DIR FACTS_COMMANDS_DIR FACTS_SETTINGS_TEMPLATE
 
 # --- internal helpers -------------------------------------------------------
 _facts_require_jq() {
@@ -128,14 +132,6 @@ fact_models() {
 
 # --- consistency-block facts ------------------------------------------------
 
-# fact_allowlist - agents intentionally exempt from per-agent hook coverage
-fact_allowlist() {
-  _facts_require_jq || return $?
-  _facts_require_claude_json || return $?
-  _facts_jq -r '.consistency.hook_coverage_allowlist // [] | .[]' "$FACTS_CLAUDE_JSON" \
-    | LC_ALL=C sort
-}
-
 # fact_deprecated - dead/legacy agent names that must not appear as references
 fact_deprecated() {
   _facts_require_jq || return $?
@@ -166,57 +162,100 @@ fact_model_shorthand() {
   printf '%s\n' "$id"
 }
 
+# --- hook facts (real hook architecture) ------------------------------------
+# Hooks are PowerShell scripts in hooks/*.ps1, executed by Claude Code only when
+# registered in the settings "hooks" block. settings.template.json is the
+# tracked, canonical registration (per-user settings.json is derived from it by
+# scripts/install.ps1), so registration parity is asserted against the template.
+
+_facts_require_settings_template() {
+  if [[ ! -f "$FACTS_SETTINGS_TEMPLATE" ]]; then
+    printf 'facts.sh: ERROR: settings.template.json not found at %s\n' "$FACTS_SETTINGS_TEMPLATE" >&2
+    return 1
+  fi
+}
+
+# fact_hook_events - event names used in the settings template hooks block
+fact_hook_events() {
+  _facts_require_jq || return $?
+  _facts_require_settings_template || return $?
+  _facts_jq -r '.hooks // {} | keys[]' "$FACTS_SETTINGS_TEMPLATE" | LC_ALL=C sort
+}
+
+# fact_registered_hook_scripts - sorted basenames of every *.ps1 referenced by a
+# hook command in the settings template.
+fact_registered_hook_scripts() {
+  _facts_require_jq || return $?
+  _facts_require_settings_template || return $?
+  _facts_jq -r '.hooks // {} | to_entries[] | .value[]? | .hooks[]? | .command // empty' \
+      "$FACTS_SETTINGS_TEMPLATE" \
+    | grep -oE '[A-Za-z0-9._-]+\.ps1' | LC_ALL=C sort -u
+}
+
+# fact_hook_script_files - sorted basenames of hooks/*.ps1 on disk
+fact_hook_script_files() {
+  local f
+  shopt -s nullglob
+  for f in "$FACTS_HOOKS_DIR"/*.ps1; do basename "$f"; done | LC_ALL=C sort
+  shopt -u nullglob
+}
+
+# _facts_count_hook_commands - number of registered hook command entries
+_facts_count_hook_commands() {
+  _facts_require_jq || return $?
+  if [[ ! -f "$FACTS_SETTINGS_TEMPLATE" ]]; then printf '0\n'; return 0; fi
+  _facts_jq -r '[.hooks // {} | to_entries[] | .value[]? | .hooks[]?] | length' \
+    "$FACTS_SETTINGS_TEMPLATE"
+}
+
+# --- skill / command facts ---------------------------------------------------
+
+# fact_skills - sorted skill names. Canonical layout is skills/<name>/SKILL.md
+# (the only layout Claude Code loads); flat skills/*.md files are counted too
+# while they still exist so the derived count stays truthful mid-migration.
+fact_skills() {
+  local f b
+  {
+    shopt -s nullglob
+    for f in "$FACTS_SKILLS_DIR"/*/SKILL.md; do
+      basename "$(dirname "$f")"
+    done
+    for f in "$FACTS_SKILLS_DIR"/*.md; do
+      b="$(basename "$f")"
+      printf '%s\n' "${b%.md}"
+    done
+    shopt -u nullglob
+  } | LC_ALL=C sort
+}
+
+# fact_commands - sorted basenames (without .md) of commands/*.md
+fact_commands() {
+  local f b
+  shopt -s nullglob
+  for f in "$FACTS_COMMANDS_DIR"/*.md; do
+    b="$(basename "$f")"
+    printf '%s\n' "${b%.md}"
+  done | LC_ALL=C sort
+  shopt -u nullglob
+}
+
 # --- derived counts ---------------------------------------------------------
 
-# _facts_count_hook_json - number of hooks/*.json files
-_facts_count_hook_json() {
-  local f n=0
-  shopt -s nullglob
-  for f in "$FACTS_HOOKS_DIR"/*.json; do n=$((n + 1)); done
-  shopt -u nullglob
-  printf '%s\n' "$n"
-}
-
-# _facts_count_hook_yaml - number of hooks/*.yaml + hooks/*.yml files
-_facts_count_hook_yaml() {
-  local f n=0
-  shopt -s nullglob
-  for f in "$FACTS_HOOKS_DIR"/*.yaml "$FACTS_HOOKS_DIR"/*.yml; do n=$((n + 1)); done
-  shopt -u nullglob
-  printf '%s\n' "$n"
-}
-
-# _facts_count_agent_specific_hooks - number of hooks/*-validation.json files
-_facts_count_agent_specific_hooks() {
-  local f n=0
-  shopt -s nullglob
-  for f in "$FACTS_HOOKS_DIR"/*-validation.json; do n=$((n + 1)); done
-  shopt -u nullglob
-  printf '%s\n' "$n"
-}
-
 # fact_counts - emit derived counts as key=value lines.
-#   agents               = number of registered sub_agents
-#   hook_json            = number of hooks/*.json
-#   hook_yaml            = number of hooks/*.yaml(+.yml)
-#   agent_specific_hooks = number of hooks/*-validation.json
-#   framework_wide_hooks = hook_json - agent_specific_hooks
-#   quality_gates        = hook_json   (doc convention: "Total Hooks"/"quality gates")
+#   agents   = number of registered sub_agents
+#   hooks    = number of hook command entries registered in settings.template.json
+#   skills   = number of skills (skills/*/SKILL.md dirs + legacy flat skills/*.md)
+#   commands = number of commands/*.md
 fact_counts() {
-  local agents hook_json hook_yaml agent_specific framework_wide
+  local agents hooks skills commands
   agents="$(fact_agents | grep -c . || true)"
-  hook_json="$(_facts_count_hook_json)"
-  hook_yaml="$(_facts_count_hook_yaml)"
-  agent_specific="$(_facts_count_agent_specific_hooks)"
-  framework_wide=$((hook_json - agent_specific))
+  hooks="$(_facts_count_hook_commands)"
+  skills="$(fact_skills | grep -c . || true)"
+  commands="$(fact_commands | grep -c . || true)"
   printf 'agents=%s\n' "$agents"
-  printf 'hook_json=%s\n' "$hook_json"
-  printf 'hook_yaml=%s\n' "$hook_yaml"
-  printf 'agent_specific_hooks=%s\n' "$agent_specific"
-  printf 'framework_wide_hooks=%s\n' "$framework_wide"
-  # "quality gates" == count of hook JSON files (each hooks/*.json is one gate);
-  # this is the number docs render as "N Quality Gates".
-  printf 'quality_gates=%s\n' "$hook_json"
+  printf 'hooks=%s\n' "$hooks"
+  printf 'skills=%s\n' "$skills"
+  printf 'commands=%s\n' "$commands"
 }
 
 # fact_count <key> - convenience accessor: print the value for a single count

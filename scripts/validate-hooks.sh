@@ -1,36 +1,52 @@
 #!/usr/bin/env bash
-# validate-hooks.sh - Hook consistency validation (dynamic).
+# validate-hooks.sh - Hook architecture validation (real Claude Code hooks).
 #
-# Keeps the original behavior (deprecated-name scan + JSON syntax validity) but
-# sources the deprecated list from the shared facts layer instead of hardcoding
-# it, and adds a hook-coverage parity check (every non-allowlisted agent has a
-# {agent}-validation.json; no orphan validation hooks). No hardcoded agent
-# names or counts remain.
+# Thin wrapper over the shared hook checks in scripts/lib/hookcheck.sh (the same
+# logic validate-consistency.sh runs as check 3, so the two cannot drift):
+#   - every hook script registered in settings.template.json exists in hooks/
+#   - every hooks/*.ps1 is registered (no dead scripts)
+#   - every registered event is a real Claude Code hook event
+#   - every hook script pins PowerShell 7 ('#Requires -Version 7.0')
+# Plus a local deprecated-name scan over the hook scripts.
 
 set -uo pipefail
-# Force C collation so `comm` matches the facts layer's `LC_ALL=C sort` (else
-# bogus missing/orphan results under a non-C locale).
 export LC_ALL=C
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/lib/facts.sh
 source "$SCRIPT_DIR/lib/facts.sh"
+# shellcheck source=scripts/lib/hookcheck.sh
+source "$SCRIPT_DIR/lib/hookcheck.sh"
 
-ROOT="$FACTS_REPO_ROOT"
-HOOKS_DIR="$FACTS_HOOKS_DIR"
-
-echo "🪝 Hook Validation Check"
-echo "========================"
+echo "Hook Architecture Validation"
+echo "============================"
 echo ""
 
 ERRORS=0
 
 # ---------------------------------------------------------------------------
-# 1. Deprecated agent references in hooks/*.json
-#    The deprecated list is DERIVED from claude.json .consistency, not frozen.
-#    We match deprecated names as JSON string tokens ("name") inside hook json,
-#    excluding any archive paths.
+# 1. Registration parity + event validity + PS7 pin (shared with check 3)
 # ---------------------------------------------------------------------------
+echo "Checking hook registration parity (settings.template.json <-> hooks/*.ps1)..."
+echo ""
+
+PROBLEMS="$(hookcheck_problems)"
+if [[ -n "$PROBLEMS" ]]; then
+  while IFS=$'\t' read -r ptype subject; do
+    [[ -z "$ptype" ]] && continue
+    echo "ERROR [$ptype] $subject"
+    ERRORS=$((ERRORS + 1))
+  done <<< "$PROBLEMS"
+else
+  n_scripts="$(fact_hook_script_files | grep -c . || true)"
+  n_events="$(fact_hook_events | grep -c . || true)"
+  echo "OK: $n_scripts hook script(s) registered across $n_events event(s); no orphans; all events valid; all pin PS7"
+fi
+
+# ---------------------------------------------------------------------------
+# 2. Deprecated agent references inside hook scripts
+# ---------------------------------------------------------------------------
+echo ""
 echo "Checking for deprecated agent references in hooks/..."
 echo ""
 
@@ -39,17 +55,11 @@ DEP_FOUND=0
 
 while IFS= read -r name; do
   [[ -z "$name" ]] && continue
-  # hooks/*.json carry no .consistency block, so the deprecated name only ever
-  # appears here as a genuine JSON string token. Match the literal token with
-  # fixed-string grep (-F): this is correct for a JSON literal and immune to
-  # regex metacharacters in the name (the previous sed-based escaper emitted a
-  # literal '&' on this platform and could miss metachar names -> false negatives).
   shopt -s nullglob
-  for f in "$HOOKS_DIR"/*.json; do
-    case "$f" in *archive*) continue;; esac
-    hits="$(grep -nF "\"$name\"" "$f" 2>/dev/null)"
+  for f in "$FACTS_HOOKS_DIR"/*.ps1; do
+    hits="$(grep -nF "$name" "$f" 2>/dev/null)"
     if [[ -n "$hits" ]]; then
-      echo "❌ Found deprecated name '$name' in $(basename "$f"):"
+      echo "ERROR: deprecated name '$name' in $(basename "$f"):"
       while IFS= read -r ln; do [[ -n "$ln" ]] && echo "     $ln"; done <<< "$hits"
       DEP_FOUND=$((DEP_FOUND + 1))
       ERRORS=$((ERRORS + 1))
@@ -60,98 +70,15 @@ done <<< "$DEPRECATED"
 
 if [[ "$DEP_FOUND" -eq 0 ]]; then
   ndep="$(printf '%s\n' "$DEPRECATED" | grep -c . || true)"
-  echo "✅ No deprecated agent references found (checked ${ndep} names)"
-fi
-
-# ---------------------------------------------------------------------------
-# 2. Hook-coverage parity
-#    Every agent NOT on the allowlist must have hooks/<agent>-validation.json;
-#    every *-validation.json must map to a real agent (no orphan).
-# ---------------------------------------------------------------------------
-echo ""
-echo "Checking hook coverage parity..."
-echo ""
-
-AGENTS="$(fact_agents)"
-ALLOWLIST="$(fact_allowlist)"
-REQUIRED="$(comm -23 <(printf '%s\n' "$AGENTS") <(printf '%s\n' "$ALLOWLIST"))"
-
-shopt -s nullglob
-EXISTING=""
-for f in "$HOOKS_DIR"/*-validation.json; do
-  b="$(basename "$f")"
-  EXISTING+="${b%-validation.json}"$'\n'
-done
-shopt -u nullglob
-EXISTING_SORTED="$(printf '%s' "$EXISTING" | grep -v '^$' | LC_ALL=C sort)"
-
-COV_ERRORS=0
-
-NO_HOOK="$(comm -23 <(printf '%s\n' "$REQUIRED") <(printf '%s\n' "$EXISTING_SORTED"))"
-if [[ -n "$NO_HOOK" ]]; then
-  while IFS= read -r a; do
-    [[ -z "$a" ]] && continue
-    echo "❌ Missing hooks/${a}-validation.json for agent '${a}'"
-    COV_ERRORS=$((COV_ERRORS + 1))
-    ERRORS=$((ERRORS + 1))
-  done <<< "$NO_HOOK"
-fi
-
-ORPHAN_HOOK="$(comm -23 <(printf '%s\n' "$EXISTING_SORTED") <(printf '%s\n' "$AGENTS"))"
-if [[ -n "$ORPHAN_HOOK" ]]; then
-  while IFS= read -r a; do
-    [[ -z "$a" ]] && continue
-    echo "❌ Orphan hooks/${a}-validation.json maps to no registered agent"
-    COV_ERRORS=$((COV_ERRORS + 1))
-    ERRORS=$((ERRORS + 1))
-  done <<< "$ORPHAN_HOOK"
-fi
-
-if [[ "$COV_ERRORS" -eq 0 ]]; then
-  nreq="$(printf '%s\n' "$REQUIRED" | grep -c . || true)"
-  echo "✅ Hook coverage complete: all ${nreq} required agents covered; no orphans"
-  if [[ -n "$ALLOWLIST" ]]; then
-    while IFS= read -r a; do
-      [[ -z "$a" ]] && continue
-      echo "ℹ️  allowlisted (no per-agent hook required): ${a}"
-    done <<< "$ALLOWLIST"
-  fi
-fi
-
-# ---------------------------------------------------------------------------
-# 3. JSON syntax validity for all hooks/*.json
-# ---------------------------------------------------------------------------
-echo ""
-echo "Validating JSON syntax..."
-echo ""
-
-if command -v jq >/dev/null 2>&1; then
-  JSON_ERRORS=0
-  shopt -s nullglob
-  for f in "$HOOKS_DIR"/*.json; do
-    if jq empty "$f" >/dev/null 2>&1; then
-      echo "✅ $(basename "$f")"
-    else
-      echo "❌ $(basename "$f") - INVALID JSON"
-      JSON_ERRORS=$((JSON_ERRORS + 1))
-      ERRORS=$((ERRORS + 1))
-    fi
-  done
-  shopt -u nullglob
-  if [[ "$JSON_ERRORS" -eq 0 ]]; then
-    echo ""
-    echo "✅ All JSON files valid"
-  fi
-else
-  echo "⚠️  jq not installed, skipping JSON validation"
+  echo "OK: no deprecated agent references found (checked ${ndep} names)"
 fi
 
 echo ""
 echo "================================"
 if [[ "$ERRORS" -eq 0 ]]; then
-  echo "✅ Hook validation passed"
+  echo "Hook validation passed"
   exit 0
 else
-  echo "❌ Found $ERRORS error(s)"
+  echo "Found $ERRORS error(s)"
   exit 1
 fi

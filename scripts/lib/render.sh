@@ -102,6 +102,24 @@ render_list_agents_summary() {
 }
 
 # ---------------------------------------------------------------------------
+# Block: framework-stats
+#   Renders the README footer's headline stats line. Every number is derived
+#   (fact_counts) and the version comes from claude.json, so the footer can
+#   never drift from reality. Emitted WITHOUT a trailing newline (the markers
+#   layer adds exactly one final LF for the region).
+# ---------------------------------------------------------------------------
+render_framework_stats() {
+  local agents hooks skills commands version
+  agents="$(fact_count agents)"     || return 1
+  hooks="$(fact_count hooks)"       || return 1
+  skills="$(fact_count skills)"     || return 1
+  commands="$(fact_count commands)" || return 1
+  version="$(_facts_jq -r '.version // "0.0.0"' "$FACTS_CLAUDE_JSON")" || return 1
+  printf '**Built for Claude Code CLI • %s Specialized Agents • %s Hook Scripts • %s Skills • %s Commands • v%s**' \
+    "$agents" "$hooks" "$skills" "$commands" "$version"
+}
+
+# ---------------------------------------------------------------------------
 # render_focus <agent>
 #   Helper exposing the single-sourced focus string for one agent (from
 #   claude.json .sub_agents[<agent>].focus). Returns non-zero if absent.

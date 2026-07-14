@@ -22,8 +22,8 @@
 # And not these directories and their contents
 !/agents/
 !/commands/
+!/docs/
 !/hooks/
-!/shared/
 !/skills/
 !/scripts/
 !/tests/

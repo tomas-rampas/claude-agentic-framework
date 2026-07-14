@@ -61,6 +61,7 @@ fi
 # guarded by validate-consistency.sh (roster-presence + focus-text parity).
 BLOCKS=(
   "commands/list-agents.md|list-agents-summary|render_list_agents_summary"
+  "README.md|framework-stats|render_framework_stats"
 )
 
 usage() {

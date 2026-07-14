@@ -105,18 +105,10 @@ Total: 20 agents (20 ready, 0 unavailable)
   • FFI and unsafe code
   • Cargo ecosystem and crate development
 
-🔧 VALIDATION HOOK
-  • Hook: hooks/rust-expert-validation.json ✓
-  • Phases: 7 (compilation, linting, testing, safety, security, docs, best practices)
-  • Quality Gates: pre-commit, pre-push, pre-release
-  • Tools: cargo, rustfmt, clippy, tarpaulin, miri, cargo-audit
-  • Coverage: Required (min 70%)
-
-📊 METRICS (if available)
-  • Tasks Completed: 42
-  • Success Rate: 95.2%
-  • Avg Response Time: 3.2s
-  • Token Efficiency: High
+🔧 QUALITY ENFORCEMENT
+  • Framework-wide: committed work passes the peer-review Stop gate
+    (hooks/stop-peer-review-gate.ps1) before a session can end
+  • Review chain: code-review-gatekeeper → peer-review-critic
 
 🔗 RELATED AGENTS
   • Works with: code-review-gatekeeper, security-specialist
@@ -125,7 +117,6 @@ Total: 20 agents (20 ready, 0 unavailable)
 
 📚 DOCUMENTATION
   • Agent Guide: agents/rust-expert.md
-  • Validation: hooks/rust-expert-validation.json
   • Examples: See delegate.md for routing examples
 ```
 
@@ -140,18 +131,12 @@ Total: 20 agents (20 ready, 0 unavailable)
       "model": "sonnet",
       "specialization": "rust_development_systems_programming",
       "file_path": "agents/rust-expert.md",
-      "validation_hook": "hooks/rust-expert-validation.json",
       "status": "ready",
       "capabilities": [
         "Rust systems programming",
         "CLI tool development",
         "Memory safety patterns"
-      ],
-      "metrics": {
-        "tasks_completed": 42,
-        "success_rate": 0.952,
-        "avg_response_time_ms": 3200
-      }
+      ]
     }
   ],
   "summary": {
@@ -286,8 +271,7 @@ Works well with:
 Agent information sourced from:
 1. **agents/*.md** - Agent definitions and capabilities
 2. **claude.json** - Agent configuration and models
-3. **hooks/*-validation.json** - Validation hook presence
-4. **CLAUDE.md** - Agent execution rules and routing
+3. **CLAUDE.md** - Agent execution rules and routing
 
 ## Quick Filters
 

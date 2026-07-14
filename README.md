@@ -11,8 +11,8 @@ A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/
 This framework extends Claude Code CLI with:
 
 - **20 Specialized Agents** covering the full development lifecycle
-- **45 Quality Gates** with multi-phase validation per agent
-- **Self-Learning System** — automated pattern capture, institutional memory, and semantic search
+- **Real Enforcement Hooks** — a blocking peer-review Stop gate plus session-context and delegation-hint hooks, registered in `settings.json` and covered by tests
+- **Anti-Drift Consistency System** — dynamic validator, doc generator, and CI gate that keep the registry, docs, and filesystem in lockstep
 - **MCP Integration** — 3 MCP servers for code intelligence, file operations, and documentation lookup
 
 ---
@@ -167,15 +167,16 @@ Tasks are automatically routed to the appropriate agent. Examples:
 ```
 ~/.claude/
 ├── CLAUDE.md                # Agent execution rules and task routing
-├── claude.json              # Agent configuration (v3.0.0)
+├── claude.json              # Agent registry (single source of truth for the tooling)
 ├── .mcp.json                # MCP server definitions (filesystem, context7, serena)
+├── settings.template.json   # Tracked settings template: permissions + hook registration
 ├── agents/                  # 20 agent definitions (.md with YAML frontmatter)
 ├── commands/                # 6 commands (delegate, analyze-framework, list-agents, etc.)
-├── hooks/                   # 45 quality gates (agent-specific + framework-wide)
-├── shared/                  # Shared configs (base-config, mcp-config, agent-patterns, memory-categories)
-├── skills/                  # 14 operational skills (validation, debugging, analytics, scaffolding)
-├── scripts/                 # Validation, anti-drift consistency, and doc-generation scripts
-├── tests/                   # Consistency test harness
+├── hooks/                   # Real hook scripts (peer-review Stop gate, recorder, session context, delegation hint)
+├── skills/                  # Operational skills
+├── scripts/                 # Install, validation, anti-drift consistency, and doc-generation scripts
+├── tests/                   # Consistency + hook test harnesses
+├── docs/design/             # Design rationale for the hook architecture
 ├── .github/workflows/       # CI (anti-drift consistency gate)
 └── security-check.sh        # Security validation
 ```
@@ -218,20 +219,18 @@ The framework ships 14 operational skills in `skills/` that support validation, 
 
 ---
 
-## Self-Learning System
+## Enforcement Hooks
 
-The framework learns from every interaction through 8 memory categories:
+The framework registers real Claude Code hooks via `settings.template.json` (installed into `~/.claude/settings.json` by `scripts/install.ps1`):
 
-- **Workflow Patterns** — successful agent combinations and sequences
-- **Solution Patterns** — proven solutions for common problems
-- **Optimization Insights** — performance improvements and efficiency gains
-- **Lessons Learned** — knowledge from successes and failures
-- **Code Patterns** — reusable architectural and implementation patterns
-- **Project Context** — project-specific standards and decisions
-- **Quality Insights** — quality-related discoveries and improvements
-- **Integration Knowledge** — system integrations and API knowledge
+| Hook | Event | Behavior |
+|------|-------|----------|
+| `stop-peer-review-gate.ps1` | `Stop` | **Blocking.** Refuses to end a session while a feature branch has committed, unreviewed work ahead of its base and `peer-review-critic` has not run this session. Loop-safe, fail-open, fires at most once per session. |
+| `record-subagent-run.ps1` | `PostToolUse` | Records each `peer-review-critic` run as a per-session marker that unlocks the Stop gate. |
+| `session-start-context.ps1` | `SessionStart` | Injects branch/review status into the session context at startup. |
+| `pretooluse-delegation-hint.ps1` | `PreToolUse` | Advisory: suggests the matching specialist subagent when a technology-specific file is written (once per session per agent). |
 
-Pattern capture, lesson extraction, and optimization tracking are handled automatically via hooks in the `hooks/` directory.
+Design rationale (including why the legacy TDD hard block was retired) lives in `docs/design/`. The hook scripts are tested by `tests/hooks.test.ps1`, and `scripts/validate-consistency.sh` asserts registration parity: every registered script exists, every script is registered, all event names are valid.
 
 ---
 
@@ -255,7 +254,7 @@ Also check `.claude/settings.local.json` — servers listed under `disabledMcpjs
 **Agents not found:**
 ```bash
 ls -1 agents/*.md | wc -l  # Should show 20
-./scripts/validate-agents.sh
+./scripts/validate-consistency.sh
 ```
 
 **Delegation not working:**
@@ -280,4 +279,6 @@ To add or modify agents, manage framework consistency, or understand the anti-dr
 
 ---
 
-**Built for Claude Code CLI • 20 Specialized Agents • 45 Quality Gates • 14 Skills • Self-Learning • v3.0.0**
+<!-- BEGIN GENERATED: framework-stats -->
+**Built for Claude Code CLI • 20 Specialized Agents • 4 Hook Scripts • 14 Skills • 6 Commands • v3.0.0**
+<!-- END GENERATED: framework-stats -->

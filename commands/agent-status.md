@@ -30,42 +30,35 @@ Read `claude.json` and extract all agent entries from the `sub_agents` section. 
 
 For each agent in `claude.json`, check:
 - Agent markdown file exists: `agents/{agent-name}.md`
-- Agent frontmatter contains required fields: `name`, `description`, `model`, `color`
-- Model in frontmatter matches the tier in `claude.json`
+- Agent frontmatter contains required fields: `name`, `description` (plus optional `model`, `color`)
+- Model in frontmatter matches the tier in `claude.json` (validator check 7)
 
-### 3. Check Validation Hooks
-
-For each agent, check if a corresponding validation hook exists:
-- `hooks/{agent-name}-validation.json`
-- `hooks/{agent-name}-configuration.json`
-- `hooks/{agent-name}-standards.json`
-- `hooks/{agent-name}-audit.json`
-
-### 4. Report Status
+### 3. Report Status
 
 Display a summary table:
 
 ```
-Agent                    | Model   | File | Hook | Status
--------------------------|---------|------|------|-------
-rust-expert              | sonnet  | ✓    | ✓    | Ready
-csharp-expert            | sonnet  | ✓    | ✓    | Ready
+Agent                    | Model   | File | Status
+-------------------------|---------|------|-------
+rust-expert              | sonnet  | ✓    | Ready
+csharp-expert            | sonnet  | ✓    | Ready
 ...
 ```
 
-### 5. Single Agent Detail
+### 4. Single Agent Detail
 
 When a specific agent name is provided, show detailed information:
 - Full configuration from `claude.json`
 - Frontmatter fields from the agent `.md` file
-- Associated validation hook details
 - Category membership
 
 ## Status Indicators
 
-- **Ready** — Agent file exists, in claude.json, has validation hook
-- **Limited** — Agent file exists but missing hook or configuration mismatch
+- **Ready** — Agent file exists, registered in claude.json, model parity OK
+- **Limited** — Agent file exists but configuration mismatch (e.g. model divergence)
 - **Unavailable** — Agent in claude.json but file missing
+
+Quality enforcement is framework-wide, not per-agent: every agent's committed work passes through the peer-review Stop gate (`hooks/stop-peer-review-gate.ps1`), so there is no per-agent hook to check.
 
 ## Expected Agent Count
 
