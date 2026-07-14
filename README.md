@@ -273,5 +273,5 @@ To add or modify agents, manage framework consistency, or understand the anti-dr
 ---
 
 <!-- BEGIN GENERATED: framework-stats -->
-**Built for Claude Code CLI • 20 Specialized Agents • 4 Hook Scripts • 7 Skills • 6 Commands • v3.0.0**
+**Built for Claude Code CLI • 20 Specialized Agents • 4 Hook Scripts • 7 Skills • 6 Commands • v3.1.0**
 <!-- END GENERATED: framework-stats -->
