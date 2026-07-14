@@ -14,7 +14,7 @@ try {
 
     if ($payload.stop_hook_active) { exit 0 }
 
-    $sessionId = ([string]$payload.session_id) -replace '[^\w\-.]', ''
+    $sessionId = ([string]$payload.session_id) -replace '[^\w-]', ''
     if (-not $sessionId) { exit 0 }
 
     $stateRoot = $env:CLAUDE_STATE_DIR

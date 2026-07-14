@@ -79,7 +79,9 @@ if (-not (Test-Path $settingsPath)) {
         } else {
             $current | Add-Member -NotePropertyName 'hooks' -NotePropertyValue $tpl.hooks
         }
-        $current | ConvertTo-Json -Depth 16 | Set-Content -Path $settingsPath
+        # -Depth 64: far above any realistic settings nesting, so the
+        # round-trip can never silently truncate a user's existing keys.
+        $current | ConvertTo-Json -Depth 64 | Set-Content -Path $settingsPath -NoNewline
         Write-Host "Merged framework hooks block into $settingsPath."
     }
 }
