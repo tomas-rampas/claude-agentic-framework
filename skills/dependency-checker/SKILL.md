@@ -22,8 +22,8 @@ Verify that every external tool this framework actually depends on is installed,
 | bash (Git Bash on Windows) | `scripts/validate-consistency.sh`, `scripts/validate-hooks.sh`, `scripts/validate-framework.sh`, `scripts/generate-docs.sh`, `tests/consistency.test.sh` |
 | jq | The bash validators (`validate-consistency.sh` aborts without it); parsing the registry (`claude.json`) and `settings.template.json` |
 | PowerShell 7+ (`pwsh`) | Every hook script in `hooks/` carries `#Requires -Version 7.0`; `scripts/install.ps1`; `tests/hooks.test.ps1` |
-| Node.js + npx | The `filesystem` and `context7` MCP servers in `.mcp.json` (launched via `npx -y`) |
-| uv (`uvx`) | The `serena` MCP server in `.mcp.json` (launched via `uvx`) |
+| Node.js + npx | The `filesystem`, `context7`, and `sequential-thinking` MCP servers in `.mcp.json` (launched via `npx -y`) |
+| uv (`uvx`) | The `serena` and `fetch` MCP servers in `.mcp.json` (launched via `uvx`) |
 | Claude Code CLI | Host runtime that executes the hooks registered in `settings.json` and reads the registry (`claude.json`) |
 | shellcheck (optional) | Linting `scripts/*.sh`; nice-to-have, nothing hard-fails without it |
 

@@ -13,7 +13,7 @@ This framework extends Claude Code CLI with:
 - **20 Specialized Agents** covering the full development lifecycle
 - **Real Enforcement Hooks** — a blocking peer-review Stop gate plus session-context and delegation-hint hooks, registered via `settings.template.json` and covered by tests
 - **Anti-Drift Consistency System** — dynamic validator, doc generator, and CI gate that keep the registry, docs, and filesystem in lockstep
-- **MCP Integration** — 3 MCP servers for code intelligence, file operations, and documentation lookup
+- **MCP Integration** — 5 MCP servers for code intelligence, file operations, documentation lookup, structured reasoning, and web fetching
 
 ---
 
@@ -25,8 +25,8 @@ This framework extends Claude Code CLI with:
 | **Git** | Version control |
 | **PowerShell 7+ (`pwsh`)** | Runs the hook scripts (`hooks/*.ps1`) — required on every platform |
 | **bash + jq** | Validation and doc-generation tooling (Git Bash works on Windows) |
-| **Node.js/npm** | filesystem + context7 MCP servers via `npx` |
-| **uv (`uvx`)** | serena MCP server |
+| **Node.js/npm** | filesystem, context7, sequential-thinking MCP servers via `npx` |
+| **uv (`uvx`)** | serena + fetch MCP servers |
 | **shellcheck** | Shell-script linting (optional, used by CI) |
 
 ### Install Claude Code CLI
@@ -44,7 +44,7 @@ claude --version
 
 ### Configure MCP Servers
 
-This repo ships a project-level `.mcp.json` with three servers:
+This repo ships a project-level `.mcp.json` with five servers:
 
 ```json
 {
@@ -63,6 +63,14 @@ This repo ships a project-level `.mcp.json` with three servers:
       "command": "uvx",
       "args": ["--from", "git+https://github.com/oraios/serena",
                "serena", "start-mcp-server", "--context", "ide-assistant"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
     }
   }
 }
@@ -75,6 +83,8 @@ Set `MCP_FS_ROOT` (and optionally `CONTEXT7_API_KEY`) in your environment or `.e
 | **filesystem** | Enhanced file operations for large files and atomic updates | Node.js (`npx`) |
 | **context7** | External documentation and best practices lookup | Node.js (`npx`) |
 | **serena** | Semantic code intelligence and symbol operations | Python (`uvx`) |
+| **sequential-thinking** | Structured step-by-step reasoning for complex problem decomposition | Node.js (`npx`) |
+| **fetch** | Web content fetching and conversion for efficient page consumption | Python (`uvx`) |
 
 ---
 
@@ -183,7 +193,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 ~/.claude/
 ├── CLAUDE.md                # Agent execution rules and task routing
 ├── claude.json              # Agent registry (single source of truth for the tooling)
-├── .mcp.json                # MCP server definitions (filesystem, context7, serena)
+├── .mcp.json                # MCP server definitions (filesystem, context7, serena, sequential-thinking, fetch)
 ├── settings.template.json   # Tracked settings template: permissions + hook registration
 ├── agents/                  # 20 agent definitions (.md with YAML frontmatter)
 ├── commands/                # 6 commands (delegate, analyze-framework, list-agents, etc.)
@@ -255,6 +265,8 @@ cat .mcp.json                                            # Check configuration
 npx -y @modelcontextprotocol/server-filesystem --help    # Test filesystem server
 npx -y @upstash/context7-mcp --help                      # Test context7 server
 uvx --from git+https://github.com/oraios/serena serena --help  # Test serena
+npx -y @modelcontextprotocol/server-sequential-thinking --help # Test sequential-thinking
+uvx mcp-server-fetch --help                              # Test fetch server
 claude mcp list                                          # What Claude Code sees
 ```
 Also check `.claude/settings.local.json` — servers listed under `disabledMcpjsonServers` are switched off locally.
