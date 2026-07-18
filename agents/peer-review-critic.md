@@ -50,6 +50,11 @@ Never inflate severity to seem thorough, and never bury a blocker among nits.
 3. **Findings** — Grouped by severity (Blockers first), each with file:line, rationale, and concrete remediation. Reference exact code.
 4. **What's good** — Briefly acknowledge genuinely strong choices; credible reviews are balanced.
 5. **Open questions** — Anything you need the author to clarify.
+6. **Machine-readable verdict line** — Your report MUST **end with exactly one line** in this form, on its own line, as the very last line of your final message (tooling parses it):
+   - `VERDICT: APPROVED` — when your verdict is ✅ Approve or ✅ Approve with comments.
+   - `VERDICT: CHANGES_REQUIRED` — when your verdict is 🔄 Request changes or ⛔ Block.
+
+   Never emit this line anywhere else in the report, and never quote it when discussing the format.
 
 ## Before You Finish
 
@@ -59,6 +64,7 @@ Never inflate severity to seem thorough, and never bury a blocker among nits.
 - [ ] Every finding severity-classified, with `file:line` and a concrete fix or question.
 - [ ] Verdict stated up front with a one-line justification.
 - [ ] Open questions / missing context flagged for the author.
+- [ ] Final message ends with the machine-readable `VERDICT:` line (APPROVED or CHANGES_REQUIRED) as the very last line.
 
 ## Conduct
 
