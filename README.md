@@ -255,8 +255,8 @@ The framework registers real Claude Code hooks via `settings.template.json` (ins
 
 | Hook | Event | Behavior |
 |------|-------|----------|
-| `stop-peer-review-gate.ps1` | `Stop` | **Blocking.** Refuses to end a session while a feature branch has committed, unreviewed work ahead of its base and `peer-review-critic` has not run this session. Loop-safe, fail-open, fires at most once per session. |
-| `record-subagent-run.ps1` | `PostToolUse` | Records each `peer-review-critic` run as a per-session marker that unlocks the Stop gate. |
+| `stop-peer-review-gate.ps1` | `Stop` | **Blocking.** Refuses to end a session while a feature branch has committed work ahead of its base and the latest `peer-review-critic` run did not record `VERDICT: APPROVED` — one block if no review ran, up to 3 while the verdict is `CHANGES_REQUIRED`. Loop-safe, fail-open (legacy no-verdict markers unlock). |
+| `record-subagent-run.ps1` | `PostToolUse` + `SubagentStop` | Records each `peer-review-critic` run as a per-session marker, parsing the report's machine-readable `VERDICT:` line into it (the verdict the Stop gate enforces). |
 | `session-start-context.ps1` | `SessionStart` | Injects branch/review status into the session context at startup. |
 | `pretooluse-delegation-hint.ps1` | `PreToolUse` | Advisory: suggests the matching specialist subagent when a technology-specific file is written (once per session per agent). |
 
