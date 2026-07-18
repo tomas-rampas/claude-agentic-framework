@@ -197,7 +197,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 ├── .mcp.json                # MCP server definitions (filesystem, context7, serena, sequential-thinking, fetch)
 ├── settings.template.json   # Tracked settings template: permissions + hook registration
 ├── agents/                  # 21 agent definitions (.md with YAML frontmatter)
-├── commands/                # 6 commands (delegate, analyze-framework, list-agents, etc.)
+├── commands/                # 7 commands (delegate, spec, analyze-framework, list-agents, etc.)
 ├── hooks/                   # Real hook scripts (peer-review Stop gate, recorder, session context, delegation hint)
 ├── skills/                  # Operational skills
 ├── scripts/                 # Install, validation, anti-drift consistency, and doc-generation scripts
@@ -219,6 +219,14 @@ Tasks are automatically routed to the appropriate agent. Examples:
 | `/validate-hooks` | Hook coverage and consistency verification |
 | `/agent-status` | Agent configuration status and health assessment |
 | `/quality-report` | Quality metrics, trend analysis, and reporting |
+
+## Spec Loop Commands
+
+The self-correcting spec → build → review loop: the system, not the user, catches the gaps.
+
+| Command | Purpose |
+|---------|---------|
+| `/spec` | Interview the user one question at a time, then write `specs/<name>.md` with checkable acceptance criteria and a definition of done |
 
 ---
 
@@ -302,5 +310,5 @@ To add or modify agents, manage framework consistency, or understand the anti-dr
 ---
 
 <!-- BEGIN GENERATED: framework-stats -->
-**Built for Claude Code CLI • 21 Specialized Agents • 4 Hook Scripts • 8 Skills • 6 Commands • v3.1.0**
+**Built for Claude Code CLI • 21 Specialized Agents • 4 Hook Scripts • 8 Skills • 7 Commands • v3.1.0**
 <!-- END GENERATED: framework-stats -->
