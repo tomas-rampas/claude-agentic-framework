@@ -12,6 +12,13 @@ build against it requirement by requirement, you fix what fails, and the loop
 repeats **until the review passes clean** — without asking the user to catch
 mistakes in between.
 
+`/build` is the lightweight standalone loop: one autonomous run, whole-build
+reviews, no plan-approval stops. For multi-domain objectives that warrant
+human-gated planning and per-todo commits, use `/delegate` instead — it
+consumes the same spec with scoped per-todo reviews. Run one or the other,
+never both on the same objective; `/build` borrows `/delegate`'s Routing and
+quality bar but does not invoke it.
+
 ## Spec
 **$ARGUMENTS**
 

@@ -99,8 +99,10 @@ report a clean state that isn't real.
   `security-specialist`. Address findings before committing. If a finding is a
   blocker you can't resolve, stop and report.
 - **When building against a spec**, also route the todo through
-  `spec-compliance-reviewer` for the REQ-/EDGE-IDs it delivers; a
-  `CHANGES_REQUIRED` verdict blocks the commit like any other finding.
+  `spec-compliance-reviewer` as a **scoped review** naming exactly the
+  REQ-/EDGE-IDs the todo delivers (the agent verifies only those; other spec
+  items report as out-of-scope, not FAIL). A `CHANGES_REQUIRED` verdict on the
+  todo's own IDs blocks the commit like any other finding.
 
 ## 6. Commit
 - Commit **per completed todo** (after red → green → refactor → quality bar →
@@ -118,9 +120,10 @@ report a clean state that isn't real.
 
 ## 8. Wrap-up
 - Confirm every todo is complete and all acceptance criteria are met.
-- **When building against a spec**: confirm every `REQ-`/`EDGE-` item is PASS
-  (final `spec-compliance-reviewer` run over the whole diff if per-todo runs
-  didn't already cover them all), then set the spec's `Status:` to `built`.
+- **When building against a spec**: run a final **full-spec**
+  `spec-compliance-reviewer` review over the whole diff (per-todo runs were
+  scoped, so this is the completeness check) and confirm every `REQ-`/`EDGE-`
+  item is PASS, then set the spec's `Status:` to `built`.
 - **Documentation drift-audit (blocking).** Before declaring done, delegate to a
   *fresh* sub-agent (`Explore` or `technical-docs-writer`) an audit of README,
   `docs/`, `plan/`, `CHANGELOG`, and any schema **against what actually shipped
