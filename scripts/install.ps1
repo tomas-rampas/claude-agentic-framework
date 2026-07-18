@@ -230,15 +230,19 @@ if ($SkipMcp) {
             # lossless (catches any silent depth truncation - -Depth 100 is the
             # ConvertTo-Json maximum and ~/.claude.json holds deep Claude Code
             # state), then move into place. The original is untouched until the
-            # verified move, so a failure can never corrupt it.
+            # verified move, so a failure can never corrupt it; the finally
+            # guarantees no stray temp file survives any failure path.
             $tmp = "$claudeJsonPath.tmp-$PID"
-            $userConfig | ConvertTo-Json -Depth 100 | Set-Content -Path $tmp -NoNewline
-            $reparsed = Get-Content $tmp -Raw | ConvertFrom-Json
-            if ((Get-CanonJson $reparsed) -ne (Get-CanonJson $userConfig)) {
-                Remove-Item $tmp -Force -ErrorAction SilentlyContinue
-                throw "Round-trip verification failed for $claudeJsonPath - original left untouched."
+            try {
+                $userConfig | ConvertTo-Json -Depth 100 | Set-Content -Path $tmp -NoNewline
+                $reparsed = Get-Content $tmp -Raw | ConvertFrom-Json
+                if ((Get-CanonJson $reparsed) -ne (Get-CanonJson $userConfig)) {
+                    throw "Round-trip verification failed for $claudeJsonPath - original left untouched."
+                }
+                Move-Item $tmp $claudeJsonPath -Force
+            } finally {
+                if (Test-Path $tmp) { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
             }
-            Move-Item $tmp $claudeJsonPath -Force
             Write-Host "  wrote $claudeJsonPath (re-serialized; formatting of untouched content may normalize)"
         } else {
             Write-Host '  nothing to add - file untouched.'

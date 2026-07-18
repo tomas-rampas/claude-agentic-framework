@@ -83,12 +83,18 @@ Assert 'unrelated user state survives the round-trip' ($cfg.someUserState.keep -
 Assert 'backup written before modifying an existing file' ((Get-ChildItem $sandboxDir -Filter '.claude.json.bak-*').Count -ge 1)
 
 # The headline guarantee: existing definitions are never overwritten EVEN WITH
-# -Force. Pin it so a future -Force branch in the MCP path cannot silently
-# break the promise.
+# -Force. Seed a config that is simultaneously MISSING one framework server and
+# CONFLICTING on another, so the -Force run performs a real write (add) while
+# the conflict must survive it — a future -Force branch in the MCP path cannot
+# silently break the promise without failing here.
+$cfg = Get-Content $claudeJson -Raw | ConvertFrom-Json
+$cfg.mcpServers.PSObject.Properties.Remove('serena')
+$cfg | ConvertTo-Json -Depth 32 | Set-Content $claudeJson -NoNewline
 $r = Invoke-Installer -ExtraArgs @('-Force')
 $cfg = Get-Content $claudeJson -Raw | ConvertFrom-Json
+Assert '-Force run performs a real add (missing server restored)' ($r.Out -match 'serena\s+added' -and $null -ne $cfg.mcpServers.serena)
 Assert '-Force still reports conflicting server as kept' ($r.Out -match 'fetch\s+kept yours')
-Assert '-Force never clobbers the user definition' ($cfg.mcpServers.fetch.command -eq 'my-custom-fetch')
+Assert '-Force write never clobbers the user definition' ($cfg.mcpServers.fetch.command -eq 'my-custom-fetch')
 
 Write-Host "mcpServers present but null (post-reset shape)"
 
