@@ -243,13 +243,15 @@ fact_commands() {
 
 # fact_counts - emit derived counts as key=value lines.
 #   agents   = number of registered sub_agents
-#   hooks    = number of hook command entries registered in settings.template.json
-#   skills   = number of skills (skills/*/SKILL.md dirs + legacy flat skills/*.md)
+#   hooks    = number of DISTINCT hook scripts registered in settings.template.json
+#              (one script may be registered under several events; the docs
+#              headline says "Hook Scripts", so scripts is the truthful unit)
+#   skills   = number of skills (skills/<name>/SKILL.md dirs + legacy flat skills/*.md)
 #   commands = number of commands/*.md
 fact_counts() {
   local agents hooks skills commands
   agents="$(fact_agents | grep -c . || true)"
-  hooks="$(_facts_count_hook_commands)"
+  hooks="$(fact_registered_hook_scripts | grep -c . || true)"
   skills="$(fact_skills | grep -c . || true)"
   commands="$(fact_commands | grep -c . || true)"
   printf 'agents=%s\n' "$agents"

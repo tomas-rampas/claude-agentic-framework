@@ -81,7 +81,9 @@ Assert 'fail-open on malformed stdin' ($r.Code -eq 0 -and -not $r.Out)
 Write-Host "record-subagent-run.ps1"
 
 $r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'r1'; tool_name = 'Task'; tool_input = @{ subagent_type = 'peer-review-critic' } })
+$m1 = Get-Content (Join-Path $stateDir 'peer-review' 'r1') -Raw -ErrorAction SilentlyContinue
 Assert 'writes marker for peer-review-critic run' ($r.Code -eq 0 -and (Test-Path (Join-Path $stateDir 'peer-review' 'r1')))
+Assert 'marker without report text carries no verdict line' ($m1 -notmatch 'verdict=')
 
 $r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'r2'; tool_name = 'Task'; tool_input = @{ subagent_type = 'rust-expert' } })
 Assert 'ignores other subagents' ($r.Code -eq 0 -and -not (Test-Path (Join-Path $stateDir 'peer-review' 'r2')))
@@ -91,6 +93,29 @@ Assert 'integration: recorded run unlocks the stop gate' ($r.Code -eq 0 -and -no
 
 $r = Invoke-Hook 'record-subagent-run.ps1' 'not json either'
 Assert 'fail-open on malformed stdin' ($r.Code -eq 0)
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v1'; hook_event_name = 'PostToolUse'; tool_name = 'Agent'; tool_input = @{ subagent_type = 'peer-review-critic' }; tool_response = "Review done.`nVERDICT: APPROVED" })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v1') -Raw
+Assert 'parses verdict from string tool_response' ($r.Code -eq 0 -and $m -match 'verdict=APPROVED')
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v2'; hook_event_name = 'PostToolUse'; tool_name = 'Agent'; tool_input = @{ subagent_type = 'peer-review-critic' }; tool_response = @{ status = 'completed'; content = @(@{ type = 'text'; text = "Findings...`nVERDICT: CHANGES_REQUIRED" }) } })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v2') -Raw
+Assert 'parses verdict from content-array tool_response' ($r.Code -eq 0 -and $m -match 'verdict=CHANGES_REQUIRED')
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v3'; hook_event_name = 'SubagentStop'; agent_type = 'peer-review-critic'; last_assistant_message = "Solid work overall.`nVERDICT: APPROVED" })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v3') -Raw
+Assert 'SubagentStop path records verdict from last_assistant_message' ($r.Code -eq 0 -and $m -match 'verdict=APPROVED')
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v4'; hook_event_name = 'SubagentStop'; agent_type = 'rust-expert'; last_assistant_message = 'VERDICT: APPROVED' })
+Assert 'SubagentStop ignores other agent types' ($r.Code -eq 0 -and -not (Test-Path (Join-Path $stateDir 'peer-review' 'v4')))
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v5'; hook_event_name = 'SubagentStop'; agent_type = 'peer-review-critic'; last_assistant_message = "The format is `"VERDICT: APPROVED`" normally, but here:`nVERDICT: CHANGES_REQUIRED" })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v5') -Raw
+Assert 'last VERDICT occurrence wins over earlier quoted one' ($r.Code -eq 0 -and $m -match 'verdict=CHANGES_REQUIRED')
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v5'; hook_event_name = 'SubagentStop'; agent_type = 'peer-review-critic'; last_assistant_message = "Re-review after fixes.`nVERDICT: APPROVED" })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v5') -Raw
+Assert 're-review overwrites marker (latest verdict wins)' ($r.Code -eq 0 -and $m -match 'verdict=APPROVED' -and $m -notmatch 'CHANGES_REQUIRED')
 
 Write-Host "session-start-context.ps1"
 
