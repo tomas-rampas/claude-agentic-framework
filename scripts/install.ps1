@@ -1,4 +1,7 @@
-#Requires -Version 7.0
+#Requires -Version 7.3
+# 7.3 minimum: the MCP merge depends on ConvertFrom-Json -AsHashtable returning
+# a case-sensitive, ORDER-PRESERVING OrderedHashtable (7.3+). On older 7.x the
+# unordered hashtable would break the round-trip verification's determinism.
 <#
 .SYNOPSIS
   Installs or updates the framework's runtime surface into ~/.claude.
@@ -55,6 +58,10 @@ Write-Host "Claude home    : $claudeHome"
 function Get-CanonJson($node) {
     if ($null -eq $node) { return 'null' }
     if ($node -is [System.Collections.IDictionary]) {
+        # Sort-Object ties case-variant keys (stable sort keeps input order), so
+        # this is canonical only when both operands enumerate colliding keys in
+        # the same order - true for our round-trip use; not an order-independent
+        # identity for arbitrary colliding-key data.
         $parts = @($node.Keys) | Sort-Object | ForEach-Object {
             (ConvertTo-Json ([string]$_) -Compress) + ':' + (Get-CanonJson $node[$_])
         }
@@ -218,6 +225,9 @@ if ($SkipMcp) {
         # Absent OR present-but-not-a-map (e.g. "mcpServers": null after a
         # config reset) both mean "no usable server map" - re-initialise rather
         # than crash indexing into null. Fail-open, like the malformed-file path.
+        # ([ordered]@{} is a case-INSENSITIVE OrderedDictionary while the parsed
+        # shape is a case-SENSITIVE OrderedHashtable - harmless here because the
+        # reinit starts empty and name matching below is explicit.)
         if (-not ($userConfig['mcpServers'] -is [System.Collections.IDictionary])) {
             $userConfig['mcpServers'] = [ordered]@{}
         }
@@ -225,10 +235,13 @@ if ($SkipMcp) {
         foreach ($entry in $frameworkMcp.GetEnumerator()) {
             $name     = [string]$entry.Key
             $resolved = Expand-ServerDef $entry.Value
-            if (-not $userConfig['mcpServers'].Contains($name)) {
+            # Case-INSENSITIVE name match: a user's "Fetch" counts as the
+            # framework's "fetch" - never add a case-variant duplicate server.
+            $userKey = @($userConfig['mcpServers'].Keys) | Where-Object { [string]$_ -ieq $name } | Select-Object -First 1
+            if ($null -eq $userKey) {
                 $userConfig['mcpServers'][$name] = $resolved
                 Write-Host ("  {0,-22} added" -f $name); $added++
-            } elseif ((Get-CanonJson $userConfig['mcpServers'][$name]) -eq (Get-CanonJson $resolved)) {
+            } elseif ((Get-CanonJson $userConfig['mcpServers'][$userKey]) -eq (Get-CanonJson $resolved)) {
                 Write-Host ("  {0,-22} already present (identical)" -f $name); $identical++
             } else {
                 Write-Host ("  {0,-22} kept yours (differs from framework definition - never overwritten)" -f $name); $kept++

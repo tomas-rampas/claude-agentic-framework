@@ -23,7 +23,7 @@ This framework extends Claude Code CLI with:
 |-------------|---------|
 | **[Claude Code CLI](https://docs.claude.com/en/docs/claude-code)** | Agent execution platform (required) |
 | **Git** | Version control |
-| **PowerShell 7+ (`pwsh`)** | Runs the hook scripts (`hooks/*.ps1`) — required on every platform |
+| **PowerShell 7.3+ (`pwsh`)** | Runs the hook scripts (`hooks/*.ps1`, 7.0+) and the installer (`scripts/install.ps1`, 7.3+ for order-preserving case-sensitive JSON parsing) — required on every platform |
 | **bash + jq** | Validation and doc-generation tooling (Git Bash works on Windows) |
 | **Node.js/npm** | filesystem, context7, sequential-thinking MCP servers via `npx` |
 | **uv (`uvx`)** | serena + fetch MCP servers |

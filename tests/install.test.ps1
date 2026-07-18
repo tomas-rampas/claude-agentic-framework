@@ -118,6 +118,14 @@ Assert 'case-colliding keys: exit 0 and merge performed' ($r.Code -eq 0 -and $r.
 Assert 'case-colliding keys: all framework servers added' (@($repoMcpNames | Where-Object { $cfgHt['mcpServers'].Contains($_) }).Count -eq $repoMcpNames.Count)
 Assert 'both case-variant keys survive with their values' ($cfgHt['projects']['d:/repo']['n'] -eq 1 -and $cfgHt['projects']['D:/repo']['n'] -eq 2)
 
+# Server-name matching is case-INSENSITIVE: a user's "Fetch" counts as the
+# framework's "fetch" - kept, never duplicated as a case-variant sibling.
+Set-Content $claudeJson -Value '{"mcpServers":{"Fetch":{"command":"my-cased-fetch"}}}' -NoNewline
+$r = Invoke-Installer
+$cfgHt = Get-Content $claudeJson -Raw | ConvertFrom-Json -AsHashtable
+Assert 'case-variant server name reported kept' ($r.Out -match 'fetch\s+kept yours')
+Assert 'no case-variant duplicate added' (-not $cfgHt['mcpServers'].Contains('fetch') -and $cfgHt['mcpServers']['Fetch'].command -eq 'my-cased-fetch')
+
 Write-Host "settings.json hooks-block safety"
 
 $s = Get-Content (Join-Path $claudeHome 'settings.json') -Raw | ConvertFrom-Json
