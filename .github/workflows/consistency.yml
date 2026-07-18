@@ -80,6 +80,10 @@ jobs:
         shell: pwsh
         run: pwsh -NoProfile -File tests/hooks.test.ps1
 
+      - name: Installer behavior tests (pwsh)
+        shell: pwsh
+        run: pwsh -NoProfile -File tests/install.test.ps1
+
       - name: Validate consistency under Git Bash
         # Exercises the Windows-specific code paths (CRLF-stripping jq wrapper,
         # C-locale collation) the scripts were hardened for.

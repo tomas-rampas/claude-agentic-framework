@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # install.sh — thin POSIX installer for Linux / macOS / WSL.
-# Mirrors scripts/install.ps1: copies hook scripts, wires the "hooks" block into
-# ~/.claude/settings.json, and creates the session-state directory.
+# Mirrors the CORE of scripts/install.ps1: copies hook scripts, wires the
+# "hooks" block into ~/.claude/settings.json, and creates the session-state
+# directory. The full-featured installer is install.ps1 (per-item reporting,
+# non-destructive MCP merge into user-scope ~/.claude.json, stale-checkout
+# detection) — pwsh runs on Linux/macOS too, so prefer it when available:
+#   pwsh -NoProfile -File scripts/install.ps1
 #
 # The hook implementations are PowerShell 7 scripts, so pwsh is required at
 # runtime even on Unix (https://learn.microsoft.com/powershell).

@@ -107,6 +107,9 @@ bash scripts/validate-consistency.sh
 
 Notes:
 - `settings.json` is **not** tracked — it is created from `settings.template.json` by the installer, so your local permission tweaks never end up in git.
+- The installer prints a per-item report (hooks new/updated/unchanged, settings action, MCP merge results, framework-surface sync state) and ends with a summary.
+- **MCP merge is non-destructive**: the framework's MCP servers are merged into the user-scope `~/.claude.json` — missing servers are added (with `${VAR:-default}` placeholders expanded from your environment), existing definitions are **never overwritten**, and a timestamped backup is written before any change. Skip the step with `-SkipMcp`.
+- If `~/.claude` is a git clone of this framework, the installer reports when its checkout (commands/agents/skills) is behind this repo — sync it with `git -C ~/.claude pull`; the installer deliberately does not touch those surfaces.
 - Secrets/paths for MCP servers come from your environment or `.env` (copy `.env.example`); if `.claude/settings.local.json` lists servers under `disabledMcpjsonServers`, remove the ones you want active.
 - Restart any running Claude Code session after installing so the hooks load.
 
