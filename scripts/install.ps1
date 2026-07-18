@@ -35,6 +35,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+# Native commands (git) signal via exit codes we inspect; never let a future
+# PowerShell default promote their non-zero exits to terminating errors.
+$PSNativeCommandUseErrorActionPreference = $false
 
 $repoRoot   = Split-Path -Parent $PSScriptRoot
 $claudeHome = $ClaudeHome
@@ -197,8 +200,11 @@ if ($SkipMcp) {
     }
 
     if ($mcpOk) {
-        if (-not $userConfig.PSObject.Properties['mcpServers']) {
-            $userConfig | Add-Member -NotePropertyName 'mcpServers' -NotePropertyValue ([pscustomobject]@{})
+        # Absent OR present-but-not-an-object (e.g. "mcpServers": null after a
+        # config reset) both mean "no usable server map" - re-initialise rather
+        # than crash indexing into null. Fail-open, like the malformed-file path.
+        if (-not ($userConfig.mcpServers -is [System.Management.Automation.PSCustomObject])) {
+            $userConfig | Add-Member -NotePropertyName 'mcpServers' -NotePropertyValue ([pscustomobject]@{}) -Force
         }
         $added = 0; $identical = 0; $kept = 0
         foreach ($p in $frameworkMcp.PSObject.Properties) {
@@ -220,12 +226,20 @@ if ($SkipMcp) {
                 Copy-Item $claudeJsonPath $backup -Force
                 Write-Host "  backup: $backup"
             }
-            # -Depth 100 (the ConvertTo-Json maximum): ~/.claude.json holds deep
-            # Claude Code state; a shallow round-trip would corrupt it.
-            $userConfig | ConvertTo-Json -Depth 100 | Set-Content -Path $claudeJsonPath -NoNewline
-            # Paranoia: the file we just wrote must parse.
-            $null = Get-Content $claudeJsonPath -Raw | ConvertFrom-Json
-            Write-Host "  wrote $claudeJsonPath"
+            # Atomic replace: serialize to a temp file, verify the round-trip is
+            # lossless (catches any silent depth truncation - -Depth 100 is the
+            # ConvertTo-Json maximum and ~/.claude.json holds deep Claude Code
+            # state), then move into place. The original is untouched until the
+            # verified move, so a failure can never corrupt it.
+            $tmp = "$claudeJsonPath.tmp-$PID"
+            $userConfig | ConvertTo-Json -Depth 100 | Set-Content -Path $tmp -NoNewline
+            $reparsed = Get-Content $tmp -Raw | ConvertFrom-Json
+            if ((Get-CanonJson $reparsed) -ne (Get-CanonJson $userConfig)) {
+                Remove-Item $tmp -Force -ErrorAction SilentlyContinue
+                throw "Round-trip verification failed for $claudeJsonPath - original left untouched."
+            }
+            Move-Item $tmp $claudeJsonPath -Force
+            Write-Host "  wrote $claudeJsonPath (re-serialized; formatting of untouched content may normalize)"
         } else {
             Write-Host '  nothing to add - file untouched.'
         }
@@ -280,6 +294,8 @@ Write-Host '== Summary =='
 foreach ($k in $summary.Keys) { Write-Host ("  {0,-10} {1}" -f "$($k):", $summary[$k]) }
 Write-Host ''
 Write-Host 'Reminders:'
+Write-Host '  - Best run with no Claude Code session active: ~/.claude.json is Claude Code''s'
+Write-Host '    live config, and a session writing it concurrently could lose the merge.'
 Write-Host '  - MCP servers merged into the user scope apply everywhere; the project-level'
 Write-Host '    .mcp.json still applies to sessions started in the repo directory. Set'
 Write-Host '    CONTEXT7_API_KEY / MCP_FS_ROOT per .env.example (placeholders were expanded'

@@ -82,6 +82,23 @@ Assert 'personal (non-framework) server survives' ($cfg.mcpServers.github.comman
 Assert 'unrelated user state survives the round-trip' ($cfg.someUserState.keep -eq $true)
 Assert 'backup written before modifying an existing file' ((Get-ChildItem $sandboxDir -Filter '.claude.json.bak-*').Count -ge 1)
 
+# The headline guarantee: existing definitions are never overwritten EVEN WITH
+# -Force. Pin it so a future -Force branch in the MCP path cannot silently
+# break the promise.
+$r = Invoke-Installer -ExtraArgs @('-Force')
+$cfg = Get-Content $claudeJson -Raw | ConvertFrom-Json
+Assert '-Force still reports conflicting server as kept' ($r.Out -match 'fetch\s+kept yours')
+Assert '-Force never clobbers the user definition' ($cfg.mcpServers.fetch.command -eq 'my-custom-fetch')
+
+Write-Host "mcpServers present but null (post-reset shape)"
+
+[pscustomobject]@{ userKey = 42; mcpServers = $null } | ConvertTo-Json -Depth 4 | Set-Content $claudeJson -NoNewline
+$r = Invoke-Installer
+$cfg = Get-Content $claudeJson -Raw | ConvertFrom-Json
+Assert 'null mcpServers: exit 0, no crash' ($r.Code -eq 0)
+Assert 'null mcpServers: re-initialized and servers added' (@($cfg.mcpServers.PSObject.Properties.Name | Where-Object { $_ -in $repoMcpNames }).Count -eq $repoMcpNames.Count)
+Assert 'null mcpServers: unrelated user state survives' ($cfg.userKey -eq 42)
+
 Write-Host "settings.json hooks-block safety"
 
 $s = Get-Content (Join-Path $claudeHome 'settings.json') -Raw | ConvertFrom-Json
