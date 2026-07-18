@@ -117,6 +117,29 @@ $r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v5'; ho
 $m = Get-Content (Join-Path $stateDir 'peer-review' 'v5') -Raw
 Assert 're-review overwrites marker (latest verdict wins)' ($r.Code -eq 0 -and $m -match 'verdict=APPROVED' -and $m -notmatch 'CHANGES_REQUIRED')
 
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v6'; hook_event_name = 'SubagentStop'; agent_type = 'peer-review-critic'; last_assistant_message = "Blockers remain.`nVERDICT: CHANGES_REQUIRED" })
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v6'; hook_event_name = 'PostToolUse'; tool_name = 'Agent'; tool_input = @{ subagent_type = 'peer-review-critic' }; tool_response = @{ status = 'launched_in_background'; agentId = 'a1b2c3' } })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v6') -Raw
+Assert 'no-downgrade: verdict-less event preserves CHANGES_REQUIRED' ($r.Code -eq 0 -and $m -match 'verdict=CHANGES_REQUIRED')
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'v6'; stop_hook_active = $false; cwd = $scratch })
+Assert 'no-downgrade: gate still blocks after verdict-less event' ($r.Code -eq 0 -and $r.Out -match '"decision":"block"')
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v7'; hook_event_name = 'PostToolUse'; tool_name = 'Agent'; tool_input = @{ subagent_type = 'peer-review-critic' }; tool_response = @(@{ type = 'text'; text = "Report body.`nVERDICT: CHANGES_REQUIRED" }) })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v7') -Raw
+Assert 'parses verdict from bare-array tool_response' ($r.Code -eq 0 -and $m -match 'verdict=CHANGES_REQUIRED')
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v8'; hook_event_name = 'PostToolUse'; tool_name = 'Task'; tool_input = @{ subagent_type = 'peer-review-critic' }; tool_output = "Documented-schema field.`nVERDICT: APPROVED" })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v8') -Raw
+Assert 'falls back to tool_output when tool_response absent' ($r.Code -eq 0 -and $m -match 'verdict=APPROVED')
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v9'; hook_event_name = 'SubagentStop'; agent_type = 'peer-review-critic'; last_assistant_message = "CRLF payload.`r`nVERDICT: APPROVED`r`n" })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v9') -Raw
+Assert 'parses verdict from CRLF report text' ($r.Code -eq 0 -and $m -match 'verdict=APPROVED')
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v10'; hook_event_name = 'SubagentStop'; agent_type = 'peer-review-critic'; last_assistant_message = 'Reviews normally end with "VERDICT: APPROVED" but this one timed out.' })
+$m = Get-Content (Join-Path $stateDir 'peer-review' 'v10') -Raw
+Assert 'mid-line quoted verdict does not count (anchored regex)' ($r.Code -eq 0 -and $m -notmatch 'verdict=')
+
 Write-Host "stop-peer-review-gate.ps1 (verdict-aware)"
 
 Set-Content -Path (Join-Path $stateDir 'peer-review' 'g1') -Value "2026-07-18T00:00:00.0000000+02:00`nverdict=APPROVED" -NoNewline

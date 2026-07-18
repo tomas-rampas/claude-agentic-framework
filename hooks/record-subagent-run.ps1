@@ -11,12 +11,15 @@
 #   line 1: ISO timestamp (legacy format ends here)
 #   line 2: verdict=APPROVED|CHANGES_REQUIRED — present only when the report text
 #           contains the standardized "VERDICT:" line (agents/peer-review-critic.md).
-# The LAST occurrence in the report wins, so an early quoted verdict cannot spoof
-# the real one. A marker without a verdict line keeps the legacy "reviewer ran"
-# semantics (the gate treats it as unlocking — fail-open).
+# The verdict line must occupy a whole line; of qualifying lines the LAST wins, so
+# quoted mentions cannot spoof the real one. A marker without a verdict line keeps
+# the legacy "reviewer ran" semantics (the gate treats it as unlocking — fail-open).
 #
-# Each qualifying run overwrites the marker: the latest review is the one that
-# counts, which is what a fix -> re-review loop needs.
+# A run that parsed a verdict overwrites the marker: the latest review is the one
+# that counts, which is what a fix -> re-review loop needs. A run with NO parseable
+# verdict never downgrades an existing verdict-bearing marker — both events fire for
+# the same run (and a background launch's PostToolUse has no report text), so an
+# unconditional overwrite would erase a real CHANGES_REQUIRED and unlock the gate.
 # Silent and fail-open; also prunes markers older than 7 days.
 
 try {
@@ -31,23 +34,32 @@ try {
         $reportText = [string]$payload.last_assistant_message
     } else {
         # PostToolUse (Task|Agent). The response field is tool_response on current
-        # builds and tool_output in the documented schema; the report text is either
-        # a plain string or an object carrying a content[] array of text blocks.
+        # builds and tool_output in the documented schema; the report text is a
+        # plain string, an object carrying a content[] array of text blocks, or a
+        # bare array of such blocks.
         if ([string]$payload.tool_input.subagent_type -ne 'peer-review-critic') { exit 0 }
         $resp = $payload.tool_response
         if ($null -eq $resp) { $resp = $payload.tool_output }
+        $blocks = $null
         if ($resp -is [string]) {
             $reportText = $resp
+        } elseif ($resp -is [System.Collections.IEnumerable]) {
+            $blocks = @($resp)
         } elseif ($null -ne $resp -and $null -ne $resp.content) {
-            $reportText = (@($resp.content) |
-                Where-Object { $null -ne $_ -and $null -ne $_.text } |
-                ForEach-Object { [string]$_.text }) -join "`n"
+            $blocks = @($resp.content)
+        }
+        if ($null -ne $blocks) {
+            $reportText = ($blocks | ForEach-Object {
+                if ($_ -is [string]) { $_ }
+                elseif ($null -ne $_ -and $null -ne $_.text) { [string]$_.text }
+            }) -join "`n"
         }
     }
 
     $verdict = $null
     if ($reportText) {
-        $m = [regex]::Matches($reportText, 'VERDICT:\s*(APPROVED|CHANGES_REQUIRED)')
+        # Whole-line match only: quoted or mid-line mentions never count. Last wins.
+        $m = [regex]::Matches($reportText, '(?m)^\s*VERDICT:[ \t]*(APPROVED|CHANGES_REQUIRED)[ \t]*\r?$')
         if ($m.Count -gt 0) { $verdict = $m[$m.Count - 1].Groups[1].Value }
     }
 
@@ -55,10 +67,17 @@ try {
     if (-not $stateRoot) { $stateRoot = Join-Path $HOME '.claude/.state' }
     $reviewDir = Join-Path $stateRoot 'peer-review'
     New-Item -ItemType Directory -Force -Path $reviewDir | Out-Null
+    $marker = Join-Path $reviewDir $sessionId
+
+    # No-downgrade guard: a verdict-less event must not erase a recorded verdict.
+    if ($null -eq $verdict -and (Test-Path $marker)) {
+        $existing = Get-Content -Path $marker -Raw -ErrorAction SilentlyContinue
+        if ($existing -match 'verdict=') { exit 0 }
+    }
 
     $lines = @((Get-Date -Format 'o'))
     if ($verdict) { $lines += "verdict=$verdict" }
-    Set-Content -Path (Join-Path $reviewDir $sessionId) -Value ($lines -join "`n") -NoNewline
+    Set-Content -Path $marker -Value ($lines -join "`n") -NoNewline
 
     Get-ChildItem -Path $reviewDir -File -ErrorAction SilentlyContinue |
         Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-7) } |
