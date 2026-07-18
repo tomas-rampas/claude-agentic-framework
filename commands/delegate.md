@@ -43,6 +43,9 @@ with JWT issuing/validation + ASP.NET Core identity integration, tests in
 - Locate and read the source of truth for the objective (sprint plan, ticket, or
   spec — e.g. under `<DOCS_OR_JIRA_BASE>`). If you cannot find it, **stop and
   ask** — do not infer the scope.
+- **If `specs/<name>.md` exists for this objective** (written by `/spec`), it
+  **is** the source of truth: derive the todo list from its `REQ-`/`EDGE-` items
+  and tag each todo with the IDs it delivers. Its Out of scope list is binding.
 - Use sequential thinking to break the objective into an ordered todo list. For
   each todo capture: behavior / acceptance criteria, files likely touched,
   dependencies, and the owning agent.
@@ -95,6 +98,9 @@ report a clean state that isn't real.
 - Route each green + clean todo through `code-review-gatekeeper` and
   `security-specialist`. Address findings before committing. If a finding is a
   blocker you can't resolve, stop and report.
+- **When building against a spec**, also route the todo through
+  `spec-compliance-reviewer` for the REQ-/EDGE-IDs it delivers; a
+  `CHANGES_REQUIRED` verdict blocks the commit like any other finding.
 
 ## 6. Commit
 - Commit **per completed todo** (after red → green → refactor → quality bar →
@@ -112,6 +118,9 @@ report a clean state that isn't real.
 
 ## 8. Wrap-up
 - Confirm every todo is complete and all acceptance criteria are met.
+- **When building against a spec**: confirm every `REQ-`/`EDGE-` item is PASS
+  (final `spec-compliance-reviewer` run over the whole diff if per-todo runs
+  didn't already cover them all), then set the spec's `Status:` to `built`.
 - **Documentation drift-audit (blocking).** Before declaring done, delegate to a
   *fresh* sub-agent (`Explore` or `technical-docs-writer`) an audit of README,
   `docs/`, `plan/`, `CHANGELOG`, and any schema **against what actually shipped
