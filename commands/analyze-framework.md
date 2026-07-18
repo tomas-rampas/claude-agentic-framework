@@ -78,7 +78,7 @@ Verifies the skills on disk parse and match the documented roster. See README's 
 ```
 claude-agentic-framework/
 ├── agents/                  ✓ (one .md per registered agent)
-├── commands/                ✓ (8 commands)
+├── commands/                ✓ (9 commands)
 ├── hooks/                   ✓ (registered hook scripts)
 ├── skills/                  ✓ (operational skills)
 ├── scripts/                 ✓ (install + validation + doc generation)
