@@ -117,6 +117,43 @@ $r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'v5'; ho
 $m = Get-Content (Join-Path $stateDir 'peer-review' 'v5') -Raw
 Assert 're-review overwrites marker (latest verdict wins)' ($r.Code -eq 0 -and $m -match 'verdict=APPROVED' -and $m -notmatch 'CHANGES_REQUIRED')
 
+Write-Host "stop-peer-review-gate.ps1 (verdict-aware)"
+
+Set-Content -Path (Join-Path $stateDir 'peer-review' 'g1') -Value "2026-07-18T00:00:00.0000000+02:00`nverdict=APPROVED" -NoNewline
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g1'; stop_hook_active = $false; cwd = $scratch })
+Assert 'allows on verdict=APPROVED marker' ($r.Code -eq 0 -and -not $r.Out)
+
+Set-Content -Path (Join-Path $stateDir 'peer-review' 'g2') -Value "2026-07-18T00:00:00.0000000+02:00`nverdict=CHANGES_REQUIRED" -NoNewline
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g2'; stop_hook_active = $false; cwd = $scratch })
+Assert 'blocks on verdict=CHANGES_REQUIRED (1st)' ($r.Code -eq 0 -and $r.Out -match '"decision":"block"' -and $r.Out -match 'CHANGES_REQUIRED')
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g2'; stop_hook_active = $false; cwd = $scratch })
+Assert 'blocks on verdict=CHANGES_REQUIRED (2nd)' ($r.Code -eq 0 -and $r.Out -match '"decision":"block"')
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g2'; stop_hook_active = $false; cwd = $scratch })
+Assert 'blocks on verdict=CHANGES_REQUIRED (3rd)' ($r.Code -eq 0 -and $r.Out -match '"decision":"block"')
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g2'; stop_hook_active = $false; cwd = $scratch })
+Assert 'block budget exhausted after 3 blocks -> allows' ($r.Code -eq 0 -and -not $r.Out)
+
+Set-Content -Path (Join-Path $stateDir 'peer-review' 'g2') -Value "2026-07-18T00:00:00.0000000+02:00`nverdict=APPROVED" -NoNewline
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g2'; stop_hook_active = $false; cwd = $scratch })
+Assert 'later APPROVED marker allows regardless of block count' ($r.Code -eq 0 -and -not $r.Out)
+
+# Pre-verdict on-disk format: .fired existed as an empty file (counts as 1 block)
+Set-Content -Path (Join-Path $stateDir 'peer-review' 'g3') -Value "2026-07-18T00:00:00.0000000+02:00`nverdict=CHANGES_REQUIRED" -NoNewline
+New-Item -ItemType File -Force -Path (Join-Path $stateDir 'peer-review' 'g3.fired') | Out-Null
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g3'; stop_hook_active = $false; cwd = $scratch })
+Assert 'legacy empty .fired counts as 1 (2nd block granted)' ($r.Code -eq 0 -and $r.Out -match '"decision":"block"')
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g3'; stop_hook_active = $false; cwd = $scratch })
+Assert 'legacy .fired base: 3rd block granted' ($r.Code -eq 0 -and $r.Out -match '"decision":"block"')
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g3'; stop_hook_active = $false; cwd = $scratch })
+Assert 'legacy .fired base: budget exhausted -> allows' ($r.Code -eq 0 -and -not $r.Out)
+
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'g4'; hook_event_name = 'SubagentStop'; agent_type = 'peer-review-critic'; last_assistant_message = "Blockers found.`nVERDICT: CHANGES_REQUIRED" })
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g4'; stop_hook_active = $false; cwd = $scratch })
+Assert 'integration: recorded CHANGES_REQUIRED blocks the gate' ($r.Code -eq 0 -and $r.Out -match '"decision":"block"' -and $r.Out -match 'CHANGES_REQUIRED')
+$r = Invoke-Hook 'record-subagent-run.ps1' (New-Payload @{ session_id = 'g4'; hook_event_name = 'SubagentStop'; agent_type = 'peer-review-critic'; last_assistant_message = "Fixed and re-reviewed.`nVERDICT: APPROVED" })
+$r = Invoke-Hook 'stop-peer-review-gate.ps1' (New-Payload @{ session_id = 'g4'; stop_hook_active = $false; cwd = $scratch })
+Assert 'integration: recorded APPROVED re-review unlocks the gate' ($r.Code -eq 0 -and -not $r.Out)
+
 Write-Host "session-start-context.ps1"
 
 $r = Invoke-Hook 'session-start-context.ps1' (New-Payload @{ session_id = 'c1'; cwd = $scratch })
