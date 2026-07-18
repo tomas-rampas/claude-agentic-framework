@@ -15,6 +15,7 @@
 | **comprehensive-analyst** | Deep analysis, evaluation, and investigation |
 | **code-review-gatekeeper** | Code review, quality validation, testing |
 | **peer-review-critic** | **Final gatekeeper** — independent, diff-scoped critical peer review of branch-vs-base before work is declared done (runs after code-review-gatekeeper) |
+| **spec-compliance-reviewer** | Requirement-by-requirement spec conformance review — verifies the build against `specs/<name>.md` in the spec → build → review loop |
 | **devops-orchestrator** | Infrastructure, CI/CD, deployment automation |
 | **rust-expert** | Rust systems programming, high-performance applications, CLI tools |
 | **csharp-expert** | C#/.NET development, ASP.NET Core, Azure solutions |
@@ -63,6 +64,7 @@
 - **Deep analysis/investigation** → comprehensive-analyst
 - **Code review/validation** → code-review-gatekeeper
 - **Final independent peer review (branch vs base, before "done")** → peer-review-critic
+- **Spec conformance review (build vs `specs/<name>.md`)** → spec-compliance-reviewer
 
 ### Documentation & Planning
 - **Technical documentation** → technical-docs-writer

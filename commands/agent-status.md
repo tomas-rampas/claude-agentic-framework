@@ -7,7 +7,7 @@ description: Display configuration status and health information for framework a
 
 ## Purpose
 
-Check the configuration status and health of all 20 specialized agents in the framework by inspecting actual configuration files.
+Check the configuration status and health of all 21 specialized agents in the framework by inspecting actual configuration files.
 
 ## Usage
 

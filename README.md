@@ -1,6 +1,6 @@
 # Claude Code CLI - Agent Execution Framework
 
-A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) that adds 20 specialized agents, a real peer-review enforcement gate, an anti-drift consistency system, and intelligent task routing.
+A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) that adds 21 specialized agents, a real peer-review enforcement gate, an anti-drift consistency system, and intelligent task routing.
 
 **This is NOT a standalone tool** — it requires Claude Code CLI as the underlying platform.
 
@@ -10,7 +10,7 @@ A configuration framework for [Claude Code CLI](https://docs.claude.com/en/docs/
 
 This framework extends Claude Code CLI with:
 
-- **20 Specialized Agents** covering the full development lifecycle
+- **21 Specialized Agents** covering the full development lifecycle
 - **Real Enforcement Hooks** — a blocking peer-review Stop gate plus session-context and delegation-hint hooks, registered via `settings.template.json` and covered by tests
 - **Anti-Drift Consistency System** — dynamic validator, doc generator, and CI gate that keep the registry, docs, and filesystem in lockstep
 - **MCP Integration** — 5 MCP servers for code intelligence, file operations, documentation lookup, structured reasoning, and web fetching
@@ -153,6 +153,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 | **comprehensive-analyst** | Security audits, performance profiling, investigation |
 | **code-review-gatekeeper** | Code review, quality gates, standards compliance |
 | **peer-review-critic** | Final independent peer review — diff-scoped gatekeeper (branch vs base) |
+| **spec-compliance-reviewer** | Requirement-by-requirement spec conformance review (specs/<name>.md) |
 
 ### Language Experts
 | Agent | Focus |
@@ -195,7 +196,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 ├── claude.json              # Agent registry (single source of truth for the tooling)
 ├── .mcp.json                # MCP server definitions (filesystem, context7, serena, sequential-thinking, fetch)
 ├── settings.template.json   # Tracked settings template: permissions + hook registration
-├── agents/                  # 20 agent definitions (.md with YAML frontmatter)
+├── agents/                  # 21 agent definitions (.md with YAML frontmatter)
 ├── commands/                # 6 commands (delegate, analyze-framework, list-agents, etc.)
 ├── hooks/                   # Real hook scripts (peer-review Stop gate, recorder, session context, delegation hint)
 ├── skills/                  # Operational skills
@@ -274,7 +275,7 @@ Also check `.claude/settings.local.json` — servers listed under `disabledMcpjs
 
 **Agents not found:**
 ```bash
-ls -1 agents/*.md | wc -l  # Should show 20
+ls -1 agents/*.md | wc -l  # Should show 21
 ./scripts/validate-consistency.sh
 ```
 
@@ -301,5 +302,5 @@ To add or modify agents, manage framework consistency, or understand the anti-dr
 ---
 
 <!-- BEGIN GENERATED: framework-stats -->
-**Built for Claude Code CLI • 20 Specialized Agents • 4 Hook Scripts • 8 Skills • 6 Commands • v3.1.0**
+**Built for Claude Code CLI • 21 Specialized Agents • 4 Hook Scripts • 8 Skills • 6 Commands • v3.1.0**
 <!-- END GENERATED: framework-stats -->

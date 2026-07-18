@@ -7,7 +7,7 @@ description: Display all available agents with capabilities and status
 
 ## Purpose
 
-Display comprehensive information about all 20 specialized agents in the framework, including their capabilities, specializations, model tier, and current status.
+Display comprehensive information about all 21 specialized agents in the framework, including their capabilities, specializations, model tier, and current status.
 
 ## Usage
 
@@ -54,10 +54,11 @@ Display comprehensive information about all 20 specialized agents in the framewo
 │ comprehensive-analyst    │ Analysis        │ Sonnet    │ Ready      │
 │ code-review-gatekeeper   │ Quality         │ Opus      │ Ready      │
 │ peer-review-critic       │ Quality         │ Opus      │ Ready      │
+│ spec-compliance-reviewer │ Quality         │ Sonnet    │ Ready      │
 │ technical-docs-writer    │ Documentation   │ Haiku     │ Ready      │
 └──────────────────────────┴─────────────────┴───────────┴────────────┘
 
-Total: 20 agents (20 ready, 0 unavailable)
+Total: 21 agents (21 ready, 0 unavailable)
 Quality enforcement is framework-wide: every agent's committed work passes the
 peer-review Stop gate (hooks/stop-peer-review-gate.ps1) before a session ends.
 ```
@@ -141,15 +142,15 @@ peer-review Stop gate (hooks/stop-peer-review-gate.ps1) before a session ends.
   ],
   "summary": {
     <!-- BEGIN GENERATED: list-agents-summary -->
-    "total_agents": 20,
-    "ready": 20,
+    "total_agents": 21,
+    "ready": 21,
     "unavailable": 0,
     "categories": {
       "language_experts": 9,
       "domain_specialists": 4,
       "infrastructure": 1,
       "architecture_planning": 2,
-      "quality_analysis": 3,
+      "quality_analysis": 4,
       "documentation": 1
     }
     <!-- END GENERATED: list-agents-summary -->
@@ -187,11 +188,12 @@ system-architect     → Architecture design, patterns
 product-owner        → Requirements, user stories
 ```
 
-### Quality & Analysis (3 agents)
+### Quality & Analysis (4 agents)
 ```
 comprehensive-analyst    → Deep analysis, investigation
 code-review-gatekeeper  → Code review, quality enforcement
 peer-review-critic      → Independent peer review, final gate
+spec-compliance-reviewer → Spec conformance, build vs specs/<name>.md
 ```
 
 ### Documentation (1 agent)
