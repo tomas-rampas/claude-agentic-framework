@@ -67,7 +67,7 @@ The roster and its categories are defined in `claude.json` (`.sub_agents` + `.ag
 - **Domain Specialists** (4): database, frontend, security, uiux
 - **Infrastructure** (1): devops-orchestrator
 - **Architecture & Planning** (2): system-architect, product-owner
-- **Quality & Analysis** (3): comprehensive-analyst, code-review-gatekeeper, peer-review-critic
+- **Quality & Analysis** (4): comprehensive-analyst, code-review-gatekeeper, peer-review-critic, spec-compliance-reviewer
 - **Documentation** (1): technical-docs-writer
 
 ## Integration

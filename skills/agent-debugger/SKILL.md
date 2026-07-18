@@ -11,7 +11,7 @@ Systematic diagnosis of agent configuration problems in this framework. Every ch
 
 - `agents/<name>.md` — agent definition. YAML frontmatter carries `name` (must equal the filename), `description` (the routing trigger text Claude Code matches tasks against), `model` (tier shorthand, e.g. `sonnet`), and `color`. The body is the agent's system prompt.
 - `claude.json` — the registry. `.sub_agents` maps each agent to its config (including `model` shorthand and `focus`); `.agent_categories` partitions the roster into the canonical categories; `.consistency.model_shorthand_map` defines the only legal model values; `.consistency.deprecated_agent_names` lists dead names that must never be referenced.
-- `settings.template.json` — the tracked `hooks` block registering the PowerShell 7 scripts in `hooks/` (Stop → `stop-peer-review-gate.ps1`, PostToolUse `Task|Agent` → `record-subagent-run.ps1`, SessionStart → `session-start-context.ps1`, PreToolUse `Write|Edit` → `pretooluse-delegation-hint.ps1`). `scripts/install.ps1` copies the scripts to `~/.claude/hooks/` and creates/merges `~/.claude/settings.json` from the template.
+- `settings.template.json` — the tracked `hooks` block registering the PowerShell 7 scripts in `hooks/` (Stop → `stop-peer-review-gate.ps1`, PostToolUse `Task|Agent` + SubagentStop → `record-subagent-run.ps1`, SessionStart → `session-start-context.ps1`, PreToolUse `Write|Edit` → `pretooluse-delegation-hint.ps1`). `scripts/install.ps1` copies the scripts to `~/.claude/hooks/` and creates/merges `~/.claude/settings.json` from the template.
 - Validators: `scripts/validate-consistency.sh` (the full anti-drift battery), `scripts/validate-hooks.sh` (hook parity), `scripts/validate-framework.sh`, `scripts/generate-docs.sh --check`. Tests: `tests/hooks.test.ps1`, `tests/consistency.test.sh`.
 - Slash commands for quick inspection: `/list-agents`, `/agent-status`, `/analyze-framework`, `/validate-hooks`, `/quality-report`.
 
@@ -78,12 +78,12 @@ pwsh -NoProfile -Command '$PSVersionTable.PSVersion'   # pwsh 7 must be on PATH
 Common causes, in order of likelihood:
 - `install.ps1` never ran (or refused to overwrite an existing `hooks` block — re-run with `-Force`), so `~/.claude/settings.json` lacks the registration.
 - The session predates the install: hooks load at session start, so restart Claude Code after installing.
-- Matcher mismatch: `record-subagent-run.ps1` fires on PostToolUse `Task|Agent`; `pretooluse-delegation-hint.ps1` on PreToolUse `Write|Edit`. An event without a matching tool never fires.
+- Matcher mismatch: `record-subagent-run.ps1` fires on PostToolUse `Task|Agent` and on SubagentStop; `pretooluse-delegation-hint.ps1` on PreToolUse `Write|Edit`. An event without a matching tool never fires.
 - Script edited in repo but not re-copied to `~/.claude/hooks/`.
 
 Check 3 of `validate-consistency.sh` asserts parity between scripts referenced in the template's `hooks` block and `hooks/*.ps1` on disk. Behavior is covered by `tests/hooks.test.ps1`.
 
-Stop-gate specifics: `stop-peer-review-gate.ps1` blocks session end only when a feature branch has committed work ahead of its base and `peer-review-critic` has not run this session (recorded by `record-subagent-run.ps1`). It is loop-safe and fail-open — if it appears to "block forever", verify the recorder hook is registered and firing, since the gate clears based on its records. Design rationale lives in `docs/design/`.
+Stop-gate specifics: `stop-peer-review-gate.ps1` blocks session end only when a feature branch has committed work ahead of its base and the latest `peer-review-critic` run this session did not record `VERDICT: APPROVED` (verdicts are parsed into the session marker by `record-subagent-run.ps1`; blocks are bounded — once with no review, up to 3 on `CHANGES_REQUIRED`). It is loop-safe and fail-open — if it appears to "block forever", verify the recorder hook is registered and firing, since the gate clears based on its records. Design rationale lives in `docs/design/`.
 
 ## Playbook: Consistency Validator Failures
 

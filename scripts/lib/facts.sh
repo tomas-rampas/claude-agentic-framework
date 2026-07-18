@@ -200,7 +200,10 @@ fact_hook_script_files() {
   shopt -u nullglob
 }
 
-# _facts_count_hook_commands - number of registered hook command entries
+# _facts_count_hook_commands - number of registered hook command entries (one
+# script registered under N events counts N times). Retained as the accessor
+# for the registration-entry unit; no in-repo caller today — fact_counts uses
+# distinct scripts (the "Hook Scripts" docs headline unit) instead.
 _facts_count_hook_commands() {
   _facts_require_jq || return $?
   if [[ ! -f "$FACTS_SETTINGS_TEMPLATE" ]]; then printf '0\n'; return 0; fi

@@ -33,12 +33,12 @@ Committed work on a feature branch is not "done" until it has been peer reviewed
 - The current branch is a feature branch (not main/master, not detached HEAD).
 - It has commits ahead of its base (first of `origin/main`, `origin/master`, `main`, `master` that resolves).
 - The working tree is clean — the gate only guards committed, "done"-looking states.
-- `peer-review-critic` has not run this session (session markers are written by `hooks/record-subagent-run.ps1`).
+- The latest `peer-review-critic` run this session did not record `VERDICT: APPROVED` (the recorder `hooks/record-subagent-run.ps1` parses the review's verdict line into a per-session marker; a marker with no parseable verdict counts as reviewed — fail-open).
 
 What to expect and do:
 
-- The gate fires at most once per session, is loop-safe (`stop_hook_active`), and fail-open — errors and non-git contexts never block.
-- When blocked, launch `peer-review-critic` to review the branch diff against its base; once it runs, the recorder marks the session reviewed and the next Stop passes.
+- The gate blocks a bounded number of times: once when no review ran, up to 3 blocks total while the recorded verdict is `CHANGES_REQUIRED`. It is loop-safe (`stop_hook_active`) and fail-open — errors and non-git contexts never block.
+- When blocked, launch `peer-review-critic` to review the branch diff against its base, resolve every BLOCKER/MAJOR finding, and re-run it until the review ends with `VERDICT: APPROVED` — that is what unlocks the next Stop.
 - Uncommitted changes do not trigger the gate; committing feature-branch work is what arms it.
 - Do not work around the gate by leaving the tree dirty or committing to main — run the review, or ask the user to explicitly waive the gate.
 

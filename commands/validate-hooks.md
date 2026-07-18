@@ -26,7 +26,7 @@ Claude Code executes only hooks registered in a settings file's `hooks` block. T
 | Script | Event | Matcher | Role |
 |--------|-------|---------|------|
 | `stop-peer-review-gate.ps1` | `Stop` | — | Blocking peer-review final gate |
-| `record-subagent-run.ps1` | `PostToolUse` | `Task\|Agent` | Records peer-review-critic runs (unlocks the gate) |
+| `record-subagent-run.ps1` | `PostToolUse` + `SubagentStop` | `Task\|Agent` / — | Records peer-review-critic runs and parses the report's `VERDICT:` line into the session marker (`APPROVED` unlocks the gate) |
 | `session-start-context.ps1` | `SessionStart` | — | Injects branch/review status into context |
 | `pretooluse-delegation-hint.ps1` | `PreToolUse` | `Write\|Edit` | Advisory specialist-agent hint |
 
@@ -52,8 +52,8 @@ pwsh -NoProfile -File tests/hooks.test.ps1
 ```
 
 Exercises the hook scripts against a throwaway git repo and isolated state directory:
-- Stop gate: blocks on a clean feature branch with unreviewed commits; allows on `stop_hook_active`, dirty tree, base branch, non-git cwd, existing review marker; fires at most once per session; fail-open on malformed stdin
-- Recorder: writes/ignores markers correctly and unlocks the gate
+- Stop gate: blocks on a clean feature branch with unreviewed or `CHANGES_REQUIRED`-reviewed commits (once with no marker, up to 3 blocks total on `CHANGES_REQUIRED`); allows on `stop_hook_active`, dirty tree, base branch, non-git cwd, `verdict=APPROVED` or legacy no-verdict markers; fail-open on malformed stdin
+- Recorder: writes/ignores markers correctly across `PostToolUse` and `SubagentStop` payload shapes, parses the anchored `VERDICT:` line (last whole-line match wins), and never downgrades a verdict-bearing marker
 - Session context and delegation hint: correct output and once-per-session behavior
 
 ## Sample Output
@@ -64,7 +64,7 @@ Hook Architecture Validation
 
 Checking hook registration parity (settings.template.json <-> hooks/*.ps1)...
 
-OK: 4 hook script(s) registered across 4 event(s); no orphans; all events valid; all pin PS7
+OK: 4 hook script(s) registered across 5 event(s); no orphans; all events valid; all pin PS7
 
 Checking for deprecated agent references in hooks/...
 

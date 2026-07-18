@@ -388,7 +388,7 @@ section "[6] Architecture description strings match derived agent count + roster
 section "[8] Stated-count scan (README/docs headline counts == derived values)"
 {
   n_agents="$(fact_count agents)"
-  n_hooks="$(fact_count hooks)"      # registered hook command entries
+  n_hooks="$(fact_count hooks)"      # DISTINCT registered hook scripts (the docs headline unit)
   n_skills="$(fact_count skills)"
   n_commands="$(fact_count commands)"
 

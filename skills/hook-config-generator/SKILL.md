@@ -25,7 +25,7 @@ Rules every hook script must follow:
 4. Bail early with `exit 0` on any precondition failure (missing fields, wrong tool, unmapped file type).
 5. Sanitize `session_id` before using it in a path: `([string]$payload.session_id) -replace '[^\w\-.]', ''`.
 6. Persist per-session state (dedupe markers, "fired once" flags) under `$env:CLAUDE_STATE_DIR`, falling back to `Join-Path $HOME '.claude/.state'`. Prune files older than ~7 days.
-7. For Stop hooks: check `$payload.stop_hook_active` first and `exit 0` if true (loop safety), and use a `.fired` marker so the gate fires at most once per session.
+7. For Stop hooks: check `$payload.stop_hook_active` first and `exit 0` if true (loop safety), and bound repeat blocks with a `.fired` marker — an empty marker for a fire-once gate, or a counter file when a bounded number of re-fires is intended (the peer-review gate uses a counter: 1 block with no review, up to 3 on a `CHANGES_REQUIRED` verdict).
 8. Never reference retired agent or file names — `bash scripts/validate-hooks.sh` scans hook scripts for deprecated names and fails on any hit.
 9. Blocking output is reserved for Stop-like gates; everything else must be advisory (`systemMessage`) or silent.
 

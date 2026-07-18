@@ -1,6 +1,6 @@
 # Claude Agentic Framework
 
-*A configuration framework that turns Claude Code CLI into a disciplined, 20-agent engineering team — with real, tested enforcement.*
+*A configuration framework that turns Claude Code CLI into a disciplined, 21-agent engineering team — with real, tested enforcement.*
 
 ---
 
@@ -114,7 +114,7 @@ An agent = a markdown file: YAML frontmatter (name, routing description, model t
 
 ```mermaid
 mindmap
-  root((20 agents))
+  root((21 agents))
     Language · 7
       rust-expert
       csharp-expert
@@ -148,7 +148,7 @@ mindmap
 - **peer-review-critic has a deliberately read-only toolset** — the final reviewer *cannot* modify the code it reviews. Independence enforced by tool access, not by asking nicely.
 - Agents have full tool access in their domain and can invoke each other for cross-domain work.
 
-### 3.2 Commands — the operations console (6)
+### 3.2 Commands — the operations console (9)
 
 | Command | Role |
 |---|---|
@@ -166,7 +166,7 @@ The only component that can **say no**: PowerShell 7 scripts registered on Claud
 | Hook | Event | Guards |
 |---|---|---|
 | `stop-peer-review-gate` | `Stop` | **The one hard gate** — no session ends with committed, unreviewed work |
-| `record-subagent-run` | `PostToolUse` | Records peer-review-critic runs — the marker that unlocks the gate |
+| `record-subagent-run` | `PostToolUse` + `SubagentStop` | Records peer-review-critic runs and parses the review's `VERDICT:` line — `APPROVED` is what unlocks the gate |
 | `session-start-context` | `SessionStart` | Injects branch + review status into context at startup |
 | `pretooluse-delegation-hint` | `PreToolUse` | Suggests the matching specialist when a `.rs`/`.py`/`.cs`/… file is written |
 
@@ -187,12 +187,12 @@ sequenceDiagram
     CC->>G: Stop event
     G-->>CC: 🚫 block — unreviewed commits
     CC->>PRC: launch final review
-    PRC-->>CC: verdict + findings
-    CC->>R: PostToolUse event
-    R->>R: write per-session marker
+    PRC-->>CC: report ending "VERDICT: APPROVED"
+    CC->>R: SubagentStop + PostToolUse events
+    R->>R: write marker with verdict=APPROVED
     M->>CC: end session
     CC->>G: Stop event
-    G-->>CC: ✅ allow (marker present)
+    G-->>CC: ✅ allow (verdict APPROVED)
 ```
 
 Its decision logic — every "no" answer allows the stop (**fail-open**):
@@ -224,11 +224,11 @@ flowchart TD
     class ERR neutral
 ```
 
-Design philosophy: **one hard gate at the single choke point** (all work becomes committed code) · everything else advisory · fail-open everywhere · fires once per session — a gate, not a nag. Behavior pinned by 20 test assertions; CI fails if a script and its registration ever drift apart.
+Design philosophy: **one hard gate at the single choke point** (all work becomes committed code) · everything else advisory · fail-open everywhere · bounded blocking — once when no review ran, up to 3 while the verdict is `CHANGES_REQUIRED`: a gate, not a nag. Behavior pinned by 44 test assertions; CI fails if a script and its registration ever drift apart.
 
 *Field note: minutes after installation, the gate blocked its own author's session — for having unreviewed commits. It was reviewing the commits that created it.*
 
-### 3.4 Skills — procedural knowledge (7)
+### 3.4 Skills — procedural knowledge (8)
 
 Loaded on demand when a task matches. An agent is *someone to delegate to*; a skill is *knowledge the current agent absorbs*.
 
@@ -314,7 +314,7 @@ Prereqs: Claude Code CLI, git, PowerShell 7+, bash + jq; Node/npx and uv for the
 
 | | |
 |---|---|
-| Specialized agents | 20 (7 categories, 3 model tiers) |
+| Specialized agents | 21 (7 categories, 3 model tiers) |
 | Hooks | 4 registered — 1 blocking gate, 3 advisory |
 | Skills | 7 loadable knowledge modules |
 | Commands | 6 management commands |

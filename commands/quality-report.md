@@ -27,7 +27,7 @@ Validate core configuration files:
 ### 2. Agent Coverage
 
 Check agent ecosystem completeness:
-- All 20 agents have definition files in `agents/`
+- All 21 agents have definition files in `agents/`
 - All agent files have valid YAML frontmatter (name, description, model, color)
 - Agent model fields match claude.json assignments
 - No orphaned agent files (files without claude.json entries)
