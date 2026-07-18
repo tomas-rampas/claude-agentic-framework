@@ -105,6 +105,19 @@ Assert 'null mcpServers: exit 0, no crash' ($r.Code -eq 0)
 Assert 'null mcpServers: re-initialized and servers added' (@($cfg.mcpServers.PSObject.Properties.Name | Where-Object { $_ -in $repoMcpNames }).Count -eq $repoMcpNames.Count)
 Assert 'null mcpServers: unrelated user state survives' ($cfg.userKey -eq 42)
 
+Write-Host "case-colliding keys (real-world Windows projects map)"
+
+# Claude Code's own config can hold keys differing only by case; the default
+# (case-insensitive) ConvertFrom-Json rejects the whole file. The installer
+# must parse case-sensitively, merge, and preserve both keys byte-faithfully.
+Set-Content $claudeJson -Value '{"projects":{"d:/repo":{"n":1},"D:/repo":{"n":2}},"mcpServers":{}}' -NoNewline
+$r = Invoke-Installer
+$rawOut = Get-Content $claudeJson -Raw
+$cfgHt = $rawOut | ConvertFrom-Json -AsHashtable
+Assert 'case-colliding keys: exit 0 and merge performed' ($r.Code -eq 0 -and $r.Out -match 'filesystem\s+added')
+Assert 'case-colliding keys: all framework servers added' (@($repoMcpNames | Where-Object { $cfgHt['mcpServers'].Contains($_) }).Count -eq $repoMcpNames.Count)
+Assert 'both case-variant keys survive with their values' ($cfgHt['projects']['d:/repo']['n'] -eq 1 -and $cfgHt['projects']['D:/repo']['n'] -eq 2)
+
 Write-Host "settings.json hooks-block safety"
 
 $s = Get-Content (Join-Path $claudeHome 'settings.json') -Raw | ConvertFrom-Json

@@ -54,6 +54,12 @@ Write-Host "Claude home    : $claudeHome"
 # compared semantically regardless of property order.
 function Get-CanonJson($node) {
     if ($null -eq $node) { return 'null' }
+    if ($node -is [System.Collections.IDictionary]) {
+        $parts = @($node.Keys) | Sort-Object | ForEach-Object {
+            (ConvertTo-Json ([string]$_) -Compress) + ':' + (Get-CanonJson $node[$_])
+        }
+        return '{' + ($parts -join ',') + '}'
+    }
     if ($node -is [System.Management.Automation.PSCustomObject]) {
         $parts = $node.PSObject.Properties | Sort-Object Name | ForEach-Object {
             (ConvertTo-Json $_.Name -Compress) + ':' + (Get-CanonJson $_.Value)
@@ -80,6 +86,11 @@ function Expand-EnvPlaceholder([string]$s) {
 
 function Expand-ServerDef($node) {
     if ($node -is [string]) { return (Expand-EnvPlaceholder $node) }
+    if ($node -is [System.Collections.IDictionary]) {
+        $out = [ordered]@{}
+        foreach ($k in $node.Keys) { $out[$k] = Expand-ServerDef $node[$k] }
+        return $out
+    }
     if ($node -is [System.Management.Automation.PSCustomObject]) {
         $out = [ordered]@{}
         foreach ($p in $node.PSObject.Properties) { $out[$p.Name] = Expand-ServerDef $p.Value }
@@ -182,39 +193,42 @@ if ($SkipMcp) {
     $summary['mcp'] = 'skipped'
 } else {
     $mcpSourcePath = Join-Path $repoRoot '.mcp.json'
-    $frameworkMcp  = (Get-Content $mcpSourcePath -Raw | ConvertFrom-Json).mcpServers
+    $frameworkMcp  = (Get-Content $mcpSourcePath -Raw | ConvertFrom-Json -AsHashtable).mcpServers
 
+    # -AsHashtable everywhere in this section: real-world ~/.claude.json files
+    # contain keys differing only by case (e.g. "d:/repo" and "D:/repo" in the
+    # projects map on Windows) that the case-insensitive PSCustomObject
+    # conversion rejects as "not valid JSON".
     $userConfig = $null
     $mcpOk = $true
     if (Test-Path $claudeJsonPath) {
         try {
-            $userConfig = Get-Content $claudeJsonPath -Raw | ConvertFrom-Json
+            $userConfig = Get-Content $claudeJsonPath -Raw | ConvertFrom-Json -AsHashtable
         } catch {
             Write-Warning "  $claudeJsonPath exists but is not valid JSON - MCP step skipped, file untouched."
             $summary['mcp'] = 'skipped (existing file unparseable)'
             $mcpOk = $false
         }
     } else {
-        $userConfig = [pscustomobject]@{}
+        $userConfig = [ordered]@{}
         Write-Host '  no existing file - a minimal one will be created.'
     }
 
     if ($mcpOk) {
-        # Absent OR present-but-not-an-object (e.g. "mcpServers": null after a
+        # Absent OR present-but-not-a-map (e.g. "mcpServers": null after a
         # config reset) both mean "no usable server map" - re-initialise rather
         # than crash indexing into null. Fail-open, like the malformed-file path.
-        if (-not ($userConfig.mcpServers -is [System.Management.Automation.PSCustomObject])) {
-            $userConfig | Add-Member -NotePropertyName 'mcpServers' -NotePropertyValue ([pscustomobject]@{}) -Force
+        if (-not ($userConfig['mcpServers'] -is [System.Collections.IDictionary])) {
+            $userConfig['mcpServers'] = [ordered]@{}
         }
         $added = 0; $identical = 0; $kept = 0
-        foreach ($p in $frameworkMcp.PSObject.Properties) {
-            $name     = $p.Name
-            $resolved = Expand-ServerDef $p.Value
-            $existing = $userConfig.mcpServers.PSObject.Properties[$name]
-            if ($null -eq $existing) {
-                $userConfig.mcpServers | Add-Member -NotePropertyName $name -NotePropertyValue $resolved
+        foreach ($entry in $frameworkMcp.GetEnumerator()) {
+            $name     = [string]$entry.Key
+            $resolved = Expand-ServerDef $entry.Value
+            if (-not $userConfig['mcpServers'].Contains($name)) {
+                $userConfig['mcpServers'][$name] = $resolved
                 Write-Host ("  {0,-22} added" -f $name); $added++
-            } elseif ((Get-CanonJson $existing.Value) -eq (Get-CanonJson $resolved)) {
+            } elseif ((Get-CanonJson $userConfig['mcpServers'][$name]) -eq (Get-CanonJson $resolved)) {
                 Write-Host ("  {0,-22} already present (identical)" -f $name); $identical++
             } else {
                 Write-Host ("  {0,-22} kept yours (differs from framework definition - never overwritten)" -f $name); $kept++
@@ -235,7 +249,7 @@ if ($SkipMcp) {
             $tmp = "$claudeJsonPath.tmp-$PID"
             try {
                 $userConfig | ConvertTo-Json -Depth 100 | Set-Content -Path $tmp -NoNewline
-                $reparsed = Get-Content $tmp -Raw | ConvertFrom-Json
+                $reparsed = Get-Content $tmp -Raw | ConvertFrom-Json -AsHashtable
                 if ((Get-CanonJson $reparsed) -ne (Get-CanonJson $userConfig)) {
                     throw "Round-trip verification failed for $claudeJsonPath - original left untouched."
                 }
