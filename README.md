@@ -234,6 +234,7 @@ The framework ships operational skills in `skills/<name>/SKILL.md` (the layout C
 | **git-workflow-assistant** | Guide branching, commit conventions, and PR workflows (incl. the peer-review gate) |
 | **hook-config-generator** | Guide for adding a new real hook (script + registration + tests) |
 | **refactoring-advisor** | Identify refactoring opportunities and improvement patterns |
+| **self-scoring-loop** | Rubric-based score → rewrite → rescore loop for non-code deliverables |
 
 ---
 
@@ -300,5 +301,5 @@ To add or modify agents, manage framework consistency, or understand the anti-dr
 ---
 
 <!-- BEGIN GENERATED: framework-stats -->
-**Built for Claude Code CLI • 20 Specialized Agents • 4 Hook Scripts • 7 Skills • 6 Commands • v3.1.0**
+**Built for Claude Code CLI • 20 Specialized Agents • 4 Hook Scripts • 8 Skills • 6 Commands • v3.1.0**
 <!-- END GENERATED: framework-stats -->
