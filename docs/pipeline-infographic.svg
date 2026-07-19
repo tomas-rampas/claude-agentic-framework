@@ -1,0 +1,336 @@
+<svg viewBox="0 0 1440 1900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#627A92" />
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3B82F6" />
+    </marker>
+    <marker id="arrowhead-cyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#06B6D4" />
+    </marker>
+    <marker id="arrowhead-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#A855F7" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#22C55E" />
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#EF4444" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="1900" fill="#F8FAFB"/>
+
+  <!-- Title Band -->
+  <rect x="0" y="0" width="1440" height="100" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="720" y="45" font-family="Arial, sans-serif" font-size="32" font-weight="700" text-anchor="middle" fill="#1A2A3A">Claude Code Pipeline</text>
+  <text x="720" y="75" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#627A92">Spec → Build → Review: End-to-End Delivery</text>
+
+  <!-- ===== MAIN PIPELINE ===== -->
+  <!-- Start node -->
+  <circle cx="720" cy="140" r="20" fill="#1A2A3A" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="720" y="147" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#FFFFFF">START</text>
+  <line x1="720" y1="160" x2="720" y2="190" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- /delegate Plan -->
+  <rect x="480" y="190" width="480" height="85" rx="6" fill="#F3E8FF" stroke="#A855F7" stroke-width="2"/>
+  <text x="720" y="213" font-family="Consolas, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#A855F7">/delegate Plan</text>
+  <text x="720" y="232" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#6D28D9">Source of truth (auto-runs /spec if none exists)</text>
+  <text x="720" y="251" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#6D28D9">↓ no spec? auto-runs /spec</text>
+  <line x1="720" y1="275" x2="720" y2="300" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowhead-purple)"/>
+
+  <!-- NEW: /spec arrow — Plan box originates the auto-run directly to Interview (bypasses Decision Gate) -->
+  <path d="M 480 251 Q 280 251 150 368" fill="none" stroke="#3B82F6" stroke-width="2.5" marker-end="url(#arrowhead-blue)"/>
+  <text x="300" y="240" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#3B82F6">/spec</text>
+
+  <!-- Decision Diamond -->
+  <polygon points="720,300 800,360 720,420 640,360" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="720" y="357" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#92400E">Decision</text>
+  <text x="720" y="372" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#92400E">Gate</text>
+
+  <!-- ===== /SPEC LANE (LEFT) ===== -->
+  <!-- Interview -->
+  <rect x="40" y="370" width="220" height="100" rx="5" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="150" y="400" font-family="Consolas, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#3B82F6">Interview</text>
+  <text x="150" y="422" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1E40AF">One question per turn</text>
+  <text x="150" y="444" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1E40AF">↓ Draft specs/&lt;name&gt;</text>
+  <line x1="150" y1="470" x2="150" y2="495" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowhead-blue)"/>
+
+  <!-- Self-score -->
+  <rect x="40" y="495" width="220" height="100" rx="5" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="150" y="525" font-family="Consolas, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#3B82F6">Self-Score</text>
+  <text x="150" y="547" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1E40AF">Via self-scoring-loop</text>
+  <text x="150" y="569" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1E40AF">User approval</text>
+  <line x1="150" y1="595" x2="150" y2="620" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowhead-blue)"/>
+
+  <!-- Status: approved -->
+  <rect x="60" y="620" width="180" height="70" rx="5" fill="#DDD6FE" stroke="#3B82F6" stroke-width="2"/>
+  <text x="150" y="644" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#3B82F6">[Status: approved]</text>
+  <text x="150" y="662" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1E40AF">Ready for /build</text>
+
+  <!-- ===== /BUILD LANE (RIGHT) ===== -->
+  <line x1="800" y1="360" x2="930" y2="362" stroke="#06B6D4" stroke-width="2.5" marker-end="url(#arrowhead-cyan)"/>
+  <text x="865" y="350" font-family="Arial, sans-serif" font-size="11" fill="#0891B2" font-weight="600">Hand off to /build</text>
+
+  <!-- Resolve spec -->
+  <rect x="930" y="370" width="220" height="100" rx="5" fill="#CFFAFE" stroke="#06B6D4" stroke-width="2"/>
+  <text x="1040" y="396" font-family="Consolas, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#0891B2">/build Resolve</text>
+  <text x="1040" y="415" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#164E63">Approved spec</text>
+  <text x="1040" y="433" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#164E63">Build via specialists</text>
+  <line x1="1040" y1="470" x2="1040" y2="495" stroke="#06B6D4" stroke-width="2" marker-end="url(#arrowhead-cyan)"/>
+
+  <!-- Spec coverage -->
+  <rect x="930" y="495" width="220" height="95" rx="5" fill="#CFFAFE" stroke="#06B6D4" stroke-width="2"/>
+  <text x="1040" y="521" font-family="Consolas, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#0891B2">Spec Coverage</text>
+  <text x="1040" y="540" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#164E63">Every REQ/EDGE</text>
+  <text x="1040" y="558" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#164E63">mapped to files</text>
+  <line x1="1040" y1="590" x2="1040" y2="600" stroke="#06B6D4" stroke-width="2" marker-end="url(#arrowhead-cyan)"/>
+
+  <!-- Review ⇆ Fix Loop -->
+  <circle cx="1040" cy="662" r="60" fill="none" stroke="#06B6D4" stroke-width="2.5" stroke-dasharray="5,5"/>
+  <text x="1040" y="650" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#0891B2">Review</text>
+  <text x="1040" y="666" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#0891B2">⇆ Fix Loop</text>
+  <text x="1040" y="682" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#0891B2">spec-compliance</text>
+
+  <!-- Max 3 reviews badge — top-right pocket, clear of box, circle, arrow, and status box -->
+  <rect x="1120" y="595" width="120" height="30" rx="3" fill="#E0F2FE" stroke="#0284C7" stroke-width="1"/>
+  <text x="1180" y="615" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#0C4A6E">Max 3 reviews</text>
+
+  <!-- APPROVED green exit — clear space around label and box -->
+  <line x1="1100" y1="662" x2="1185" y2="662" stroke="#22C55E" stroke-width="2.5" marker-end="url(#arrowhead-green)"/>
+  <text x="1130" y="650" font-family="Arial, sans-serif" font-size="11" fill="#16A34A" font-weight="600" text-anchor="middle">APPROVED</text>
+
+  <!-- Status: built — moved right for clear space -->
+  <rect x="1200" y="635" width="160" height="55" rx="5" fill="#DCFCE7" stroke="#22C55E" stroke-width="2"/>
+  <text x="1280" y="660" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#22C55E">[Status: built]</text>
+  <text x="1280" y="678" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#166534">Built</text>
+
+  <!-- CHANGES red return -->
+  <path d="M 980 662 Q 930 662 940 592" fill="none" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrowhead-red)" stroke-dasharray="3,3"/>
+  <text x="925" y="705" font-family="Arial, sans-serif" font-size="11" fill="#DC2626" font-weight="600">CHANGES</text>
+
+  <!-- ===== PER-TODO BDD CHAIN (CENTER) ===== -->
+  <line x1="800" y1="360" x2="615" y2="360" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowhead-purple)"/>
+  <line x1="605" y1="360" x2="465" y2="372" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowhead-purple)"/>
+  <text x="535" y="362" font-family="Arial, sans-serif" font-size="11" fill="#7E22CE" font-weight="600">Per-todo</text>
+  <text x="535" y="376" font-family="Arial, sans-serif" font-size="11" fill="#7E22CE" font-weight="600">BDD loop</text>
+
+  <!-- Vertical stack -->
+  <rect x="425" y="370" width="80" height="70" rx="3" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="465" y="412" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#DC2626">Red</text>
+  <line x1="465" y1="440" x2="465" y2="460" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <rect x="425" y="460" width="80" height="70" rx="3" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+  <text x="465" y="502" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#16A34A">Green</text>
+  <line x1="465" y1="530" x2="465" y2="550" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <rect x="425" y="550" width="80" height="70" rx="3" fill="#F3F4F6" stroke="#627A92" stroke-width="1.5"/>
+  <text x="465" y="592" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#374151">Refactor</text>
+
+  <rect x="425" y="620" width="80" height="70" rx="3" fill="#F3E8FF" stroke="#A855F7" stroke-width="1.5"/>
+  <text x="465" y="662" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#7E22CE">Docs</text>
+
+  <!-- Right side quality bar and review -->
+  <rect x="520" y="460" width="70" height="160" rx="3" fill="#FFEAA7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="555" y="480" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#92400E">Quality</text>
+  <text x="555" y="498" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#92400E">Bar</text>
+
+  <line x1="505" y1="585" x2="520" y2="540" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <rect x="520" y="630" width="70" height="90" rx="3" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="555" y="658" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1E40AF">Review</text>
+  <text x="555" y="676" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1E40AF">Gates</text>
+
+  <line x1="555" y1="620" x2="555" y2="630" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <line x1="465" y1="690" x2="480" y2="728" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <line x1="555" y1="720" x2="540" y2="728" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <rect x="445" y="730" width="130" height="70" rx="3" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+  <text x="510" y="770" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#166534">Commit</text>
+
+  <!-- Convergence point 1 (into Review Chain + Self-Scoring) -->
+  <line x1="150" y1="690" x2="150" y2="820" stroke="#627A92" stroke-width="2"/>
+  <line x1="510" y1="800" x2="510" y2="820" stroke="#627A92" stroke-width="2"/>
+  <line x1="1260" y1="690" x2="1260" y2="820" stroke="#627A92" stroke-width="2"/>
+  <line x1="150" y1="820" x2="720" y2="845" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="510" y1="820" x2="720" y2="845" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="1260" y1="820" x2="720" y2="845" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="720" y1="845" x2="720" y2="868" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- ===== REVIEW CHAIN + SELF-SCORING (SIDE-BY-SIDE) ===== -->
+
+  <!-- LEFT: Review Chain -->
+  <rect x="30" y="870" width="680" height="225" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" rx="4"/>
+  <text x="370" y="895" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#1A2A3A">Review Chain</text>
+
+  <!-- spec-compliance-reviewer (recolored indigo->blue: reuses spec-lane blue family) -->
+  <rect x="45" y="920" width="170" height="160" rx="4" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="130" y="950" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1E40AF">spec-compliance</text>
+  <text x="130" y="966" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1E40AF">reviewer</text>
+  <text x="130" y="984" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1E40AF">Per-REQ</text>
+  <text x="130" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1E40AF">PASS/FAIL</text>
+  <rect x="55" y="1010" width="150" height="26" rx="2" fill="#DCFCE7" stroke="#22C55E" stroke-width="1"/>
+  <text x="130" y="1027" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#22C55E">✓ APPROVED</text>
+  <rect x="55" y="1038" width="150" height="26" rx="2" fill="#FEE2E2" stroke="#EF4444" stroke-width="1"/>
+  <text x="130" y="1055" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#EF4444">✗ CHANGES_REQ</text>
+
+  <line x1="215" y1="1000" x2="245" y2="1000" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- code-review-gatekeeper -->
+  <rect x="245" y="920" width="170" height="160" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="330" y="950" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#D97706">code-review</text>
+  <text x="330" y="966" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#D97706">gatekeeper</text>
+  <text x="330" y="984" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#92400E">Code quality</text>
+  <text x="330" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#92400E">before commit</text>
+
+  <line x1="415" y1="1000" x2="445" y2="1000" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- peer-review-critic (recolored violet->delegate purple, already used) -->
+  <rect x="445" y="920" width="235" height="160" rx="4" fill="#DDD6FE" stroke="#A855F7" stroke-width="1.5"/>
+  <text x="562" y="950" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#6D28D9">peer-review-critic</text>
+  <text x="562" y="968" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#5B21B6">Final diff-scoped review</text>
+  <text x="562" y="984" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#5B21B6">branch vs base</text>
+  <text x="562" y="1000" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#5B21B6">LAST GATE</text>
+  <rect x="460" y="1010" width="205" height="26" rx="2" fill="#DCFCE7" stroke="#22C55E" stroke-width="1"/>
+  <text x="562" y="1027" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#22C55E">✓ APPROVED</text>
+  <rect x="460" y="1038" width="205" height="26" rx="2" fill="#FEE2E2" stroke="#EF4444" stroke-width="1"/>
+  <text x="562" y="1055" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#EF4444">✗ CHANGES_REQ</text>
+
+  <!-- RIGHT: Self-Scoring Loop -->
+  <rect x="740" y="870" width="670" height="225" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" rx="4"/>
+  <text x="1075" y="895" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#1A2A3A">Self-Scoring Loop</text>
+
+  <!-- Return arc from node 5 (Rescore) to node 3 (Name Weak) labeled "until plateau" -->
+  <path d="M 1190 950 Q 1105 920 1020 950" fill="none" stroke="#627A92" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+  <text x="1105" y="912" font-family="Arial, sans-serif" font-size="11" fill="#627A92" font-weight="600" text-anchor="middle">until plateau</text>
+
+  <!-- Circular nodes -->
+  <circle cx="850" cy="970" r="20" fill="#3B82F6" stroke="#1E40AF" stroke-width="1.5"/>
+  <text x="850" y="978" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">1</text>
+  <text x="850" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1A2A3A">Rubric</text>
+
+  <circle cx="935" cy="970" r="20" fill="#06B6D4" stroke="#0891B2" stroke-width="1.5"/>
+  <text x="935" y="978" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">2</text>
+  <text x="935" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1A2A3A">Score</text>
+
+  <circle cx="1020" cy="970" r="20" fill="#A855F7" stroke="#7E22CE" stroke-width="1.5"/>
+  <text x="1020" y="978" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">3</text>
+  <text x="1020" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1A2A3A">Name Weak</text>
+
+  <circle cx="1105" cy="970" r="20" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+  <text x="1105" y="978" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">4</text>
+  <text x="1105" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1A2A3A">Rewrite</text>
+
+  <!-- Rescore node: recolored emerald->pass green, already used -->
+  <circle cx="1190" cy="970" r="20" fill="#22C55E" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="1190" y="978" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">5</text>
+  <text x="1190" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1A2A3A">Rescore</text>
+
+  <!-- Connecting paths -->
+  <path d="M 870 970 L 915 970" fill="none" stroke="#627A92" stroke-width="1.5"/>
+  <path d="M 955 970 L 1000 970" fill="none" stroke="#627A92" stroke-width="1.5"/>
+  <path d="M 1040 970 L 1085 970" fill="none" stroke="#627A92" stroke-width="1.5"/>
+  <path d="M 1125 970 L 1170 970" fill="none" stroke="#627A92" stroke-width="1.5"/>
+
+  <!-- Stop conditions -->
+  <rect x="865" y="1035" width="95" height="28" rx="3" fill="#FEE2E2" stroke="#EF4444" stroke-width="1"/>
+  <text x="912.5" y="1053" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#DC2626">&lt;3 pts gain</text>
+
+  <rect x="975" y="1035" width="85" height="28" rx="3" fill="#FEE2E2" stroke="#EF4444" stroke-width="1"/>
+  <text x="1017.5" y="1053" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#DC2626">3 iter</text>
+
+  <rect x="1075" y="1035" width="85" height="28" rx="3" fill="#FEE2E2" stroke="#EF4444" stroke-width="1"/>
+  <text x="1117.5" y="1053" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#DC2626">≥90 1st</text>
+
+  <rect x="1175" y="1035" width="110" height="28" rx="3" fill="#E0F2FE" stroke="#0284C7" stroke-width="1"/>
+  <text x="1230" y="1053" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#0C4A6E">71→84→88</text>
+
+  <!-- Convergence point 2 (into /delegate wrap-up) -->
+  <line x1="370" y1="1095" x2="370" y2="1115" stroke="#627A92" stroke-width="2"/>
+  <line x1="1075" y1="1095" x2="1075" y2="1115" stroke="#627A92" stroke-width="2"/>
+  <line x1="370" y1="1115" x2="720" y2="1135" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="1075" y1="1115" x2="720" y2="1135" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="720" y1="1135" x2="720" y2="1158" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- ===== NEW: /delegate WRAP-UP (commands/delegate.md §8) ===== -->
+  <rect x="420" y="1160" width="600" height="110" rx="6" fill="#F3E8FF" stroke="#A855F7" stroke-width="2"/>
+  <text x="720" y="1190" font-family="Consolas, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#A855F7">/delegate Wrap-Up</text>
+  <text x="720" y="1212" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#6D28D9">full-spec review + documentation drift-audit</text>
+  <text x="720" y="1232" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#6D28D9">§8 — before returning control</text>
+  <text x="720" y="1252" font-family="Consolas, Arial, sans-serif" font-size="11" text-anchor="middle" fill="#6D28D9">(commands/delegate.md)</text>
+
+  <line x1="720" y1="1270" x2="720" y2="1300" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowhead-purple)"/>
+
+  <!-- ===== STOP GATE ===== -->
+  <rect x="0" y="1300" width="1440" height="120" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="720" y="1328" font-family="Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#1A2A3A">Enforced Stop Gate</text>
+
+  <!-- Gate visual (left) -->
+  <rect x="50" y="1345" width="25" height="45" fill="#EF4444" stroke="#DC2626" stroke-width="2"/>
+  <rect x="90" y="1345" width="25" height="45" fill="#EF4444" stroke="#DC2626" stroke-width="2"/>
+  <rect x="130" y="1345" width="25" height="45" fill="#EF4444" stroke="#DC2626" stroke-width="2"/>
+  <line x1="35" y1="1367" x2="170" y2="1367" stroke="#DC2626" stroke-width="2"/>
+  <text x="102.5" y="1405" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#DC2626">GATE</text>
+
+  <!-- Hooks info (center-right) -->
+  <text x="250" y="1350" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" fill="#DC2626">stop-peer-review-gate.ps1</text>
+  <text x="250" y="1370" font-family="Arial, sans-serif" font-size="11" fill="#7F1D1D">Blocks: 1× no-review, ≤3× CHANGES_REQUIRED | Loop-safe | Fail-open</text>
+  <text x="950" y="1350" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" fill="#7E22CE">record-subagent-run.ps1</text>
+  <text x="950" y="1370" font-family="Arial, sans-serif" font-size="11" fill="#5B21B6">PostToolUse + SubagentStop parses VERDICT → per-session marker</text>
+
+  <!-- Arrow down -->
+  <line x1="720" y1="1420" x2="720" y2="1450" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- ===== SPECIALIST ROSTER ===== -->
+  <rect x="0" y="1450" width="1440" height="305" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="720" y="1478" font-family="Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#1A2A3A">Specialist Agent Routing</text>
+
+  <!-- Implementation -->
+  <text x="55" y="1503" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#1A2A3A">Implementation</text>
+  <rect x="40" y="1513" width="330" height="130" rx="4" fill="#F0F9FF" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="55" y="1540" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#0C4A6E">rust-expert • csharp-expert</text>
+  <text x="55" y="1558" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#0C4A6E">go-expert • java-expert</text>
+  <text x="55" y="1576" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#0C4A6E">python-expert • typescript-expert</text>
+  <text x="55" y="1594" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#0C4A6E">mql-trading-dev</text>
+  <text x="55" y="1612" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#0C4A6E">bash-expert • powershell-expert</text>
+
+  <!-- Specialists (recolored violet->delegate purple, already used) -->
+  <text x="405" y="1503" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#1A2A3A">Specialists</text>
+  <rect x="390" y="1513" width="330" height="130" rx="4" fill="#F3E8FF" stroke="#A855F7" stroke-width="1.5"/>
+  <text x="405" y="1540" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#6D28D9">database-specialist</text>
+  <text x="405" y="1558" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#6D28D9">security-specialist</text>
+  <text x="405" y="1576" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#6D28D9">devops-orchestrator</text>
+  <text x="405" y="1594" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#6D28D9">frontend-specialist • uiux-specialist</text>
+
+  <!-- Plan & Analyze -->
+  <text x="755" y="1503" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#1A2A3A">Plan &amp; Analyze</text>
+  <rect x="740" y="1513" width="330" height="130" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="755" y="1540" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#92400E">system-architect</text>
+  <text x="755" y="1558" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#92400E">product-owner</text>
+  <text x="755" y="1576" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#92400E">comprehensive-analyst</text>
+
+  <!-- Quality & Docs -->
+  <text x="1105" y="1503" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#1A2A3A">Quality &amp; Docs</text>
+  <rect x="1090" y="1513" width="330" height="130" rx="4" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+  <text x="1105" y="1540" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#16A34A">code-review-gatekeeper</text>
+  <text x="1105" y="1558" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#16A34A">peer-review-critic</text>
+  <text x="1105" y="1576" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#16A34A">spec-compliance-reviewer</text>
+  <text x="1105" y="1594" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#16A34A">technical-docs-writer</text>
+
+  <!-- Arrow to DONE -->
+  <line x1="720" y1="1653" x2="720" y2="1686" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- DONE node (moved fully clear of the roster boxes above) -->
+  <circle cx="720" cy="1710" r="24" fill="#1A2A3A" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="720" y="1715" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">DONE</text>
+
+  <!-- ===== FOOTER ===== -->
+  <rect x="0" y="1780" width="1440" height="110" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="30" y="1805" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#1A2A3A">Sources:</text>
+  <text x="30" y="1827" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#627A92">commands/spec.md • commands/build.md • commands/delegate.md • skills/self-scoring-loop/SKILL.md</text>
+  <text x="30" y="1847" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#627A92">hooks/stop-peer-review-gate.ps1 • hooks/record-subagent-run.ps1</text>
+  <text x="30" y="1873" font-family="Arial, sans-serif" font-size="11" fill="#627A92">Generated: 2026-07-19</text>
+</svg>

@@ -142,6 +142,14 @@ Tasks are automatically routed to the appropriate agent. Examples:
 
 ---
 
+## Pipeline at a Glance
+
+The `/spec` → `/build` → `/delegate` pipeline at a glance:
+
+![The /spec → /build → /delegate pipeline](docs/pipeline-infographic.svg)
+
+---
+
 ## Agents
 
 ### Planning & Requirements
