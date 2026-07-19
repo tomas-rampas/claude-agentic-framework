@@ -71,14 +71,20 @@ When the source of truth is a `specs/<name>.md`, choose the mode and **state it
 in the plan**:
 - **Hand off to `/build`** when the objective is a single cohesive feature one
   autonomous run can deliver (single domain, no cross-team sequencing): execute
-  `commands/build.md`'s build ⇆ review loop against the spec. My approval of
-  the plan (or of the spec, when §1 just produced it and the plan is simply
-  "run /build") is the go-ahead; skip §3–§6 and rejoin at §8 wrap-up — /build's
-  own loop already enforces spec conformance and the quality bar.
+  `commands/build.md`'s build ⇆ review loop against the spec. **Always surface
+  the hand-off decision for approval** — a single combined confirmation
+  ("approve the spec and run /build") satisfies both, but never proceed on spec
+  approval alone without having stated the hand-off. Then skip §3–§6. On loop
+  completion, **commit the delivered work** (meaningful message per behavior —
+  you still own commits on this path) and rejoin §8 **for the documentation
+  drift-audit, checkbox tick, and summary only**: /build's loop already ran the
+  full-spec review to APPROVED and set `Status: built` — do not re-run them.
 - **Orchestrate here** (default for multi-domain or multi-todo objectives):
   continue with §3's per-todo BDD loop consuming the spec.
 
 ## 3. Execute — per todo, BDD loop
+(Skip §3–§6 entirely if §2 chose hand-off to `/build`.)
+
 For each todo, in dependency order:
 1. Write a failing test for the acceptance criteria (**red**).
 2. Delegate implementation to the right specialist until the test passes (**green**).
@@ -138,10 +144,12 @@ report a clean state that isn't real.
 
 ## 8. Wrap-up
 - Confirm every todo is complete and all acceptance criteria are met.
-- **When building against a spec**: run a final **full-spec**
-  `spec-compliance-reviewer` review over the whole diff (per-todo runs were
-  scoped, so this is the completeness check) and confirm every `REQ-`/`EDGE-`
-  item is PASS, then set the spec's `Status:` to `built`.
+- **When building against a spec via §3 orchestration**: run a final
+  **full-spec** `spec-compliance-reviewer` review over the whole diff (per-todo
+  runs were scoped, so this is the completeness check) and confirm every
+  `REQ-`/`EDGE-` item is PASS, then set the spec's `Status:` to `built`. (On
+  the /build hand-off path both already happened inside /build — skip this
+  bullet.)
 - **Documentation drift-audit (blocking).** Before declaring done, delegate to a
   *fresh* sub-agent (`Explore` or `technical-docs-writer`) an audit of README,
   `docs/`, `plan/`, `CHANGELOG`, and any schema **against what actually shipped

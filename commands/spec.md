@@ -106,7 +106,9 @@ user ever sees the spec.
 
 Present the spec (path + full content) and ask the user to approve it.
 - On approval: set `Status: approved` and tell the user the next step is
-  `/build <name>`.
+  `/build <name>` — or, when this interview was entered from `/delegate`,
+  that `/delegate` continues from its decision gate (whose chosen mode may be
+  per-todo orchestration, not `/build`).
 - On change requests: edit, re-score, re-present. The spec stays `draft`
   until the user approves.
 
