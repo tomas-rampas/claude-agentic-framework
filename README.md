@@ -216,7 +216,7 @@ Tasks are automatically routed to the appropriate agent. Examples:
 
 | Command | Purpose |
 |---------|---------|
-| `/delegate` | Intelligent task routing to specialized agents |
+| `/delegate` | End-to-end orchestration: auto-runs the `/spec` interview when no source of truth exists, then hands off to `/build` (single feature) or per-todo orchestration (multi-domain) |
 | `/analyze-framework` | Framework health checking and validation |
 | `/list-agents` | Agent catalog with filtering and multiple output formats |
 | `/validate-hooks` | Hook coverage and consistency verification |

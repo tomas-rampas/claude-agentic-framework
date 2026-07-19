@@ -111,5 +111,6 @@ Present the spec (path + full content) and ask the user to approve it.
   until the user approves.
 
 Do **not** start building, scaffolding, or "just preparing" the
-implementation — the session's build step begins only when the user runs
-`/build`.
+implementation — the build step begins only when the user runs `/build`, or,
+when this interview was entered from `/delegate`'s plan phase, when `/delegate`
+proceeds past its decision gate after the user's approval.

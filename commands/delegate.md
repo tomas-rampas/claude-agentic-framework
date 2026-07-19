@@ -41,11 +41,17 @@ with JWT issuing/validation + ASP.NET Core identity integration, tests in
 
 ## 1. Plan
 - Locate and read the source of truth for the objective (sprint plan, ticket, or
-  spec — e.g. under `<DOCS_OR_JIRA_BASE>`). If you cannot find it, **stop and
-  ask** — do not infer the scope.
+  spec — e.g. under `<DOCS_OR_JIRA_BASE>`).
 - **If `specs/<name>.md` exists for this objective** (written by `/spec`), it
   **is** the source of truth: derive the todo list from its `REQ-`/`EDGE-` items
   and tag each todo with the IDs it delivers. Its Out of scope list is binding.
+- **If NO source of truth exists**, do not infer the scope and do not stop dead:
+  **run the `/spec` workflow automatically** — follow `commands/spec.md` exactly
+  (interview one focused question at a time, write `specs/<name>.md`, self-score
+  via the `self-scoring-loop` skill, set `Status: approved` only on my
+  confirmation). The approved spec then becomes the source of truth above. Never
+  skip the interview and write a spec from the objective line alone — an
+  unasked-about spec launders ambiguity into requirements.
 - Use sequential thinking to break the objective into an ordered todo list. For
   each todo capture: behavior / acceptance criteria, files likely touched,
   dependencies, and the owning agent.
@@ -59,6 +65,18 @@ with JWT issuing/validation + ASP.NET Core identity integration, tests in
   proceed.
 - If blockers exist, list them explicitly and stop for my input. Do not proceed
   past an unresolved blocker.
+
+### Execution mode — spec-backed objectives
+When the source of truth is a `specs/<name>.md`, choose the mode and **state it
+in the plan**:
+- **Hand off to `/build`** when the objective is a single cohesive feature one
+  autonomous run can deliver (single domain, no cross-team sequencing): execute
+  `commands/build.md`'s build ⇆ review loop against the spec. My approval of
+  the plan (or of the spec, when §1 just produced it and the plan is simply
+  "run /build") is the go-ahead; skip §3–§6 and rejoin at §8 wrap-up — /build's
+  own loop already enforces spec conformance and the quality bar.
+- **Orchestrate here** (default for multi-domain or multi-todo objectives):
+  continue with §3's per-todo BDD loop consuming the spec.
 
 ## 3. Execute — per todo, BDD loop
 For each todo, in dependency order:
