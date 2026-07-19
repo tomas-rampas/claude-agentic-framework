@@ -41,7 +41,7 @@
   <text x="720" y="251" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#6D28D9">↓ no spec? auto-runs /spec</text>
   <line x1="720" y1="275" x2="720" y2="300" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowhead-purple)"/>
 
-  <!-- NEW: /spec arrow — Plan box originates the auto-run directly to Interview (bypasses Decision Gate) -->
+  <!-- /spec auto-run: branches from the Plan phase, not the Decision Gate -->
   <path d="M 480 251 Q 280 251 150 368" fill="none" stroke="#3B82F6" stroke-width="2.5" marker-end="url(#arrowhead-blue)"/>
   <text x="300" y="240" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#3B82F6">/spec</text>
 
@@ -94,15 +94,15 @@
   <text x="1040" y="666" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#0891B2">⇆ Fix Loop</text>
   <text x="1040" y="682" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#0891B2">spec-compliance</text>
 
-  <!-- Max 3 reviews badge — top-right pocket, clear of box, circle, arrow, and status box -->
+  <!-- Max 3 reviews badge -->
   <rect x="1120" y="595" width="120" height="30" rx="3" fill="#E0F2FE" stroke="#0284C7" stroke-width="1"/>
   <text x="1180" y="615" font-family="Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#0C4A6E">Max 3 reviews</text>
 
-  <!-- APPROVED green exit — clear space around label and box -->
+  <!-- APPROVED green exit -->
   <line x1="1100" y1="662" x2="1185" y2="662" stroke="#22C55E" stroke-width="2.5" marker-end="url(#arrowhead-green)"/>
   <text x="1130" y="650" font-family="Arial, sans-serif" font-size="11" fill="#16A34A" font-weight="600" text-anchor="middle">APPROVED</text>
 
-  <!-- Status: built — moved right for clear space -->
+  <!-- Status: built -->
   <rect x="1200" y="635" width="160" height="55" rx="5" fill="#DCFCE7" stroke="#22C55E" stroke-width="2"/>
   <text x="1280" y="660" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#22C55E">[Status: built]</text>
   <text x="1280" y="678" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#166534">Built</text>
@@ -166,7 +166,7 @@
   <rect x="30" y="870" width="680" height="225" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" rx="4"/>
   <text x="370" y="895" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#1A2A3A">Review Chain</text>
 
-  <!-- spec-compliance-reviewer (recolored indigo->blue: reuses spec-lane blue family) -->
+  <!-- spec-compliance-reviewer -->
   <rect x="45" y="920" width="170" height="160" rx="4" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
   <text x="130" y="950" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1E40AF">spec-compliance</text>
   <text x="130" y="966" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#1E40AF">reviewer</text>
@@ -188,7 +188,7 @@
 
   <line x1="415" y1="1000" x2="445" y2="1000" stroke="#627A92" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
-  <!-- peer-review-critic (recolored violet->delegate purple, already used) -->
+  <!-- peer-review-critic -->
   <rect x="445" y="920" width="235" height="160" rx="4" fill="#DDD6FE" stroke="#A855F7" stroke-width="1.5"/>
   <text x="562" y="950" font-family="Consolas, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#6D28D9">peer-review-critic</text>
   <text x="562" y="968" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#5B21B6">Final diff-scoped review</text>
@@ -224,7 +224,7 @@
   <text x="1105" y="978" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">4</text>
   <text x="1105" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1A2A3A">Rewrite</text>
 
-  <!-- Rescore node: recolored emerald->pass green, already used -->
+  <!-- Rescore node -->
   <circle cx="1190" cy="970" r="20" fill="#22C55E" stroke="#16A34A" stroke-width="1.5"/>
   <text x="1190" y="978" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">5</text>
   <text x="1190" y="1000" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#1A2A3A">Rescore</text>
@@ -255,7 +255,7 @@
   <line x1="1075" y1="1115" x2="720" y2="1135" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
   <line x1="720" y1="1135" x2="720" y2="1158" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- ===== NEW: /delegate WRAP-UP (commands/delegate.md §8) ===== -->
+  <!-- ===== /delegate WRAP-UP (commands/delegate.md §8) ===== -->
   <rect x="420" y="1160" width="600" height="110" rx="6" fill="#F3E8FF" stroke="#A855F7" stroke-width="2"/>
   <text x="720" y="1190" font-family="Consolas, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#A855F7">/delegate Wrap-Up</text>
   <text x="720" y="1212" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#6D28D9">full-spec review + documentation drift-audit</text>
@@ -297,7 +297,7 @@
   <text x="55" y="1594" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#0C4A6E">mql-trading-dev</text>
   <text x="55" y="1612" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#0C4A6E">bash-expert • powershell-expert</text>
 
-  <!-- Specialists (recolored violet->delegate purple, already used) -->
+  <!-- Specialists -->
   <text x="405" y="1503" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#1A2A3A">Specialists</text>
   <rect x="390" y="1513" width="330" height="130" rx="4" fill="#F3E8FF" stroke="#A855F7" stroke-width="1.5"/>
   <text x="405" y="1540" font-family="Consolas, Arial, sans-serif" font-size="11" fill="#6D28D9">database-specialist</text>
@@ -323,7 +323,7 @@
   <!-- Arrow to DONE -->
   <line x1="720" y1="1653" x2="720" y2="1686" stroke="#627A92" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- DONE node (moved fully clear of the roster boxes above) -->
+  <!-- DONE node -->
   <circle cx="720" cy="1710" r="24" fill="#1A2A3A" stroke="#E5E7EB" stroke-width="2"/>
   <text x="720" y="1715" font-family="Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFFFFF">DONE</text>
 
