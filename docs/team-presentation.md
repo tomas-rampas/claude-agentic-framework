@@ -237,7 +237,7 @@ Loaded on demand when a task matches. An agent is *someone to delegate to*; a sk
 | agent-debugger | Diagnose routing/loading/config failures |
 | agent-routing-advisor | Pick the right agent or agent sequence |
 | code-scaffolder | Bootstrap idiomatic projects per language |
-| code-scoring-loop | Score a code diff via the specialist agents, rewrite the weakest parts, rescore until it plateaus |
+| code-scoring-loop | Score a code diff via the specialist agents, rewrite the weakest parts, rescore until it plateaus — before, never instead of, the review gates |
 | dependency-checker | Verify the toolchain (git, jq, pwsh 7, node, uv) |
 | git-workflow-assistant | Branch/commit/PR flow, incl. working *with* the Stop gate |
 | hook-config-generator | Add a new real hook (script → registration → tests) |
@@ -318,11 +318,11 @@ Prereqs: Claude Code CLI, git, PowerShell 7+, bash + jq; Node/npx and uv for the
 |---|---|
 | Specialized agents | 21 (7 categories, 3 model tiers) |
 | Hooks | 4 registered — 1 blocking gate, 3 advisory |
-| Skills | 7 loadable knowledge modules |
-| Commands | 6 management commands |
+| Skills | 9 loadable knowledge modules |
+| Commands | 9 management commands |
 | MCP servers | 5 (filesystem, context7, serena, sequential-thinking, fetch) |
 | Validator checks | 12, all derived at runtime |
-| Test assertions | 34 (consistency) + 20 (hook behavior) |
+| Test assertions | 34 (consistency) + 44 (hook behavior) |
 | CI jobs | 3, including a Windows leg |
 
 **Takeaway:** agents write the code · hooks make quality non-negotiable · the consistency system keeps the whole thing honest.

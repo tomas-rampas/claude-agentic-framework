@@ -32,11 +32,14 @@ things change when the deliverable is a diff:
 
 ## Gate zero — the quality bar
 
-Before iteration 1, the project quality bar must be clean exactly as
-`commands/delegate.md` §4 defines it: build 0 errors / 0 warnings, linter
-clean, formatter no diffs, full unit-test suite green. Correctness is binary
-and comes first; scoring a red build is meaningless. If the bar fails, fix
-that — this loop is not for broken code.
+Before iteration 1, the mechanical checks of `commands/delegate.md` §4's
+quality bar must be clean: build 0 errors / 0 warnings, linter clean,
+formatter no diffs, full unit-test suite green. (§4's docs bullet is not part
+of gate zero — in the `/delegate` flow it lands in the per-todo doc step that
+follows the refactor.) Inside `/delegate`'s BDD loop this means running the
+full suite at the start of the refactor step rather than waiting for §3
+step 5. Correctness is binary and comes first; scoring a red build is
+meaningless. If the bar fails, fix that — this loop is not for broken code.
 
 ## The Loop
 
@@ -54,12 +57,15 @@ that — this loop is not for broken code.
    not criteria. The rubric is fixed for the rest of the loop.
 3. **Delegate scoring to the matching specialist.** Route by the diff's
    domain per the framework routing table (`rust-expert` for a Rust diff,
-   `typescript-expert` for TypeScript, …); use `code-review-gatekeeper` when
-   the change spans languages or no language expert fits. Launch a **fresh**
+   `typescript-expert` for TypeScript, …); use `comprehensive-analyst` when
+   the change spans languages or no language expert fits — not
+   `code-review-gatekeeper`, which must stay outside the polish loop so the
+   gate's judgment remains independent of the rubric. Launch a **fresh**
    subagent instance each round and hand it the diff, the rubric, and the
    instruction to return a 0–100 score with a one-line justification per
    criterion. Score honestly — an inflated score ends the loop early and
-   defeats it.
+   defeats it. If the **first** score is **≥ 90**, say so and stop — the loop
+   is for improvement, not ceremony.
 4. **Name the 1–2 weakest criteria** from the scorer's report and exactly why
    they lost points.
 5. **Rewrite only the weak parts** (delegating to the implementing specialist
@@ -69,8 +75,6 @@ that — this loop is not for broken code.
 6. **Rescore and decide** — same rubric, fresh scorer instance:
    - Improvement **< 3 points**, or **3 iterations** reached → stop. More
      loops past a plateau produce churn, not quality.
-   - Score **≥ 90 on the first pass** → say so and stop; the loop is for
-     improvement, not ceremony.
    - Otherwise → back to step 4.
 7. **Report** the rubric, the final score with per-criterion breakdown, and
    the score trajectory (e.g. 68 → 81 → 86) — then proceed to the framework's
