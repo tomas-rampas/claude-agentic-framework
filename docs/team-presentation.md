@@ -82,7 +82,7 @@ Same task, opposite failure modes: the single session hits the ceiling and *degr
 %%{init: {"theme": "base", "themeVariables": {"background": "transparent", "lineColor": "#898781", "textColor": "#898781", "clusterBkg": "transparent", "clusterBorder": "#898781", "edgeLabelBackground": "#f0efec"}}}%%
 flowchart TD
     O["🎯 Objective"] --> R["Routing<br/>CLAUDE.md rules · /delegate · agent descriptions"]
-    R --> S["Specialist agent — 1 of 20<br/>implements, tests, commits"]
+    R --> S["Specialist agent — 1 of 21<br/>implements, tests, commits"]
     SK["📚 Skills<br/>procedural knowledge"] -.-> S
     MCP["🔌 MCP servers<br/>code intel · live docs · web"] -.-> S
     S --> C1["code-review-gatekeeper<br/>quality review"]
@@ -136,10 +136,11 @@ mindmap
     Architecture · 2
       system-architect
       product-owner
-    Quality · 3
+    Quality · 4
       comprehensive-analyst
       code-review-gatekeeper
       peer-review-critic
+      spec-compliance-reviewer
     Documentation · 1
       technical-docs-writer
 ```

@@ -27,9 +27,10 @@ things change when the deliverable is a diff:
   iterations when the obvious weaknesses are already fixed.
 - The user asks to "polish", "clean up", or "tighten" code without concrete
   criteria.
-- After the refactor step of a `/delegate` todo, or once a `/build` iteration
-  is green before its spec-compliance review, when the change is large enough
-  that a structured polish pass beats ad-hoc tidying.
+- After the refactor step of a `/delegate` todo, or the first time a `/build`
+  run goes green before its spec-compliance review (once per run — fix
+  iterations of the review loop don't re-enter the polish pass), when the
+  change is large enough that a structured polish pass beats ad-hoc tidying.
 
 ## Gate zero — the quality bar
 
