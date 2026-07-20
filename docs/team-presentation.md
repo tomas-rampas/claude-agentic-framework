@@ -108,7 +108,7 @@ flowchart TD
 
 ## 3. Components
 
-### 3.1 Agents — the workforce (20)
+### 3.1 Agents — the workforce (21)
 
 An agent = a markdown file: YAML frontmatter (name, routing description, model tier, tools) + a system prompt. **Routing is description-driven** — the task text is matched against agent descriptions, so a well-written description *is* the router.
 
