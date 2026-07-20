@@ -228,7 +228,7 @@ Design philosophy: **one hard gate at the single choke point** (all work becomes
 
 *Field note: minutes after installation, the gate blocked its own author's session — for having unreviewed commits. It was reviewing the commits that created it.*
 
-### 3.4 Skills — procedural knowledge (8)
+### 3.4 Skills — procedural knowledge (9)
 
 Loaded on demand when a task matches. An agent is *someone to delegate to*; a skill is *knowledge the current agent absorbs*.
 
@@ -237,10 +237,12 @@ Loaded on demand when a task matches. An agent is *someone to delegate to*; a sk
 | agent-debugger | Diagnose routing/loading/config failures |
 | agent-routing-advisor | Pick the right agent or agent sequence |
 | code-scaffolder | Bootstrap idiomatic projects per language |
+| code-scoring-loop | Score a code diff via the specialist agents, rewrite the weakest parts, rescore until it plateaus |
 | dependency-checker | Verify the toolchain (git, jq, pwsh 7, node, uv) |
 | git-workflow-assistant | Branch/commit/PR flow, incl. working *with* the Stop gate |
 | hook-config-generator | Add a new real hook (script → registration → tests) |
 | refactoring-advisor | Spot code smells, prioritize refactorings |
+| self-scoring-loop | Rubric-score a non-code deliverable, rewrite the weakest parts, rescore until it plateaus |
 
 ### 3.5 MCP servers — senses and instruments (5)
 

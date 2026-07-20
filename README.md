@@ -244,6 +244,7 @@ The framework ships operational skills in `skills/<name>/SKILL.md` (the layout C
 | **agent-debugger** | Diagnose agent routing, loading, and configuration issues |
 | **agent-routing-advisor** | Recommend the right specialist agent for a task |
 | **code-scaffolder** | Generate idiomatic project scaffolding for supported languages |
+| **code-scoring-loop** | Rubric-based score → rewrite → rescore loop for code diffs, scored by the specialist agents before the review gates |
 | **dependency-checker** | Verify the toolchain the framework needs (git, jq, pwsh 7, node, uv) |
 | **git-workflow-assistant** | Guide branching, commit conventions, and PR workflows (incl. the peer-review gate) |
 | **hook-config-generator** | Guide for adding a new real hook (script + registration + tests) |
@@ -315,5 +316,5 @@ To add or modify agents, manage framework consistency, or understand the anti-dr
 ---
 
 <!-- BEGIN GENERATED: framework-stats -->
-**Built for Claude Code CLI • 21 Specialized Agents • 4 Hook Scripts • 8 Skills • 9 Commands • v3.1.0**
+**Built for Claude Code CLI • 21 Specialized Agents • 4 Hook Scripts • 9 Skills • 9 Commands • v3.1.0**
 <!-- END GENERATED: framework-stats -->
