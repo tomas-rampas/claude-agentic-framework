@@ -148,7 +148,7 @@ How the commands, self-scoring loop, review chain, and Stop gate fit together:
 
 ![The /spec → /build → /delegate pipeline](docs/pipeline-infographic.png)
 
-<sub>Vector version: [docs/pipeline-infographic.svg](docs/pipeline-infographic.svg)</sub>
+<sub>See also: the [SVG pipeline diagram](docs/pipeline-infographic.svg)</sub>
 
 ---
 
