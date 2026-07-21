@@ -144,9 +144,11 @@ Tasks are automatically routed to the appropriate agent. Examples:
 
 ## Pipeline at a Glance
 
-The `/spec` → `/build` → `/delegate` pipeline at a glance:
+How the commands, self-scoring loop, review chain, and Stop gate fit together:
 
-![The /spec → /build → /delegate pipeline](docs/pipeline-infographic.svg)
+![The /spec → /build → /delegate pipeline](docs/pipeline-infographic.png)
+
+<sub>Vector version: [docs/pipeline-infographic.svg](docs/pipeline-infographic.svg)</sub>
 
 ---
 
