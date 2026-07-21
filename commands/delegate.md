@@ -88,7 +88,10 @@ in the plan**:
 For each todo, in dependency order:
 1. Write a failing test for the acceptance criteria (**red**).
 2. Delegate implementation to the right specialist until the test passes (**green**).
-3. Refactor while keeping tests green.
+3. Refactor while keeping tests green. For a substantial change, the
+   `code-scoring-loop` skill structures this step: a fixed rubric, the diff
+   scored by the matching specialist, weakest parts rewritten until the score
+   plateaus.
 4. **Update the docs this todo touches, in the same change.** If the todo adds,
    removes, or changes a public type, a DSL/config field, an event type, a CLI
    flag, a verdict, a schema, or any user-visible behavior, it has doc impact —

@@ -49,6 +49,10 @@ Read the **whole spec** before writing anything: every REQ/EDGE item and its
   criteria.
 - Honour the project's quality bar (build/lint/format/tests clean) exactly as
   `commands/delegate.md` §4 defines it.
+- For a substantial diff, once the bar is green, the `code-scoring-loop`
+  skill structures a polish pass before review: a fixed rubric, the diff
+  scored by the matching specialist, weakest parts rewritten until the score
+  plateaus. Advisory — it never substitutes for the review loop in §3.
 
 ## 2. Spec coverage
 

@@ -82,7 +82,7 @@ Same task, opposite failure modes: the single session hits the ceiling and *degr
 %%{init: {"theme": "base", "themeVariables": {"background": "transparent", "lineColor": "#898781", "textColor": "#898781", "clusterBkg": "transparent", "clusterBorder": "#898781", "edgeLabelBackground": "#f0efec"}}}%%
 flowchart TD
     O["🎯 Objective"] --> R["Routing<br/>CLAUDE.md rules · /delegate · agent descriptions"]
-    R --> S["Specialist agent — 1 of 20<br/>implements, tests, commits"]
+    R --> S["Specialist agent — 1 of 21<br/>implements, tests, commits"]
     SK["📚 Skills<br/>procedural knowledge"] -.-> S
     MCP["🔌 MCP servers<br/>code intel · live docs · web"] -.-> S
     S --> C1["code-review-gatekeeper<br/>quality review"]
@@ -108,7 +108,7 @@ flowchart TD
 
 ## 3. Components
 
-### 3.1 Agents — the workforce (20)
+### 3.1 Agents — the workforce (21)
 
 An agent = a markdown file: YAML frontmatter (name, routing description, model tier, tools) + a system prompt. **Routing is description-driven** — the task text is matched against agent descriptions, so a well-written description *is* the router.
 
@@ -136,10 +136,11 @@ mindmap
     Architecture · 2
       system-architect
       product-owner
-    Quality · 3
+    Quality · 4
       comprehensive-analyst
       code-review-gatekeeper
       peer-review-critic
+      spec-compliance-reviewer
     Documentation · 1
       technical-docs-writer
 ```
@@ -228,7 +229,7 @@ Design philosophy: **one hard gate at the single choke point** (all work becomes
 
 *Field note: minutes after installation, the gate blocked its own author's session — for having unreviewed commits. It was reviewing the commits that created it.*
 
-### 3.4 Skills — procedural knowledge (8)
+### 3.4 Skills — procedural knowledge (9)
 
 Loaded on demand when a task matches. An agent is *someone to delegate to*; a skill is *knowledge the current agent absorbs*.
 
@@ -237,10 +238,12 @@ Loaded on demand when a task matches. An agent is *someone to delegate to*; a sk
 | agent-debugger | Diagnose routing/loading/config failures |
 | agent-routing-advisor | Pick the right agent or agent sequence |
 | code-scaffolder | Bootstrap idiomatic projects per language |
+| code-scoring-loop | Score a code diff via the specialist agents, rewrite the weakest parts, rescore until it plateaus — before, never instead of, the review gates |
 | dependency-checker | Verify the toolchain (git, jq, pwsh 7, node, uv) |
 | git-workflow-assistant | Branch/commit/PR flow, incl. working *with* the Stop gate |
 | hook-config-generator | Add a new real hook (script → registration → tests) |
 | refactoring-advisor | Spot code smells, prioritize refactorings |
+| self-scoring-loop | Rubric-score a non-code deliverable, rewrite the weakest parts, rescore until it plateaus |
 
 ### 3.5 MCP servers — senses and instruments (5)
 
@@ -316,11 +319,11 @@ Prereqs: Claude Code CLI, git, PowerShell 7+, bash + jq; Node/npx and uv for the
 |---|---|
 | Specialized agents | 21 (7 categories, 3 model tiers) |
 | Hooks | 4 registered — 1 blocking gate, 3 advisory |
-| Skills | 7 loadable knowledge modules |
-| Commands | 6 management commands |
+| Skills | 9 loadable knowledge modules |
+| Commands | 9 management commands |
 | MCP servers | 5 (filesystem, context7, serena, sequential-thinking, fetch) |
 | Validator checks | 12, all derived at runtime |
-| Test assertions | 34 (consistency) + 20 (hook behavior) |
+| Test assertions | 34 (consistency) + 44 (hook behavior) |
 | CI jobs | 3, including a Windows leg |
 
 **Takeaway:** agents write the code · hooks make quality non-negotiable · the consistency system keeps the whole thing honest.
