@@ -148,8 +148,6 @@ How the commands, self-scoring loop, review chain, and Stop gate fit together:
 
 ![The /spec → /build → /delegate pipeline](docs/pipeline-infographic.png)
 
-<sub>See also: the [SVG pipeline diagram](docs/pipeline-infographic.svg)</sub>
-
 ---
 
 ## Agents
